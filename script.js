@@ -29,10 +29,12 @@ function toggleFavorite(button) {
     $('.carousel').slick({
       infinite: true,
       slidesToShow: 4, // Количество отображаемых слайдов
-      slidesToScroll: 1, // Количество прокручиваемых слайдов
+      slidesToScroll: 2, // Количество прокручиваемых слайдов
     });
   });
 
+
+  
 //кнопка View more
 let isHidden = true; // Флаг для отслеживания состояния карточек
 
@@ -64,6 +66,35 @@ const viewMoreButton = document.querySelector('.view-more');
 viewMoreButton.addEventListener('click', toggleVisibility);
 
 
+//баннер
+// Отображение модального окна
+function showModal() {
+  const modal = document.getElementById('myModal');
+  modal.style.display = 'block';
+}
+
+// Закрытие модального окна при клике вне его
+window.onclick = function(event) {
+  const modal = document.getElementById('myModal');
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// Переадресация на WhatsApp
+function redirectToWhatsApp() {
+  window.location.href = 'https://wa.me/номер_WhatsApp';
+}
+
+// Переадресация на Telegram
+function redirectToTelegram() {
+  window.location.href = 'https://t.me/Calm_the_loony';
+}
+
+// Инициирование звонка
+function makePhoneCall() {
+  window.location.href = 'tel:+9614277510';
+}
 
 
 //шапка сворачивается при отпределенном количестве прокрутки 
