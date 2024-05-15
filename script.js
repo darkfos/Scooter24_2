@@ -36,13 +36,11 @@ function toggleFavorite(button) {
 
   
 //кнопка View more
-let isHidden = true; // Флаг для отслеживания состояния карточек
+let isHidden = true; 
 
 function hideCards() {
   const productCards = document.querySelectorAll('.product-card');
-  // Проходимся по карточкам, начиная с 9-й (после второго ряда)
   for (let i = 16; i < productCards.length; i++) {
-    // Добавляем или удаляем класс .hidden в зависимости от состояния флага
     if (isHidden) {
       productCards[i].classList.add('hidden');
     } else {
@@ -53,16 +51,16 @@ function hideCards() {
 
 function toggleVisibility() {
   isHidden = !isHidden; // Изменяем состояние флага
-  hideCards(); // Вызываем функцию скрытия/отображения карточек
+  hideCards(); // функция скрытия/отображения карточек
 }
 
 // Вызываем функцию hideCards() при загрузке страницы, чтобы скрыть лишние карточки
 hideCards();
 
-// Получаем кнопку "View more"
+//кнопка "View more"
 const viewMoreButton = document.querySelector('.view-more');
 
-// Назначаем обработчик клика на кнопку "View more"
+// обрабовпитчик клика на кнопку "View more"
 viewMoreButton.addEventListener('click', toggleVisibility);
 
 
@@ -85,8 +83,6 @@ window.onclick = function(event) {
 function redirectToWhatsApp() {
   window.location.href = 'https://wa.me/номер_WhatsApp';
 }
-
-// Переадресация на Telegram
 function redirectToTelegram() {
   window.location.href = 'https://t.me/Calm_the_loony';
 }
@@ -97,7 +93,7 @@ function makePhoneCall() {
 }
 
 
-//шапка сворачивается при отпределенном количестве прокрутки 
+//шапка сворачивается при отпределенном количестве прокрутки, позже доделать
 let prevScrollPos = window.pageYOffset;
 let isMenuOpen = false; // Флаг для отслеживания состояния меню
 
@@ -113,7 +109,7 @@ function scrollHandler(event) {
     } else {
         header.style.height = "50px"; /* Скрываем верхнюю часть шапки при прокрутке вниз и нахождении ниже action-container */
         submenu.style.display = 'none'; // Скрываем подменю при прокрутке вниз
-        actionContainer.style.marginLeft = "-7px"; // Сдвинуть action-container на 10px влево
+        actionContainer.style.marginLeft = "-7px"; 
         isMenuOpen = false; // Сбрасываем флаг меню
     }
     
@@ -127,9 +123,9 @@ function toggleMenu() {
 
     // Если шапка свернута, развернуть её
     if (!isMenuOpen) {
-        header.style.height = '100px'; // Вернуть обычную высоту шапки
-        logoText.style.opacity = '1'; // Показать текст в логотипе
-        submenu.style.display = 'block'; // Показать подменю
+        header.style.height = '100px'; // Вернуть обычную высоту
+        logoText.style.opacity = '1'; 
+        submenu.style.display = 'block'; // Показ подменю
         isMenuOpen = true;
     } else {
         // Иначе, свернуть шапку и скрыть подменю

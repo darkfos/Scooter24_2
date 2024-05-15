@@ -127,7 +127,7 @@ body {
 .search-bar {
   display: flex;
   align-items: center;
-  padding-left: 10px; /* Изменил отступ слева */
+  padding-left: 10px; 
 }
 
 .search-bar input[type="text"] {
@@ -565,8 +565,8 @@ body {
 .view-more {
   position: absolute;
   top: 235%; 
-  right: 15%; /* Центрируем по горизонтали */
-  transform: translateX(50%); /* Центрируем по горизонтали */
+  right: 15%; 
+  transform: translateX(50%); 
   color: rgb(0, 0, 0);
   padding: 5px 10px;
   cursor: pointer;
@@ -680,19 +680,19 @@ button:hover {
 }
 
 .footer-section {
-  width: calc(50% - 130px); /* Ширина первого столбца, учитывая отступы */
-  margin-right: 10px; /* Отступ между столбцами */
+  width: calc(50% - 130px); 
+  margin-right: 10px; 
   color: #ccc;
-  box-sizing: border-box; /* Учитываем padding и border в расчете ширины */
+  box-sizing: border-box; 
   margin-left: 40px;
 }
 
 .footer-section:nth-child(n+2) {
-  width: calc(25% - 20px); /* Ширина второго и третьего столбца, учитывая отступы */
+  width: calc(25% - 20px); 
 }
 
 .footer-section:last-child {
-  margin-right: 0; /* Убираем отступ у последнего столбца */
+  margin-right: 0; 
 }
 
 .yellow-text {
@@ -727,7 +727,7 @@ button:hover {
   background-color: #b9ff21;
   color: #000000;
   border: none;
-  border-radius: 0 10px 10px 0; /* Закругленные углы справа */
+  border-radius: 0 10px 10px 0; 
   cursor: pointer;
   padding: 10px 20px; 
   transition: background-color 0.3s ease; 
@@ -754,20 +754,20 @@ button:hover {
 
 .social-icons {
   display: flex;
-  justify-content: center; /* Центрирование иконок по горизонтали */
-  align-items: center; /* Центрирование иконок по вертикали */
-  margin-top: 10px; /* Отступ сверху */
+  justify-content: center; 
+  align-items: center;
+  margin-top: 10px; 
   margin-right: 225px;
 }
 
 .social-icon {
-  margin-right: 10px; /* Отступ между иконками */
-  color: #b9ff21; /* Цвет иконок */
-  font-size: 24px; /* Размер иконок */
+  margin-right: 10px; 
+  color: #b9ff21; 
+  font-size: 24px; 
 }
 
 .social-icon:last-child {
-  margin-right: 0; /* Убираем отступ у последней иконки */
+  margin-right: 0; 
 }
 
 .marketplace {
@@ -776,12 +776,12 @@ button:hover {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #b9ff21; /* Цвет круга */
+  background-color: #b9ff21; 
   text-align: center;
-  line-height: 24px; /* Центрирование текста */
-  font-size: 12px; /* Размер текста */
-  color: #000; /* Цвет текста */
-  margin-right: 10px; /* Отступ между иконками */
+  line-height: 24px;
+  font-size: 12px; 
+  color: #000; 
+  margin-right: 10px; 
 }
 
 
@@ -802,11 +802,11 @@ button:hover {
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  color: #000; /* Цвет текста */
+  color: #000; 
   margin-bottom: -30px;
 }
 
 .footer-section h4 a {
-  color: #fff; /* Белый цвет текста */
-  text-decoration: none; /* Убираем подчеркивание */
+  color: #fff; 
+  text-decoration: none; 
 }
