@@ -12,14 +12,14 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 
 </head>
-<body>
+<body  onscroll="scrollHandler(event)">
 
-<header class="header">
+<header class="header" id="header">
     <div id="parallelogram">
         <span class="logo-text">LOGO</span>
     </div>
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> <!-- Знак меню -->
-    <div class="action-container"> <!-- Контейнер для поиска и иконок -->
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> 
+    <div class="action-container"> 
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Поиск">
             <button onclick="search()">Найти</button>
@@ -714,33 +714,33 @@
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">FAQ</h3>
-      <h4>Contact</h4>
-      <h4>Payment Methods</h4>
-      <h4>Shipping & Handling</h4>
-      <h4>Returns</h4>
-      <h4>Salesroom</h4>
+      <h4><a href="contact.html">Contact</a></h4> <!-- либо ссылка на стороний источник -->
+      <h4><a href="payment.html">Payment Methods</a></h4>
+      <h4><a href="shipping.html">Shipping & Handling</a></h4>
+      <h4><a href="returns.html">Returns</a></h4>
+      <h4><a href="salesroom.html">Salesroom</a></h4>
     </div>
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">INFO</h3>
-      <h4>Legal Notice</h4>
-      <h4>Data Protection</h4>
-      <h4>Revocation Right</h4>
-      <h4>Jobs</h4>
-      <h4>Tech Tips & Tutorials</h4>
-      <h4>Brands</h4>
+      <h4><a href="legal.html">Legal Notice</a></h4>
+      <h4><a href="dataprotection.html">Data Protection</a></h4>
+      <h4><a href="revocation.html">Revocation Right</a></h4>
+      <h4><a href="jobs.html">Jobs</a></h4>
+      <h4><a href="techtips.html">Tech Tips & Tutorials</a></h4>
+      <h4><a href="brands.html">Brands</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
-        <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="social-icon marketplace">Oz</a>
-        <a href="#" class="social-icon marketplace">Wb</a>
-      </div>      
+        <a href="https://telegram.example.com" class="social-icon"><i class="fab fa-telegram"></i></a>
+        <a href="https://whatsapp.example.com" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon marketplace">Oz</a>
+        <a href="https://global.wildberries.ru/catalog?brandpage=756907" class="social-icon marketplace">Wb</a>
+      </div>
+      
     </div>    
   </footer>
-  
 
 
 <script src="script.js"></script>
