@@ -564,7 +564,7 @@ body {
 
 .view-more {
   position: absolute;
-  top: 235%; 
+  top: 223%; 
   right: 15%; 
   transform: translateX(50%); 
   color: rgb(0, 0, 0);
