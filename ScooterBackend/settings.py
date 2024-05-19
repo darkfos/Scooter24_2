@@ -29,3 +29,15 @@ class DatabaseSettings(BaseSettings):
 
     #Database url
     db_url: str = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+
+
+class APISettings(BaseSettings):
+
+    #API host
+    api_host: str = "127.0.0.1"
+
+    #API port
+    api_port: int = 8090
+
+    #API reload
+    reload: bool = True
