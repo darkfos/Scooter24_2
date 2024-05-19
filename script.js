@@ -134,3 +134,85 @@ function toggleMenu() {
         isMenuOpen = false;
     }
 }
+
+
+//открытие карточки товара
+
+
+//избранное
+let favorites = [];
+const favoriteButton = document.getElementById('favorite-button');
+const favoriteCount = document.getElementById('favorite-count');
+const favoriteList = document.querySelector('#favorite-list tbody');
+const favoritesModal = document.getElementById('favorites-modal');
+const favoritesClose = document.getElementById('favorites-close');
+
+function toggleFavorite(button) {
+    const productCard = button.closest('.product-card');
+    const productId = productCard.getAttribute('data-id');
+    const product = {
+        id: productId,
+        discount: productCard.querySelector('.discount')?.innerText,
+        image: productCard.querySelector('img').src,
+        category: productCard.querySelector('.category').innerText,
+        name: productCard.querySelector('.name').innerText,
+        price: productCard.querySelector('.discounted-price')?.innerText ||
+               productCard.querySelector('.original-price')?.innerText ||
+               productCard.querySelector('.original-prices')?.innerText,
+        stock: productCard.getAttribute('data-stock')
+    };
+
+    const index = favorites.findIndex(item => item.id === productId);
+
+    if (index > -1) {
+        favorites.splice(index, 1);
+        button.querySelector('i').classList.remove('active');
+    } else {
+        favorites.push(product);
+        button.querySelector('i').classList.add('active');
+    }
+
+    favoriteCount.innerText = favorites.length;
+    updateFavoriteList();
+}
+
+function updateFavoriteList() {
+    favoriteList.innerHTML = '';
+    favorites.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><img src="${product.image}" alt="${product.name}" class="favorite-product-image"></td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+            <td>${product.stock}</td>
+            <td>
+                <button class="add-to-cart">Добавить в корзину</button>
+                <button class="remove-from-favorites" onclick="removeFromFavorites('${product.id}')">Удалить</button>
+            </td>
+        `;
+        favoriteList.appendChild(tr);
+    });
+}
+
+function removeFromFavorites(productId) {
+    favorites = favorites.filter(item => item.id !== productId);
+    document.querySelector(`.product-card[data-id="${productId}"] .add-to-favorites i`).classList.remove('active');
+    favoriteCount.innerText = favorites.length;
+    updateFavoriteList();
+}
+
+function toggleModal() {
+    favoritesModal.style.display = favoritesModal.style.display === 'block' ? 'none' : 'block';
+}
+
+favoriteButton.addEventListener('click', toggleModal);
+favoritesClose.addEventListener('click', toggleModal);
+
+window.addEventListener('click', function(event) {
+    if (event.target === favoritesModal) {
+        toggleModal();
+    }
+});
+
+
+//корзина
