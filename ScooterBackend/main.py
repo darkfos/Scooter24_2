@@ -13,6 +13,7 @@ app: FastAPI = FastAPI(
     description="Программный интерфейс для сайта по продаже авто деталей")
 
 
+#Point of entry
 if __name__ == "__main__":
 
     #Settings for run app
