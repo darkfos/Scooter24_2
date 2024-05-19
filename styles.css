@@ -8,7 +8,41 @@ body {
     font-family: Arial, sans-serif;
     height: 2000px; /* Для прокрутки контента */
 }
+
 /*шапка*/
+/* Специфические стили для кнопок в .user-actions */
+.user-actions button {
+  background-color: #4b4a4a !important;
+  border: none;
+  padding: 0;
+  position: relative;
+  transform: none; 
+}
+
+.user-actions button img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  transform: none; 
+}
+
+.user-actions button:hover img {
+  filter: invert(0);
+  transform: none; 
+}
+
+.user-actions button:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  height: calc(100% + 20px);
+  width: 1px;
+  background-color: #000000;
+  top: -7px;
+  right: -7px;
+  transform: rotate(20deg);
+}
+
+/* Основные стили */
 .header {
   background-color: #000;
   color: #fff;
@@ -20,8 +54,9 @@ body {
   top: 0;
   width: 100%;
   z-index: 1000;
-  transition: height 0.3s; /* Анимация изменения высоты шапки */
+  transition: height 0.3s; 
 }
+
 .header::after {
   content: "";
   position: absolute;
@@ -55,40 +90,6 @@ body {
   color: rgb(0, 0, 0);
 }
 
-.user-actions button {
-  background-color: #4b4a4a !important;
-  border: none;
-  padding: 0;
-}
-
-.user-actions button img {
-  width: 20px;
-  height: 20px;
-  filter: invert(1);
-}
-
-.user-actions button:hover img {
-  filter: invert(0);
-}
-
-.user-actions button {
-  background-color: #4b4a4a !important;
-  border: none;
-  padding: 0;
-  position: relative;
-}
-
-.user-actions button:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 1px;
-  background-color: white;
-  top: 50%;
-  right: -10px;
-  transform: translateY(-50%);
-}
-
 /* Серый контейнер */
 .action-container {
   background-color: #4b4a4a;
@@ -117,17 +118,112 @@ body {
 .user-actions {
   display: flex;
   align-items: center;
+  gap: 15px; /* Отступы между кнопками */
 }
 
 .action-container .user-actions {
   margin-left: auto;
 }
 
+.user-actions #favorite-button {
+  position: relative;
+}
+
+.user-actions #favorite-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+/* Стили для модального окна */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-contents {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 100%; /* Увеличено для лучшего отображения */
+  max-width: 1200px; /* Максимальная ширина для больших экранов */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-contents h2{
+  padding: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+#favorite-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#favorite-list th, #favorite-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#favorite-list th {
+  background-color: #f2f2f2;
+}
+
+#favorite-list td {
+  vertical-align: middle;
+}
+
+.favorite-product-image {
+  width: 50px;
+  height: auto;
+}
+
+.add-to-cart, .remove-from-favorites {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px}
+
+  .add-to-favorites i.active {
+    color: red;
+}
+
+
 /* Поисковик */
 .search-bar {
   display: flex;
   align-items: center;
-  padding-left: 10px; 
+  padding-left: 10px;
 }
 
 .search-bar input[type="text"] {
@@ -149,20 +245,16 @@ body {
   transform: skew(20deg);
 }
 
-.search-bar button:hover,
-.user-actions button:hover {
-  background-color: #b9ff21;
-}
-
 /* .tabs */
 .submenu {
   display: none;
   position: absolute;
   margin-left: 560px;
-  z-index: 1;
+  /* z-index: 1; */
   width: auto;
   padding: 17px;
   top: 40px;
+  z-index: 1000; /* Поверх других элементов */
 }
 
 .submenu ul {
@@ -181,10 +273,10 @@ body {
 .submenu ul li:not(:last-child)::after {
   content: '';
   position: absolute;
-  height: calc(100% + 28px);
+  height: calc(100% + 22px);
   width: 1px;
   background-color: #4b4a4a;
-  top: -7px;
+  top: -10px;
   right: 2px;
   transform: rotate(20deg);
 }
@@ -192,8 +284,18 @@ body {
 .submenu ul li a {
   text-decoration: none;
   color: white;
+  font-size: 15px; /* Увеличенный размер шрифта */
+  display: block;
+  padding: 5px 5px;
 }
 
+.submenu ul li a:hover {
+  background-color: #1c1c1c; /* Темно-серый фон при наведении */
+  border-radius: 5px; /* Скругленные углы при наведении */
+  transition: all 0.3s ease; /* Плавный переход */
+}
+
+/* Иконка меню */
 .menu-icon {
   cursor: pointer;
   color: #fff;
@@ -405,7 +507,10 @@ body {
   color: #666;
   margin-left: 10px;
 }
-
+.original-prices{
+  color: #666;
+  margin-left: 10px;
+}
 .add-to-cart {
   background-color: #333;
   color: white;
@@ -564,7 +669,7 @@ body {
 
 .view-more {
   position: absolute;
-  top: 223%; 
+  top: 220%; 
   right: 15%; 
   transform: translateX(50%); 
   color: rgb(0, 0, 0);
@@ -810,3 +915,5 @@ button:hover {
   color: #fff; 
   text-decoration: none; 
 }
+
+/* Стили для страницы товара */
