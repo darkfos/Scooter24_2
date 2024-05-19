@@ -25,12 +25,14 @@
             <button onclick="search()">Найти</button>
         </div>
         <div class="user-actions">
-            <button><img src="image/favorite.png" alt="Избранное"></button>
-            <button><img src="image/scooter.png" alt="Модель скутера"></button>
-            <button><img src="image/cart.png" alt="Корзина"></button>
-        </div>
+          <button id="favorite-button">
+              <img src="image/favorite.png" alt="Избранное">
+              <span id="favorite-count">0</span>
+          </button>
+          <button><img src="image/scooter.png" alt="Модель скутера"></button>
+          <button><img src="image/cart.png" alt="Корзина"></button>
+      </div>
     </div>
-    
     <div class="submenu">
         <ul>
             <li><a href="#">Личный кабинет</a></li>
@@ -110,11 +112,11 @@
     </div>
 </div>
 
-<section class="featured-products">
+<section class="featured-products" >
     <h2 class="a">Featured Products</h2>
     <div class="red-line"></div>
     <div class="carousel">
-      <div class="product-card">
+      <div class="product-card" data-id="1">
         <div class="discount">12% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -123,28 +125,28 @@
           <div class="price">
             <span class="discounted-price">$99.00</span>
             <span class="original-price">$113.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
-          </button>          
+        </button>  
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="2">
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
           <p class="category">Cold Start Valves</p>
           <p class="name">Pure Power Remanufactured</p>
           <div class="price">
-            <span class="original-price">$258.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <span class="original-prices">$258.00</span>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
-          </button>
+        </button>  
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="3">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -153,30 +155,30 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
-        <div class="discount">6% off</div>
+      <div class="product-card" data-id="4">
+        <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
           <p class="category">Cold Start Valves</p>
           <p class="name">Pure Power Remanufactured</p>
           <div class="price">
-            <span class="discounted-price">$309.00</span>
-            <span class="original-price">$329.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <span class="discounted-price">$89.00</span>
+            <span class="original-price">$117.00</span>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="5">
         <div class="discount">19% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -185,14 +187,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="6">
         <div class="discount">19% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -201,14 +203,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="7">
         <div class="discount">19% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -217,14 +219,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="8">
         <div class="discount">19% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -233,16 +235,54 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
-          </button>          
+        </button>        
         </div>
       </div>
     </div>
   </section>
 
+  <div id="favorites-modal" class="modal">
+    <div class="modal-contents">
+        <span class="close" onclick="toggleModal()">&times;</span>
+        <h2>Избранное</h2>
+        <table id="favorite-list">
+            <thead>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Название товара</th>
+                    <th>Цена за штуку</th>
+                    <th>Наличие на складе</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="cart-modal" class="modal">
+  <div class="modal-contents">
+    <span class="close" onclick="toggleModal()">&times;</span>
+    <h2>Корзина</h2>
+    <table id="cart-list">
+      <thead>
+        <tr>
+          <th>Изображение</th>
+          <th>Название</th>
+          <th>Цена</th>
+          <th>Количество</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
   
     <section class="banner-container">
       <div class="contact-banner">
@@ -313,7 +353,7 @@
     <button class="view-more" onclick="showMore()">View more</button>
     <!-- Первый ряд карточек -->
     <div class="card-row">
-      <div class="product-card">
+      <div class="product-card" data-id="9">
         <div class="discount">12% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -322,28 +362,28 @@
           <div class="price">
             <span class="discounted-price">$99.00</span>
             <span class="original-price">$113.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="10">
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
           <p class="category">Cold Start Valves</p>
           <p class="name">Pure Power Remanufactured</p>
           <div class="price">
-            <span class="original-price">$258.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <span class="original-prices">$258.00</span>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="11">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -352,14 +392,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="12">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -368,7 +408,7 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
@@ -380,7 +420,7 @@
     
     <!-- Второй ряд карточек -->
     <div class="card-row">
-      <div class="product-card">
+      <div class="product-card" data-id="13">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -389,14 +429,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <<button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="14">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -405,14 +445,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="15">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -421,14 +461,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="16">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -437,7 +477,7 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
@@ -448,7 +488,7 @@
 
 
     <div class="card-row">
-      <div class="product-card">
+      <div class="product-card" data-id="17">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -457,14 +497,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="18">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -473,14 +513,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="19">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -489,14 +529,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="20">
         <div class="discount">24% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
@@ -505,7 +545,7 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
@@ -545,7 +585,7 @@
     <h2 class="c">Latest Products</h2>
     <div class="red-lines"></div>
     <div class="carousel">
-      <div class="product-card">
+      <div class="product-card" data-id="21">
         <div class="discount">12% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -554,28 +594,28 @@
           <div class="price">
             <span class="discounted-price">$99.00</span>
             <span class="original-price">$113.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="22">
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
           <p class="category">Cold Start Valves</p>
           <p class="name">Pure Power Remanufactured</p>
           <div class="price">
-            <span class="original-price">$258.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <span class="original-prices">$258.00</span>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="23">
         <div class="discount">24% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -584,30 +624,14 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
-        <div class="discount">6% off</div>
-        <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
-        <div class="details">
-          <p class="category">Cold Start Valves</p>
-          <p class="name">Pure Power Remanufactured</p>
-          <div class="price">
-            <span class="discounted-price">$309.00</span>
-            <span class="original-price">$329.00</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
-          </div>
-          <button class="add-to-favorites" onclick="toggleFavorite(this)">
-            <i class="fas fa-heart"></i>
-          </button>          
-        </div>
-      </div>
-      <div class="product-card">
+      <div class="product-card" data-id="24">
         <div class="discount">19% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -616,14 +640,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="25">
         <div class="discount">19% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -632,14 +656,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="26">
         <div class="discount">19% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -648,14 +672,14 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
           </button>          
         </div>
       </div>
-      <div class="product-card">
+      <div class="product-card" data-id="27">
         <div class="discount">19% off</div>
         <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
         <div class="details">
@@ -664,7 +688,23 @@
           <div class="price">
             <span class="discounted-price">$20.99</span>
             <span class="original-price">$25.99</span>
-            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button> 
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
+          </div>
+          <button class="add-to-favorites" onclick="toggleFavorite(this)">
+            <i class="fas fa-heart"></i>
+          </button>          
+        </div>
+      </div>
+      <div class="product-card" data-id="28">
+        <div class="discount">19% off</div>
+        <img src="image/free-icon-tire-6332041(1).png" alt="Product 1">
+        <div class="details">
+          <p class="category">Cold Start Valves</p>
+          <p class="name">Pure Power Remanufactured</p>
+          <div class="price">
+            <span class="discounted-price">$20.99</span>
+            <span class="original-price">$25.99</span>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
