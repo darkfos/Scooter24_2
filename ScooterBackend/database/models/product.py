@@ -42,10 +42,11 @@ class Product(MainBase):
 
 
     #Связи к таблицам
-    reviews: Mapped[List["Category"]] = relationship("Category", back_populates="product") #Отзывы
+    reviews: Mapped[List["Category"]] = relationship("Review", back_populates="product") #Отзывы
     category: Mapped["Category"] = relationship("Category", back_populates="product") #Категория
 
     def __str__(self) -> str:
+        #Возвращает строковый объект класса
         return str(
             dict(
                 k=v
@@ -53,4 +54,6 @@ class Product(MainBase):
             )
         )
 
-    def __repr__(self) -> str: return self.__str__()
+    def __repr__(self) -> str:
+        #Возвращает строковый объект класса
+        return self.__str__()

@@ -20,8 +20,10 @@ class Review(MainBase):
 
     #Связи с таблицами
     user: Mapped["User"] = relationship("User", back_populates="reviews")
+    product: Mapped["Product"] = relationship("Product", back_populates="reviews")
 
     def __str__(self) -> str:
+        #Возвращает строковый объект класса
         return str(
             dict(
                 k=v
@@ -29,4 +31,6 @@ class Review(MainBase):
             )
         )
 
-    def __repr__(self) -> str: return self.__str__()
+    def __repr__(self) -> str:
+        #Возвращает строковый объект класса
+        return self.__str__()
