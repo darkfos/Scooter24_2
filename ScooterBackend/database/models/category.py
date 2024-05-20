@@ -19,10 +19,10 @@ class Category(MainBase):
     def __str__(self):
         #Возвращает строковый объект класса
         return str(
-            dict(
-                k=v
+            {
+                k: v
                 for k, v in self.__dict__.items()
-            )
+            }
         )
 
     def __repr__(self) -> str:

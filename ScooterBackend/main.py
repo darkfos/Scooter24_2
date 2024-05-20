@@ -23,7 +23,7 @@ import logging
 @asynccontextmanager
 async def connection_db(app: FastAPI) -> None:
     #lifespan for db
-    await db_work.create_tables(MainBase=MainBase)
+    await db_work.create_tables()
     yield
 
 

@@ -1,6 +1,6 @@
 #Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, ForeignKey, Double, Text, BLOB
+from sqlalchemy import String, Integer, ForeignKey, Double, Text, LargeBinary
 from typing import List
 
 #Local
@@ -38,7 +38,7 @@ class Product(MainBase):
     weight_product: Mapped[str] = mapped_column(type_=String(400), nullable=False, default="")
 
     #Фотография продукта
-    photo_product: Mapped[bytes] = mapped_column(type_=BLOB, nullable=False)
+    photo_product: Mapped[bytes] = mapped_column(type_=LargeBinary, nullable=False)
 
 
     #Связи к таблицам
@@ -50,10 +50,10 @@ class Product(MainBase):
     def __str__(self) -> str:
         #Возвращает строковый объект класса
         return str(
-            dict(
-                k=v
+            {
+                k: v
                 for k, v in self.__dict__.items()
-            )
+            }
         )
 
     def __repr__(self) -> str:

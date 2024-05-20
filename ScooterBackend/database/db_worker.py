@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 
 #Local
 from ScooterBackend.settings import DatabaseSettings
+from ScooterBackend.database.mainbase import MainBase
 
 
 class DatabaseEngine:
@@ -14,7 +15,7 @@ class DatabaseEngine:
         )
         self.async_session: async_sessionmaker = async_sessionmaker(bind=self.db_engine)
 
-    async def create_tables(self, MainBase):
+    async def create_tables(self):
         #Creating tables
         async with self.db_engine.begin() as session:
             await session.run_sync(MainBase.metadata.create_all)
