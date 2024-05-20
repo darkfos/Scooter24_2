@@ -11,5 +11,5 @@ class MainBase(DeclarativeBase):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     @declared_attr
-    async def __tablename__(cls):
+    def __tablename__(cls):
         return cls.__name__.title()
