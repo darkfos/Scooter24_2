@@ -125,11 +125,11 @@ body {
   margin-left: auto;
 }
 
-.user-actions #favorite-button {
+.user-actions #favorite-button, #cart-button{
   position: relative;
 }
 
-.user-actions #favorite-count {
+.user-actions #favorite-count, #cart-count{
   position: absolute;
   top: -5px;
   right: -5px;
@@ -158,8 +158,8 @@ body {
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 100%; /* Увеличено для лучшего отображения */
-  max-width: 1200px; /* Максимальная ширина для больших экранов */
+  width: 100%; 
+  max-width: 1200px; 
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -205,11 +205,12 @@ body {
 .favorite-product-image {
   width: 50px;
   height: auto;
+
 }
 
 .add-to-cart, .remove-from-favorites {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 5px 10px;
   margin: 0 5px}
@@ -217,6 +218,85 @@ body {
   .add-to-favorites i.active {
     color: red;
 }
+
+
+#cart-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#cart-list th, #cart-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#cart-list th {
+  background-color: #f2f2f2;
+}
+
+#cart-list td {
+  vertical-align: middle;
+}
+
+.cart-product-image {
+  width: 50px;
+  height: auto;
+}
+
+.remove-from-cart {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.remove-from-cart:hover {
+  background-color: #000000;
+}
+.cart-product-image {
+  width: 50px;
+  height: auto;
+}
+
+/* Выравнивание ячейки таблицы */
+table td {
+  vertical-align: middle;
+}
+
+/* Центрирование изображения в ячейке таблицы */
+td img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quantity-change {
+padding: 11px 11px !important;
+margin-right: 10px;
+margin-left: 10px;
+align-items: center;
+}
+
+.cart-total {
+  margin-top: 20px;
+  text-align: right;
+  margin-right: 40px;
+}
+
+.buy-button {
+  padding: 10px 20px;
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
+  border: none;
+  cursor: pointer;
+}
+
+.buy-button:hover {
+  background-color: #b9ff21;
+}
+
 
 
 /* Поисковик */
