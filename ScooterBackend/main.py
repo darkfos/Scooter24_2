@@ -1,5 +1,7 @@
 #Local
-from settings import APISettings
+from settings import APISettings, DatabaseSettings
+from database.db_worker import db_work
+from database.mainbase import MainBase
 
 #Other
 from fastapi import FastAPI, status
@@ -12,6 +14,7 @@ import logging
 @asynccontextmanager
 async def connection_db(app: FastAPI) -> None:
     #lifespan for db
+    await db_work.create_tables(MainBase=MainBase)
     yield
 
 
