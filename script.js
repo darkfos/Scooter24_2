@@ -140,12 +140,178 @@ function toggleMenu() {
 
 
 //избранное
+// let favorites = [];
+// const favoriteButton = document.getElementById('favorite-button');
+// const favoriteCount = document.getElementById('favorite-count');
+// const favoriteList = document.querySelector('#favorite-list tbody');
+// const favoritesModal = document.getElementById('favorites-modal');
+// const favoritesClose = document.getElementById('favorites-close');
+
+// function toggleFavorite(button) {
+//     const productCard = button.closest('.product-card');
+//     const productId = productCard.getAttribute('data-id');
+//     const product = {
+//         id: productId,
+//         discount: productCard.querySelector('.discount')?.innerText,
+//         image: productCard.querySelector('img').src,
+//         category: productCard.querySelector('.category').innerText,
+//         name: productCard.querySelector('.name').innerText,
+//         price: productCard.querySelector('.discounted-price')?.innerText ||
+//                productCard.querySelector('.original-price')?.innerText ||
+//                productCard.querySelector('.original-prices')?.innerText,
+//         stock: productCard.getAttribute('data-stock')
+//     };
+
+//     const index = favorites.findIndex(item => item.id === productId);
+
+//     if (index > -1) {
+//         favorites.splice(index, 1);
+//         button.querySelector('i').classList.remove('active');
+//     } else {
+//         favorites.push(product);
+//         button.querySelector('i').classList.add('active');
+//     }
+
+//     favoriteCount.innerText = favorites.length;
+//     updateFavoriteList();
+// }
+
+// function updateFavoriteList() {
+//     favoriteList.innerHTML = '';
+//     favorites.forEach(product => {
+//         const tr = document.createElement('tr');
+//         tr.innerHTML = `
+//             <td><img src="${product.image}" alt="${product.name}" class="favorite-product-image"></td>
+//             <td>${product.name}</td>
+//             <td>${product.price}</td>
+//             <td>${product.stock}</td>
+//             <td>
+//                 <button class="add-to-cart">Добавить в корзину</button>
+//                 <button class="remove-from-favorites" onclick="removeFromFavorites('${product.id}')">Удалить</button>
+//             </td>
+//         `;
+//         favoriteList.appendChild(tr);
+//     });
+// }
+
+// function removeFromFavorites(productId) {
+//     favorites = favorites.filter(item => item.id !== productId);
+//     document.querySelector(`.product-card[data-id="${productId}"] .add-to-favorites i`).classList.remove('active');
+//     favoriteCount.innerText = favorites.length;
+//     updateFavoriteList();
+// }
+
+// function toggleModal() {
+//     favoritesModal.style.display = favoritesModal.style.display === 'block' ? 'none' : 'block';
+// }
+
+// favoriteButton.addEventListener('click', toggleModal);
+// favoritesClose.addEventListener('click', toggleModal);
+
+// window.addEventListener('click', function(event) {
+//     if (event.target === favoritesModal) {
+//         toggleModal();
+//     }
+// });
+
+
+//корзина
+// document.addEventListener('DOMContentLoaded', (event) => {
+//   let cart = [];
+//   const cartButton = document.getElementById('cart-button');
+//   const cartCount = document.getElementById('cart-count');
+//   const cartList = document.querySelector('#cart-list tbody');
+//   const cartModal = document.getElementById('cart-modal');
+//   const cartClose = document.querySelector('.close');
+
+//   function toggleCart(button) {
+//       const productCard = button.closest('.product-card');
+//       const productId = productCard.getAttribute('data-id');
+//       const product = {
+//           id: productId,
+//           discount: productCard.querySelector('.discount')?.innerText,
+//           image: productCard.querySelector('img').src,
+//           category: productCard.querySelector('.category').innerText,
+//           name: productCard.querySelector('.name').innerText,
+//           price: productCard.querySelector('.discounted-price')?.innerText ||
+//                  productCard.querySelector('.original-price')?.innerText,
+//           quantity: 1
+//       };
+
+//       const index = cart.findIndex(item => item.id === productId);
+
+//       if (index > -1) {
+//           cart[index].quantity += 1;
+//       } else {
+//           cart.push(product);
+//       }
+
+//       cartCount.innerText = cart.length;
+//       updateCartList();
+//   }
+
+//   function updateCartList() {
+//       cartList.innerHTML = '';
+//       cart.forEach(product => {
+//           const tr = document.createElement('tr');
+//           tr.innerHTML = `
+//               <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
+//               <td>${product.name}</td>
+//               <td>${product.price}</td>
+//               <td>${product.quantity}</td>
+//               <td>
+//                   <button class="remove-from-cart" onclick="removeFromCart('${product.id}')">Удалить</button>
+//               </td>
+//           `;
+//           cartList.appendChild(tr);
+//       });
+//   }
+
+//   function removeFromCart(productId) {
+//       const index = cart.findIndex(item => item.id === productId);
+//       if (index > -1) {
+//           cart.splice(index, 1);
+//           cartCount.innerText = cart.length;
+//           updateCartList();
+//       }
+//   }
+
+//   function toggleCartModal() {
+//       cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+//   }
+
+//   if (cartButton) {
+//       cartButton.addEventListener('click', toggleCartModal);
+//   }
+
+//   if (cartClose) {
+//       cartClose.addEventListener('click', toggleCartModal);
+//   }
+
+//   window.addEventListener('click', function(event) {
+//       if (event.target === cartModal) {
+//           toggleCartModal();
+//       }
+//   });
+
+//   window.toggleCart = toggleCart;
+// });
+
+//избранное и корзина
 let favorites = [];
+let cart = [];
+
 const favoriteButton = document.getElementById('favorite-button');
 const favoriteCount = document.getElementById('favorite-count');
 const favoriteList = document.querySelector('#favorite-list tbody');
 const favoritesModal = document.getElementById('favorites-modal');
 const favoritesClose = document.getElementById('favorites-close');
+
+const cartButton = document.getElementById('cart-button');
+const cartCount = document.getElementById('cart-count');
+const cartList = document.querySelector('#cart-list tbody');
+const cartModal = document.getElementById('cart-modal');
+const cartClose = document.getElementById('cart-close');
 
 function toggleFavorite(button) {
     const productCard = button.closest('.product-card');
@@ -186,7 +352,7 @@ function updateFavoriteList() {
             <td>${product.price}</td>
             <td>${product.stock}</td>
             <td>
-                <button class="add-to-cart">Добавить в корзину</button>
+                <button class="add-to-cart" onclick="addToCartFromFavorites('${product.id}')">Добавить в корзину</button>
                 <button class="remove-from-favorites" onclick="removeFromFavorites('${product.id}')">Удалить</button>
             </td>
         `;
@@ -201,18 +367,209 @@ function removeFromFavorites(productId) {
     updateFavoriteList();
 }
 
-function toggleModal() {
-    favoritesModal.style.display = favoritesModal.style.display === 'block' ? 'none' : 'block';
+function toggleModal(modal) {
+    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
 }
 
-favoriteButton.addEventListener('click', toggleModal);
-favoritesClose.addEventListener('click', toggleModal);
+favoriteButton.addEventListener('click', () => toggleModal(favoritesModal));
+favoritesClose.addEventListener('click', () => toggleModal(favoritesModal));
+cartButton.addEventListener('click', () => toggleModal(cartModal));
+cartClose.addEventListener('click', () => toggleModal(cartModal));
 
 window.addEventListener('click', function(event) {
     if (event.target === favoritesModal) {
-        toggleModal();
+        toggleModal(favoritesModal);
+    }
+    if (event.target === cartModal) {
+        toggleModal(cartModal);
     }
 });
 
+function toggleCart(button) {
+    const productCard = button.closest('.product-card');
+    const productId = productCard.getAttribute('data-id');
+    const product = {
+        id: productId,
+        image: productCard.querySelector('img').src,
+        name: productCard.querySelector('.name').innerText,
+        price: productCard.querySelector('.discounted-price')?.innerText ||
+               productCard.querySelector('.original-price')?.innerText ||
+               productCard.querySelector('.original-prices')?.innerText,
+        quantity: 1
+    };
 
-//корзина
+    const index = cart.findIndex(item => item.id === productId);
+
+    if (index > -1) {
+        cart[index].quantity += 1;
+    } else {
+        cart.push(product);
+    }
+
+    cartCount.innerText = cart.length;
+    updateCartList();
+}
+
+function addToCartFromFavorites(productId) {
+    const product = favorites.find(item => item.id === productId);
+    toggleCart(document.querySelector(`.product-card[data-id="${productId}"] .add-to-cart`));
+}
+
+function updateCartList() {
+    cartList.innerHTML = '';
+    cart.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+            <td>
+                <button class="quantity-change" onclick="changeQuantity('${product.id}', -1)">-</button>
+                ${product.quantity}
+                <button class="quantity-change" onclick="changeQuantity('${product.id}', 1)">+</button>
+            </td>
+            <td>
+                <button class="remove-from-cart" onclick="removeFromCart('${product.id}')">Удалить</button>
+            </td>
+        `;
+        cartList.appendChild(tr);
+    });
+}
+
+
+function changeQuantity(productId, change) {
+    const index = cart.findIndex(item => item.id === productId);
+    if (index > -1) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            updateCartList();
+        }
+    }
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    cartCount.innerText = cart.length;
+    updateCartList();
+}
+
+//оплата
+if (!cart) {
+  let cart = [];
+}
+if (!cartButton) {
+  const cartButton = document.getElementById('cart-button');
+}
+if (!cartCount) {
+  const cartCountn = document.getElementById('cart-count');
+}
+if (!cartList) {
+  const cartList = document.getElementById('#cart-list tbody');
+}if (!cartModal) {
+  const cartModal = document.getElementById('cart-modal');
+}if (!cartClose) {
+  const cartClose = document.getElementById('cart-close');
+}
+
+
+function toggleCart(button) {
+    const productCard = button.closest('.product-card');
+    const productId = productCard.getAttribute('data-id');
+    const product = {
+        id: productId,
+        discount: productCard.querySelector('.discount')?.innerText,
+        image: productCard.querySelector('img').src,
+        category: productCard.querySelector('.category').innerText,
+        name: productCard.querySelector('.name').innerText,
+        price: productCard.querySelector('.discounted-price')?.innerText ||
+               productCard.querySelector('.original-price')?.innerText ||
+               productCard.querySelector('.original-prices')?.innerText,
+        stock: productCard.getAttribute('data-stock'),
+        quantity: 1
+    };
+
+    const index = cart.findIndex(item => item.id === productId);
+
+    if (index > -1) {
+        cart[index].quantity += 1;
+    } else {
+        cart.push(product);
+    }
+
+    cartCount.innerText = cart.length;
+    updateCartList();
+    updateTotalPrice();
+}
+
+function updateCartList() {
+    cartList.innerHTML = '';
+    cart.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
+            <td>${product.name}</td>
+            <td class="cart-item-price">${product.price}</td>
+            <td>
+                <button class="quantity-change" onclick="changeQuantity('${product.id}', -1)">-</button>
+                <span class="cart-item-quantity">${product.quantity}</span>
+                <button class="quantity-change" onclick="changeQuantity('${product.id}', 1)">+</button>
+            </td>
+            <td>
+                <button class="remove-from-cart" onclick="removeFromCart('${product.id}')">Удалить</button>
+            </td>
+        `;
+        cartList.appendChild(tr);
+    });
+}
+
+function changeQuantity(productId, delta) {
+    const index = cart.findIndex(item => item.id === productId);
+    if (index > -1) {
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+    }
+    updateCartList();
+    updateTotalPrice();
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    cartCount.innerText = cart.length;
+    updateCartList();
+    updateTotalPrice();
+}
+
+function updateTotalPrice() {
+    let totalPrice = 0;
+    cart.forEach(product => {
+        const price = parseFloat(product.price.replace('$', ''));
+        totalPrice += price * product.quantity;
+    });
+    document.getElementById('total-price').innerText = '$' + totalPrice.toFixed(2);
+}
+
+function buyItems() {
+    alert('Оплата произведена, теперь у вас нет денег и нет товара 🤡');
+    cart = [];
+    cartCount.innerText = cart.length;
+    updateCartList();
+    updateTotalPrice();
+    toggleCartModal();
+}
+
+function toggleCartModal() {
+    cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+}
+
+cartButton.addEventListener('click', toggleCartModal);
+cartClose.addEventListener('click', toggleCartModal);
+
+window.addEventListener('click', function(event) {
+    if (event.target === cartModal) {
+        toggleCartModal();
+    }
+});

@@ -30,7 +30,10 @@
               <span id="favorite-count">0</span>
           </button>
           <button><img src="image/scooter.png" alt="Модель скутера"></button>
-          <button><img src="image/cart.png" alt="Корзина"></button>
+          <button id="cart-button">
+            <img src="image/cart.png" alt="Корзина">
+            <span id="cart-count">0</span>
+        </button>
       </div>
     </div>
     <div class="submenu">
@@ -230,59 +233,63 @@
         <div class="discount">19% off</div>
         <img src="image/images.jpeg" alt="Product 1">
         <div class="details">
-          <p class="category">Cold Start Valves</p>
-          <p class="name">Pure Power Remanufactured</p>
-          <div class="price">
-            <span class="discounted-price">$20.99</span>
-            <span class="original-price">$25.99</span>
-            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
-          </div>
-          <button class="add-to-favorites" onclick="toggleFavorite(this)">
-            <i class="fas fa-heart"></i>
-        </button>        
+            <p class="category">Cold Start Valves</p>
+            <p class="name">Pure Power Remanufactured</p>
+            <div class="price">
+                <span class="discounted-price">$20.99</span>
+                <span class="original-price">$25.99</span>
+                <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
+            </div>
+            <button class="add-to-favorites" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+            </button>
         </div>
-      </div>
+    </div>
     </div>
   </section>
 
   <div id="favorites-modal" class="modal">
     <div class="modal-contents">
-        <span class="close" onclick="toggleModal()">&times;</span>
-        <h2>Избранное</h2>
-        <table id="favorite-list">
-            <thead>
-                <tr>
-                    <th>Изображение</th>
-                    <th>Название товара</th>
-                    <th>Цена за штуку</th>
-                    <th>Наличие на складе</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+      <span class="close" id="favorites-close">&times;</span>
+      <h2>Избранное</h2>
+      <table id="favorite-list">
+        <thead>
+          <tr>
+            <th>Изображение</th>
+            <th>Название товара</th>
+            <th>Цена за штуку</th>
+            <th>Наличие на складе</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-</div>
-
-
-<div id="cart-modal" class="modal">
-  <div class="modal-contents">
-    <span class="close" onclick="toggleModal()">&times;</span>
-    <h2>Корзина</h2>
-    <table id="cart-list">
-      <thead>
-        <tr>
-          <th>Изображение</th>
-          <th>Название</th>
-          <th>Цена</th>
-          <th>Количество</th>
-          <th>Действия</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
   </div>
-</div>
+
+  <div id="cart-modal" class="modal">
+      <div class="modal-contents">
+        <span class="close" onclick="toggleCartModal()">&times;</span>
+        <h2>Корзина</h2>
+        <table id="cart-list">
+          <thead>
+            <tr>
+              <th>Изображение</th>
+              <th>Название</th>
+              <th>Цена</th>
+              <th>Количество</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="cart-total">
+          <p>Итого: <span id="total-price">$0.00</span></p>
+          <button class="buy-button" onclick="buyItems()">Купить</button>
+        </div>
+      </div>
+    </div>
+
   
     <section class="banner-container">
       <div class="contact-banner">
@@ -429,7 +436,7 @@
           <div class="price">
             <span class="discounted-price">$89.00</span>
             <span class="original-price">$117.00</span>
-            <<button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
+            <button class="add-to-cart" onclick="toggleCart(this)"><i class="fas fa-shopping-cart"></i></button>
           </div>
           <button class="add-to-favorites" onclick="toggleFavorite(this)">
             <i class="fas fa-heart"></i>
