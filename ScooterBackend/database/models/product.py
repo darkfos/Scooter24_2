@@ -45,6 +45,7 @@ class Product(MainBase):
     reviews: Mapped[List["Category"]] = relationship("Review", back_populates="product") #Отзывы
     category: Mapped["Category"] = relationship("Category", back_populates="product") #Категория
     order: Mapped["Order"] = relationship("Order", back_populates="product_info") #Заказы
+    product_info_for_fav: Mapped["Favourite"] = relationship("Favourite", back_populates="product_info") #Избр.
 
     def __str__(self) -> str:
         #Возвращает строковый объект класса

@@ -2,6 +2,15 @@
 from settings import APISettings, DatabaseSettings
 from database.db_worker import db_work
 from database.mainbase import MainBase
+##Tables##
+from database.models.category import Category
+from database.models.product import Product
+from database.models.user import User
+from database.models.favourite import Favourite
+from database.models.review import Review
+from database.models.history_buy import HistoryBuy
+from database.models.order import Order
+
 
 #Other
 from fastapi import FastAPI, status
