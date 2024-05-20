@@ -1,7 +1,10 @@
+#Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, ForeignKey, Double, Text, BLOB
-from ScooterBackend.database.mainbase import MainBase
 from typing import List
+
+#Local
+from ScooterBackend.database.mainbase import MainBase
 
 
 class Product(MainBase):
