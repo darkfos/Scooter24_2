@@ -261,6 +261,36 @@ body {
   height: auto;
 }
 
+
+#scooter-form {
+  margin-bottom: 20px;
+}
+
+#scooter-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+#scooter-form select {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+#add-scooter, #login-button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#add-scooter:hover, #login-button:hover {
+  background-color: #45a049;
+}
+
 /* Выравнивание ячейки таблицы */
 table td {
   vertical-align: middle;
@@ -297,6 +327,16 @@ align-items: center;
   background-color: #b9ff21;
 }
 
+.highlighted {
+  background-color: #b9ff21;
+  padding: 2px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.highlighted:hover {
+  background-color: #a0e96f;
+}
 
 
 /* Поисковик */
@@ -324,6 +364,8 @@ align-items: center;
   cursor: pointer;
   transform: skew(20deg);
 }
+
+
 
 /* .tabs */
 .submenu {
@@ -951,23 +993,15 @@ button:hover {
   font-size: 24px; 
 }
 
-.social-icon:last-child {
-  margin-right: 0; 
+.social-image {
+  width: 24px;  /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  margin-top: 4px;
 }
 
-.marketplace {
-  display: inline-block;
-  text-decoration: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #b9ff21; 
-  text-align: center;
-  line-height: 24px;
-  font-size: 12px; 
-  color: #000; 
-  margin-right: 10px; 
-}
+
+
+
 
 
 .footer {

@@ -20,16 +20,17 @@
     </div>
     <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> 
     <div class="action-container"> 
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Поиск">
-            <button onclick="search()">Найти</button>
-        </div>
+      <div class="search-bar">
+        <input type="text" id="text-to-find" value="">
+        <button onclick="FindOnPage('text-to-find')">Поиск</button>
+    </div>
+    
         <div class="user-actions">
           <button id="favorite-button">
               <img src="image/favorite.png" alt="Избранное">
               <span id="favorite-count">0</span>
           </button>
-          <button><img src="image/scooter.png" alt="Модель скутера"></button>
+          <button id="scooter-button"><img src="image/scooter.png" alt="Модель скутера"></button>
           <button id="cart-button">
             <img src="image/cart.png" alt="Корзина">
             <span id="cart-count">0</span>
@@ -248,6 +249,9 @@
     </div>
   </section>
 
+
+
+
   <div id="favorites-modal" class="modal">
     <div class="modal-contents">
       <span class="close" id="favorites-close">&times;</span>
@@ -290,7 +294,44 @@
       </div>
     </div>
 
+    <div id="scooter-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="scooter-modal-close">&times;</span>
+        <h2>Выберите модель скутера</h2>
+        <form id="scooter-form">
+          <label for="scooter-type">Тип скутера:</label>
+          <select id="scooter-type">
+            <option value="electric">Электрический</option>
+            <option value="gas">Бензиновый</option>
+          </select>
+          <br>
+          <label for="scooter-manufacturer">Производитель:</label>
+          <select id="scooter-manufacturer">
+            <option value="yamaha">Yamaha</option>
+            <option value="honda">Honda</option>
+            <option value="vespa">Vespa</option>
+          </select>
+          <br>
+          <label for="scooter-model">Модель:</label>
+          <select id="scooter-model">
+            <option value="model1">Модель 1</option>
+            <option value="model2">Модель 2</option>
+            <option value="model3">Модель 3</option>
+          </select>
+          <br>
+          <button type="button" id="add-scooter">Добавить</button>
+        </form>
+        <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
+        <button id="login-button">Авторизация</button>
+      </div>
+    </div>
   
+
+  
+
+
+
+
     <section class="banner-container">
       <div class="contact-banner">
       <div class="banner-item">
@@ -780,12 +821,19 @@
       <h4><a href="brands.html">Brands</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
-        <a href="https://telegram.example.com" class="social-icon"><i class="fab fa-telegram"></i></a>
-        <a href="https://whatsapp.example.com" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon marketplace">Oz</a>
-        <a href="https://global.wildberries.ru/catalog?brandpage=756907" class="social-icon marketplace">Wb</a>
-      </div>
-      
+        <a href="https://telegram.example.com" class="social-icon">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://whatsapp.example.com" class="social-icon">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
+            <img src="image/круг.png" alt="Image 1" class="social-image">
+        </a>
+        <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
+            <img src="image/круг2.png" alt="Image 2" class="social-image">
+        </a>
+    </div>
     </div>    
   </footer>
 

@@ -1,17 +1,41 @@
 //поиск
+var lastResFind = ""; // последний удачный результат
+var copy_page = ""; // копия страницы в ихсодном виде
 
-function search() {
-    var searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    var itemsToSearch = document.querySelectorAll('.searchable');
-    itemsToSearch.forEach(function(item) {
-      if (item.textContent.toLowerCase().includes(searchTerm)) {
-        item.style.display = "block";
-      } else {
-        item.style.display = "none";
-      }
-    });
-  }
-  
+function TrimStr(s) {
+    s = s.replace(/^\s+/g, '');
+    return s.replace(/\s+$/g, '');
+}
+
+function FindOnPage(inputId) { //ищет текст на странице, в параметр передается ID поля для ввода
+    var obj = window.document.getElementById(inputId);
+    var textToFind;
+
+    if (obj) {
+        textToFind = TrimStr(obj.value); //обрезаем пробелы
+    } else {
+        alert("Введенная фраза не найдена");
+        return;
+    }
+    if (textToFind == "") {
+        alert("Вы ничего не ввели");
+        return;
+    }
+
+    if (document.body.innerHTML.indexOf(textToFind) == "-1")
+        alert("Ничего не найдено, проверьте правильность ввода!");
+
+    if (copy_page.length > 0)
+        document.body.innerHTML = copy_page;
+    else copy_page = document.body.innerHTML;
+
+
+    document.body.innerHTML = document.body.innerHTML.replace(eval("/name=" + lastResFind + "/gi"), " "); //стираем предыдущие якори для скрола
+    document.body.innerHTML = document.body.innerHTML.replace(eval("/" + textToFind + "/gi"), "<a class='highlighted' name=" + textToFind + ">" + textToFind + "</a>"); //Заменяем найденный текст ссылками с якорем;
+    lastResFind = textToFind; // сохраняем фразу для поиска, чтобы в дальнейшем по ней стереть все ссылки
+    window.location = '#' + textToFind; //перемещаем скрол к последнему найденному совпадению
+}
+
 
   //меню
   function toggleMenu() {
@@ -422,10 +446,10 @@ function updateCartList() {
         tr.innerHTML = `
             <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
             <td>${product.name}</td>
-            <td>${product.price}</td>
+            <td class="cart-item-price">${product.price}</td>
             <td>
                 <button class="quantity-change" onclick="changeQuantity('${product.id}', -1)">-</button>
-                ${product.quantity}
+                <span class="cart-item-quantity">${product.quantity}</span>
                 <button class="quantity-change" onclick="changeQuantity('${product.id}', 1)">+</button>
             </td>
             <td>
@@ -436,24 +460,55 @@ function updateCartList() {
     });
 }
 
-
-function changeQuantity(productId, change) {
+function changeQuantity(productId, delta) {
     const index = cart.findIndex(item => item.id === productId);
     if (index > -1) {
-        cart[index].quantity += change;
+        cart[index].quantity += delta;
         if (cart[index].quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            updateCartList();
+            cart.splice(index, 1);
         }
     }
+    updateCartList();
+    updateTotalPrice();
 }
 
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     cartCount.innerText = cart.length;
     updateCartList();
+    updateTotalPrice();
 }
+
+function updateTotalPrice() {
+    let totalPrice = 0;
+    cart.forEach(product => {
+        const price = parseFloat(product.price.replace('$', ''));
+        totalPrice += price * product.quantity;
+    });
+    document.getElementById('total-price').innerText = '$' + totalPrice.toFixed(2);
+}
+
+function buyItems() {
+    alert('Оплата произведена, теперь у вас нет денег и нет товара 🤡');
+    cart = [];
+    cartCount.innerText = cart.length;
+    updateCartList();
+    updateTotalPrice();
+    toggleCartModal();
+}
+
+function toggleCartModal() {
+    cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+}
+
+cartButton.addEventListener('click', toggleCartModal);
+cartClose.addEventListener('click', toggleCartModal);
+
+window.addEventListener('click', function(event) {
+    if (event.target === cartModal) {
+        toggleCartModal();
+    }
+});
 
 //оплата
 if (!cart) {
@@ -573,3 +628,44 @@ window.addEventListener('click', function(event) {
         toggleCartModal();
     }
 });
+
+
+//выбор модели и перенаправление на авторизацию
+function setupScooterModal() {
+    const scooterButton = document.getElementById('scooter-button');
+    const scooterModal = document.getElementById('scooter-modal');
+    const scooterModalClose = document.getElementById('scooter-modal-close');
+    const addScooterButton = document.getElementById('add-scooter');
+    const loginButton = document.getElementById('login-button');
+  
+    scooterButton.addEventListener('click', () => {
+      scooterModal.style.display = 'block';
+    });
+  
+    scooterModalClose.addEventListener('click', () => {
+      scooterModal.style.display = 'none';
+    });
+  
+    window.addEventListener('click', (event) => {
+      if (event.target === scooterModal) {
+        scooterModal.style.display = 'none';
+      }
+    });
+  
+    addScooterButton.addEventListener('click', () => {
+      const type = document.getElementById('scooter-type').value;
+      const manufacturer = document.getElementById('scooter-manufacturer').value;
+      const model = document.getElementById('scooter-model').value;
+      alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
+      scooterModal.style.display = 'none';
+    });
+  
+    loginButton.addEventListener('click', () => {
+      // Перенаправление на страницу авторизации или открытие модального окна авторизации
+      alert('Перенаправление на страницу авторизации');
+    });
+  }
+  
+  // Вызываем функцию setupScooterModal после загрузки контента страницы
+  document.addEventListener('DOMContentLoaded', setupScooterModal);
+  
