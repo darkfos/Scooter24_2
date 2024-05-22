@@ -295,42 +295,106 @@
     </div>
 
     <div id="scooter-modal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="scooter-modal-close">&times;</span>
-        <h2>Выберите модель скутера</h2>
-        <form id="scooter-form">
-          <label for="scooter-type">Тип скутера:</label>
-          <select id="scooter-type">
-            <option value="electric">Электрический</option>
-            <option value="gas">Бензиновый</option>
-          </select>
-          <br>
-          <label for="scooter-manufacturer">Производитель:</label>
-          <select id="scooter-manufacturer">
-            <option value="yamaha">Yamaha</option>
-            <option value="honda">Honda</option>
-            <option value="vespa">Vespa</option>
-          </select>
-          <br>
-          <label for="scooter-model">Модель:</label>
-          <select id="scooter-model">
-            <option value="model1">Модель 1</option>
-            <option value="model2">Модель 2</option>
-            <option value="model3">Модель 3</option>
-          </select>
-          <br>
-          <button type="button" id="add-scooter">Добавить</button>
-        </form>
-        <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
-        <button id="login-button">Авторизация</button>
+      <div class="modal-contents">
+          <span class="close" id="scooter-modal-close">&times;</span>
+          <h2>Выберите модель скутера</h2>
+          <form id="scooter-form">
+              <label for="scooter-type">Тип скутера:</label>
+              <select id="scooter-type">
+                  <option value="electric">Электрический</option>
+                  <option value="gas">Бензиновый</option>
+              </select>
+              <br>
+              <label for="scooter-manufacturer">Производитель:</label>
+              <select id="scooter-manufacturer">
+                  <option value="yamaha">Yamaha</option>
+                  <option value="honda">Honda</option>
+                  <option value="vespa">Vespa</option>
+              </select>
+              <br>
+              <label for="scooter-model">Модель:</label>
+              <select id="scooter-model">
+                  <option value="model1">Модель 1</option>
+                  <option value="model2">Модель 2</option>
+                  <option value="model3">Модель 3</option>
+              </select>
+              <br>
+              <button type="button" id="add-scooter">Добавить</button>
+          </form>
+          <div id="scooter-details" style="display: none;">
+              <h3>Выбранная модель скутера:</h3>
+              <p id="scooter-type-display"></p>
+              <p id="scooter-manufacturer-display"></p>
+              <p id="scooter-model-display"></p>
+              <img id="scooter-image" src="image/scooter.png" alt="Фото скутера">
+          </div>
+          <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
+          <button id="login-button">Авторизация</button>
       </div>
-    </div>
+  </div>
+  
   
 
+  <script>
+function setupScooterModal() {
+    const scooterButton = document.getElementById('scooter-button');
+    const scooterModal = document.getElementById('scooter-modal');
+    const scooterModalClose = document.getElementById('scooter-modal-close');
+    const addScooterButton = document.getElementById('add-scooter');
+    const loginButton = document.getElementById('login-button');
   
+    scooterButton.addEventListener('click', () => {
+      scooterModal.style.display = 'block';
+    });
+  
+    scooterModalClose.addEventListener('click', () => {
+      scooterModal.style.display = 'none';
+    });
+  
+    window.addEventListener('click', (event) => {
+      if (event.target === scooterModal) {
+        scooterModal.style.display = 'none';
+      }
+    });
+  
+    addScooterButton.addEventListener('click', () => {
+      const type = document.getElementById('scooter-type').value;
+      const manufacturer = document.getElementById('scooter-manufacturer').value;
+      const model = document.getElementById('scooter-model').value;
+      alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
+      scooterModal.style.display = 'none';
+    });
+  
+    loginButton.addEventListener('click', () => {
+      // Перенаправление на страницу авторизации или открытие модального окна авторизации
+      alert('Перенаправление на страницу авторизации');
+    });
+  }
+  
+  // Вызываем функцию setupScooterModal после загрузки контента страницы
+  document.addEventListener('DOMContentLoaded', setupScooterModal);
+  
+  addScooterButton.addEventListener('click', () => {
+    const type = document.getElementById('scooter-type').value;
+    const manufacturer = document.getElementById('scooter-manufacturer').value;
+    const model = document.getElementById('scooter-model').value;
+
+    // Обновляем данные в блоке scooter-details
+    document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
+    document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
+    document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
+    document.getElementById('scooter-image').src = `image/scooter_${type}_${manufacturer}_${model}.png`;
+
+    // Отображаем блок scooter-details
+    document.getElementById('scooter-details').style.display = 'block';
+
+    // Закрываем модальное окно
+    scooterModal.style.display = 'none';
+});
 
 
-
+  </script>
+  
 
     <section class="banner-container">
       <div class="contact-banner">

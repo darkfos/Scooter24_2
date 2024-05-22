@@ -631,41 +631,41 @@ window.addEventListener('click', function(event) {
 
 
 //выбор модели и перенаправление на авторизацию
-function setupScooterModal() {
-    const scooterButton = document.getElementById('scooter-button');
-    const scooterModal = document.getElementById('scooter-modal');
-    const scooterModalClose = document.getElementById('scooter-modal-close');
-    const addScooterButton = document.getElementById('add-scooter');
-    const loginButton = document.getElementById('login-button');
+// function setupScooterModal() {
+//     const scooterButton = document.getElementById('scooter-button');
+//     const scooterModal = document.getElementById('scooter-modal');
+//     const scooterModalClose = document.getElementById('scooter-modal-close');
+//     const addScooterButton = document.getElementById('add-scooter');
+//     const loginButton = document.getElementById('login-button');
   
-    scooterButton.addEventListener('click', () => {
-      scooterModal.style.display = 'block';
-    });
+//     scooterButton.addEventListener('click', () => {
+//       scooterModal.style.display = 'block';
+//     });
   
-    scooterModalClose.addEventListener('click', () => {
-      scooterModal.style.display = 'none';
-    });
+//     scooterModalClose.addEventListener('click', () => {
+//       scooterModal.style.display = 'none';
+//     });
   
-    window.addEventListener('click', (event) => {
-      if (event.target === scooterModal) {
-        scooterModal.style.display = 'none';
-      }
-    });
+//     window.addEventListener('click', (event) => {
+//       if (event.target === scooterModal) {
+//         scooterModal.style.display = 'none';
+//       }
+//     });
   
-    addScooterButton.addEventListener('click', () => {
-      const type = document.getElementById('scooter-type').value;
-      const manufacturer = document.getElementById('scooter-manufacturer').value;
-      const model = document.getElementById('scooter-model').value;
-      alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
-      scooterModal.style.display = 'none';
-    });
+//     addScooterButton.addEventListener('click', () => {
+//       const type = document.getElementById('scooter-type').value;
+//       const manufacturer = document.getElementById('scooter-manufacturer').value;
+//       const model = document.getElementById('scooter-model').value;
+//       alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
+//       scooterModal.style.display = 'none';
+//     });
   
-    loginButton.addEventListener('click', () => {
-      // Перенаправление на страницу авторизации или открытие модального окна авторизации
-      alert('Перенаправление на страницу авторизации');
-    });
-  }
+//     loginButton.addEventListener('click', () => {
+//       // Перенаправление на страницу авторизации или открытие модального окна авторизации
+//       alert('Перенаправление на страницу авторизации');
+//     });
+//   }
   
-  // Вызываем функцию setupScooterModal после загрузки контента страницы
-  document.addEventListener('DOMContentLoaded', setupScooterModal);
+//   // Вызываем функцию setupScooterModal после загрузки контента страницы
+//   document.addEventListener('DOMContentLoaded', setupScooterModal);
   

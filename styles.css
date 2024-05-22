@@ -273,8 +273,10 @@ body {
 
 #scooter-form select {
   width: 100%;
-  padding: 5px;
+  padding: 8px; /* Уменьшаем немного отступы */
   margin-top: 5px;
+  border: 1px solid #ddd; /* Добавляем рамку, чтобы выделить поле */
+  border-radius: 5px; /* Добавляем скругленные углы */
 }
 
 #add-scooter, #login-button {
@@ -285,10 +287,31 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 5px; /* Добавляем скругленные углы */
 }
 
 #add-scooter:hover, #login-button:hover {
   background-color: #45a049;
+}
+.scooter-content {
+  display: flex;
+}
+
+.scooter-form-container {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.scooter-preview {
+  flex: 1;
+  border-left: 1px solid #ddd;
+  padding-left: 20px;
+}
+
+.scooter-preview img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 /* Выравнивание ячейки таблицы */
@@ -668,12 +691,13 @@ align-items: center;
   display: flex;
   justify-content: space-between;
   align-items: center; 
-  padding: 20px 0; 
+  padding: 10px 0; 
 }
 
 .banner-item {
   position: relative;
   padding: 5px;
+
 }
 
 .banner-item img {
@@ -791,7 +815,7 @@ align-items: center;
 
 .view-more {
   position: absolute;
-  top: 220%; 
+  top: 218%; 
   right: 15%; 
   transform: translateX(50%); 
   color: rgb(0, 0, 0);
