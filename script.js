@@ -1,6 +1,6 @@
 //поиск
 var lastResFind = ""; // последний удачный результат
-var copy_page = ""; // копия страницы в ихсодном виде
+var copy_page = ""; // копия страницы в исходном виде
 
 function TrimStr(s) {
     s = s.replace(/^\s+/g, '');
@@ -22,18 +22,28 @@ function FindOnPage(inputId) { //ищет текст на странице, в �
         return;
     }
 
-    if (document.body.innerHTML.indexOf(textToFind) == "-1")
+    var pattern = new RegExp(textToFind, "gi");
+
+    if (!pattern.test(document.body.innerHTML)) {
         alert("Ничего не найдено, проверьте правильность ввода!");
+        return;
+    }
 
-    if (copy_page.length > 0)
+    if (copy_page.length > 0) {
         document.body.innerHTML = copy_page;
-    else copy_page = document.body.innerHTML;
-
+    } else {
+        copy_page = document.body.innerHTML;
+    }
 
     document.body.innerHTML = document.body.innerHTML.replace(eval("/name=" + lastResFind + "/gi"), " "); //стираем предыдущие якори для скрола
-    document.body.innerHTML = document.body.innerHTML.replace(eval("/" + textToFind + "/gi"), "<a class='highlighted' name=" + textToFind + ">" + textToFind + "</a>"); //Заменяем найденный текст ссылками с якорем;
+    document.body.innerHTML = document.body.innerHTML.replace(pattern, "<a class='highlighted' name=" + textToFind + ">" + textToFind + "</a>"); //Заменяем найденный текст ссылками с якорем;
     lastResFind = textToFind; // сохраняем фразу для поиска, чтобы в дальнейшем по ней стереть все ссылки
-    window.location = '#' + textToFind; //перемещаем скрол к последнему найденному совпадению
+
+    // Найти элемент с именем, соответствующим найденному тексту, и прокрутить его в видимую область
+    var targetElement = document.querySelector("[name='" + textToFind + "']");
+    if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 
@@ -127,12 +137,18 @@ function scrollHandler(event) {
     const actionContainer = document.querySelector(".action-container");
     const submenu = document.querySelector('.submenu');
 
-    if (prevScrollPos > currentScrollPos || currentScrollPos < actionContainer.offsetTop + actionContainer.offsetHeight) {
-        header.style.height = "100px"; /* Показываем шапку при прокрутке вверх или если мы выше action-container */
+    if (currentScrollPos < 100) {
+        // Если мы находимся в верхней части страницы
+        header.style.height = "100px"; /* Показываем шапку */
         actionContainer.style.marginLeft = "0"; // Вернуть обычный margin-left
+        if (isMenuOpen) {
+            submenu.style.display = 'block'; // Показ подменю
+            setTimeout(() => submenu.style.opacity = "1", 0); // Показать текст
+        }
     } else {
-        header.style.height = "50px"; /* Скрываем верхнюю часть шапки при прокрутке вниз и нахождении ниже action-container */
-        submenu.style.display = 'none'; // Скрываем подменю при прокрутке вниз
+        header.style.height = "50px"; /* Скрываем верхнюю часть шапки при прокрутке вниз */
+        submenu.style.opacity = '0'; // Скрыть текст
+        setTimeout(() => submenu.style.display = 'none', 500); // Скрыть подменю после плавного перехода
         actionContainer.style.marginLeft = "-7px"; 
         isMenuOpen = false; // Сбрасываем флаг меню
     }
@@ -146,18 +162,23 @@ function toggleMenu() {
     const logoText = document.querySelector('.logo-text');
 
     // Если шапка свернута, развернуть её
-    if (!isMenuOpen) {
+    if (!isMenuOpen && window.pageYOffset < 100) {
         header.style.height = '100px'; // Вернуть обычную высоту
-        logoText.style.opacity = '1'; 
         submenu.style.display = 'block'; // Показ подменю
+        setTimeout(() => submenu.style.opacity = "1", 0); // Показать текст
         isMenuOpen = true;
     } else {
         // Иначе, свернуть шапку и скрыть подменю
         header.style.height = '50px';
-        submenu.style.display = 'none';
+        submenu.style.opacity = '0'; // Скрыть текст
+        setTimeout(() => submenu.style.display = 'none', 500); // Скрыть подменю после плавного перехода
         isMenuOpen = false;
     }
 }
+
+// Добавляем обработчики событий
+window.addEventListener('scroll', scrollHandler);
+// document.getElementById('menu-toggle-button').addEventListener('click', toggleMenu);
 
 
 //открытие карточки товара
@@ -630,42 +651,39 @@ window.addEventListener('click', function(event) {
 });
 
 
-//выбор модели и перенаправление на авторизацию
-// function setupScooterModal() {
-//     const scooterButton = document.getElementById('scooter-button');
-//     const scooterModal = document.getElementById('scooter-modal');
-//     const scooterModalClose = document.getElementById('scooter-modal-close');
-//     const addScooterButton = document.getElementById('add-scooter');
-//     const loginButton = document.getElementById('login-button');
-  
-//     scooterButton.addEventListener('click', () => {
-//       scooterModal.style.display = 'block';
-//     });
-  
-//     scooterModalClose.addEventListener('click', () => {
-//       scooterModal.style.display = 'none';
-//     });
-  
-//     window.addEventListener('click', (event) => {
-//       if (event.target === scooterModal) {
-//         scooterModal.style.display = 'none';
-//       }
-//     });
-  
-//     addScooterButton.addEventListener('click', () => {
-//       const type = document.getElementById('scooter-type').value;
-//       const manufacturer = document.getElementById('scooter-manufacturer').value;
-//       const model = document.getElementById('scooter-model').value;
-//       alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
-//       scooterModal.style.display = 'none';
-//     });
-  
-//     loginButton.addEventListener('click', () => {
-//       // Перенаправление на страницу авторизации или открытие модального окна авторизации
-//       alert('Перенаправление на страницу авторизации');
-//     });
-//   }
-  
-//   // Вызываем функцию setupScooterModal после загрузки контента страницы
-//   document.addEventListener('DOMContentLoaded', setupScooterModal);
-  
+//карточка
+var productsData = [
+    {
+        title: "Product 1",
+        price: "$99.99",
+        availability: "In Stock",
+        image: "product1.jpg",
+        description: "Description for Product 1"
+    },
+    {
+        title: "Product 2",
+        price: "$149.99",
+        availability: "Out of Stock",
+        image: "product2.jpg",
+        description: "Description for Product 2"
+    }
+];
+
+function showProductDetails(productId) {
+    var product = productsData[productId];
+    document.querySelector(".product-title").innerText = product.title;
+    document.querySelector(".product-price").innerText = "Price: " + product.price;
+    document.querySelector(".availability").innerText = product.availability;
+    document.querySelector(".product-image img").src = product.image;
+    document.querySelector(".product-description").innerText = product.description;
+}
+
+document.querySelectorAll(".product-card").forEach(function(card, index) {
+    card.addEventListener("click", function() {
+        showProductDetails(index);
+    });
+});
+
+
+
+

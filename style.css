@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -452,474 +452,111 @@ align-items: center;
   color: #b9ff21;
 }
 
-
-
-/*фильтр*/
-.parts-search {
-  position: relative;
-  width: 100%;
-  height: 600px; 
-}
-
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('image/parking_main_1.jpg');
-  background-size: cover; 
-  background-position: center;
-}
-
-.content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-}
-
-.content h2 {
-  font-size: 36px;
-}
-
-.content .highlight {
-  color: red;
-}
-
-.filters {
-  margin-top: 20px;
-}
-
-.filters button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: red;
-  color: white;
-  cursor: pointer;
-}
-
-.filters button:hover {
-  background-color: #b9ff21;
-}
-
-.filters input[type="text"] {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 300px; 
-}
-
-.filters input[type="text"]:nth-child(2) {
-  background-color: #ccc; 
-  width: 300px; 
-}
-
-.filters select {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 300px; 
-  background-color: #fff;
-}
-
-/*categories*/
-.categories-section {
-  display: flex;
-  flex-wrap: nowrap; 
-  overflow-x: auto; 
-  margin-top: -50px;
-  justify-content: center; 
-}
-
-.category {
-  flex: 0 0 auto; 
-  width: 110px; 
-  margin-right: 15px; 
-  position: relative;
-}
-
-.category-container {
-  text-align: center; 
-  background-color: #f2f2f2;
-  padding: 10px;
-  border-radius: 2px;
-}
-
-.category img {
-  max-width: 50px; 
-  max-height: 50px;
-}
-
-.category p {
-  margin: 0; 
-}
-
-
-/*featured-products*/
-
-.featured-products {
-  text-align: center;
-  margin-top: 40px;
-  width: 1200px;
-  margin-left: 170px;
-  margin: 40px auto;
-  position: relative;
-}
-
-.a {
-  margin-bottom: 10px;
-  margin-right: 960px;
-}
-
-.red-line {
-  width: 220px;
-  height: 2px;
-  background-color: red;
-  margin: 0 100px 20px 10px;
-}
-
-/* Стили для карусели */
-.carousel {
-  display: flex;
-  overflow: hidden; 
-  width: 1200px; 
-  margin: 0 auto; 
-}
-
-.product-card {
-  width: 280px;
-  height: 300px;
-  margin-right: 20px;
-  text-align: left;
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  flex: 0 0 auto; 
-}
-
-.product-card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  display: block; 
-  margin-top: 40px;
-  margin-left: 65px;
-}
-
-.discount {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: red;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 5px;
-}
-
-.details {
-  padding: 10px;
-}
-
-.category {
-  margin-top: 35px;
-  font-size: 14px;
-  color: #666;
-}
-
-.name {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.price {
-  margin-bottom: 10px;
-}
-
-.discounted-price {
-  font-weight: bold;
-  color: red;
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: #666;
-  margin-left: 10px;
-}
-.original-prices{
-  color: #666;
-  margin-left: 10px;
-}
-.add-to-cart {
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 5px 7px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 70px;
-}
-
-.add-to-favorites {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  color: #666;
-  cursor: pointer;
-}
-
-.favorited .fa-heart {
-  color: red;
-}
-
- 
-/*баннеры*/
-.banner-container {
-  width: 1190px; 
-  margin: 0 auto; 
-}
-
-.contact-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; 
-  padding: 10px 0; 
-}
-
-.banner-item {
-  position: relative;
-  padding: 5px;
-
-}
-
-.banner-item img {
-  width: 100%; 
-  height: auto; 
-  display: block; 
-}
-
-.banner-text {
-  position: absolute; 
-  top: 50px; 
-  left: 70px; 
-  text-align: left; 
-  color: #ffffff; 
-  font-size: 18px;
-  transition: all 0.3s ease; 
-  font-weight: bold;
-  text-shadow: 2px 2px #000;
-}
-
-.banner-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.banner-text p{
-  margin-bottom: 10px;  
-}
-
-.banner-description {
-  font-size: 16px;
-  margin-bottom: 5px;
-  margin-top: 10px;
-}
-
-.banner-description:last-child {
-  margin-bottom: 0;
-}
-
-.banner-text img {
-
-  width: 15px;
-  height: 15px;
-  vertical-align: middle; 
-  margin-left: 55px;
-  margin-top: -22px;
-}
-
-.banner-text:hover {
-  transform: translateY(-5px); 
-}
-
-
-
-/*гарантии*/
-.guarantees {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 20px 0;
-  max-width: 1150px; 
-  margin: 0 auto;
-}
-
-.guarantee-item {
-  display: flex;
-  align-items: center;
-  padding: 10px 0; 
-  position: relative;
-}
-
-.guarantee-item:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -50px; 
-  height: 45px;
-  width: 1px;
-  background-color: #ccc;
-  margin-top: 5px; 
-}
-
-.guarantee-item img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.guarantee-item .guarantee-text {
-  text-align: left;
-  padding-left: 10px;
-}
-
-.guarantee-item h3 {
-  color: #000;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.guarantee-item p {
-  color: #666;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-
-
-/*УТП2*/
-/* Стили для контейнера карточек */
-.card-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.view-more {
-  position: absolute;
-  top: 0%; 
-  right: 10%; 
-  transform: translateX(50%); 
-  color: rgb(0, 0, 0);
-  padding: 5px 10px;
-  cursor: pointer;
-  border: none;
-  background-color: rgb(255, 255, 255);
-  margin: 0 auto;
-}
-
-.hidden {
-  display: none;
-}
-
-/*УТП3*/
-.c {
-  margin-bottom: 10px;
-  margin-right: 990px;
-}
-
-.red-lines {
-  width: 190px;
-  height: 2px;
-  background-color: red;
-  margin: 0 100px 20px 10px;
-}
-
-/*баннер индивидульного заказа*/
-.banner-container1 {
-  width: 1180px;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #aaa;
-}
-
-.banner-image {
-  width: 100%;
-  cursor: pointer;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
+/* Основной контент */
+main.pay {
   padding: 20px;
-  border: 1px solid #888;
-  width: 50%; 
-  max-width: 300px; 
-  text-align: center;
+  margin-top: 130px; /* Чтобы не перекрывать контент шапкой */
+  max-width: 70%; /* Контент занимает 70% ширины */
+  margin-left: auto; /* Выровнять по центру */
+  margin-right: auto; /* Выровнять по центру */
 }
 
-button {
-  margin: 10px 0; 
-  padding: 15px 30px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
+main.pay h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+main.pay .toc {
+  margin-bottom: 20px;
+}
+
+main.pay .toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+main.pay .toc ul li {
+  margin-bottom: 10px;
+}
+
+main.pay .toc ul li a {
+  text-decoration: none;
+  color: #007BFF;
+}
+
+main.pay .toc ul li a:hover {
+  text-decoration: underline;
+}
+
+main.pay section {
+  margin-bottom: 40px;
+}
+
+main.pay h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+main.pay h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+main.pay p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+main.pay ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+main.pay ul li {
+  margin-bottom: 5px;
+}
+
+main.pay .payment-img {
+  max-width: 30%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+main.pay .back-to-main {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
   border-radius: 5px;
-  transition: all 0.3s ease;
 }
 
-button:hover {
-  transform: scale(1.05);
-}
 
-.whatsapp-btn {
-  background-color: #25D366;
+footer {
+  padding: 10px;
+  background-color: #000000;
   color: white;
-  width: 150px;
 }
 
-.telegram-btn {
-  background-color: #0088cc;
-  color: white;
-  width: 150px;
+/* Параллакс-эффект для фона (если нужен) */
+.parallax {
+  /* Фон будет фиксироваться и создаст эффект параллакса */
+  background-attachment: fixed;
+  background-size: cover;
 }
 
-.phone-btn {
-  background-color: #007bff;
-  color: white;
-  width: 150px;
+/* Плавное появление элементов при прокрутке */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
+
+.fade-in.visible {
+  opacity: 1;
+}
+
 
 /*подвал*/
 .footer {
@@ -1054,4 +691,15 @@ button:hover {
   color: #fff; 
   text-decoration: none; 
 }
+
+
+
+
+
+
+
+
+
+
+
 

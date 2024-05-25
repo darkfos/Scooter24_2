@@ -18,7 +18,7 @@
     <div id="parallelogram">
         <span class="logo-text">LOGO</span>
     </div>
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div> 
+    <div class="menu-icon" onclick="toggleMenu()" id="menu-toggle-button">&#9776;</div> 
     <div class="action-container"> 
       <div class="search-bar">
         <input type="text" id="text-to-find" value="">
@@ -852,37 +852,37 @@ function setupScooterModal() {
 
   <footer class="footer">
     <div class="footer-section">
-      <h4 class="yellow-text">NEWSLETTER</h4>
-      <p>Get the latest news, specials, and coupons via <br>email! You can cancel your subscription anytime.</p>
+      <h4 class="yellow-text">НОВОСТНАЯ РАССЫЛКА</h4>
+      <p>Получайте последние новости, специальные предложения и купоны через <br>электронную почту! Вы можете отменить подписку в любое время.</p>
       <form action="#" class="subscribe-form">
         <input type="email" placeholder="Your email">
-        <button type="submit" class="subscribe-button">Subscribe</button>
+        <button type="submit" class="subscribe-button">Подписаться</button>
       </form>  
-      <h4 class="yellow-text">COUPON CODES</h4>
-      <p>Check <span class="highlights">all current coupon codes</span> on the page.</p>
+      <h4 class="yellow-text">КОД КУПОНА</h4>
+      <p>Проверьте <span class="highlights">все текущие коды купонов</span> на странице.</p>
     </div>
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">FAQ</h3>
-      <h4><a href="contact.html">Contact</a></h4> <!-- либо ссылка на стороний источник -->
-      <h4><a href="payment.html">Payment Methods</a></h4>
-      <h4><a href="shipping.html">Shipping & Handling</a></h4>
-      <h4><a href="returns.html">Returns</a></h4>
-      <h4><a href="salesroom.html">Salesroom</a></h4>
-    </div>
+      <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
+      <h4><a href="pay.html">Способы оплаты</a></h4>
+      <h4><a href="shipping.html">Доставка и обработка</a></h4>
+      <h4><a href="returns.html">Возвраты</a></h4>
+      <h4><a href="salesroom.html">Распродажа</a></h4>
+  </div>    
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">INFO</h3>
-      <h4><a href="legal.html">Legal Notice</a></h4>
-      <h4><a href="dataprotection.html">Data Protection</a></h4>
-      <h4><a href="revocation.html">Revocation Right</a></h4>
-      <h4><a href="jobs.html">Jobs</a></h4>
-      <h4><a href="techtips.html">Tech Tips & Tutorials</a></h4>
-      <h4><a href="brands.html">Brands</a></h4>
+      <h4><a href="legal.html">Официальное уведомление</a></h4>
+      <h4><a href="dataprotection.html">Защита данных</a></h4>
+      <h4><a href="revocation.html">Право отзыва</a></h4>
+      <h4><a href="jobs.html">Работа</a></h4>
+      <h4><a href="techtips.html">Технические советы и руководства</a></h4>
+      <h4><a href="brands.html">Бренды</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
         <a href="https://telegram.example.com" class="social-icon">
