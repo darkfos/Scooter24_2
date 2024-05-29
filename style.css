@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    height: 2000px; /* Для прокрутки контента */
+    max-height: 2000px; /* Для прокрутки контента */
 }
 
 /*шапка*/
@@ -140,6 +140,102 @@ body {
   font-size: 12px;
 }
 
+/* Стили для карусели */
+.carousel {
+  display: flex;
+  overflow: hidden; 
+  width: 1200px; 
+  margin: 0 auto; 
+}
+
+.product-card {
+  width: 280px;
+  height: 300px;
+  margin-right: 20px;
+  text-align: left;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  flex: 0 0 auto; 
+}
+
+.product-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  display: block; 
+  margin-top: 40px;
+  margin-left: 65px;
+}
+
+.discount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.details {
+  padding: 10px;
+}
+
+.category {
+  margin-top: 35px;
+  font-size: 14px;
+  color: #666;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.price {
+  margin-bottom: 10px;
+}
+
+.discounted-price {
+  font-weight: bold;
+  color: red;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #666;
+  margin-left: 10px;
+}
+.original-prices{
+  color: #666;
+  margin-left: 10px;
+}
+.add-to-cart {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 5px 7px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 70px;
+}
+
+.add-to-favorites {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+.favorited .fa-heart {
+  color: red;
+}
 /* Стили для модального окна */
 .modal {
   display: none;
@@ -517,6 +613,7 @@ main.pay ul li {
   margin-bottom: 5px;
 }
 
+
 main.pay .payment-img {
   max-width: 30%;
   height: auto;
@@ -531,6 +628,12 @@ main.pay .back-to-main {
   color: rgb(0, 0, 0);
   text-decoration: none;
   border-radius: 5px;
+}
+
+.responsive-img {
+  max-width: 30%;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 
@@ -694,12 +797,37 @@ footer {
 
 
 
+.salesroom-container {
+  margin-top: 20px;
+}
+.large-image {
+  width: 101%;
+  height: auto;
+  margin-bottom: 15px;
+}
+.small-image {
+  width: 50%;
+  height: auto;
+  margin-bottom: 15px;
+}
+.small-images {
+  display: flex;
+  justify-content: space-between;
+}
+.small-images img {
+  flex: 1;
+  margin-right: 10px;
+}
+.small-images img:last-child {
+  margin-right: 0;
+}
 
+.work-hours, .payment-methods {
+  margin-top: 20px;
+}
 
-
-
-
-
-
-
+.map {
+  height: 400px;
+  margin-top: 20px;
+}
 
