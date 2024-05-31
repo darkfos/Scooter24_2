@@ -729,7 +729,7 @@ footer {
 .divider {
   border: dotted 1px; 
   height: 100%; 
-  background-color: rgba(204, 204, 204, 0.2); 
+  color: rgba(204, 204, 204, 0.2); 
 }
 
 .social-icons {
@@ -822,12 +822,172 @@ footer {
   margin-right: 0;
 }
 
+
+
+.salesroom-container h1 {
+  text-align: center;
+  color: #007BFF;
+}
+
+.salesroom-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.salesroom-images .large-images {
+  flex: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.salesroom-images .small-images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.salesroom-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  transition: transform 0.3s;
+}
+
+.salesroom-images img:hover {
+  transform: scale(1.05);
+}
+
 .work-hours, .payment-methods {
   margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.work-hours ul, .payment-methods ul {
+  list-style: none;
+  padding: 0;
+}
+
+.work-hours li, .payment-methods li {
+  background: #f8f8f8;
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.work-hours li:hover, .payment-methods li:hover {
+  background: #e0e0e0;
 }
 
 .map {
   height: 400px;
   margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
+
+@media (max-width: 768px) {
+  .salesroom-images {
+    flex-direction: column;
+  }
+
+  .salesroom-images .large-images,
+  .salesroom-images .small-images {
+    flex: none;
+  }
+
+  .salesroom-images .small-images {
+    flex-direction: row;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+/*баннер индивидульного заказа*/
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 20% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%; 
+  max-width: 300px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px; /* Отступы между элементами */
+}
+
+.close {
+  color: #aaa;
+  align-self:flex-end;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: -10px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  margin: 10px 0; 
+  padding: 15px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.whatsapp-btn, .telegram-btn, .phone-btn {
+  width: 200px;
+}
+
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+}
+
+.telegram-btn {
+  background-color: #0088cc;
+  color: white;
+}
+
+.phone-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.legal a {
+  text-decoration: none;
+}
