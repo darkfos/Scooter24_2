@@ -620,7 +620,7 @@ main.pay .payment-img {
   margin-bottom: 20px;
 }
 
-main.pay .back-to-main {
+main.pay .back-to-main, main.jobs .back-to-main {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
@@ -826,7 +826,7 @@ footer {
 
 .salesroom-container h1 {
   text-align: center;
-  color: #007BFF;
+  color: #000000;
 }
 
 .salesroom-images {
@@ -991,3 +991,135 @@ button:hover {
 .legal a {
   text-decoration: none;
 }
+
+.line  {
+  border-top: 1px dashed #000; /* Параметры линии */
+  height: 18px; /* Высота блока */
+  background: url(images/scissors.png) no-repeat 10px -18px; /* Параметры фона */
+ }
+
+ .jobs {
+  padding: 100px 20px 20px;
+  background-color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  animation: fadeIn 1s;
+}
+
+.jobs h1, .jobs h2 {
+  color: #333;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.benefits {
+  margin-bottom: 20px;
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits li {
+  margin: 10px 0;
+  color: #555;
+  animation: slideInLeft 0.5s;
+}
+
+.vacancies {
+  margin-bottom: 20px;
+}
+
+.vacancy-card {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: zoomIn 0.5s;
+}
+
+.vacancy-card h3 {
+  margin-top: 0;
+}
+
+.vacancy-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.apply-button {
+  display: block;
+  margin: 10px 0 0;
+  padding: 10px;
+  background-color:  #ffffff;
+  color: #000000;
+  text-decoration: none;
+  border: 1px solid #b9ff21;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.apply-button:hover {
+  background-color:  #b9ff21;
+}
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s;
+}
+
+#search-bar {
+  width: 60%;
+  padding: 10px 15px;
+  border: 2px solid  #b9ff21;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  font-size: 1em;
+}
+
+#search-bar::placeholder {
+  color: #ababab;
+}
+
+.search-section button {
+  padding: 10px 20px;
+  border: none;
+  background-color:  #ffffff;
+  color: #000000;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  transition: background-color 0.3s;
+  border: 2px solid  #b9ff21;
+}
+

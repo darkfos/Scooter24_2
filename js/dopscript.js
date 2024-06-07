@@ -464,3 +464,35 @@ function showModal() {
     window.location.href = 'tel:+9614277510';
   }
   
+
+  //работа
+  function showApplicationForm() {
+    document.getElementById('applicationModal').style.display = 'block';
+}
+
+function closeApplicationForm() {
+    document.getElementById('applicationModal').style.display = 'none';
+}
+
+document.getElementById('applicationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Ваша заявка отправлена!');
+    closeApplicationForm();
+});
+
+
+function filterJobs() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const vacancies = document.querySelectorAll('.vacancy-card');
+    
+    vacancies.forEach(vacancy => {
+        const title = vacancy.querySelector('h3').textContent.toLowerCase();
+        const description = vacancy.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            vacancy.style.display = 'block';
+        } else {
+            vacancy.style.display = 'none';
+        }
+    });
+}
