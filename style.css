@@ -620,7 +620,7 @@ main.pay .payment-img {
   margin-bottom: 20px;
 }
 
-main.pay .back-to-main, main.jobs .back-to-main {
+main.pay .back-to-main, main.jobs .back-to-main, main.container .back-to-main {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
