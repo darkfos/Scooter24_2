@@ -502,3 +502,39 @@ document.addEventListener('DOMContentLoaded', () => {
 function showApplicationForm() {
     alert('Application form will be shown here.');
 }
+
+
+
+
+
+function filterByLetter(letter) {
+    const cards = document.querySelectorAll('.brand-card');
+    cards.forEach(card => {
+        if (card.dataset.name.startsWith(letter)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function clearFilter() {
+    const cards = document.querySelectorAll('.brand-card');
+    cards.forEach(card => {
+        card.style.display = 'block';
+    });
+}
+
+function filterBrands() {
+    const searchBar = document.getElementById('search-bar');
+    const filter = searchBar.value.toLowerCase();
+    const cards = document.querySelectorAll('.brand-card');
+    cards.forEach(card => {
+        if (card.dataset.name.toLowerCase().includes(filter)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
