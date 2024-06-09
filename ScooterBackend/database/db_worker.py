@@ -2,7 +2,18 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
 #Local
-from ScooterBackend.settings import DatabaseSettings
+
+##MODELS##
+from ScooterBackend.database.models.product import Product
+from ScooterBackend.database.models.category import Category
+from ScooterBackend.database.models.order import Order
+from ScooterBackend.database.models.user import User
+from ScooterBackend.database.models.review import Review
+from ScooterBackend.database.models.history_buy import HistoryBuy
+from ScooterBackend.database.models.favourite import Favourite
+from ScooterBackend.database.models.admin import Admin
+
+from ScooterBackend.settings.database_settings import DatabaseSettings
 from ScooterBackend.database.mainbase import MainBase
 
 
@@ -22,7 +33,7 @@ class DatabaseEngine:
 
     async def get_session(self) -> AsyncSession:
         #Return session
-        async with self.async_session() as session:
-            yield session
+        async with self.async_session.begin() as session:
+            return session
 
 db_work: DatabaseEngine = DatabaseEngine()
