@@ -8,6 +8,15 @@ authors = ["darkfos82 <darkfos82@gmail.com>"]
 python = "^3.10"
 fastapi = {extras = ["all"], version = "^0.111.0"}
 SQLAlchemy = "^2.0.30"
+asyncpg = "^0.29.0"
+black = "^24.4.2"
+alembic = "^1.13.1"
+python-jose = "^3.3.0"
+PyJWT = "^2.8.0"
+passlib = "^1.7.4"
+aiohttp = "^3.9.5"
+pillow = "^10.3.0"
+requests = "^2.32.3"
 
 [tool.poetry.dev-dependencies]
 

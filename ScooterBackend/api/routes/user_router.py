@@ -1,0 +1,326 @@
+#System
+from typing import Annotated
+
+#Other libraries
+from fastapi import APIRouter, status, Depends, Header
+from sqlalchemy.ext.asyncio import AsyncSession
+
+#Local
+from ScooterBackend.api.authentication.authentication_service import Authentication
+from ScooterBackend.api.dto.user_dto import (
+    InformationAboutUser,
+    AllDataUser,
+    UserReviewData,
+    UserFavouritesData,
+    UserOrdersData,
+    UserHistoryData,
+    UserIsUpdated,
+    DataToUpdate,
+    DataToUpdateUserPassword,
+    UserIsDeleted
+)
+from ScooterBackend.database.db_worker import db_work
+from ScooterBackend.api.service.user_service import UserService
+
+
+user_router: APIRouter = APIRouter(
+    prefix="/user",
+    tags=["User - Работа пользователя"]
+)
+
+auth: Authentication = Authentication()
+
+
+@user_router.get(
+    path="/information_about_user",
+    description="""
+    ## Endpoint - Краткая информация о пользователе.\n
+    Данный метод необходим для получения краткой информации о пользователе.
+    В ответе присутсвует лишь информация о пользователе.
+    Необходим jwt ключ и Bearer в заголовке Authorization.
+    """,
+    summary="Краткая информация",
+    response_model=InformationAboutUser,
+    status_code=status.HTTP_200_OK
+)
+async def get_information_about_user(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> InformationAboutUser:
+    """
+    ENDPOINT - Получение краткой информации о пользователе, (ЛИЧНОЕ)
+    :param session:
+    :param user_data:
+    :return:
+    """
+    information_about_user = await UserService.get_information_about_me(session=session, token=user_data)
+    return information_about_user
+
+
+@user_router.get(
+    path="/full_information_about_user",
+    description="""
+    ### Endpoint - Полная информация о пользователе
+    Данный метод необходим для получения полной информации о пользователе.\n
+    Позволяет узнать следующее:
+    1. Заказы пользователя
+    2. История заказов
+    3. Отзывы
+    4. Товары в избранном
+    \n
+    Необходим jwt ключ и Bearer в заголовке Authorization.
+    """,
+    summary="Полная информация",
+    response_model=AllDataUser,
+    status_code=status.HTTP_200_OK
+)
+async def get_full_information_about_user(
+        session: Annotated[AsyncSession, Depends(db_work.get_session)],
+        user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> AllDataUser:
+    """
+    ENDPOINT - Получение полной информации об пользователе, (ЛИЧНОЕ
+    :param session:
+    :return:
+    """
+
+    return await UserService.get_full_information(session=session, token=user_data)
+
+
+@user_router.get(
+    path="/user_reviews",
+    description="""
+    ### Endpoint - Отзывы пользователя.
+    Данный метод позволяет получить информацию о пользователе, а так же список всех его отзывов.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Отзывы пользователя",
+    response_model=UserReviewData,
+    status_code=status.HTTP_200_OK
+)
+async def get_user_data_and_all_reviews(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> UserReviewData:
+    """
+    ENDPOINT - Получение информации о пользователе + отзывы
+    :param session:
+    :param user_data:
+    :return:
+    """
+
+    return await UserService.get_information_about_me_and_review(session=session, token=user_data)
+
+
+@user_router.get(
+    path="/user_favourites",
+    description="""
+    ### Endpoint - Избранные товары пользователя.
+    Данный метод позволяет получить информацию о пользователе, а так же список избранных товаров.
+    Необходим jwt ключ и Bearer в заголовке запроса. 
+    """,
+    summary="Избранное пользователя",
+    response_model=UserFavouritesData,
+    status_code=status.HTTP_200_OK
+)
+async def get_user_data_and_all_favourites_product(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> UserFavouritesData:
+    """
+    ENDPOINT - Получение информации о пользователе + избранные товары
+    :param session:
+    :param user_data:
+    :return:
+    """
+
+    return await UserService.get_information_about_me_and_favourite(session=session, token=user_data)
+
+
+@user_router.get(
+    path="/user_orders",
+    description="""
+    ### Endpoint - Заказы пользователя.
+    Данный метод позволяет узнать информацию о пользователе, а так же получить список заказов.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Заказы пользователя",
+    response_model=UserOrdersData,
+    status_code=status.HTTP_200_OK
+)
+async def get_user_data_and_all_orders(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> UserOrdersData:
+    """
+    ENDPOINT - Получение информации о пользователе + заказы
+    :param session:
+    :param user_data:
+    :return:
+    """
+
+    return await UserService.get_information_about_me_and_orders(session=session, token=user_data)
+
+
+@user_router.get(
+    path="/user_history",
+    description="""
+    ### Endpoint - История покупок пользователя.
+    Данный метод позволяет узнать информацию о пользователе, а так же получить список историю покупок.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="История покупок",
+    response_model=UserHistoryData,
+    status_code=status.HTTP_200_OK
+)
+async def get_user_data_and_history(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> UserHistoryData:
+    """
+    ENDPOINT - Получение информации о пользователе + история заказов
+    :param session:
+    :param user_data:
+    :return:
+    """
+
+    return await UserService.get_information_about_me_and_history(session=session, token=user_data)
+
+
+@user_router.get(
+    path="/other_user_data/{id_user}",
+    description="""
+    ### Endpoint - Краткая информация о другом пользователе.
+    Данный метод позволяет узнать информацию о других пользователях.
+    Доступен только для администраторов!
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    Необходим первичный ключ в ссылке запроса для получения данных об указанном пользователе.
+    """,
+    summary="Другие лица",
+    response_model=InformationAboutUser,
+    tags=["AdminPanel - Панель администратора"]
+)
+async def get_information_about_other_users(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_user: int,
+) -> InformationAboutUser:
+    """
+    ENDPOINT - Получение краткой информации о пользователе
+    :param session:
+    :param id_user:
+    :param admin_password:
+    :return:
+    """
+
+    return await UserService.get_information_about_user(session=session, user_id=id_user, token=admin_data)
+
+
+@user_router.get(
+    path="/other_user_all_data/{id_user}",
+    description="""
+    ### Endpoint - Полная информация о другом пользователе.
+    Данный метод позволяет узнать информацию о других пользователях.
+    Необходим пароль администратора в заголовке.
+    Необходим первичный ключ в ссылке запроса для получения данных об указанном пользователе.
+    """,
+    summary="Полная информация о другом пользователе",
+    response_model=AllDataUser,
+    status_code=status.HTTP_200_OK,
+    tags=["AdminPanel - Панель администратора"]
+)
+async def get_all_information_about_other_users(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_user: int,
+) -> AllDataUser:
+    """
+    ENDPOINT - Получение полной информации о других пользователях
+    :param session:
+    :param id_user:
+    :param admin_password:
+    :return:
+    """
+
+    return await UserService.get_full_information_other_user(
+        session=session,
+        token=admin_data,
+        user_id=id_user
+    )
+
+
+@user_router.put(
+    path="/update_user_information",
+    description="""
+    ### Endpoint - Обновление информации о пользователе.
+    Данный метод позволяет обновить информацию о пользователе, как всю, так и некоторую.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Обновление данных пользователя",
+    response_model=UserIsUpdated,
+    status_code=status.HTTP_200_OK
+)
+async def update_user_information(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    data_to_update: DataToUpdate
+) -> UserIsUpdated:
+    """
+    ENDPOINT - Обновление данных о пользователе
+    :return:
+    """
+
+    return await UserService.update_user_information(session=session, token=user_data, to_update=data_to_update)
+
+
+@user_router.patch(
+    path="/update_user_password",
+    description="""
+    ### Endpoint - Обновление пароля пользователя.
+    Данный метод позволяет обновить пароль пользователя.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Обновление пароля пользователя",
+    response_model=UserIsUpdated,
+    status_code=status.HTTP_200_OK
+)
+async def update_user_password(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    data_to_update: DataToUpdateUserPassword
+) -> UserIsUpdated:
+    """
+    ENDPOINT - Обновление пароля пользователя
+    :param session:
+    :param usr_data:
+    :param data_to_update:
+    :return:
+    """
+
+    return await UserService.update_user_password(
+        session=session,
+        token=user_data,
+        to_update=data_to_update
+    )
+
+
+@user_router.delete(
+    path="/delete_user",
+    description="""
+    ### Endpoint - УДАЛЕНИЕ пользователя.
+    Удаление пользователя, безвозвратное удаление данных, предельная ОСТОРОЖНОСТЬ!
+    Для удаления необходим jwt ключ и Bearer в заголовке.
+    """,
+    summary="Удаление пользователя",
+    response_model=UserIsDeleted,
+    status_code=status.HTTP_200_OK
+)
+async def delete_user(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> UserIsDeleted:
+    """
+    Удаление всех данных о пользователе
+    """
+
+    return await UserService.delete_user(session=session, token=user_data)
