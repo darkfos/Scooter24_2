@@ -74,7 +74,7 @@ class CategoryService:
 
         #Get categories
         categories: List[CategoryBase] = await CategoryRepository(session=session).find_all()
-        result = [category for category in categories[0]]
+        result = [category[0] for category in categories]
         return result
 
     @staticmethod
