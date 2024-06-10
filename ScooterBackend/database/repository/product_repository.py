@@ -87,3 +87,36 @@ class ProductRepository(GeneralSQLRepository):
         product_data = ((await self.async_session.execute(stmt)).unique()).one_or_none()
 
         return product_data
+
+    async def find_by_filters(self, id_categories: int, min_price: int, max_price: int) -> Union[List, List[Product]]:
+        """
+        Поиск всех продуктов по фильтру
+        :param id_categories:
+        :param min_price:
+        :param max_price:
+        """
+
+        if id_categories and min_price and max_price:
+            stmt = select(Product).where(Product.id_category == id_categories)
+            stmt = stmt.filter(Product.price_product.between(min_price, max_price))
+        elif id_categories and min_price:
+            stmt = select(Product).where(Product.id_category == id_categories)
+            stmt = stmt.filter(Product.price_product >= min_price)
+        elif id_categories and max_price:
+            stmt = select(Product).filter(Product.id_category == id_categories)
+            stmt = stmt.filter(Product.price_product <= max_price)
+        elif id_categories:
+            stmt = select(Product).filter(Product.id_category == id_categories)
+        elif min_price:
+            stmt = select(Product).filter(Product.price_product >= min_price)
+        elif max_price:
+            stmt = select(Product).filter(Product.price_product <= max_price)
+        elif min_price and max_price:
+            stmt = select(Product).filter(Product.price_product.between(min_price, max_price))
+        else:
+            return []
+
+        products: Union[List, List[Product]] = (await self.async_session.execute(stmt)).fetchall()
+        if products:
+            return products[0]
+        return products

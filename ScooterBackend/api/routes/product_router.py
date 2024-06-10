@@ -73,6 +73,37 @@ async def get_all_products(
 
 
 @product_router.get(
+    path="/get_products_by_filter",
+    description="""
+    ### ENDPOINT - Получение продуктов по фильтрам поиска.
+    Данный метод позволяет получить список продуктов по фильтрам поиска.
+    """,
+    summary="Поиск продуктов по фильтру",
+    response_model=Union[List, List[ProductBase]],
+    status_code=status.HTTP_200_OK
+)
+async def get_products_by_filters(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    id_category: int = None,
+    min_price: int = None,
+    max_price: int = None
+) -> Union[List, List[ProductBase]]:
+    """
+    ENDPOINT - Получение списка продуктов по фильтру.
+    :param id_category:
+    :param min_price:
+    :param max_price:
+    """
+
+    return await ProductService.get_products_by_sorted(
+        session=session,
+        sorted_by_category=id_category,
+        sorted_by_price_min=min_price,
+        sorted_by_price_max=max_price
+    )
+
+
+@product_router.get(
     path="/get_products_by_category",
     description="""
     ### Endpoint - Получение всех продуктов по определённой категории.
