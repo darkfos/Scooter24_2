@@ -1124,4 +1124,126 @@ button:hover {
 }
 
 
-/*Бренды*/
+/*без категории*/
+.containers {
+  display: flex;
+  margin: 20px;
+  margin-top: 150px;
+}
+
+.sidebar {
+  flex: 0 0 200px;
+  margin-right: 20px;
+}
+
+.main-content {
+  flex: 1;
+}
+.main-content h2 {
+  margin-top: -32px;
+}
+.categories-nav ul {
+  list-style: none;
+  padding: 0;
+}
+.categories-nav h2 {
+padding: 5px;
+}
+
+.categories-nav ul li {
+  margin-bottom: 10px;
+}
+
+.categories-nav ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.categories-nav ul li a:hover {
+  background-color: #b9ff21;
+  color: #333;
+}
+
+.breadcrumbs {
+  margin-bottom: 20px;
+  text-align: end;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sorting {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sorting label {
+  margin-right: 10px;
+}
+
+.sorting select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+  cursor: pointer;
+  appearance: none;
+
+}
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.product-card {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  flex: 0 0 calc(25% - 20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.product-card h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.product-card button {
+  padding: 10px;
+  background-color: #b9ff21;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #a2e61a;
+}
+.dashed-line {
+  border: none;
+  border-top: 1px dashed #ccc;
+  margin: 10px 0;
+}
+
+
