@@ -21,7 +21,7 @@ async def create_products():
           "article_product": "SCOT78541892936",
           "tags": "1, год",
           "other_data": "Габариты: 5 x 13 x 13 cm,",
-          "id_category": 4,
+          "id_category": 1,
           "photo_product": "6449875038.jpg"
         },
         {
@@ -32,7 +32,7 @@ async def create_products():
             "article_product": "SCOT7326746233481283",
             "tags": "2, года",
             "other_data": "Габариты: 7 × 10 × 20 cm,",
-            "id_category": 4,
+            "id_category": 1,
             "photo_product": "6449875650.jpg"
         },
         {
@@ -43,7 +43,7 @@ async def create_products():
             "article_product": "SCOT78235428916222",
             "tags": "2, год",
             "other_data": "Габариты: 3 × 6 × 5 cm,",
-            "id_category": 4,
+            "id_category": 1,
             "photo_product": "6449880136.jpg"
         },
         {
@@ -54,7 +54,7 @@ async def create_products():
             "article_product": "SCOT1267234561302",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439246916.jpg"
         },
         {
@@ -65,7 +65,7 @@ async def create_products():
             "article_product": "SCOT1267234561303",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439244719.jpg"
         },
         {
@@ -76,7 +76,7 @@ async def create_products():
             "article_product": "SCOT1267234561304",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439246282.jpg"
         },
         {
@@ -87,7 +87,7 @@ async def create_products():
             "article_product": "SCOT1267234561306",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439246282.jpg"
         },
         {
@@ -98,7 +98,7 @@ async def create_products():
             "article_product": "SCOT1267234561307",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439246673.jpg"
         },
         {
@@ -109,7 +109,7 @@ async def create_products():
             "article_product": "SCOT1267234561308",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439245882.jpg"
         },
         {
@@ -120,7 +120,7 @@ async def create_products():
             "article_product": "SCOT1267234561313",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439198834.jpg"
         },
         {
@@ -131,7 +131,7 @@ async def create_products():
             "article_product": "SCOT1267234561314",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439247131.jpg"
         },
         {
@@ -142,7 +142,7 @@ async def create_products():
             "article_product": "SCOT1267234561315",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6439246198.jpg"
         },
         {
@@ -153,7 +153,7 @@ async def create_products():
             "article_product": "SCOT1267234561316",
             "tags": "1, год",
             "other_data": "Габариты: 20 × 10 cm,",
-            "id_category": 5,
+            "id_category": 2,
             "photo_product": "6447222252.jpg"
         },
         {
@@ -164,7 +164,7 @@ async def create_products():
             "article_product": "SCOT1267234561293",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 15 × 10 cm,",
-            "id_category": 7,
+            "id_category": 3,
             "photo_product": "6439246782.jpg"
         },
         {
@@ -175,7 +175,7 @@ async def create_products():
             "article_product": "SCOT1267234561297",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 15 × 10 cm,",
-            "id_category": 7,
+            "id_category": 3,
             "photo_product": "6439246506.jpg"
         },
         {
@@ -186,7 +186,7 @@ async def create_products():
             "article_product": "SCOT7882489023485",
             "tags": "1, год",
             "other_data": "Габариты: 2 × 7 × 7 cm,",
-            "id_category": 7,
+            "id_category": 3,
             "photo_product": "6449870141.jpg"
         },
         {
@@ -197,7 +197,7 @@ async def create_products():
             "article_product": "SCOT6234589129354218",
             "tags": "1, год",
             "other_data": "Габариты: 5 × 6 × 15 cm,",
-            "id_category": 8,
+            "id_category": 4,
             "photo_product": "6449883508.jpg"
         },
         {
@@ -208,7 +208,7 @@ async def create_products():
             "article_product": "SCOT6234589129354217",
             "tags": "1, год",
             "other_data": "Габариты: 5 × 6 × 15 cm,",
-            "id_category": 8,
+            "id_category": 4,
             "photo_product": "6449883741.jpg"
         },
         {
@@ -219,7 +219,7 @@ async def create_products():
             "article_product": "SCOT7825476452752123",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 10 × 10 cm,",
-            "id_category": 9,
+            "id_category": 5,
             "photo_product": "6478512376.jpg"
         },
         {
@@ -230,7 +230,7 @@ async def create_products():
             "article_product": "SCOT2635894612754812",
             "tags": "1, год",
             "other_data": "Габариты: 10 × 10 × 10 cm,",
-            "id_category": 9,
+            "id_category": 6,
             "photo_product": "6478517794.jpg"
         },
         {
@@ -241,7 +241,7 @@ async def create_products():
             "article_product": "SCOT2635894612754812",
             "tags": "1, год",
             "other_data": "Габариты: 2 × 8 × 2 cm,",
-            "id_category": 10,
+            "id_category": 7,
             "photo_product": "6478453611.jpg"
         },
         {
@@ -252,7 +252,7 @@ async def create_products():
             "article_product": "SCOT78235428916222",
             "tags": "1, год",
             "other_data": "Габариты: 3 × 6 × 5 cm,",
-            "id_category": 10,
+            "id_category": 8,
             "photo_product": "6449880136.jpg"
         },
     ]
@@ -277,7 +277,7 @@ async def create_products():
             file = open("/home/darkfos/PycharmProjects/Scooter24/ScooterBackend/test/data/photos/{}".format(product.get("photo_product")), "rb").read()
 
             req = requests.post(
-                url="http://127.0.0.1:5678/api/v1/product/create_product",
+                url="http://0.0.0.0:5678/api/v1/product/create_product",
                 headers={"Authorization": f"Bearer {jwt_token}"},
                 json={
                     "title_product": product.get("title_product"),
@@ -294,7 +294,7 @@ async def create_products():
 
             #Установка фотографии
             req_photo = requests.patch(
-                url=f"http://127.0.0.1:5678/api/v1/product/update_product_photo/{id_test}",
+                url=f"http://0.0.0.0:5678/api/v1/product/update_product_photo/{id_test}",
                 headers={"Authorization": f"Bearer {jwt_token}"},
                 files={
                     "new_photo": file

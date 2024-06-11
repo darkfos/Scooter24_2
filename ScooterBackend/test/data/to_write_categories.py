@@ -26,7 +26,7 @@ async def write_in_db():
     async with aiohttp.ClientSession() as session:
         #Токен
         async with session.post(
-            url="http://127.0.0.1:5678/api/v1/auth/login",
+            url="http://0.0.0.0:5678/api/v1/auth/login",
             data={
                 "username": "gadshi@gmail.com",
                 "password": "chaiki45"
@@ -34,14 +34,13 @@ async def write_in_db():
         ) as j_session:
             jwt_token = (await j_session.json()).get("access_token")
 
-    async with aiohttp.ClientSession(headers={"Authorization": f"Bearer {jwt_token}"}) as session2:
+    async with aiohttp.ClientSession(headers={"Authorization": f"Bearer {jwt_token}", "Content-Type": "application/json"}) as session2:
         for category in all_categories:
             async with session2.post(
-                url="http://127.0.0.1:5678/api/v1/category/create_new_category",
+                url="http://0.0.0.0:5678/api/v1/category/create_new_category",
                 json={
                     "name_category": category
                 }) as data:
-                print(await data.json())
                 print(data.status)
 
 if __name__ == "__main__":
