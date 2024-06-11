@@ -323,3 +323,43 @@ class ProductService:
             await ProductHttpError().http_failed_to_delete_product()
 
         await UserHttpError().http_user_not_found()
+
+    @staticmethod
+    async def get_products_by_sorted(
+        session: AsyncSession,
+        sorted_by_category: int = None,
+        sorted_by_price_min: int = None,
+        sorted_by_price_max: int = None,
+    ) -> List[ProductBase]:
+        """
+        Метод сервиса для поиска товаров, а также их сортировки
+        :param session:
+        :param token:
+        :param id_product:
+        :return:
+        """
+
+        #Получаем товары
+        products: Union[List, List[ProductBase]] = await ProductRepository(session=session).find_by_filters(
+            id_categories=sorted_by_category,
+            min_price=sorted_by_price_min,
+            max_price=sorted_by_price_max
+        )
+
+        if products:
+            return [
+                ProductBase(
+                    title_product=product.title_product,
+                    price_product=product.price_product,
+                    quantity_product=product.quantity_product,
+                    explanation_product=product.explanation_product,
+                    article_product=product.article_product,
+                    tags=product.tags,
+                    other_data=product.other_data,
+                    photo_product=f"{product.photo_product}",
+                    id_category=product.id_category
+                )
+                for product in products
+            ]
+
+        return []
