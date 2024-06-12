@@ -1,5 +1,5 @@
 #System
-from typing import Annotated, List
+from typing import Annotated, List, Union
 
 
 #Other libraries
@@ -56,16 +56,34 @@ async def create_new_type_worker(
     path="/get_all_types_workers",
     description="""### Endpoint - Получение всех типов работников.""",
     summary="Все типы работников",
-    response_model=List[TypeWorkerBase],
+    response_model=Union[List, List[TypeWorkerBase]],
     status_code=status.HTTP_200_OK
 )
 async def get_all_types_workers(
     session: Annotated[AsyncSession, Depends(db_work.get_session)]
-) -> List[TypeWorkerBase]:
+) -> Union[List, List[TypeWorkerBase]]:
     """
     ENDPOINT - Получение всех типов работников.
     """
 
     return await TypeWorkerService.get_all_types(
         session=session
+    )
+
+
+@type_worker_router.get(
+    path="/get_type_worker_by_id",
+    description="""Получение типов работников по id.
+    Необходимо передать id типа работника в query параметры""",
+    summary="Поиск типа работника по id",
+    response_model=TypeWorkerBase,
+    status_code=status.HTTP_200_OK
+)
+async def get_type_worker_by_id(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    id_type_worker: int
+) -> TypeWorkerBase:
+    return await TypeWorkerService.get_type_worker_by_id(
+        session=session,
+        id_type_worker=id_type_worker
     )
