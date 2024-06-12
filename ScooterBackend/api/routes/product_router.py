@@ -86,7 +86,8 @@ async def get_products_by_filters(
     session: Annotated[AsyncSession, Depends(db_work.get_session)],
     id_category: int = None,
     min_price: int = None,
-    max_price: int = None
+    max_price: int = None,
+    desc_or_not: bool = False
 ) -> Union[List, List[ProductBase]]:
     """
     ENDPOINT - Получение списка продуктов по фильтру.
@@ -99,7 +100,8 @@ async def get_products_by_filters(
         session=session,
         sorted_by_category=id_category,
         sorted_by_price_min=min_price,
-        sorted_by_price_max=max_price
+        sorted_by_price_max=max_price,
+        desc=desc_or_not
     )
 
 
