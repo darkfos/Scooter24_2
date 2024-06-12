@@ -538,3 +538,76 @@ function filterBrands() {
     });
 }
 
+//сортировка
+function sortProducts() {
+    var sortType = document.getElementById("sort").value;
+    var productList = document.querySelector(".product-list");
+
+    var products = Array.from(productList.querySelectorAll(".product-card"));
+
+    switch (sortType) {
+        case "popularity":
+            products.sort(function(a, b) {
+                var popularityA = parseInt(a.getAttribute("data-popularity"));
+                var popularityB = parseInt(b.getAttribute("data-popularity"));
+                return popularityB - popularityA;
+            });
+            break;
+        case "price-asc":
+            products.sort(function(a, b) {
+                var priceA = parseInt(a.getAttribute("data-price"));
+                var priceB = parseInt(b.getAttribute("data-price"));
+                return priceA - priceB;
+            });
+            break;
+        case "price-desc":
+            products.sort(function(a, b) {
+                var priceA = parseInt(a.getAttribute("data-price"));
+                var priceB = parseInt(b.getAttribute("data-price"));
+                return priceB - priceA;
+            });
+            break;
+        default:
+            // Default sorting
+            break;
+    }
+
+    productList.innerHTML = "";
+    products.forEach(function(product) {
+        productList.appendChild(product);
+    });
+}
+
+//фильтр
+var priceFilter = document.getElementById("price-filter");
+
+noUiSlider.create(priceFilter, {
+    start: [0, 10000],
+    connect: true,
+    step: 100,
+    range: {
+        'min': 0,
+        'max': 10000
+    }
+});
+
+priceFilter.noUiSlider.on('update', function(values, handle) {
+    var minPrice = parseInt(values[0]);
+    var maxPrice = parseInt(values[1]);
+
+    var productList = document.querySelector(".product-list");
+    var products = Array.from(productList.querySelectorAll(".product-card"));
+
+    products.forEach(function(product) {
+        var productPrice = parseInt(product.getAttribute("data-price"));
+
+        if (productPrice >= minPrice && productPrice <= maxPrice) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+});
+
+
+

@@ -1124,4 +1124,177 @@ button:hover {
 }
 
 
-/*Бренды*/
+/*без категории*/
+.containers {
+  display: flex;
+  margin: 20px;
+  margin-top: 150px;
+}
+
+.sidebar {
+  flex: 0 0 200px;
+  margin-right: 20px;
+}
+
+.main-content {
+  flex: 1;
+}
+.main-content h2 {
+  margin-top: -32px;
+}
+.categories-nav ul {
+  list-style: none;
+  padding: 0;
+}
+.categories-nav h2 {
+padding: 5px;
+}
+
+.categories-nav ul li {
+  margin-bottom: 10px;
+}
+
+.categories-nav ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.categories-nav ul li a:hover {
+  background-color: #b9ff21;
+  color: #333;
+}
+
+.breadcrumbs {
+  margin-bottom: 20px;
+  text-align: end;
+}
+
+.breadcrumbs a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sorting {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sorting label {
+  margin-right: 10px;
+}
+
+.sorting select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+  cursor: pointer;
+  appearance: none;
+
+}
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 250px; /* уменьшена ширина */
+  text-align: center;
+  background-color: #fff;
+}
+.card img {
+  max-width: 70%; /* изменено на 100% */
+  border-radius: 5px;
+}
+.card h3 {
+  margin: 10px 0;
+  font-size: 1em; /* уменьшен размер шрифта */
+}
+.card p {
+  font-size: 0.9em; /* добавлено для уменьшения размера текста */
+  margin: 5px 0; /* добавлено для уменьшения отступов */
+}
+.card .price {
+  color: #28a745;
+  font-weight: bold;
+  margin: 5px 0;
+}
+.card .availability {
+  color: #6c757d;
+  margin: 5px 0;
+}
+.card button {
+  padding: 8px; /* уменьшен размер кнопки */
+  border: none;
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.9em; /* уменьшен размер шрифта кнопки */
+  margin-top: 5px; /* уменьшен отступ сверху */
+}
+
+.filter label {
+  margin-right: 10px;
+  font-size: 1em;
+  color: #343a40;
+}
+.filter input[type="number"],
+.filter select {
+  padding: 5px;
+  margin-right: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.filter input[type="number"]:focus,
+.filter select:focus {
+  border-color: #b9ff21;
+  outline: none;
+}
+.filter button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.pagination button {
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: 2px solid #b9ff21;
+  background-color: #fdfeff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+}
+.pagination .active {
+  background-color: #b9ff21;
+}
+.pagination .disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
