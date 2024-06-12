@@ -87,3 +87,26 @@ async def get_type_worker_by_id(
         session=session,
         id_type_worker=id_type_worker
     )
+
+
+@type_worker_router.delete(
+    path="/delete_type_worker_by_id",
+    description="""
+    Endpoint - Удаление типа работника по id.
+    Данный метод доступен только для администраторов!
+    Необходим jwt ключ и Bearer в заголовке запроса, а также id_type в query параметрах.
+    """,
+    summary="Удаление типа работника",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def delete_type_worker(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_type: int,
+) -> None:
+    """
+    ENDPOINT - Удаление типа работника
+    """
+
+    return await TypeWorkerService.delete_type_worker(session=session, id_type_worker=id_type, token=admin_data)

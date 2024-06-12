@@ -66,3 +66,27 @@ class TypeWorkerService:
         if type_worker:
             return TypeWorkerBase(name_type=type_worker[0].name_type)
         await TypeWorkerExceptions().http_not_found_type_worker()
+
+    @staticmethod
+    async def delete_type_worker(
+        session: AsyncSession,
+        id_type_worker: int,
+        token: str
+    ) -> None:
+        """
+        Удаление типа работника
+        :session:
+        :id_type_worker:
+        """
+
+        #Данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        #Проверка на администратора
+        is_admin: bool = await AdminRepository(session=session).find_admin_by_email_and_password(email=jwt_data.get("email"))
+
+        if is_admin:
+            is_deleted: bool = await TypeWorkerRepository(session=session).delete_one(other_id=id_type_worker)
+            if is_deleted: return
+            await TypeWorkerExceptions().http_dont_delete_type_worker()
+        await UserHttpError().http_user_not_found()
