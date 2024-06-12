@@ -34,6 +34,8 @@ from ScooterBackend.database.models.review import Review
 from ScooterBackend.database.models.favourite import Favourite
 from ScooterBackend.database.models.category import Category
 from ScooterBackend.database.models.admin import Admin
+from ScooterBackend.database.models.type_worker import TypeWorker
+from ScooterBackend.database.models.vacancies import Vacancies
 
 #Database for migrations
 from ScooterBackend.database.mainbase import MainBase
