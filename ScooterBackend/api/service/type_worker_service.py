@@ -18,7 +18,7 @@ class TypeWorkerService:
     @staticmethod
     async def create_a_new_type_worker(session: AsyncSession, token: str, new_type_worker: TypeWorkerBase) -> None:
         """
-        Сервис для создания нового типа работника
+        Метод сервиса для создания нового типа работника
         :session:
         :new_type_worker:
         """
@@ -38,3 +38,16 @@ class TypeWorkerService:
                 return
             await TypeWorkerExceptions().http_dont_create_a_new_type_worker()
         await UserHttpError().http_user_not_found()
+
+    @staticmethod
+    async def get_all_types(session: AsyncSession) -> List[TypeWorkerBase]:
+        """
+        Метод сервиса для получение всех категорий работников.
+        """
+
+        all_types_workers: Union[List, List[TypeWorkerBase]] = await TypeWorkerRepository(session=session).find_all()
+
+        if all_types_workers:
+            return [TypeWorkerBase(name_type=worker[0].name_type) for worker in all_types_workers]
+        else:
+            return []

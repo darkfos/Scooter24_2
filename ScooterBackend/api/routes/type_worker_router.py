@@ -1,5 +1,5 @@
 #System
-from typing import Annotated
+from typing import Annotated, List
 
 
 #Other libraries
@@ -30,7 +30,8 @@ type_worker_router: APIRouter = APIRouter(
     """,
     summary="Создание типа работника",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=["AdminPanel - Панель администратора"]
 )
 async def create_new_type_worker(
     session: Annotated[AsyncSession, Depends(db_work.get_session)],
@@ -48,4 +49,23 @@ async def create_new_type_worker(
         session=session,
         token=admin_data,
         new_type_worker=new_type_worker
+    )
+
+
+@type_worker_router.get(
+    path="/get_all_types_workers",
+    description="""### Endpoint - Получение всех типов работников.""",
+    summary="Все типы работников",
+    response_model=List[TypeWorkerBase],
+    status_code=status.HTTP_200_OK
+)
+async def get_all_types_workers(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+) -> List[TypeWorkerBase]:
+    """
+    ENDPOINT - Получение всех типов работников.
+    """
+
+    return await TypeWorkerService.get_all_types(
+        session=session
     )
