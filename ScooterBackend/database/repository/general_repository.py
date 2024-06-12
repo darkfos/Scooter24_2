@@ -62,9 +62,9 @@ class GeneralSQLRepository:
         try:
             await self.async_session.execute(stmt)
             await self.async_session.commit()
+            return True
         except Exception as ex:
             return False
-        return True
 
     async def delete_one(self, other_id: int) -> bool:
         """

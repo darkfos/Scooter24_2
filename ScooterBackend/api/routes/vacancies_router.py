@@ -90,7 +90,7 @@ async def get_all_vacancies(
     ENDPOINT - Получение все вакансий.
     """
 
-    return await VacanciesService.get_vacancies_by_id(session=session)
+    return await VacanciesService.get_vacancies_by_id(session=session, id_vacancies=id_vacancies)
 
 
 @vacancies_router.put(

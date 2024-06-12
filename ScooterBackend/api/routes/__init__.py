@@ -8,6 +8,7 @@ from .order_router import order_router
 from .favourite_router import favourite_router
 from .history_buy_router import history_buy_router
 from .type_worker_router import type_worker_router
+from .vacancies_router import vacancies_router
 
 from fastapi import APIRouter
 
@@ -27,3 +28,4 @@ api_v1.include_router(order_router)
 api_v1.include_router(favourite_router)
 api_v1.include_router(history_buy_router)
 api_v1.include_router(type_worker_router)
+api_v1.include_router(vacancies_router)
