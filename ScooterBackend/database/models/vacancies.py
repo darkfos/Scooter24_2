@@ -19,7 +19,7 @@ class Vacancies(MainBase):
 
     #Relations
     id_type_worker: Mapped[int] = mapped_column(ForeignKey("Typeworker.id"), type_=Integer)
-    type_work: Mapped["TypeWorker"] = relationship("Typeworker", uselist=False, back_populates="vacancies")
+    type_work: Mapped["TypeWorker"] = relationship("TypeWorker", uselist=False, back_populates="vacancies")
 
     def __str__(self) -> str:
         #Возвращает строковый объект
@@ -36,8 +36,7 @@ class Vacancies(MainBase):
     def read_model(self) -> Dict[str, Union[str, int]]:
         #Чтение модели
         return {
-            "id": self.id,
-            "salary_employee": self.salary_employee,
-            "description_vacancies": self.description_vacancies,
-            "id_type_worker": self.id_type_worker
+            k: v
+            for k, v in self.__dict__.items()
+            if not k.startswith("_")
         }

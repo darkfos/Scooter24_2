@@ -28,7 +28,6 @@ class UserRepository(GeneralSQLRepository):
 
         find_user = select(User).where(User.email_user == email)
         result = (await self.async_session.execute(find_user)).one_or_none()
-        print(result)
         if result:
             return result[0]
         return False
