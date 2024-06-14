@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
 
 #Local
-...
+from ScooterBackend.database.models.product import Product
 
 
 class GeneralSQLRepository:
@@ -20,12 +20,11 @@ class GeneralSQLRepository:
         """
 
         try:
-            stmt = insert(self.model).values(data.read_model())
-            await self.async_session.execute(stmt)
+            stmt = insert(self.model).values(data.read_model()).returning(self.model.id)
+            result = await self.async_session.execute(stmt)
             await self.async_session.commit()
-            return True
+            return result.scalar()
         except Exception as ex:
-            print(ex)
             return False
 
     async def find_one(self, other_id: int):
