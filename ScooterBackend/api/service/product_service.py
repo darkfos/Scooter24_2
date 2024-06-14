@@ -46,16 +46,23 @@ class ProductService:
                 article_product=new_product.article_product,
                 tags=new_product.tags,
                 other_data=new_product.other_data,
-                id_category=new_product.id_category
+                id_category=new_product.id_category,
+                photo_product=new_product.photo_product
             )
             #Create product
             product_is_created: bool = await (ProductRepository(session=session).add_one(
                 data=product
             ))
-
-            return ProductIsCreated(
-                is_created=product_is_created
-            )
+            if product_is_created:
+                is_updated: bool = await ProductRepository(session=session).update_one(
+                           other_id=product_is_created,
+                            data_to_update={"photo_product": (str(product_is_created)+"_"+product.photo_product)}
+                        )
+                if is_updated:
+                    return ProductIsCreated(
+                        is_created=True,
+                        product_name=str(product_is_created)+"_"+product.photo_product
+                    )
 
         await ProductHttpError().http_failed_to_create_a_new_product()
 
@@ -271,7 +278,7 @@ class ProductService:
         await UserHttpError().http_user_not_found()
 
     @staticmethod
-    async def update_photo(session: AsyncSession, token: str, photo_data: UploadFile, product_id: int) -> None:
+    async def update_photo(session: AsyncSession, token: str, photo_data: str, product_id: int) -> None:
         """
         Метод сервиса для обновления фотографии товара
         :param session:
@@ -289,7 +296,7 @@ class ProductService:
         if is_admin:
             #Обновление фотографии
             await ProductRepository(session=session).update_one(other_id=product_id, data_to_update={
-                "photo_product": photo_data.file.read()})
+                "photo_product": str(product_id)+"_"+photo_data})
             return
 
         await UserHttpError().http_user_not_found()
@@ -358,7 +365,7 @@ class ProductService:
                     article_product=product.article_product,
                     tags=product.tags,
                     other_data=product.other_data,
-                    photo_product=f"{product.photo_product}",
+                    photo_product=product.photo_product,
                     id_category=product.id_category
                 )
                 for product in products

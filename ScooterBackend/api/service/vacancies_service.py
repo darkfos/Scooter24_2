@@ -77,6 +77,16 @@ class VacanciesService:
         :id_vacancies:
         """
 
+        vacancies_data: Union[None, Vacancies] = await VacanciesRepository(session=session).find_one(other_id=id_vacancies)
+
+        if vacancies_data:
+            return VacanciesBase(
+                salary_employee=vacancies_data[0].salary_employee,
+                description_vacancies=vacancies_data[0].description_vacancies,
+                id_type_worker=vacancies_data[0].id_type_worker
+            )
+        await VacanciesHttpError().http_vacancies_not_found()
+
     @staticmethod
     async def update_vacancies(
         session: AsyncSession,
