@@ -88,7 +88,7 @@ class ProductRepository(GeneralSQLRepository):
 
         return product_data
 
-    async def find_by_filters(self, id_categories: int, min_price: int, max_price: int) -> Union[List, List[Product]]:
+    async def find_by_filters(self, id_categories: int, min_price: int, max_price: int, desc: bool) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов по фильтру
         :param id_categories:
@@ -115,6 +115,9 @@ class ProductRepository(GeneralSQLRepository):
             stmt = select(Product).filter(Product.price_product.between(min_price, max_price))
         else:
             return []
+
+        if desc:
+            stmt = stmt.order_by(Product.price_product.desc())
 
         products: Union[List, List[Product]] = (await self.async_session.execute(stmt)).fetchall()
         if products:

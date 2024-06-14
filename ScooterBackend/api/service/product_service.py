@@ -327,6 +327,7 @@ class ProductService:
     @staticmethod
     async def get_products_by_sorted(
         session: AsyncSession,
+        desc: bool,
         sorted_by_category: int = None,
         sorted_by_price_min: int = None,
         sorted_by_price_max: int = None,
@@ -343,7 +344,8 @@ class ProductService:
         products: Union[List, List[ProductBase]] = await ProductRepository(session=session).find_by_filters(
             id_categories=sorted_by_category,
             min_price=sorted_by_price_min,
-            max_price=sorted_by_price_max
+            max_price=sorted_by_price_max,
+            desc=desc
         )
 
         if products:

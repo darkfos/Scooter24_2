@@ -12,6 +12,8 @@ from ScooterBackend.database.models.review import Review
 from ScooterBackend.database.models.history_buy import HistoryBuy
 from ScooterBackend.database.models.favourite import Favourite
 from ScooterBackend.database.models.admin import Admin
+from ScooterBackend.database.models.type_worker import TypeWorker
+from ScooterBackend.database.models.vacancies import Vacancies
 
 from ScooterBackend.settings.database_settings import DatabaseSettings
 from ScooterBackend.database.mainbase import MainBase
