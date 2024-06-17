@@ -23,6 +23,7 @@ import uvicorn
 import logging
 from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 
@@ -41,6 +42,20 @@ app: FastAPI = FastAPI(
     #lifespan=connection_db
 )
 
+
+###CORS###
+origins = [
+    "*",
+    "http://localhost:8080"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 #Include router
 app.include_router(api_v1)
