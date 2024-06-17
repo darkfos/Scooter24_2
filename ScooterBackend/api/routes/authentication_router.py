@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
+from pydantic import EmailStr
 from typing import Annotated
 
 #Local
@@ -10,6 +11,7 @@ from ScooterBackend.api.dto.user_dto import AddUser
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.api.service.user_service import UserService
+from ScooterBackend.other.data_email_transfer import email_transfer
 
 
 auth_router: APIRouter = APIRouter(
@@ -97,3 +99,54 @@ async def update_by_refresh_token(
 
     data_tokens: str =  await authentication_app.update_token(refresh_token=refresh_token.refresh_token)
     return Tokens(token=data_tokens, refresh_token=refresh_token.refresh_token)
+
+
+@auth_router.post(
+    path="/update_password",
+    description="""
+    ### ENDPOINT - Для обновления паролей.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Отправка сообщения по почте",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def create_and_send_secret_key(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
+    user_email: EmailStr
+) -> None:
+    """
+    Обновление пароля пользователя
+    :user_email:
+    """
+
+    return await UserService.send_secret_key_by_update_password(session=session, email=user_email, token=user_data)
+
+
+@auth_router.post(
+    path="/update_password_get_new_password",
+    description="""
+    ### ENDPOINT - Обновление пароля.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    Необходим новый пароль.""",
+    summary="Обновление пароля",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def update_password_with_email(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
+    secret_key: str,
+    new_password: str
+) -> None:
+    """
+    Обновление пароля пользователя
+    """
+
+    return await UserService.check_secret_key(
+        session=session,
+        secret_key=secret_key,
+        token=user_data,
+        new_password=new_password
+    )
