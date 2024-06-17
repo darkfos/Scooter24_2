@@ -3,7 +3,7 @@ from typing import List, Dict
 
 #Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, ForeignKey, Double, Text, LargeBinary
+from sqlalchemy import String, Integer, ForeignKey, Double, Text
 
 #Local
 from ScooterBackend.database.mainbase import MainBase
@@ -40,7 +40,7 @@ class Product(MainBase):
     other_data: Mapped[str] = mapped_column(type_=Text, nullable=False, default="")
 
     #Фотография продукта
-    photo_product: Mapped[bytes] = mapped_column(type_=LargeBinary, nullable=True, default=None)
+    photo_product: Mapped[bytes] = mapped_column(type_=Text, nullable=True, default=None)
 
     #Категория продукта - id
     id_category: Mapped[int] = mapped_column(ForeignKey('Category.id'), type_=Integer)

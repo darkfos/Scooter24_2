@@ -277,7 +277,7 @@ async def update_photo_product(
     session: Annotated[AsyncSession, Depends(db_work.get_session)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     product_id: int,
-    new_photo: UploadFile,
+    new_photo: str,
 ) -> None:
     """
     ENDPOINT - Обновление фотографии товара

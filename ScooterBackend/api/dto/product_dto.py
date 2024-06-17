@@ -21,7 +21,7 @@ class ProductBase(BaseModel):
     tags: Annotated[str, Field(min_length=0)]
     other_data: Annotated[str, Field(min_length=0)]
     id_category: int
-    photo_product: Annotated[Union[str, bytes], Field()] = None
+    photo_product: Annotated[str, Field()] = None
 
 
 class ProductAllInformation(ProductBase):
@@ -51,3 +51,4 @@ class UpdateProduct(BaseModel):
 class ProductIsCreated(BaseModel):
 
     is_created: bool
+    product_name: str
