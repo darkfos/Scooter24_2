@@ -14,7 +14,7 @@ class EmailTransfer:
         self.__email_data = EmailTransferSettings()
         self.__email_from: str = self.__email_data.email
         self.__password: str = self.__email_data.password
-        print(self.__email_from, self.__password)
+
         self.smtp_server = smtp.SMTP("smtp.gmail.com", 587)
         self.smtp_server.starttls()
         self.smtp_server.login(self.__email_from, self.__password)
