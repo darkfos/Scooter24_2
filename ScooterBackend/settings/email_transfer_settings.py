@@ -19,3 +19,5 @@ class EmailTransferSettings(BaseSettings):
 
     email: Annotated[str, getenv("EMAIL")]
     password: Annotated[str, getenv("PASSWORD")]
+    secret_symbols: Annotated[str, getenv("SECRET_SYMBOLS")]
+    min_length_key: Annotated[str, getenv("MIN_LENGTH_KEY")]

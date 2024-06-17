@@ -23,6 +23,8 @@ from ScooterBackend.api.exception.http_user_exception import UserHttpError
 from ScooterBackend.api.authentication.hashing import CryptographyScooter
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.database.repository.admin_repository import AdminRepository
+from ScooterBackend.other.data_email_transfer import email_transfer
+from ScooterBackend.api.authentication.secret_upd_key import SecretKey
 
 
 class UserService:
@@ -47,8 +49,9 @@ class UserService:
                 name_user=new_user.name_user,
                 surname_user=new_user.surname_user,
                 main_name_user=new_user.main_name_user))
-        if res_to_add_new_user is True:
-            return RegistrationUser(is_registry=res_to_add_new_user)
+
+        if res_to_add_new_user:
+            return RegistrationUser(is_registry=True)
         await UserHttpError().http_failed_to_create_a_new_user()
 
     @staticmethod
@@ -208,7 +211,6 @@ class UserService:
         #Getting user id
         user_id: int = (await Authentication().decode_jwt_token(token=token, type_token="access")).get("id_user")
         user_all_information: Union[User, None] = await UserRepository(session=session).find_user_and_get_full_information(user_id=user_id)
-        print(user_all_information)
 
         if user_all_information:
             return AllDataUser(
@@ -361,3 +363,66 @@ class UserService:
             )
 
         await UserHttpError().http_failed_to_delete_user()
+
+    @staticmethod
+    async def send_secret_key_by_update_password(
+        session: AsyncSession,
+        email: str,
+        token: str
+    ) -> None:
+        """
+        Отправка секретного ключа для обновления пароля
+        :email:
+        """
+
+        sctr_key: str = SecretKey().generate_password()
+        token_data: dict = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        email_transfer.send_message(
+            text_to_message="Ваш секретный ключ для обновления пароля: {}\nПожалуйсте ни кому не передавайте его.".format(sctr_key),
+            whom_email=email
+        )
+
+        is_updated: bool = await UserRepository(session=session).update_one(
+            other_id=token_data.get("id_user"),
+            data_to_update={"secret_update_key": sctr_key}
+        )
+
+        if is_updated:
+            return
+
+        await UserHttpError().http_failed_to_update_user_information()
+
+    @staticmethod
+    async def check_secret_key(
+        session: AsyncSession,
+        secret_key: str,
+        token: str,
+        new_password: str
+    ) -> None:
+        """
+        Отправка секретного ключа для обновления пароля
+        :email:
+        """
+
+        token_data: dict = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        user_data: User = (await UserRepository(session=session).find_one(other_id=token_data.get("id_user")))[0]
+        print(user_data)
+
+        if user_data:
+            if user_data.secret_update_key == secret_key:
+                is_updated: bool = await UserRepository(session=session).update_one(
+                    other_id=token_data.get("id_user"),
+                    data_to_update={"secret_update_key": ""}
+                )
+
+                if is_updated:
+                    password_is_updated: bool = await UserRepository(session=session).update_one(
+                        other_id=token_data.get("id_user"),
+                        data_to_update={"password_user": CryptographyScooter().hashed_password(new_password)}
+                    )
+                    if password_is_updated:
+                        return
+
+        await UserHttpError().http_failed_to_update_user_information()
