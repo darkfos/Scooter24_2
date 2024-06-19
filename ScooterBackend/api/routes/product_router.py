@@ -70,7 +70,7 @@ async def get_all_products(
     :return:
     """
 
-    return await ProductService.get_all_products(session=session)
+    return await ProductService.get_all_products(engine=session)
 
 
 @product_router.get(
