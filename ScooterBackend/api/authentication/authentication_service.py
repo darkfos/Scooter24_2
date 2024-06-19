@@ -74,15 +74,18 @@ class Authentication:
         :return:
         """
 
-        match type_token.lower():
-            case "access":
-                token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_key, algorithms=auth.algorithm)
-                return token_data
-            case "refresh":
-                token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_refresh_key, algorithms=auth.algorithm)
-                return token_data
-            case _:
-                await UserHttpError().http_user_not_found()
+        try:
+            match type_token.lower():
+                case "access":
+                    token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_key, algorithms=auth.algorithm)
+                    return token_data
+                case "refresh":
+                    token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_refresh_key, algorithms=auth.algorithm)
+                    return token_data
+                case _:
+                    await UserHttpError().http_user_not_found()
+        except jwt.PyJWTError as er:
+            return GeneralExceptions().http_auth_error()
 
     async def update_token(self, refresh_token: str) -> str:
         """
