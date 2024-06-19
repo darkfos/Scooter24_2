@@ -11,6 +11,7 @@ from ScooterBackend.api.dto.product_dto import *
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.service.product_service import ProductService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 product_router: APIRouter = APIRouter(
@@ -35,7 +36,7 @@ auth: Authentication = Authentication()
     tags=["AdminPanel - Панель администратора"]
 )
 async def create_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     new_product: ProductBase
 ) -> ProductIsCreated:
@@ -47,7 +48,7 @@ async def create_product(
     :return:
     """
 
-    return await ProductService.create_product(session=session, token=admin_data, new_product=new_product)
+    return await ProductService.create_product(engine=session, token=admin_data, new_product=new_product)
 
 
 @product_router.get(
@@ -61,7 +62,7 @@ async def create_product(
     response_model=Union[List, List[ProductBase]]
 )
 async def get_all_products(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, List[ProductBase]]:
     """
     ENDPOINT - Получение списка товаров.
@@ -69,7 +70,7 @@ async def get_all_products(
     :return:
     """
 
-    return await ProductService.get_all_products(session=session)
+    return await ProductService.get_all_products(engine=session)
 
 
 @product_router.get(
@@ -83,7 +84,7 @@ async def get_all_products(
     status_code=status.HTTP_200_OK
 )
 async def get_products_by_filters(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_category: int = None,
     min_price: int = None,
     max_price: int = None,
@@ -97,7 +98,7 @@ async def get_products_by_filters(
     """
 
     return await ProductService.get_products_by_sorted(
-        session=session,
+        engine=session,
         sorted_by_category=id_category,
         sorted_by_price_min=min_price,
         sorted_by_price_max=max_price,
@@ -116,7 +117,7 @@ async def get_products_by_filters(
     response_model=Union[List, List[ProductBase]]
 )
 async def get_products_by_category(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     category_data: Union[int, str]
 ) -> Union[List, List[ProductBase]]:
     """
@@ -127,7 +128,7 @@ async def get_products_by_category(
     """
 
     return await ProductService.get_products_by_category(
-        session=session,
+        engine=session,
         category_data=category_data
     )
 
@@ -144,7 +145,7 @@ async def get_products_by_category(
     status_code=status.HTTP_200_OK
 )
 async def find_product_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_product: int
 ) -> ProductBase:
     """
@@ -154,7 +155,7 @@ async def find_product_by_id(
     :return:
     """
 
-    return await ProductService.find_product_by_id(session=session, id_product=id_product)
+    return await ProductService.find_product_by_id(engine=session, id_product=id_product)
 
 
 @product_router.get(
@@ -169,7 +170,7 @@ async def find_product_by_id(
     response_model=ProductBase
 )
 async def find_product_by_name(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     name_product: str
 ) -> ProductBase:
     """
@@ -179,7 +180,7 @@ async def find_product_by_name(
     :return:
     """
 
-    return await ProductService.find_product_by_name(session=session, name_product=name_product)
+    return await ProductService.find_product_by_name(engine=session, name_product=name_product)
 
 
 @product_router.get(
@@ -191,7 +192,7 @@ async def find_product_by_name(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def product_is_created(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     product_name: str
 ) -> None:
     """
@@ -201,7 +202,7 @@ async def product_is_created(
     :return:
     """
 
-    return await ProductService.product_is_created(session=session, product_name=product_name)
+    return await ProductService.product_is_created(engine=session, product_name=product_name)
 
 
 @product_router.get(
@@ -215,7 +216,7 @@ async def product_is_created(
     response_model=ProductAllInformation
 )
 async def get_all_information_about_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_product: int
 ) -> ProductAllInformation:
@@ -226,7 +227,28 @@ async def get_all_information_about_product(
     :return:
     """
 
-    return await ProductService.get_all_information_about_product(session=session, token=admin_data, id_product=id_product)
+    return await ProductService.get_all_information_about_product(engine=session, token=admin_data, id_product=id_product)
+
+
+@product_router.get(
+    path="/get_recommended_products",
+    description="""
+    ### Endpoint - Получение рекомендованных товаров.
+    Данный метод позволяет получить товары по рекомендации
+    """,
+    summary="Рекомендованные товары",
+    response_model=Union[List, List[ProductBase]],
+    status_code=status.HTTP_200_OK
+)
+async def recommended_products(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
+) -> Union[List, List[ProductBase]]:
+    """
+    Получение товаров по системе рекомендаций
+    :session:
+    """
+
+    return await ProductService.get_recommended_products(engine=session)
 
 
 @product_router.put(
@@ -241,7 +263,7 @@ async def get_all_information_about_product(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def update_information_about_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_product: int,
     data_update: UpdateProduct
@@ -254,7 +276,7 @@ async def update_information_about_product(
     """
 
     return await ProductService.update_information(
-        session=session,
+        engine=session,
         id_product=id_product,
         data_to_update=data_update,
         token=admin_data
@@ -274,7 +296,7 @@ async def update_information_about_product(
     response_model=None
 )
 async def update_photo_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     product_id: int,
     new_photo: str,
@@ -288,10 +310,42 @@ async def update_photo_product(
     """
 
     return await ProductService.update_photo(
-        session=session,
+        engine=session,
         photo_data=new_photo,
         token=admin_data,
         product_id=product_id
+    )
+
+
+@product_router.patch(
+    path="/update_product_discount",
+    description="""
+    ### Endpoint - Обновление скидки товара.
+    Данный метод позволяет обновить скидку на товаре.
+    Доступен только для администратораю
+    Необходим jwt ключ и Bearer в заголовке запроса.""",
+    summary="Обновление скидки",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def update_product_discount(
+    session: Annotated[IEngineRepository, Depends(db_work.get_session)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_product: int,
+    data_to_update: UpdateProductDiscount
+) -> None:
+    """
+    Обновление скидки товара
+    :session:
+    :admin_data:
+    :data_to_update:
+    """
+
+    return await ProductService.update_product_discount(
+        engine=session,
+        token=admin_data,
+        id_product=id_product,
+        new_discount=data_to_update
     )
 
 
@@ -308,7 +362,7 @@ async def update_photo_product(
     response_model=None
 )
 async def delete_product_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_product: int
 ) -> None:
@@ -320,4 +374,4 @@ async def delete_product_by_id(
     :return:
     """
 
-    return await ProductService.delete_product_by_id(session=session, id_product=id_product, token=admin_data)
+    return await ProductService.delete_product_by_id(engine=session, id_product=id_product, token=admin_data)

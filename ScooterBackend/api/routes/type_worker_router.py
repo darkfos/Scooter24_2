@@ -12,6 +12,7 @@ from ScooterBackend.api.service.type_worker_service import TypeWorkerService
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.dto.type_worker_dto import TypeWorkerBase
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
@@ -34,7 +35,7 @@ type_worker_router: APIRouter = APIRouter(
     tags=["AdminPanel - Панель администратора"]
 )
 async def create_new_type_worker(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     new_type_worker: TypeWorkerBase
 ) -> None:
@@ -46,7 +47,7 @@ async def create_new_type_worker(
     """
 
     return await TypeWorkerService.create_a_new_type_worker(
-        session=session,
+        engine=session,
         token=admin_data,
         new_type_worker=new_type_worker
     )
@@ -60,14 +61,14 @@ async def create_new_type_worker(
     status_code=status.HTTP_200_OK
 )
 async def get_all_types_workers(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, List[TypeWorkerBase]]:
     """
     ENDPOINT - Получение всех типов работников.
     """
 
     return await TypeWorkerService.get_all_types(
-        session=session
+        engine=session
     )
 
 
@@ -80,11 +81,11 @@ async def get_all_types_workers(
     status_code=status.HTTP_200_OK
 )
 async def get_type_worker_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_type_worker: int
 ) -> TypeWorkerBase:
     return await TypeWorkerService.get_type_worker_by_id(
-        session=session,
+        engine=session,
         id_type_worker=id_type_worker
     )
 
@@ -101,7 +102,7 @@ async def get_type_worker_by_id(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def delete_type_worker(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_type: int,
 ) -> None:
@@ -109,4 +110,4 @@ async def delete_type_worker(
     ENDPOINT - Удаление типа работника
     """
 
-    return await TypeWorkerService.delete_type_worker(session=session, id_type_worker=id_type, token=admin_data)
+    return await TypeWorkerService.delete_type_worker(engine=session, id_type_worker=id_type, token=admin_data)

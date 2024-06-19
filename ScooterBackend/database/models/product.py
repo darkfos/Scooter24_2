@@ -1,9 +1,10 @@
 #System
 from typing import List, Dict
+from datetime import date
 
 #Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, ForeignKey, Double, Text
+from sqlalchemy import String, Integer, ForeignKey, Double, Text, Date
 
 #Local
 from ScooterBackend.database.mainbase import MainBase
@@ -41,6 +42,15 @@ class Product(MainBase):
 
     #Фотография продукта
     photo_product: Mapped[bytes] = mapped_column(type_=Text, nullable=True, default=None)
+
+    #Дата создания
+    date_create_product: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date)
+
+    #Дата обновления информации
+    date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date)
+
+    #Скидка на товар
+    product_discount: Mapped[int] = mapped_column(type_=Integer, nullable=True, default=0)
 
     #Категория продукта - id
     id_category: Mapped[int] = mapped_column(ForeignKey('Category.id'), type_=Integer)

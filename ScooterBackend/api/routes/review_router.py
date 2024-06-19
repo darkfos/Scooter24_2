@@ -10,6 +10,7 @@ from ScooterBackend.api.dto.review_dto import *
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.api.service.review_service import ReviewService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 review_router: APIRouter = APIRouter(
@@ -32,7 +33,7 @@ auth: Authentication = Authentication()
     response_model=ReviewIsCreated
 )
 async def create_review(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     new_review: ReviewBase
 ) -> ReviewIsCreated:
@@ -44,7 +45,7 @@ async def create_review(
     :return:
     """
 
-    return await ReviewService.create_review(session=session, token=user_data, new_review=new_review)
+    return await ReviewService.create_review(engine=session, token=user_data, new_review=new_review)
 
 
 @review_router.get(
@@ -58,7 +59,7 @@ async def create_review(
     status_code=status.HTTP_200_OK
 )
 async def get_all_reviews_by_id_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_product: int
 ) -> Union[List, List[ReviewMessage]]:
     """
@@ -68,7 +69,7 @@ async def get_all_reviews_by_id_product(
     :return:
     """
 
-    return await ReviewService.get_all_reviews_by_id_product(session=session, id_product=id_product)
+    return await ReviewService.get_all_reviews_by_id_product(engine=session, id_product=id_product)
 
 
 @review_router.get(
@@ -82,7 +83,7 @@ async def get_all_reviews_by_id_product(
     response_model=Union[List, List[ReviewMessage]]
 )
 async def get_all_reviews(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, List[ReviewMessage]]:
     """
     ENDPOINT - Возвращает список отзывов
@@ -90,7 +91,7 @@ async def get_all_reviews(
     :return:
     """
 
-    return await ReviewService.get_all_reviews(session=session)
+    return await ReviewService.get_all_reviews(engine=session)
 
 
 @review_router.get(
@@ -105,7 +106,7 @@ async def get_all_reviews(
     response_model=ReviewMessage
 )
 async def get_review_data_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     review_id: int
 ) -> ReviewMessage:
     """
@@ -115,7 +116,7 @@ async def get_review_data_by_id(
     :return:
     """
 
-    return await ReviewService.get_review_by_id(session=session, review_id=review_id)
+    return await ReviewService.get_review_by_id(engine=session, review_id=review_id)
 
 
 @review_router.delete(
@@ -131,7 +132,7 @@ async def get_review_data_by_id(
     tags=["AdminPanel - Панель администратора"]
 )
 async def delete_review_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_review: int,
 ) -> None:
@@ -144,5 +145,5 @@ async def delete_review_by_id(
     """
 
     return await ReviewService.delete_review(
-        session=session, token=admin_data, id_review=id_review
+        engine=session, token=admin_data, id_review=id_review
     )

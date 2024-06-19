@@ -10,6 +10,7 @@ from ScooterBackend.api.authentication.authentication_service import Authenticat
 from ScooterBackend.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.service.vacancies_service import VacanciesService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
@@ -33,7 +34,7 @@ vacancies_router: APIRouter = APIRouter(
     tags=["AdminPanel - Панель администратора"]
 )
 async def create_a_new_vacancies(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     new_vacancies: VacanciesBase
 ) -> None:
@@ -45,7 +46,7 @@ async def create_a_new_vacancies(
     """
 
     return await VacanciesService.create_vacancies(
-        session=session,
+        engine=session,
         token=admin_data,
         vac_data=new_vacancies
     )
@@ -62,13 +63,13 @@ async def create_a_new_vacancies(
     status_code=status.HTTP_200_OK
 )
 async def get_all_vacancies(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, List[VacanciesBase]]:
     """
     ENDPOINT - Получение все вакансий.
     """
 
-    return await VacanciesService.get_all_vacancies(session=session)
+    return await VacanciesService.get_all_vacancies(engine=session)
 
 
 @vacancies_router.get(
@@ -83,14 +84,14 @@ async def get_all_vacancies(
     status_code=status.HTTP_200_OK
 )
 async def get_all_vacancies(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_vacancies: int
 ) -> VacanciesBase:
     """
     ENDPOINT - Получение все вакансий.
     """
 
-    return await VacanciesService.get_vacancies_by_id(session=session, id_vacancies=id_vacancies)
+    return await VacanciesService.get_vacancies_by_id(engine=session, id_vacancies=id_vacancies)
 
 
 @vacancies_router.put(
@@ -107,7 +108,7 @@ async def get_all_vacancies(
     tags=["AdminPanel - Панель администратора"]
 )
 async def get_all_vacancies(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     data_to_update: UpdateVacancies
 ) -> None:
@@ -116,7 +117,7 @@ async def get_all_vacancies(
     """
 
     return await VacanciesService.update_vacancies(
-        session=session,
+        engine=session,
         token=admin_data,
         data_to_update=data_to_update
     )
@@ -136,7 +137,7 @@ async def get_all_vacancies(
     tags=["AdminPanel - Панель администратора"]
 )
 async def delete_vacancies_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_vacancies: int
 ) -> None:
@@ -148,7 +149,7 @@ async def delete_vacancies_by_id(
     """
 
     return await VacanciesService.delete_vacancies_by_id(
-        session=session,
+        engine=session,
         token=admin_data,
         id_vacancies=id_vacancies
     )
