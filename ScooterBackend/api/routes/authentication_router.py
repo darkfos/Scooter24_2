@@ -11,6 +11,7 @@ from ScooterBackend.api.dto.user_dto import AddUser
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.api.service.user_service import UserService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 from ScooterBackend.other.data_email_transfer import email_transfer
 
 
@@ -36,7 +37,7 @@ authentication_app: Authentication = Authentication()
     status_code=status.HTTP_201_CREATED
 )
 async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
-                     session: Annotated[AsyncSession, Depends(db_work.get_session)]):
+                     session: Annotated[IEngineRepository, Depends(EngineRepository)]):
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -45,7 +46,7 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
 
     tokens = await authentication_app.create_tokens(
         token_data=CreateToken(email=data_login.username, password=data_login.password),
-        session=session
+        engine=session
     )
     return AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token)
 
@@ -62,8 +63,8 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
     status_code=status.HTTP_201_CREATED
 )
 async def registration_user(
-        session: Annotated[AsyncSession, Depends(db_work.get_session)],
-        new_user: AddUser
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    new_user: AddUser
 ) -> RegistrationUser:
     """
     Создание нового пользователя
@@ -72,7 +73,7 @@ async def registration_user(
     :return:
     """
 
-    return await UserService.create_a_new_user(session=session, new_user=new_user)
+    return await UserService.create_a_new_user(engine=session, new_user=new_user)
 
 
 @auth_router.post(
@@ -87,8 +88,7 @@ async def registration_user(
     status_code=status.HTTP_201_CREATED
 )
 async def update_by_refresh_token(
-        session: Annotated[AsyncSession, Depends(db_work.get_session)],
-        refresh_token: RefreshUpdateToken
+    refresh_token: RefreshUpdateToken
 ) -> Tokens:
     """
     Обновление существующего токена
@@ -97,7 +97,7 @@ async def update_by_refresh_token(
     :return:
     """
 
-    data_tokens: str =  await authentication_app.update_token(refresh_token=refresh_token.refresh_token)
+    data_tokens: str = await authentication_app.update_token(refresh_token=refresh_token.refresh_token)
     return Tokens(token=data_tokens, refresh_token=refresh_token.refresh_token)
 
 
@@ -112,7 +112,7 @@ async def update_by_refresh_token(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def create_and_send_secret_key(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
     user_email: EmailStr
 ) -> None:
@@ -121,7 +121,7 @@ async def create_and_send_secret_key(
     :user_email:
     """
 
-    return await UserService.send_secret_key_by_update_password(session=session, email=user_email, token=user_data)
+    return await UserService.send_secret_key_by_update_password(engine=session, email=user_email, token=user_data)
 
 
 @auth_router.post(
@@ -135,7 +135,7 @@ async def create_and_send_secret_key(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def update_password_with_email(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
     secret_key: str,
     new_password: str
@@ -145,7 +145,7 @@ async def update_password_with_email(
     """
 
     return await UserService.check_secret_key(
-        session=session,
+        engine=session,
         secret_key=secret_key,
         token=user_data,
         new_password=new_password

@@ -12,6 +12,7 @@ from ScooterBackend.api.dto.admin_dto import (
 )
 from ScooterBackend.api.service.admin_service import AdminService
 from ScooterBackend.database.db_worker import db_work
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 admin_router: APIRouter = APIRouter(
     prefix="/admin",
@@ -30,7 +31,7 @@ admin_router: APIRouter = APIRouter(
     status_code=status.HTTP_201_CREATED
 )
 async def create_admin(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     new_admin: AdminBase
 ) -> AdminIsCreated:
     """
@@ -38,4 +39,4 @@ async def create_admin(
     :return:
     """
 
-    return await AdminService.create_admin(session=session, new_admin=new_admin)
+    return await AdminService.create_admin(engine=session, new_admin=new_admin)

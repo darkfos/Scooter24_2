@@ -10,6 +10,7 @@ from ScooterBackend.api.authentication.authentication_service import Authenticat
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.dto.order_dto import *
 from ScooterBackend.api.service.order_service import OrderService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
@@ -31,7 +32,7 @@ order_router: APIRouter = APIRouter(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def create_a_new_order(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     new_order: AddOrder
 ) -> None:
@@ -43,7 +44,7 @@ async def create_a_new_order(
     :return:
     """
 
-    return await OrderService.create_new_order(session=session, token=user_data, new_order=new_order)
+    return await OrderService.create_new_order(engine=session, token=user_data, new_order=new_order)
 
 
 @order_router.get(
@@ -58,7 +59,7 @@ async def create_a_new_order(
     status_code=status.HTTP_200_OK
 )
 async def get_orders_by_id_user(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> Union[List, List[OrderAndUserInformation]]:
     """
@@ -68,7 +69,7 @@ async def get_orders_by_id_user(
     :return:
     """
 
-    return await OrderService.get_full_information_by_user_id(session=session, token=user_data)
+    return await OrderService.get_full_information_by_user_id(engine=session, token=user_data)
 
 
 @order_router.get(
@@ -82,7 +83,7 @@ async def get_orders_by_id_user(
     response_model=OrderAndUserInformation
 )
 async def get_information_about_order_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     id_order: int
 ) -> OrderAndUserInformation:
@@ -95,7 +96,7 @@ async def get_information_about_order_by_id(
     """
 
     return await OrderService.get_information_about_order_by_id(
-        session=session, token=user_data, id_order=id_order
+        engine=session, token=user_data, id_order=id_order
     )
 
 
@@ -112,7 +113,7 @@ async def get_information_about_order_by_id(
     response_model=None
 )
 async def delete_order_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     id_order: int
 ) -> None:
@@ -124,4 +125,4 @@ async def delete_order_by_id(
     :return:
     """
 
-    return await OrderService.delete_order_by_id(session=session, token=user_data, id_order=id_order)
+    return await OrderService.delete_order_by_id(engine=session, token=user_data, id_order=id_order)
