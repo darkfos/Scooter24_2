@@ -48,7 +48,10 @@ class UserService:
                 password_user=hashed_password,
                 name_user=new_user.name_user,
                 surname_user=new_user.surname_user,
-                main_name_user=new_user.main_name_user))
+                main_name_user=new_user.main_name_user,
+                date_registration=new_user.date_registration,
+                date_update=new_user.date_registration
+            ))
 
         if res_to_add_new_user:
             return RegistrationUser(is_registry=True)
@@ -71,7 +74,8 @@ class UserService:
                 email_user=user_data.email_user,
                 name_user=user_data.name_user,
                 surname_user=user_data.surname_user,
-                main_name_user=user_data.main_name_user
+                main_name_user=user_data.main_name_user,
+                date_registration=user_data.date_registration
             )
 
         await UserHttpError().http_user_not_found()
@@ -98,7 +102,8 @@ class UserService:
                     email_user=user_data[0].email_user,
                     name_user=user_data[0].name_user,
                     surname_user=user_data[0].surname_user,
-                    main_name_user=user_data[0].main_name_user
+                    main_name_user=user_data[0].main_name_user,
+                    date_registration=user_data[0].date_registration
                 )
 
         await UserHttpError().http_user_not_found()
@@ -122,6 +127,7 @@ class UserService:
                 name_user=user_data.name_user,
                 surname_user=user_data.surname_user,
                 main_name_user=user_data.main_name_user,
+                date_registration=user_data.date_registration,
                 reviews=user_data.reviews
             )
 
@@ -146,6 +152,7 @@ class UserService:
                 name_user=user_data.name_user,
                 surname_user=user_data.surname_user,
                 main_name_user=user_data.main_name_user,
+                date_registration=user_data.date_registration,
                 favourites=user_data.favourites_user
             )
 
@@ -170,6 +177,7 @@ class UserService:
                 name_user=user_data.name_user,
                 surname_user=user_data.surname_user,
                 main_name_user=user_data.main_name_user,
+                date_registration=user_data.date_registration,
                 orders=user_data.orders_user
             )
 
@@ -194,6 +202,7 @@ class UserService:
                 name_user=user_data.name_user,
                 surname_user=user_data.surname_user,
                 main_name_user=user_data.main_name_user,
+                date_registration=user_data.date_registration,
                 history=user_data.history_buy_user
             )
 
@@ -218,6 +227,7 @@ class UserService:
                 name_user=user_all_information.name_user,
                 surname_user=user_all_information.surname_user,
                 main_name_user=user_all_information.main_name_user,
+                date_registration=user_all_information.date_registration,
                 orders=[
                     order.read_model()
                     for order in user_all_information.orders_user
@@ -264,6 +274,7 @@ class UserService:
                     name_user=user_all_information.name_user,
                     surname_user=user_all_information.surname_user,
                     main_name_user=user_all_information.main_name_user,
+                    date_registration=user_all_information.date_registration,
                     orders=user_all_information.orders_user,
                     favourite=user_all_information.favourites_user,
                     history=user_all_information.history_buy_user,
@@ -336,7 +347,7 @@ class UserService:
                 return UserIsUpdated(
                     is_updated=await UserRepository(session=session).update_one(
                         other_id=jwt_data.get("id_user"),
-                        data_to_update={"password_user": hash_password}
+                        data_to_update={"password_user": hash_password, "date_update": to_update.date_update}
                     )
                 )
             await UserHttpError().http_failed_to_update_user_information()

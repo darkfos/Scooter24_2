@@ -1,4 +1,5 @@
 #System
+import datetime
 from typing import List, Union, Annotated
 
 #Other libraries
@@ -22,6 +23,8 @@ class ProductBase(BaseModel):
     other_data: Annotated[str, Field(min_length=0)]
     id_category: int
     photo_product: Annotated[str, Field()] = None
+    date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
 
 
 class ProductAllInformation(ProductBase):
@@ -46,6 +49,7 @@ class UpdateProduct(BaseModel):
     article_product: Annotated[str, Field(max_length=150, default=None)] = None
     tags: Annotated[str, Field(min_length=0, default=None)] = None
     other_data: Annotated[str, Field(min_length=0, default=None)] = None
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
 
 
 class ProductIsCreated(BaseModel):

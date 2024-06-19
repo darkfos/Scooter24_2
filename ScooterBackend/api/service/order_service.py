@@ -36,8 +36,9 @@ class OrderService:
         #Создание отзыва
         is_created: bool = await OrderRepository(session=session).add_one(
             data=Order(
+                date_buy=new_order.date_create,
                 id_user=jwt_data.get("id_user"),
-                id_product=new_order.id_product
+                id_product=new_order.id_product,
             )
         )
 
@@ -75,12 +76,13 @@ class OrderService:
                             product_data={
                                 "name_product": order_product_data.get("title_product"),
                                 "price_product": order_product_data.get("price_product"),
-                                "category_product": get_category[0].name_category
+                                "category_product": get_category[0].name_category,
+                                "date_buy": order.date_buy
                             },
                             user_data={
                                 "user_name": order_user_data.get("name_user"),
                                 "surname_user": order_user_data.get("surname_user"),
-                                "email": order_user_data.get("email_user")
+                                "email": order_user_data.get("email_user"),
                             }
                         )
                     )
@@ -120,7 +122,8 @@ class OrderService:
                 product_data={
                     "name_product": order_product_data.get("title_product"),
                     "price_product": order_product_data.get("price_product"),
-                    "category_product": get_category[0].name_category
+                    "category_product": get_category[0].name_category,
+                    "date_buy": order_data[0].date_buy
                 },
                 user_data={
                     "user_name": order_user_data.get("name_user"),

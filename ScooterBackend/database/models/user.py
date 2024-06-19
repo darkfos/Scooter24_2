@@ -1,8 +1,9 @@
 #System
+import datetime
 from typing import List, Dict
 
 #Other
-from sqlalchemy import Integer, Text, String, ForeignKey
+from sqlalchemy import Integer, Text, String, ForeignKey, Date
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 #Local
@@ -27,6 +28,12 @@ class User(MainBase):
 
     #Отображаемое имя пользователя
     main_name_user: Mapped[str] = mapped_column(type_=String(250), nullable=False)
+
+    #Дата регистрации
+    date_registration: Mapped[datetime.date] = mapped_column(type_=Date, nullable=False, default=datetime.date)
+
+    #Дата обновления информации
+    date_update: Mapped[datetime.date] = mapped_column(type_=Date, nullable=False, default=datetime.date)
 
     ###Связи c таблицами###
 

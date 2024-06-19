@@ -1,8 +1,9 @@
 #System
+import datetime
 from typing import List, Dict
 
 #Other
-from sqlalchemy import Integer, Text, String, ForeignKey
+from sqlalchemy import Integer, Text, String, ForeignKey, Date
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 #Local
@@ -11,6 +12,9 @@ from ScooterBackend.database.mainbase import MainBase
 
 class Order(MainBase):
     #Таблица заказы
+
+    #Дата заказа
+    date_buy: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=False, default=datetime.date)
 
     #Связи
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), type_=Integer) #id пользователя

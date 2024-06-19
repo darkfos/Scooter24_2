@@ -1,4 +1,5 @@
 #System
+import datetime
 from typing import Union, Dict, List
 
 #Other libraries
@@ -47,7 +48,9 @@ class ProductService:
                 tags=new_product.tags,
                 other_data=new_product.other_data,
                 id_category=new_product.id_category,
-                photo_product=new_product.photo_product
+                photo_product=new_product.photo_product,
+                date_create_product=new_product.date_create_product,
+                date_update_information=new_product.date_update_information
             )
             #Create product
             product_is_created: bool = await (ProductRepository(session=session).add_one(
@@ -89,6 +92,8 @@ class ProductService:
                     tags=product[0].tags,
                     other_data=product[0].other_data,
                     photo_product=f"{product[0].photo_product}",
+                    date_create_product=product[0].date_create_product,
+                    date_update_information=product[0].date_update_information,
                     id_category=product[0].id_category
             )
                 for product in all_products
@@ -119,6 +124,8 @@ class ProductService:
                     article_product=product[0].article_product,
                     tags=product[0].tags,
                     other_data=product[0].other_data,
+                    date_create_product=product[0].date_create_product,
+                    date_update_information=product[0].date_update_information,
                     photo_product=f"{product[0].photo_product}",
                     id_category=product[0].id_category
                 )
@@ -147,6 +154,8 @@ class ProductService:
                 article_product=product_data[0].article_product,
                 tags=product_data[0].tags,
                 other_data=product_data[0].other_data,
+                date_create_product=product_data[0].date_create_product,
+                date_update_information=product_data[0].date_update_information,
                 photo_product=f"{product_data[0].photo_product}",
                 id_category=product_data[0].id_category
             )
@@ -174,6 +183,8 @@ class ProductService:
                 article_product=product_data[0].article_product,
                 tags=product_data[0].tags,
                 other_data=product_data[0].other_data,
+                date_create_product=product_data[0].date_create_product,
+                date_update_information=product_data[0].date_update_information,
                 photo_product=f"{product_data[0].photo_product}",
                 id_category=product_data[0].id_category
             )
@@ -221,6 +232,8 @@ class ProductService:
                     article_product=product_data[0].article_product,
                     tags=product_data[0].tags,
                     other_data=product_data[0].other_data,
+                    date_create_product=product_data[0].date_create_product,
+                    date_update_information=product_data[0].date_update_information,
                     photo_product=f"{product_data[0].photo_product}",
                     id_category=product_data[0].id_category,
                     reviews=[
@@ -296,7 +309,7 @@ class ProductService:
         if is_admin:
             #Обновление фотографии
             await ProductRepository(session=session).update_one(other_id=product_id, data_to_update={
-                "photo_product": str(product_id)+"_"+photo_data})
+                "photo_product": str(product_id)+"_"+photo_data, "date_update_information": datetime.date.today()})
             return
 
         await UserHttpError().http_user_not_found()
