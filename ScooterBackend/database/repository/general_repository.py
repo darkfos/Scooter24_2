@@ -25,6 +25,7 @@ class GeneralSQLRepository:
             await self.async_session.commit()
             return result.scalar()
         except Exception as ex:
+            print(ex)
             return False
 
     async def find_one(self, other_id: int):

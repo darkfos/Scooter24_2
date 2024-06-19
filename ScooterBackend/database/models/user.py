@@ -18,6 +18,9 @@ class User(MainBase):
     #Пароль пользователя
     password_user: Mapped[str] = mapped_column(type_=String(60), nullable=False)
 
+    #Ключ обновление пароля пользователя
+    secret_update_key: Mapped[str] = mapped_column(type_=String(80), nullable=True, default="")
+
     #Опциональные данные
     name_user: Mapped[str] = mapped_column(type_=String(100), nullable=True) #Имя пользователя
     surname_user: Mapped[str] = mapped_column(type_=String(150), nullable=True)
