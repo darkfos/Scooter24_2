@@ -316,6 +316,38 @@ async def update_photo_product(
     )
 
 
+@product_router.patch(
+    path="/update_product_discount",
+    description="""
+    ### Endpoint - Обновление скидки товара.
+    Данный метод позволяет обновить скидку на товаре.
+    Доступен только для администратораю
+    Необходим jwt ключ и Bearer в заголовке запроса.""",
+    summary="Обновление скидки",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def update_product_discount(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_product: int,
+    data_to_update: UpdateProductDiscount
+) -> None:
+    """
+    Обновление скидки товара
+    :session:
+    :admin_data:
+    :data_to_update:
+    """
+
+    return await ProductService.update_product_discount(
+        session=session,
+        token=admin_data,
+        id_product=id_product,
+        new_discount=data_to_update
+    )
+
+
 @product_router.delete(
     path="/delete_product/{id_product}",
     description="""

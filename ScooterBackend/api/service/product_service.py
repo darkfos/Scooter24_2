@@ -51,7 +51,8 @@ class ProductService:
                 id_category=new_product.id_category,
                 photo_product=new_product.photo_product,
                 date_create_product=new_product.date_create_product,
-                date_update_information=new_product.date_update_information
+                date_update_information=new_product.date_update_information,
+                product_discount=new_product.price_discount
             )
             #Create product
             product_is_created: bool = await (ProductRepository(session=session).add_one(
@@ -95,7 +96,8 @@ class ProductService:
                     photo_product=f"{product[0].photo_product}",
                     date_create_product=product[0].date_create_product,
                     date_update_information=product[0].date_update_information,
-                    id_category=product[0].id_category
+                    id_category=product[0].id_category,
+                    price_discount=product[0].product_discount if product[0].product_discount else 0
             )
                 for product in all_products
             ]
@@ -128,7 +130,8 @@ class ProductService:
                     date_create_product=product[0].date_create_product,
                     date_update_information=product[0].date_update_information,
                     photo_product=f"{product[0].photo_product}",
-                    id_category=product[0].id_category
+                    id_category=product[0].id_category,
+                    price_discount=product[0].product_discount if product[0].product_discount else 0
                 )
                 for product in all_products
             ]
@@ -158,7 +161,8 @@ class ProductService:
                 date_create_product=product_data[0].date_create_product,
                 date_update_information=product_data[0].date_update_information,
                 photo_product=f"{product_data[0].photo_product}",
-                id_category=product_data[0].id_category
+                id_category=product_data[0].id_category,
+                price_discount=product_data[0].product_discount if product_data[0].product_discount else 0
             )
 
         await ProductHttpError().http_product_not_found()
@@ -187,7 +191,8 @@ class ProductService:
                 date_create_product=product_data[0].date_create_product,
                 date_update_information=product_data[0].date_update_information,
                 photo_product=f"{product_data[0].photo_product}",
-                id_category=product_data[0].id_category
+                id_category=product_data[0].id_category,
+                price_discount=product_data[0].product_discount if product_data[0].product_discount else 0
             )
 
         await ProductHttpError().http_product_not_found()
@@ -237,6 +242,7 @@ class ProductService:
                     date_update_information=product_data[0].date_update_information,
                     photo_product=f"{product_data[0].photo_product}",
                     id_category=product_data[0].id_category,
+                    price_discount=product_data[0].product_discount if product_data[0].product_discount else 0,
                     reviews=[
                         review_p.read_model()
                         for review_p in product_data[0].reviews
@@ -380,7 +386,8 @@ class ProductService:
                     tags=product.tags,
                     other_data=product.other_data,
                     photo_product=product.photo_product,
-                    id_category=product.id_category
+                    id_category=product.id_category,
+                    price_discount=product.product_discount if product.product_discount else 0
                 )
                 for product in products
             ]
@@ -392,7 +399,7 @@ class ProductService:
         session: AsyncSession
     ) -> Union[List, List[ProductBase]]:
         """
-        Получение рекомендованных товаров.
+        Метод сервиса для получения рекомендованных товаров.
         :session:
         """
 
@@ -418,7 +425,8 @@ class ProductService:
                         id_category=rnd_product[0].id_category,
                         photo_product=rnd_product[0].photo_product,
                         date_create_product=rnd_product[0].date_create_product,
-                        date_update_information=rnd_product[0].date_update_information
+                        date_update_information=rnd_product[0].date_update_information,
+                        price_discount=rnd_product[0].product_discount if rnd_product[0].product_discount else 0
                     )
                 )
 
@@ -428,3 +436,37 @@ class ProductService:
             return result
 
         return []
+
+    @staticmethod
+    async def update_product_discount(
+        session: AsyncSession,
+        token: str,
+        id_product: int,
+        new_discount: UpdateProductDiscount
+    ) -> None:
+        """
+        Метод сервися для обновления скидки товара
+        :session:
+        :token:
+        :id_product:
+        :new_discout:
+        """
+
+        #Данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        is_admin: bool = await AdminRepository(session=session).find_admin_by_email_and_password(email=jwt_data.get("email"))
+
+        if is_admin:
+            #Обновление скидки товара
+            is_updated: bool = await ProductRepository(session=session).update_one(
+                other_id=id_product,
+                data_to_update=new_discount.model_dump()
+            )
+
+            if is_updated:
+                return
+
+            await ProductHttpError().http_failed_to_update_product_information()
+
+        await UserHttpError().http_user_not_found()

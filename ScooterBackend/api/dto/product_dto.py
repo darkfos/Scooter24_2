@@ -25,6 +25,7 @@ class ProductBase(BaseModel):
     photo_product: Annotated[str, Field()] = None
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    price_discount: Annotated[int, Field(lt=100)]
 
 
 class ProductAllInformation(ProductBase):
@@ -56,3 +57,9 @@ class ProductIsCreated(BaseModel):
 
     is_created: bool
     product_name: str
+
+
+class UpdateProductDiscount(BaseModel):
+
+    product_discount: Annotated[int, Field(lt=100)]
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]

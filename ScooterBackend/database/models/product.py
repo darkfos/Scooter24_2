@@ -49,6 +49,9 @@ class Product(MainBase):
     #Дата обновления информации
     date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date)
 
+    #Скидка на товар
+    product_discount: Mapped[int] = mapped_column(type_=Integer, nullable=True, default=0)
+
     #Категория продукта - id
     id_category: Mapped[int] = mapped_column(ForeignKey('Category.id'), type_=Integer)
 
