@@ -1,6 +1,7 @@
 #System
 import datetime
 from typing import Union, Dict, List
+from random import choice
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -383,5 +384,47 @@ class ProductService:
                 )
                 for product in products
             ]
+
+        return []
+
+    @staticmethod
+    async def get_recommended_products(
+        session: AsyncSession
+    ) -> Union[List, List[ProductBase]]:
+        """
+        Получение рекомендованных товаров.
+        :session:
+        """
+
+        #Получение всех товаров
+        all_products: Union[List, List[Product]] = await ProductRepository(session=session).find_all()
+
+        if all_products:
+
+            result: List[ProductBase] = []
+
+            while len(result) != 7:
+
+                rnd_product: Product = choice(all_products)
+                result.append(
+                    ProductBase(
+                        title_product=rnd_product[0].title_product,
+                        price_product=rnd_product[0].price_product,
+                        quantity_product=rnd_product[0].quantity_product,
+                        explanation_product=rnd_product[0].explanation_product,
+                        article_product=rnd_product[0].article_product,
+                        tags=rnd_product[0].tags,
+                        other_data=rnd_product[0].other_data,
+                        id_category=rnd_product[0].id_category,
+                        photo_product=rnd_product[0].photo_product,
+                        date_create_product=rnd_product[0].date_create_product,
+                        date_update_information=rnd_product[0].date_update_information
+                    )
+                )
+
+                if len(all_products) < 7:
+                    break
+
+            return result
 
         return []

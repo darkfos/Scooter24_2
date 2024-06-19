@@ -229,6 +229,27 @@ async def get_all_information_about_product(
     return await ProductService.get_all_information_about_product(session=session, token=admin_data, id_product=id_product)
 
 
+@product_router.get(
+    path="/get_recommended_products",
+    description="""
+    ### Endpoint - Получение рекомендованных товаров.
+    Данный метод позволяет получить товары по рекомендации
+    """,
+    summary="Рекомендованные товары",
+    response_model=Union[List, List[ProductBase]],
+    status_code=status.HTTP_200_OK
+)
+async def recommended_products(
+    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+) -> Union[List, List[ProductBase]]:
+    """
+    Получение товаров по системе рекомендаций
+    :session:
+    """
+
+    return await ProductService.get_recommended_products(session=session)
+
+
 @product_router.put(
     path="/update_product_data",
     description="""
