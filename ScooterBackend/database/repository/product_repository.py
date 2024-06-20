@@ -123,3 +123,16 @@ class ProductRepository(GeneralSQLRepository):
         if products:
             return products[0]
         return products
+
+    async def get_products_by_date(self) -> Union[None, List[Product]]:
+        """
+        Получение всех товаров по дате
+        :session:
+        """
+
+        stmt = select(Product).order_by(Product.date_create_product.desc())
+        products = (await self.async_session.execute(stmt)).fetchall()
+
+        if products:
+            return products
+        return None
