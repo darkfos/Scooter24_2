@@ -133,3 +133,20 @@ class UserIsDeleted(BaseModel):
     """
 
     is_deleted: bool
+
+
+class UpdateAddressDate(BaseModel):
+    """
+    Обновление адресных данных пользователя
+    """
+
+    name_user_address: Annotated[str, Field(max_length=200)]
+    surname_user_address: Annotated[str, Field(max_length=200)]
+    name_company_address: Annotated[str, Field(max_length=200)]
+    country_address: Annotated[str, Field(max_length=250)]
+    address_street: Annotated[str, Field(max_length=450)]
+    address_rl_et_home: Annotated[str, Field(max_length=250)]
+    address_locality: Annotated[str, Field(max_length=300)]
+    address_area: Annotated[str, Field(max_length=350)]
+    address_index: Annotated[int, Field()]
+    address_phone_number: Annotated[str, Field(max_length=40)]

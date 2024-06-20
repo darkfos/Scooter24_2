@@ -14,7 +14,8 @@ from ScooterBackend.api.dto.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     DataToUpdateUserPassword,
-    UserIsDeleted
+    UserIsDeleted,
+    UpdateAddressDate
 )
 from ScooterBackend.api.dto.auth_dto import RegistrationUser
 from ScooterBackend.database.repository.user_repository import UserRepository
@@ -457,5 +458,32 @@ class UserService:
                         )
                         if password_is_updated:
                             return
+
+            await UserHttpError().http_failed_to_update_user_information()
+
+    @staticmethod
+    async def update_address_user_data(
+        engine: IEngineRepository,
+        token: str,
+        data_update: UpdateAddressDate
+    ) -> None:
+        """
+        Метод сервиса для обновления адресных данных пользователя
+        :engine:
+        :data_update:
+        """
+
+        #Данные токена
+        jwt_data: dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        async with engine:
+            #Обновление данных
+            is_updated: bool = await engine.user_repository.update_one(
+                other_id=jwt_data.get("id_user"),
+                data_to_update=data_update.model_dump()
+            )
+
+            if is_updated:
+                return True
 
             await UserHttpError().http_failed_to_update_user_information()
