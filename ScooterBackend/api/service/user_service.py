@@ -259,7 +259,19 @@ class UserService:
                     reviews=[
                         review.read_model()
                         for review in user_all_information.reviews
-                    ]
+                    ],
+                    address=UpdateAddressDate(
+                        name_user_address=user_all_information.name_user_address,
+                        surname_user_address=user_all_information.surname_user_address,
+                        name_company_address=user_all_information.name_company_address,
+                        country_address=user_all_information.country_address,
+                        address_street=user_all_information.address_street,
+                        address_rl_et_home=user_all_information.address_rl_et_home,
+                        address_locality=user_all_information.address_locality,
+                        address_area=user_all_information.address_area,
+                        address_index=user_all_information.address_index,
+                        address_phone_number=user_all_information.address_phone_number
+                    )
                 )
 
             await UserHttpError().http_user_not_found()
@@ -295,7 +307,19 @@ class UserService:
                         orders=user_all_information.orders_user,
                         favourite=user_all_information.favourites_user,
                         history=user_all_information.history_buy_user,
-                        reviews=user_all_information.reviews
+                        reviews=user_all_information.reviews,
+                        address=UpdateAddressDate(
+                            name_user_address=user_all_information.name_user_address,
+                            surname_user_address=user_all_information.surname_user_address,
+                            name_company_address=user_all_information.name_company_address,
+                            country_address=user_all_information.country_address,
+                            address_street=user_all_information.address_street,
+                            address_rl_et_home=user_all_information.address_rl_et_home,
+                            address_locality=user_all_information.address_locality,
+                            address_area=user_all_information.address_area,
+                            address_index=user_all_information.address_index,
+                            address_phone_number=user_all_information.address_phone_number
+                        )
                     )
 
             await UserHttpError().http_user_not_found()

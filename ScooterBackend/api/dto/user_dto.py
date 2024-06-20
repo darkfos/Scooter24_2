@@ -54,17 +54,6 @@ class UpdateDataUser(BaseModel):
     date_update: Annotated[datetime.date, Field(default=datetime.date.today())]
 
 
-class AllDataUser(InformationAboutUser):
-    """
-    Полная информация о пользователе
-    """
-
-    orders: Union[List, List[Dict]]
-    favourite: Union[List, List[Dict]]
-    history: Union[List, List[Dict]]
-    reviews: Union[List, List[Dict]]
-
-
 class UserReviewData(InformationAboutUser):
     """
     Информация о пользователе + все его отзывы
@@ -150,3 +139,16 @@ class UpdateAddressDate(BaseModel):
     address_area: Annotated[str, Field(max_length=350)]
     address_index: Annotated[int, Field()]
     address_phone_number: Annotated[str, Field(max_length=40)]
+
+
+class AllDataUser(InformationAboutUser):
+    """
+    Полная информация о пользователе
+    """
+
+    orders: Union[List, List[Dict]]
+    favourite: Union[List, List[Dict]]
+    history: Union[List, List[Dict]]
+    reviews: Union[List, List[Dict]]
+
+    address: UpdateAddressDate
