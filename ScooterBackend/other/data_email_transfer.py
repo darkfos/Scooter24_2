@@ -19,7 +19,7 @@ class EmailTransfer:
         self.smtp_server.starttls()
         self.smtp_server.login(self.__email_from, self.__password)
 
-    def send_message(self, text_to_message: str, whom_email: str, title_message: str = "Сообщиние от Scooters24 📧") -> None:
+    def send_message(self, text_to_message: str, whom_email: str, title_message: str = "Сообщение от Scooters24 📧") -> None:
         """
         Отправка сообщения по почте
         :text_to_message:

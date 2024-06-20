@@ -17,10 +17,12 @@ from ScooterBackend.api.dto.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     DataToUpdateUserPassword,
-    UserIsDeleted
+    UserIsDeleted,
+    UpdateAddressDate
 )
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.service.user_service import UserService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 user_router: APIRouter = APIRouter(
@@ -44,7 +46,7 @@ auth: Authentication = Authentication()
     status_code=status.HTTP_200_OK
 )
 async def get_information_about_user(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> InformationAboutUser:
     """
@@ -53,7 +55,7 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
-    information_about_user = await UserService.get_information_about_me(session=session, token=user_data)
+    information_about_user = await UserService.get_information_about_me(engine=session, token=user_data)
     return information_about_user
 
 
@@ -75,7 +77,7 @@ async def get_information_about_user(
     status_code=status.HTTP_200_OK
 )
 async def get_full_information_about_user(
-        session: Annotated[AsyncSession, Depends(db_work.get_session)],
+        session: Annotated[IEngineRepository, Depends(EngineRepository)],
         user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> AllDataUser:
     """
@@ -84,7 +86,7 @@ async def get_full_information_about_user(
     :return:
     """
 
-    return await UserService.get_full_information(session=session, token=user_data)
+    return await UserService.get_full_information(engine=session, token=user_data)
 
 
 @user_router.get(
@@ -99,7 +101,7 @@ async def get_full_information_about_user(
     status_code=status.HTTP_200_OK
 )
 async def get_user_data_and_all_reviews(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> UserReviewData:
     """
@@ -109,7 +111,7 @@ async def get_user_data_and_all_reviews(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_review(session=session, token=user_data)
+    return await UserService.get_information_about_me_and_review(engine=session, token=user_data)
 
 
 @user_router.get(
@@ -124,7 +126,7 @@ async def get_user_data_and_all_reviews(
     status_code=status.HTTP_200_OK
 )
 async def get_user_data_and_all_favourites_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> UserFavouritesData:
     """
@@ -134,7 +136,7 @@ async def get_user_data_and_all_favourites_product(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_favourite(session=session, token=user_data)
+    return await UserService.get_information_about_me_and_favourite(engine=session, token=user_data)
 
 
 @user_router.get(
@@ -149,7 +151,7 @@ async def get_user_data_and_all_favourites_product(
     status_code=status.HTTP_200_OK
 )
 async def get_user_data_and_all_orders(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> UserOrdersData:
     """
@@ -159,7 +161,7 @@ async def get_user_data_and_all_orders(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_orders(session=session, token=user_data)
+    return await UserService.get_information_about_me_and_orders(engine=session, token=user_data)
 
 
 @user_router.get(
@@ -174,7 +176,7 @@ async def get_user_data_and_all_orders(
     status_code=status.HTTP_200_OK
 )
 async def get_user_data_and_history(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> UserHistoryData:
     """
@@ -184,7 +186,7 @@ async def get_user_data_and_history(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_history(session=session, token=user_data)
+    return await UserService.get_information_about_me_and_history(engine=session, token=user_data)
 
 
 @user_router.get(
@@ -201,7 +203,7 @@ async def get_user_data_and_history(
     tags=["AdminPanel - Панель администратора"]
 )
 async def get_information_about_other_users(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_user: int,
 ) -> InformationAboutUser:
@@ -213,7 +215,7 @@ async def get_information_about_other_users(
     :return:
     """
 
-    return await UserService.get_information_about_user(session=session, user_id=id_user, token=admin_data)
+    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data)
 
 
 @user_router.get(
@@ -230,7 +232,7 @@ async def get_information_about_other_users(
     tags=["AdminPanel - Панель администратора"]
 )
 async def get_all_information_about_other_users(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_user: int,
 ) -> AllDataUser:
@@ -243,7 +245,7 @@ async def get_all_information_about_other_users(
     """
 
     return await UserService.get_full_information_other_user(
-        session=session,
+        engine=session,
         token=admin_data,
         user_id=id_user
     )
@@ -261,7 +263,7 @@ async def get_all_information_about_other_users(
     status_code=status.HTTP_200_OK
 )
 async def update_user_information(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     data_to_update: DataToUpdate
 ) -> UserIsUpdated:
@@ -270,7 +272,30 @@ async def update_user_information(
     :return:
     """
 
-    return await UserService.update_user_information(session=session, token=user_data, to_update=data_to_update)
+    return await UserService.update_user_information(engine=session, token=user_data, to_update=data_to_update)
+
+
+@user_router.put(
+    path="/update_user_address_data",
+    description="""
+    ### Endpoint - Обновление адресных данных пользователя.
+    Данный метод позволяет обновить адресные данные пользователя
+    Необходим jwt ключ и Bearer в заголовке запроса
+    """,
+    summary="Обновление адресных данных",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def update_address_data(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    data_to_update: UpdateAddressDate
+) -> None:
+    """
+    ENDPOINT - Обновление адресных данных пользователя
+    """
+
+    return await UserService.update_address_user_data(engine=session, token=user_data, data_update=data_to_update)
 
 
 @user_router.patch(
@@ -285,7 +310,7 @@ async def update_user_information(
     status_code=status.HTTP_200_OK
 )
 async def update_user_password(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     data_to_update: DataToUpdateUserPassword
 ) -> UserIsUpdated:
@@ -298,7 +323,7 @@ async def update_user_password(
     """
 
     return await UserService.update_user_password(
-        session=session,
+        engine=session,
         token=user_data,
         to_update=data_to_update
     )
@@ -316,11 +341,11 @@ async def update_user_password(
     status_code=status.HTTP_200_OK
 )
 async def delete_user(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> UserIsDeleted:
     """
     Удаление всех данных о пользователе
     """
 
-    return await UserService.delete_user(session=session, token=user_data)
+    return await UserService.delete_user(engine=session, token=user_data)

@@ -11,6 +11,7 @@ from ScooterBackend.api.authentication.authentication_service import Authenticat
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.dto.history_buy_dto import *
 from ScooterBackend.api.service.history_buy_service import HistoryBuyService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
@@ -32,7 +33,7 @@ history_buy_router: APIRouter = APIRouter(
     response_model=None
 )
 async def create_new_history(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     new_history: HistoryBuyBase
 ) -> None:
@@ -45,7 +46,7 @@ async def create_new_history(
     """
 
     return await HistoryBuyService.create_history(
-        session=session,
+        engine=session,
         token=user_data,
         new_history=new_history,
     )
@@ -63,7 +64,7 @@ async def create_new_history(
     response_model=Union[List, List[HistoryBuyBase]]
 )
 async def get_all_histories_for_user(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> Union[List, List[HistoryBuyBase]]:
     """
@@ -73,7 +74,7 @@ async def get_all_histories_for_user(
     :return:
     """
 
-    return await HistoryBuyService.get_all_histories_for_user(session=session, token=user_data)
+    return await HistoryBuyService.get_all_histories_for_user(engine=session, token=user_data)
 
 
 @history_buy_router.get(
@@ -88,7 +89,7 @@ async def get_all_histories_for_user(
     response_model=HistoryBuyBase,
 )
 async def get_data_about_history_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     id_history: int
 ) -> HistoryBuyBase:
@@ -99,7 +100,7 @@ async def get_data_about_history_by_id(
     :return:
     """
 
-    return await HistoryBuyService.get_history_by_id(session=session, token=user_data, id_history=id_history)
+    return await HistoryBuyService.get_history_by_id(engine=session, token=user_data, id_history=id_history)
 
 
 @history_buy_router.delete(
@@ -116,7 +117,7 @@ async def get_data_about_history_by_id(
     tags=["AdminPanel - Панель администратора"]
 )
 async def delete_history_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_history: int
 ) -> None:
@@ -128,4 +129,4 @@ async def delete_history_by_id(
     :return:
     """
 
-    return await HistoryBuyService.delete_history_by_id(session=session, token=admin_data, id_history=id_history)
+    return await HistoryBuyService.delete_history_by_id(engine=session, token=admin_data, id_history=id_history)

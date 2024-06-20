@@ -2,23 +2,21 @@
 from ScooterBackend.settings.api_settings import APISettings
 
 #ROUTES
-from ScooterBackend.api.routes import api_v1
-
-from ScooterBackend.settings.database_settings import DatabaseSettings
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.database.mainbase import MainBase
-
-##Tables##
-# from database.models.category import Category
-# from database.models.product import Product
-# from database.models.user import User
-# from database.models.favourite import Favourite
-# from database.models.review import Review
-# from database.models.history_buy import HistoryBuy
-# from database.models.order import Order
+from ScooterBackend.api.routes.user_router import user_router as user_router
+from ScooterBackend.api.routes.authentication_router import auth_router as auth_router
+from ScooterBackend.api.routes.category_router import category_router as category_router
+from ScooterBackend.api.routes.admin_router import admin_router as admin_router
+from ScooterBackend.api.routes.review_router import review_router as review_router
+from ScooterBackend.api.routes.product_router import product_router as product_router
+from ScooterBackend.api.routes.order_router import order_router as order_router
+from ScooterBackend.api.routes.favourite_router import favourite_router as favourite_router
+from ScooterBackend.api.routes.history_buy_router import history_buy_router as history_buy_router
+from ScooterBackend.api.routes.type_worker_router import type_worker_router as type_worker_router
+from ScooterBackend.api.routes.vacancies_router import vacancies_router as vacancies_router
+from ScooterBackend.api.routes.general_router import api_v1_router
 
 
-#Other
+#Other libraries
 import uvicorn
 import logging
 from fastapi import FastAPI, status
@@ -57,8 +55,25 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-#Include router
-app.include_router(api_v1)
+#Include routers
+routers = (
+    admin_router,
+    auth_router,
+    user_router,
+    category_router,
+    product_router,
+    review_router,
+    order_router,
+    history_buy_router,
+    favourite_router,
+    type_worker_router,
+    vacancies_router
+)
+
+for router in routers:
+    api_v1_router.register_router(new_router=router)
+
+app.include_router(api_v1_router.get_api_v1)
 
 
 #Redirect to docs

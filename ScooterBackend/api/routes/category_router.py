@@ -10,6 +10,7 @@ from ScooterBackend.api.dto.category_dto import *
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.api.service.category_service import CategoryService
+from ScooterBackend.api.dep.dependencies import EngineRepository, IEngineRepository
 
 category_router = APIRouter(
     prefix="/category",
@@ -33,7 +34,7 @@ auth: Authentication = Authentication()
     tags=["AdminPanel - Панель администратора"]
 )
 async def create_new_category(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     new_category: CategoryBase
 ) -> CategoryIsCreated:
@@ -44,7 +45,7 @@ async def create_new_category(
     :return:
     """
 
-    return await CategoryService.create_category(session=session, token=admin_data, new_category=new_category)
+    return await CategoryService.create_category(engine=session, token=admin_data, new_category=new_category)
 
 
 @category_router.get(
@@ -58,7 +59,7 @@ async def create_new_category(
     status_code=status.HTTP_200_OK
 )
 async def find_category_by_name(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     category_name: str
 ) -> CategoryIsFinded:
     """
@@ -67,7 +68,7 @@ async def find_category_by_name(
     :return:
     """
 
-    return await CategoryService.find_category_by_name(session=session, name_category=category_name)
+    return await CategoryService.find_category_by_name(engine=session, name_category=category_name)
 
 
 @category_router.get(
@@ -81,7 +82,7 @@ async def find_category_by_name(
     status_code=status.HTTP_200_OK
 )
 async def get_all_categories(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> List[CategoryBase]:
     """
     ENDPOINT - Получение всех имеющихся категорий
@@ -89,7 +90,7 @@ async def get_all_categories(
     :return:
     """
 
-    return await CategoryService.find_all_categories(session=session)
+    return await CategoryService.find_all_categories(engine=session)
 
 
 @category_router.get(
@@ -103,7 +104,7 @@ async def get_all_categories(
     status_code=status.HTTP_200_OK
 )
 async def find_category_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_category: int
 ) -> CategoryBase:
     """
@@ -112,7 +113,7 @@ async def find_category_by_id(
     :return:
     """
 
-    return await CategoryService.find_by_id(session=session, id_category=id_category)
+    return await CategoryService.find_by_id(engine=session, id_category=id_category)
 
 
 @category_router.patch(
@@ -128,7 +129,7 @@ async def find_category_by_id(
     tags=["AdminPanel"]
 )
 async def update_category_name(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     to_update: DataCategoryToUpdate
 ) -> CategoryIsUpdated:
@@ -139,7 +140,7 @@ async def update_category_name(
     :return:
     """
 
-    return await CategoryService.update_category(session=session, token=admin_data, data_to_update=to_update)
+    return await CategoryService.update_category(engine=session, token=admin_data, data_to_update=to_update)
 
 
 @category_router.delete(
@@ -155,7 +156,7 @@ async def update_category_name(
     tags=["AdminPanel"]
 )
 async def delete_category(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_category: int
 ) -> None:
@@ -166,4 +167,4 @@ async def delete_category(
     :return:
     """
 
-    await CategoryService.delete_category(session=session, id_category=id_category, token=admin_data)
+    await CategoryService.delete_category(engine=session, id_category=id_category, token=admin_data)

@@ -12,6 +12,7 @@ from ScooterBackend.api.dto.favourite_dto import *
 from ScooterBackend.database.db_worker import db_work
 from ScooterBackend.api.authentication.authentication_service import Authentication
 from ScooterBackend.api.service.favourite_service import FavouriteService
+from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
@@ -33,7 +34,7 @@ favourite_router: APIRouter = APIRouter(
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def create_a_new_favourite(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     new_favourite: AddFavourite
 ) -> None:
@@ -46,7 +47,7 @@ async def create_a_new_favourite(
     """
 
     return await FavouriteService.create_favourite_product(
-        session=session,
+        engine=session,
         token=user_data,
         new_product_in_favourite=new_favourite
     )
@@ -64,7 +65,7 @@ async def create_a_new_favourite(
     response_model=Union[List, List[FavouriteBase]]
 )
 async def get_all_favourites_products_by_user_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> Union[List, List[FavouriteBase]]:
     """
@@ -75,7 +76,7 @@ async def get_all_favourites_products_by_user_id(
     :return:
     """
 
-    return await FavouriteService.get_all_favourite_product_by_user_id(session=session, token=user_data)
+    return await FavouriteService.get_all_favourite_product_by_user_id(engine=session, token=user_data)
 
 
 @favourite_router.get(
@@ -92,7 +93,7 @@ async def get_all_favourites_products_by_user_id(
     tags=["AdminPanel - Панель администратора"]
 )
 async def get_full_information_about_favourite_product_by_id(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[AsyncSession, Depends(auth.jwt_auth)],
     id_fav_product: int
 ) -> FavouriteInformation:
@@ -104,7 +105,7 @@ async def get_full_information_about_favourite_product_by_id(
     """
 
     return await FavouriteService.get_information_about_fav_product_by_id(
-        session=session,
+        engine=session,
         token=admin_data,
         id_fav_product=id_fav_product
     )
@@ -124,7 +125,7 @@ async def get_full_information_about_favourite_product_by_id(
     tags=["AdminPanel - Панель администратора"]
 )
 async def get_all_favourites_products(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)]
 ) -> Union[List, List[FavouriteSmallData]]:
     """
@@ -134,7 +135,7 @@ async def get_all_favourites_products(
     :return:
     """
 
-    return await FavouriteService.get_all_favourites(session=session, token=admin_data)
+    return await FavouriteService.get_all_favourites(engine=session, token=admin_data)
 
 
 @favourite_router.delete(
@@ -149,7 +150,7 @@ async def get_all_favourites_products(
     response_model=None
 )
 async def delete_favourite_product(
-    session: Annotated[AsyncSession, Depends(db_work.get_session)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     id_favourite: int
 ) -> None:
@@ -161,4 +162,4 @@ async def delete_favourite_product(
     :return:
     """
 
-    return await FavouriteService.delete_favourite_product(session=session, token=user_data, id_favourite=id_favourite)
+    return await FavouriteService.delete_favourite_product(engine=session, token=user_data, id_favourite=id_favourite)
