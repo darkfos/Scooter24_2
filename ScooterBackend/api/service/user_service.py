@@ -14,7 +14,8 @@ from ScooterBackend.api.dto.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     DataToUpdateUserPassword,
-    UserIsDeleted
+    UserIsDeleted,
+    UpdateAddressDate
 )
 from ScooterBackend.api.dto.auth_dto import RegistrationUser
 from ScooterBackend.database.repository.user_repository import UserRepository
@@ -258,7 +259,19 @@ class UserService:
                     reviews=[
                         review.read_model()
                         for review in user_all_information.reviews
-                    ]
+                    ],
+                    address=UpdateAddressDate(
+                        name_user_address=user_all_information.name_user_address,
+                        surname_user_address=user_all_information.surname_user_address,
+                        name_company_address=user_all_information.name_company_address,
+                        country_address=user_all_information.country_address,
+                        address_street=user_all_information.address_street,
+                        address_rl_et_home=user_all_information.address_rl_et_home,
+                        address_locality=user_all_information.address_locality,
+                        address_area=user_all_information.address_area,
+                        address_index=user_all_information.address_index,
+                        address_phone_number=user_all_information.address_phone_number
+                    )
                 )
 
             await UserHttpError().http_user_not_found()
@@ -294,7 +307,19 @@ class UserService:
                         orders=user_all_information.orders_user,
                         favourite=user_all_information.favourites_user,
                         history=user_all_information.history_buy_user,
-                        reviews=user_all_information.reviews
+                        reviews=user_all_information.reviews,
+                        address=UpdateAddressDate(
+                            name_user_address=user_all_information.name_user_address,
+                            surname_user_address=user_all_information.surname_user_address,
+                            name_company_address=user_all_information.name_company_address,
+                            country_address=user_all_information.country_address,
+                            address_street=user_all_information.address_street,
+                            address_rl_et_home=user_all_information.address_rl_et_home,
+                            address_locality=user_all_information.address_locality,
+                            address_area=user_all_information.address_area,
+                            address_index=user_all_information.address_index,
+                            address_phone_number=user_all_information.address_phone_number
+                        )
                     )
 
             await UserHttpError().http_user_not_found()
@@ -457,5 +482,32 @@ class UserService:
                         )
                         if password_is_updated:
                             return
+
+            await UserHttpError().http_failed_to_update_user_information()
+
+    @staticmethod
+    async def update_address_user_data(
+        engine: IEngineRepository,
+        token: str,
+        data_update: UpdateAddressDate
+    ) -> None:
+        """
+        Метод сервиса для обновления адресных данных пользователя
+        :engine:
+        :data_update:
+        """
+
+        #Данные токена
+        jwt_data: dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+
+        async with engine:
+            #Обновление данных
+            is_updated: bool = await engine.user_repository.update_one(
+                other_id=jwt_data.get("id_user"),
+                data_to_update=data_update.model_dump()
+            )
+
+            if is_updated:
+                return True
 
             await UserHttpError().http_failed_to_update_user_information()

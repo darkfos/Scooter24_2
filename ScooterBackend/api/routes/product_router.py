@@ -244,11 +244,32 @@ async def recommended_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, List[ProductBase]]:
     """
-    Получение товаров по системе рекомендаций
+    ENDPOINT - Получение товаров по системе рекомендаций
     :session:
     """
 
     return await ProductService.get_recommended_products(engine=session)
+
+
+@product_router.get(
+    path='/new_products',
+    description="""
+    ### Endpoint - Получение новых продуктов.
+    Данный метод позволяет получить список из <8 новых продуктов
+    """,
+    summary="Новые продукты",
+    response_model=Union[List, List[ProductBase]],
+    status_code=status.HTTP_200_OK
+)
+async def get_new_products(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
+) -> Union[List, List[ProductBase]]:
+    """
+    ENDPOINT - Получение новых товаров в количестве <8.
+    :session:
+    """
+
+    return await ProductService.get_new_products(engine=session)
 
 
 @product_router.put(

@@ -484,3 +484,41 @@ class ProductService:
                 await ProductHttpError().http_failed_to_update_product_information()
 
             await UserHttpError().http_user_not_found()
+
+    @staticmethod
+    async def get_new_products(engine: IEngineRepository) -> Union[List, List[ProductBase]]:
+        """
+        Получение новых продуктов
+        """
+
+        async with engine:
+            all_products: Union[None, List[ProductBase]] = await engine.product_repository.get_products_by_date()
+
+            if all_products:
+
+                result: List[ProductBase] = []
+
+                for product in all_products:
+                    if len(result) >= 7:
+                        break
+
+                    result.append(
+                        ProductBase(
+                            title_product=product[0].title_product,
+                            price_product=product[0].price_product,
+                            quantity_product=product[0].quantity_product,
+                            explanation_product=product[0].explanation_product,
+                            article_product=product[0].article_product,
+                            tags=product[0].tags,
+                            other_data=product[0].other_data,
+                            id_category=product[0].id_category,
+                            photo_product=product[0].photo_product,
+                            date_create_product=product[0].date_create_product,
+                            date_update_information=product[0].date_update_information,
+                            price_discount=product[0].product_discount if product[0].product_discount else 0
+                        )
+                    )
+
+                return result
+
+            return []
