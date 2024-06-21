@@ -348,50 +348,57 @@ window.addEventListener('scroll', scrollHandler);
         }
 
 //навигация
-      document.addEventListener('DOMContentLoaded', function() {
-            const cardsPerRow = 4; // 4 карточки в каждом ряду
-            const rowsPerPage = 2; // 2 ряда на странице
-            const cardsContainer = document.getElementById('cards-container');
-            const cards = Array.from(cardsContainer.getElementsByClassName('card'));
-            let currentPage = 1;
+document.addEventListener('DOMContentLoaded', function() {
+    const cardsPerRow = 4; // 4 карточки в каждом ряду
+    const rowsPerPage = 2; // 2 ряда на странице (всего 8 карточек)
+    const cardsContainer = document.getElementById('cards-container');
+    const cards = Array.from(cardsContainer.getElementsByClassName('card'));
+    let currentPage = 1;
 
-            function displayCards() {
-                const startIndex = (currentPage - 1) * rowsPerPage * cardsPerRow;
-                const endIndex = Math.min(startIndex + rowsPerPage * cardsPerRow, cards.length);
+    function displayCards() {
+        const startIndex = (currentPage - 1) * rowsPerPage * cardsPerRow;
+        const endIndex = Math.min(startIndex + rowsPerPage * cardsPerRow, cards.length);
 
-                cards.forEach((card, index) => {
-                    card.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
-                });
-            }
-
-            function setupPagination() {
-                const totalPages = Math.ceil(cards.length / (rowsPerPage * cardsPerRow));
-                const prevButton = document.getElementById('prev-page');
-                const nextButton = document.getElementById('next-page');
-
-                prevButton.disabled = currentPage === 1;
-                nextButton.disabled = currentPage === totalPages;
-
-                prevButton.addEventListener('click', () => {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayCards();
-                        setupPagination(); // Обновляем кнопки после изменения страницы
-                    }
-                });
-
-                nextButton.addEventListener('click', () => {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayCards();
-                        setupPagination(); // Обновляем кнопки после изменения страницы
-                    }
-                });
-            }
-
-            displayCards();
-            setupPagination();
+        cards.forEach((card, index) => {
+            card.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
         });
+    }
+
+    function updatePaginationButtons() {
+        const totalPages = Math.ceil(cards.length / (rowsPerPage * cardsPerRow));
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+    }
+
+    function setupPagination() {
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayCards();
+                updatePaginationButtons(); // Обновляем кнопки после изменения страницы
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            const totalPages = Math.ceil(cards.length / (rowsPerPage * cardsPerRow));
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayCards();
+                updatePaginationButtons(); // Обновляем кнопки после изменения страницы
+            }
+        });
+    }
+
+    displayCards();
+    setupPagination();
+    updatePaginationButtons(); // Устанавливаем начальное состояние кнопок
+});
 
         // Отображение модального окна
 function showModal() {
