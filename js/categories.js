@@ -350,7 +350,7 @@ window.addEventListener('scroll', scrollHandler);
 //навигация
 document.addEventListener('DOMContentLoaded', function() {
     const cardsPerRow = 4; // 4 карточки в каждом ряду
-    const rowsPerPage = 2; // 2 ряда на странице (всего 8 карточек)
+    const rowsPerPage = 3; // 2 ряда на странице (всего 8 карточек)
     const cardsContainer = document.getElementById('cards-container');
     const cards = Array.from(cardsContainer.getElementsByClassName('card'));
     let currentPage = 1;
