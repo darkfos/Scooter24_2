@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  backend_database:
+  postgres:
     container_name: database
     image: postgres:13.3
     environment:
@@ -8,12 +8,12 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5699:5699"
+      - "5644:5644"
     restart: always
     networks:
       - scooter_bridge
   backend:
-    container_name: backend
+    container_name: backend_scooter
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,11 +21,12 @@ services:
       - "5678:5678"
     restart: always
     depends_on:
-      - backend_database
+      - postgres
     env_file:
       - .env
     networks:
       - scooter_bridge
+
 networks:
   scooter_bridge:
     driver: bridge

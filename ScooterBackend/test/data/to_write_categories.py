@@ -28,8 +28,8 @@ async def write_in_db():
         async with session.post(
             url="http://0.0.0.0:5678/api/v1/auth/login",
             data={
-                "username": "valeriya.p05@mail.ru",
-                "password": "147789"
+                "username": "ferdjjah444@gmail.com",
+                "password": "12345678"
             }
         ) as j_session:
             jwt_token = (await j_session.json()).get("access_token")
