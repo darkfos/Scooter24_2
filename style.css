@@ -1335,3 +1335,26 @@ padding: 5px;
   max-height: none;
   overflow: visible;
 }
+
+.remove-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.remove-from-favorites {
+  background-color: #b9ff21;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px}
+
+  .add-to-cart{
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px}

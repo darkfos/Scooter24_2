@@ -135,9 +135,13 @@ window.addEventListener('scroll', scrollHandler);
 
 
 //избранное и корзина
+// Отладочные сообщения
+console.log('Script is loaded');
+
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// Получение элементов
 const favoriteButton = document.getElementById('favorite-button');
 const favoriteCount = document.getElementById('favorite-count');
 const favoriteList = document.querySelector('#favorite-list tbody');
@@ -150,14 +154,79 @@ const cartList = document.querySelector('#cart-list tbody');
 const cartModal = document.getElementById('cart-modal');
 const cartClose = document.getElementById('cart-close');
 
+// Функции для работы с localStorage
 function saveFavorites() {
+    console.log('Saving favorites:', favorites);
     localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
 function saveCart() {
+    console.log('Saving cart:', cart);
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+// Функции для обновления списка избранного
+function updateFavoriteList() {
+    console.log('Updating favorite list:', favorites);
+    if (favoriteList) {
+        favoriteList.innerHTML = '';
+        favorites.forEach(product => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><img src="${product.image}" alt="${product.name}" class="favorite-product-image"></td>
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.stock}</td>
+                <td>
+                    <button class="add-to-cart" onclick="addToCartFromFavorites('${product.id}')">Добавить в корзину</button>
+                    <button class="remove-from-favorites" onclick="removeFromFavorites('${product.id}')">Удалить</button>
+                </td>
+            `;
+            favoriteList.appendChild(tr);
+        });
+    }
+}
+
+// Функции для обновления списка корзины
+function updateCartList() {
+    console.log('Updating cart list:', cart);
+    if (cartList) {
+        cartList.innerHTML = '';
+        cart.forEach(product => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
+                <td>${product.name}</td>
+                <td class="cart-item-price">${product.price}</td>
+                <td>
+                    <button class="quantity-change" onclick="changeQuantity('${product.id}', -1)">-</button>
+                    <span class="cart-item-quantity">${product.quantity}</span>
+                    <button class="quantity-change" onclick="changeQuantity('${product.id}', 1)">+</button>
+                </td>
+                <td>
+                    <button class="remove-from-cart" onclick="removeFromCart('${product.id}')">Удалить</button>
+                </td>
+            `;
+            cartList.appendChild(tr);
+        });
+        updateTotalPrice();
+    }
+}
+
+// Функция для обновления общей цены корзины
+function updateTotalPrice() {
+    let totalPrice = 0;
+    cart.forEach(product => {
+        const price = parseFloat(product.price.replace('руб.', '').replace('₽', '').replace(',', '.'));
+        totalPrice += price * product.quantity;
+    });
+    const totalPriceElement = document.getElementById('total-price');
+    if (totalPriceElement) {
+        totalPriceElement.innerText = totalPrice.toFixed(2) + ' ₽';
+    }
+}
+
+// Функция для обработки клика по кнопке "Избранное"
 function toggleFavorite(button) {
     const productCard = button.closest('.product-card');
     const productId = productCard.getAttribute('data-id');
@@ -183,58 +252,28 @@ function toggleFavorite(button) {
         button.querySelector('i').classList.add('active');
     }
 
-    favoriteCount.innerText = favorites.length;
+    if (favoriteCount) {
+        favoriteCount.innerText = favorites.length;
+    }
     updateFavoriteList();
     saveFavorites();
 }
 
-function updateFavoriteList() {
-    favoriteList.innerHTML = '';
-    favorites.forEach(product => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><img src="${product.image}" alt="${product.name}" class="favorite-product-image"></td>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>${product.stock}</td>
-            <td>
-                <button class="add-to-cart" onclick="addToCartFromFavorites('${product.id}')">Добавить в корзину</button>
-                <button class="remove-from-favorites" onclick="removeFromFavorites('${product.id}')">Удалить</button>
-            </td>
-        `;
-        favoriteList.appendChild(tr);
-    });
-}
-
+// Функция для удаления товара из избранного
 function removeFromFavorites(productId) {
     favorites = favorites.filter(item => item.id !== productId);
     const productCard = document.querySelector(`.product-card[data-id="${productId}"] .add-to-favorites i`);
     if (productCard) {
         productCard.classList.remove('active');
     }
-    favoriteCount.innerText = favorites.length;
+    if (favoriteCount) {
+        favoriteCount.innerText = favorites.length;
+    }
     updateFavoriteList();
     saveFavorites();
 }
 
-function toggleModal(modal) {
-    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-}
-
-favoriteButton.addEventListener('click', () => toggleModal(favoritesModal));
-favoritesClose.addEventListener('click', () => toggleModal(favoritesModal));
-cartButton.addEventListener('click', () => toggleModal(cartModal));
-cartClose.addEventListener('click', () => toggleModal(cartModal));
-
-window.addEventListener('click', function(event) {
-    if (event.target === favoritesModal) {
-        toggleModal(favoritesModal);
-    }
-    if (event.target === cartModal) {
-        toggleModal(cartModal);
-    }
-});
-
+// Функция для обработки клика по кнопке "Корзина"
 function toggleCart(button) {
     const productCard = button.closest('.product-card');
     const productId = productCard.getAttribute('data-id');
@@ -256,37 +295,25 @@ function toggleCart(button) {
         cart.push(product);
     }
 
-    cartCount.innerText = cart.length;
+    if (cartCount) {
+        cartCount.innerText = cart.length;
+    }
     updateCartList();
     saveCart();
 }
 
+// Функция для добавления товара из избранного в корзину
 function addToCartFromFavorites(productId) {
+    console.log('Adding to cart from favorites:', productId);
     const product = favorites.find(item => item.id === productId);
-    toggleCart(document.querySelector(`.product-card[data-id="${productId}"] .add-to-cart`));
+    if (product) {
+        toggleCart(document.querySelector(`.product-card[data-id="${productId}"] .add-to-cart`));
+    } else {
+        console.error('Product not found in favorites:', productId);
+    }
 }
 
-function updateCartList() {
-    cartList.innerHTML = '';
-    cart.forEach(product => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><img src="${product.image}" alt="${product.name}" class="cart-product-image"></td>
-            <td>${product.name}</td>
-            <td class="cart-item-price">${product.price}</td>
-            <td>
-                <button class="quantity-change" onclick="changeQuantity('${product.id}', -1)">-</button>
-                <span class="cart-item-quantity">${product.quantity}</span>
-                <button class="quantity-change" onclick="changeQuantity('${product.id}', 1)">+</button>
-            </td>
-            <td>
-                <button class="remove-from-cart" onclick="removeFromCart('${product.id}')">Удалить</button>
-            </td>
-        `;
-        cartList.appendChild(tr);
-    });
-}
-
+// Функция для изменения количества товара в корзине
 function changeQuantity(productId, delta) {
     const index = cart.findIndex(item => item.id === productId);
     if (index > -1) {
@@ -300,49 +327,68 @@ function changeQuantity(productId, delta) {
     updateTotalPrice();
 }
 
+// Функция для удаления товара из корзины
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
-    cartCount.innerText = cart.length;
+    if (cartCount) {
+        cartCount.innerText = cart.length;
+    }
     updateCartList();
     saveCart();
     updateTotalPrice();
 }
 
-function updateTotalPrice() {
-    let totalPrice = 0;
-    cart.forEach(product => {
-        const price = parseFloat(product.price.replace('$', ''));
-        totalPrice += price * product.quantity;
-    });
-    document.getElementById('total-price').innerText = '$' + totalPrice.toFixed(2);
-}
-
+// Функция для покупки товаров
 function buyItems() {
     alert('Оплата произведена, теперь у вас нет денег и нет товара 🤡');
     cart = [];
-    cartCount.innerText = cart.length;
+    if (cartCount) {
+        cartCount.innerText = cart.length;
+    }
     updateCartList();
     saveCart();
     updateTotalPrice();
     toggleCartModal();
 }
 
-function toggleCartModal() {
-    cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+// Функция для переключения видимости модального окна
+function toggleModal(modal) {
+    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
 }
 
-cartButton.addEventListener('click', toggleCartModal);
-cartClose.addEventListener('click', toggleCartModal);
-
-window.addEventListener('click', function(event) {
-    if (event.target === cartModal) {
-        toggleCartModal();
+// Инициализация модальных окон
+function initializeModals() {
+    if (favoriteButton) {
+        favoriteButton.addEventListener('click', () => toggleModal(favoritesModal));
     }
-});
+    if (favoritesClose) {
+        favoritesClose.addEventListener('click', () => toggleModal(favoritesModal));
+    }
+    if (cartButton) {
+        cartButton.addEventListener('click', () => toggleModal(cartModal));
+    }
+    if (cartClose) {
+        cartClose.addEventListener('click', () => toggleModal(cartModal));
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    favoriteCount.innerText = favorites.length;
-    cartCount.innerText = cart.length;
+    window.addEventListener('click', function(event) {
+        if (event.target === favoritesModal) {
+            toggleModal(favoritesModal);
+        }
+        if (event.target === cartModal) {
+            toggleModal(cartModal);
+        }
+    });
+}
+
+// Инициализация страницы
+function initializePage() {
+    if (favoriteCount) {
+        favoriteCount.innerText = favorites.length;
+    }
+    if (cartCount) {
+        cartCount.innerText = cart.length;
+    }
     updateFavoriteList();
     updateCartList();
     updateTotalPrice();
@@ -353,10 +399,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (favorites.find(item => item.id === productId)) {
             card.querySelector('.add-to-favorites i').classList.add('active');
         }
-        if (cart.find(item => item.id === productId)) {
-            // Примените нужные изменения, если необходимо для корзины
-        }
+        // Убедитесь, что вы добавили необходимые изменения для корзины, если это необходимо
     });
+}
+
+// Событие DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded and parsed');
+    initializePage();
+    initializeModals();
 });
 
 
