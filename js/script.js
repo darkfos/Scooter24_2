@@ -342,6 +342,8 @@ window.addEventListener('scroll', scrollHandler);
 
 //избранное и корзина
 // Отладочные сообщения
+//избранное и корзина
+// Отладочные сообщения
 console.log('Script is loaded');
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -615,6 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializePage();
     initializeModals();
 });
+
 
 
 

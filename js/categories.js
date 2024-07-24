@@ -119,6 +119,8 @@ window.addEventListener('scroll', scrollHandler);
 
 //корзина, избранное и фильтры
          // Массив для хранения избранных товаров
+//корзина, избранное и фильтры
+         // Массив для хранения избранных товаров
 // Инициализация корзины и избранного из localStorage
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -482,3 +484,20 @@ function showModal() {
     window.location.href = 'tel:+9614277510';
   }
   
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', function() {
+            const product = {
+                image: this.querySelector('img').src,
+                name: this.querySelector('h3').innerText,
+                description: this.querySelector('.description').innerText,
+                price: this.dataset.price,
+                availability: this.dataset.availability
+            };
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+            window.location.href = 'product.html';
+        });
+    });
+});

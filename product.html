@@ -1,12 +1,18 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Card</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
-<body  onscroll="scrollHandler(event)">
+<body onscroll="scrollHandler(event)">
     <header class="header" id="header">
         <div id="parallelogram">
             <span class="logo-text">LOGO</span>
@@ -40,89 +46,271 @@
             </ul>
         </div>
     </header>
+    <div id="favorites-modal" class="modal">
+        <div class="modal-contents">
+          <span class="close" id="favorites-close">&times;</span>
+          <h2>Избранное</h2>
+          <table id="favorite-list">
+            <thead>
+              <tr>
+                <th>Изображение</th>
+                <th>Название товара</th>
+                <th>Цена за штуку</th>
+                <th>Наличие на складе</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    
+      <div id="cart-modal" class="modal">
+        <div class="modal-contents">
+          <span class="close" onclick="toggleCartModal()">&times;</span>
+          <h2>Корзина</h2>
+          <table id="cart-list">
+            <thead>
+              <tr>
+                <th>Изображение</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div class="cart-total">
+            <p>Итого: <span id="total-price">0.00 ₽</span></p>
+            <button class="buy-button" onclick="buyItems()">Купить</button>
+          </div>
+        </div>
+      </div>
+    
+        <div id="scooter-modal" class="modal">
+          <div class="modal-contents">
+              <span class="close" id="scooter-modal-close">&times;</span>
+              <h2>Выберите модель скутера</h2>
+              <form id="scooter-form">
+                  <label for="scooter-type">Тип скутера:</label>
+                  <select id="scooter-type">
+                      <option value="electric">Электрический</option>
+                      <option value="gas">Бензиновый</option>
+                  </select>
+                  <br>
+                  <label for="scooter-manufacturer">Производитель:</label>
+                  <select id="scooter-manufacturer">
+                      <option value="yamaha">Yamaha</option>
+                      <option value="honda">Honda</option>
+                      <option value="vespa">Vespa</option>
+                  </select>
+                  <br>
+                  <label for="scooter-model">Модель:</label>
+                  <select id="scooter-model">
+                      <option value="model1">Модель 1</option>
+                      <option value="model2">Модель 2</option>
+                      <option value="model3">Модель 3</option>
+                  </select>
+                  <br>
+                  <button type="button" id="add-scooter">Добавить</button>
+              </form>
+              <div id="scooter-details" style="display: none;">
+                  <h3>Выбранная модель скутера:</h3>
+                  <p id="scooter-type-display"></p>
+                  <p id="scooter-manufacturer-display"></p>
+                  <p id="scooter-model-display"></p>
+                  <img id="scooter-image" src="image/scooter.png" alt="Фото скутера">
+              </div>
+              <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
+              <button id="login-button">Авторизация</button>
+          </div>
+      </div>    
+
+      <script>
+        function setupScooterModal() {
+            const scooterButton = document.getElementById('scooter-button');
+            const scooterModal = document.getElementById('scooter-modal');
+            const scooterModalClose = document.getElementById('scooter-modal-close');
+            const addScooterButton = document.getElementById('add-scooter');
+            const loginButton = document.getElementById('login-button');
+          
+            scooterButton.addEventListener('click', () => {
+              scooterModal.style.display = 'block';
+            });
+          
+            scooterModalClose.addEventListener('click', () => {
+              scooterModal.style.display = 'none';
+            });
+          
+            window.addEventListener('click', (event) => {
+              if (event.target === scooterModal) {
+                scooterModal.style.display = 'none';
+              }
+            });
+          
+            addScooterButton.addEventListener('click', () => {
+              const type = document.getElementById('scooter-type').value;
+              const manufacturer = document.getElementById('scooter-manufacturer').value;
+              const model = document.getElementById('scooter-model').value;
+              alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
+              scooterModal.style.display = 'none';
+            });
+          
+            loginButton.addEventListener('click', () => {
+              // Перенаправление на страницу авторизации или открытие модального окна авторизации
+              alert('Перенаправление на страницу авторизации');
+            });
+          }
+          
+          // Вызываем функцию setupScooterModal после загрузки контента страницы
+          document.addEventListener('DOMContentLoaded', setupScooterModal);
+          
+          addScooterButton.addEventListener('click', () => {
+            const type = document.getElementById('scooter-type').value;
+            const manufacturer = document.getElementById('scooter-manufacturer').value;
+            const model = document.getElementById('scooter-model').value;
+        
+            // Обновляем данные в блоке scooter-details
+            document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
+            document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
+            document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
+            document.getElementById('scooter-image').src = `image/scooter_${type}_${manufacturer}_${model}.png`;
+        
+            // Отображаем блок scooter-details
+            document.getElementById('scooter-details').style.display = 'block';
+        
+            // Закрываем модальное окно
+            scooterModal.style.display = 'none';
+        });
+          </script>
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const product = JSON.parse(localStorage.getItem('selectedProduct'));
+                    if (product) {
+                        document.getElementById('product-image').src = product.image;
+                        document.getElementById('product-name').innerText = product.name;
+                        document.getElementById('product-price').innerText = product.price + ' руб.';
+                        document.getElementById('product-description').innerText = product.description;
+                        document.getElementById('product-availability').innerText = 'На складе: ' + product.availability;
+                    } else {
+                        document.getElementById('product-details').innerText = "Информация о товаре не найдена.";
+                    }
+                });
+            </script>
+          
+        
+          <main class="containers">
+            <aside class="sidebar">
+                <nav class="categories-nav">
+                    <h2>Категории</h2>
+                    <ul>
+                        <li><a href="uncategorized.html">Uncategorized</a></li>
+                        <li><a href="accessories.html">Аксессуары</a></li>
+                        <li><a href="engine.html">Двигатель</a></li>
+                        <li><a href="suspension.html">Подвеска</a></li>
+                        <li><a href="fuel-system.html">Топливная система</a></li>
+                        <li><a href="brake-system.html">Тормозная система</a></li>
+                        <li><a href="transmission.html">Трансмиссия</a></li>
+                        <li><a href="electrics.html">Электрика</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+                <section class="main-content">
+                  <div class="breadcrumbs">
+                    <a href="index.html">Главная</a> &raquo; <span>Товары</span>
+                  </div>
+                  <hr class="dashed-line">
+                  
+                  <div class="product-container">
+                    <div class="product-image">
+                      <img id="product-image" src="" alt="Изображение товара">
+                    </div>
+                    
+                    <div class="product-details">
+                      <h1 id="product-name">Название товара</h1>
+                      <p id="product-price" class="price">Цена</p>
+                      <p id="product-availability">На складе: количество</p>
+                      <p id="product-description">Описание товара</p>
+                      
+                      <div class="product-actions">
+                        <button id="add-to-cart">Добавить в корзину</button>
+                        <button id="add-to-favorites" class="favorite">Добавить в избранное</button>
+                      </div>
+                      
+                      <div class="product-meta">
+                        <p>Артикул: <span id="product-sku">SCOT7825476452752123</span></p>
+                        <p>Категория: <span id="product-category">Трансмиссия</span></p>
+                        <p>Метки: <span id="product-tags">1, год</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </main>
+
+    
+        
+<footer class="footer">
+    <div class="footer-section">
+      <h4 class="yellow-text">НОВОСТНАЯ РАССЫЛКА</h4>
+      <p>Получайте последние новости, специальные предложения и купоны через <br>электронную почту! Вы можете отменить подписку в любое время.</p>
+      <form action="#" class="subscribe-form">
+        <input type="email" placeholder="Your email">
+        <button type="submit" class="subscribe-button">Подписаться</button>
+      </form>  
+      <h4 class="yellow-text">КОД КУПОНА</h4>
+      <p>Проверьте <span class="highlights">все текущие коды купонов</span> на странице.</p>
+    </div>
+    <div>
+      <hr class="divider">
+    </div>
+    <div class="footer-section">
+      <h3 class="yellow-text">FAQ</h3>
+      <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
+      <h4><a href="pay.html">Способы оплаты</a></h4>
+      <h4><a href="delivery.html">Доставка</a></h4>
+      <h4><a href="return.html">Возвраты</a></h4>
+      <h4><a href="Salesroom.html">Торговое помещение</a></h4>
+  </div>    
+    <div>
+      <hr class="divider">
+    </div>
+    <div class="footer-section">
+      <h3 class="yellow-text">INFO</h3>
+      <h4><a href="legal.html">Официальное уведомление</a></h4>
+      <h4><a href="dataprotection.html">Защита данных</a></h4>
+      <h4><a href="revocation.html">Право отзыва</a></h4>
+      <h4><a href="jobs.html">Работа</a></h4>
+      <h4><a href="techtips.html">Технические советы и руководства</a></h4>
+      <h4><a href="brands.html">Бренды</a></h4>
+      <h3 class="yellow-text">Social</h3>
+      <div class="social-icons">
+        <a href="https://telegram.example.com" class="social-icon">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://whatsapp.example.com" class="social-icon">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
+            <img src="image/круг.png" alt="Image 1" class="social-image">
+        </a>
+        <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
+            <img src="image/круг2.png" alt="Image 2" class="social-image">
+        </a>
+    </div>
+    </div>    
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <button class="whatsapp-btn" onclick="redirectToWhatsApp()">WhatsApp</button>
+          <button class="telegram-btn" onclick="redirectToTelegram()">Telegram</button>
+          <button class="phone-btn" onclick="makePhoneCall()">Звонок</button>
+        </div>
+      </div>
+  </footer>
 
 
-
-    <main>
-        <select class="orderby" name="product_cat">
-            <option value="" selected="selected">All Categories</option>
-            <option value="uncategorized">Uncategorized</option>
-            <option value="%d0%b0%d0%ba%d1%81%d0%b5%d1%81%d1%81%d1%83%d0%b0%d1%80%d1%8b">Accessories</option>
-            <option value="porshnevaya_gruppa">Engine</option>
-            <option value="%d0%bf%d0%be%d0%b4%d0%b2%d0%b5%d1%81%d0%ba%d0%b0">Suspension</option>
-            <option value="%d1%82%d0%be%d0%bf%d0%bb%d0%b8%d0%b2%d0%bd%d0%b0%d1%8f-%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0">Fuel System</option>
-            <option value="%d1%82%d0%be%d1%80%d0%bc%d0%be%d0%b7%d0%bd%d0%b0%d1%8f-%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0">Brake System</option>
-            <option value="%d1%82%d1%80%d0%b0%d0%bd%d1%81%d0%bc%d0%b8%d1%81%d1%81%d0%b8%d1%8f">Transmission</option>
-            <option value="%d1%8d%d0%bb%d0%b5%d0%ba%d1%82%d1%80%d0%b8%d0%ba%d0%b0">Electrics</option>
-        </select>
-        <div class="product-details">
-            <h2 class="product-title"></h2>
-            <p class="product-price"></p>
-            <p class="availability"></p>
-            <div class="product-image">
-                <img src="" alt="Product Image">
-            </div>
-            <p class="product-description"></p>
-            <div class="quantity">
-                <button class="decrement">-</button>
-                <input type="text" value="1">
-                <button class="increment">+</button>
-            </div>
-            <button class="add-to-cart">Add to Cart</button>
-        </div>
-    </main>
-
-
-    <footer class="footer">
-        <div class="footer-section">
-          <h4 class="yellow-text">НОВОСТНАЯ РАССЫЛКА</h4>
-          <p>Получайте последние новости, специальные предложения и купоны через <br>электронную почту! Вы можете отменить подписку в любое время.</p>
-          <form action="#" class="subscribe-form">
-            <input type="email" placeholder="Your email">
-            <button type="submit" class="subscribe-button">Подписаться</button>
-          </form>  
-          <h4 class="yellow-text">КОД КУПОНА</h4>
-          <p>Проверьте <span class="highlights">все текущие коды купонов</span> на странице.</p>
-        </div>
-        <div>
-          <hr class="divider">
-        </div>
-        <div class="footer-section">
-          <h3 class="yellow-text">FAQ</h3>
-          <h4><a href="contact.html">Контакт</a></h4> 
-          <h4><a href="payment.html">Способы оплаты</a></h4>
-          <h4><a href="shipping.html">Доставка и обработка</a></h4>
-          <h4><a href="returns.html">Возвраты</a></h4>
-          <h4><a href="salesroom.html">Распродажа</a></h4>
-        </div>
-        <div>
-          <hr class="divider">
-        </div>
-        <div class="footer-section">
-          <h3 class="yellow-text">INFO</h3>
-          <h4><a href="legal.html">Официальное уведомление</a></h4>
-          <h4><a href="dataprotection.html">Защита данных</a></h4>
-          <h4><a href="revocation.html">Право отзыва</a></h4>
-          <h4><a href="jobs.html">Работа</a></h4>
-          <h4><a href="techtips.html">Технические советы и руководства</a></h4>
-          <h4><a href="brands.html">Бренды</a></h4>
-          <h3 class="yellow-text">Social</h3>
-          <div class="social-icons">
-            <a href="https://telegram.example.com" class="social-icon">
-                <i class="fab fa-telegram"></i>
-            </a>
-            <a href="https://whatsapp.example.com" class="social-icon">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
-                <img src="image/круг.png" alt="Image 1" class="social-image">
-            </a>
-            <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
-                <img src="image/круг2.png" alt="Image 2" class="social-image">
-            </a>
-        </div>
-        </div>    
-      </footer>
-    <script src="script.js"></script>
+  <script src="js/categories.js"></script>
 </body>
-</html> -->
+</html>
