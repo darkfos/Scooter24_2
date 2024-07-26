@@ -1449,3 +1449,63 @@ padding: 5px;
     margin-left: 0;
   }
 }
+
+
+.tab {
+  margin: 10px 10px 0 0;
+  padding: 10px;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.tab.active {
+  background-color: #ddd;
+}
+
+.tabs {
+  margin-top: 450px; /* Отступ сверху, чтобы отодвинуть от изображения */
+  margin-left: 50px; /* Выровнять по левому краю */
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+#review-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#review-form label {
+  margin: 5px 0 2px;
+}
+
+#review-form input,
+#review-form select,
+#review-form textarea {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#review-form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#review-form button:hover {
+  background-color: #0056b3;
+}
+

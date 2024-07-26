@@ -247,7 +247,121 @@
                     </div>
                   </div>
                 </section>
-              </main>
+                
+                <section class="tabs">
+                  <button id="details-tab" >Детали</button>
+                  <button id="reviews-tab">Отзывы (0)</button>
+                </section>
+                
+                <section id="details-content" class="tab-content active">
+                  <h2>Габариты</h2>
+                  <p>Вес: <span id="product-weight">1 kg</span></п>
+                  <п>Габариты: <span id="product-dimensions">10 × 20 × 10 cm</span></п>
+                </section>
+                
+                <section id="reviews-content" class="tab-content">
+                  <h2>Отзывы</h2>
+                  <p id="no-reviews">Отзывов пока нет.</п>
+                  
+                  <h3>Будьте первым, кто оставил отзыв на <span id="product-review-title">“Товар”</span></h3>
+                  <form id="review-form">
+                    <label for="review-name">Имя *</label>
+                    <input type="text" id="review-name" name="review-name" required>
+                    
+                    <label for="review-email">Email *</label>
+                    <input type="email" id="review-email" name="review-email" required>
+                    
+                    <input type="checkbox" id="save-info" name="save-info">
+                    <label for="save-info">Сохранить моё имя, email и адрес сайта в этом браузере для последующих моих комментариев.</label>
+                    
+                    <label for="review-rating">Ваша оценка *</label>
+                    <select id="review-rating" name="review-rating" required>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                    
+                    <label for="review-text">Ваш отзыв *</label>
+                    <textarea id="review-text" name="review-text" required></textarea>
+                    
+                    <button type="submit">Отправить</button>
+                  </form>
+                </section>
+              </section>
+            </main>
+            
+
+              <script>document.addEventListener("DOMContentLoaded", function() {
+                const detailsTab = document.getElementById("details-tab");
+                const reviewsTab = document.getElementById("reviews-tab");
+                const detailsContent = document.getElementById("details-content");
+                const reviewsContent = document.getElementById("reviews-content");
+                const noReviews = document.getElementById("no-reviews");
+              
+                detailsTab.addEventListener("click", function() {
+                  detailsContent.style.display = "block";
+                  reviewsContent.style.display = "none";
+                  detailsTab.classList.add("active");
+                  reviewsTab.classList.remove("active");
+                });
+              
+                reviewsTab.addEventListener("click", function() {
+                  detailsContent.style.display = "none";
+                  reviewsContent.style.display = "block";
+                  detailsTab.classList.remove("active");
+                  reviewsTab.classList.add("active");
+                });
+              
+                const reviewForm = document.getElementById("review-form");
+                reviewForm.addEventListener("submit", function(event) {
+                  event.preventDefault();
+                  // Здесь вы можете добавить код для обработки и сохранения отзыва
+                  alert("Ваш отзыв был отправлен!");
+                  noReviews.style.display = "none";
+                  reviewForm.reset();
+                });
+              
+              
+                // Загрузка данных товара на страницу
+                document.getElementById("product-image").src = productData.image;
+                document.getElementById("product-name").textContent = productData.name;
+                document.getElementById("product-price").textContent = productData.price;
+                document.getElementById("product-availability").textContent = `На складе: ${productData.availability}`;
+                document.getElementById("product-description").textContent = productData.description;
+                document.getElementById("product-sku").textContent = productData.sku;
+                document.getElementById("product-category").textContent = productData.category;
+                document.getElementById("product-tags").textContent = productData.tags;
+                document.getElementById("details-content").innerHTML = `<h2>Габариты</h2><p>${productData.weight}</p><p>${productData.dimensions}</p>`;
+              
+                // Управление количеством
+                const quantityInput = document.getElementById("quantity");
+                document.getElementById("decrease-quantity").addEventListener("click", function() {
+                  if (quantityInput.value > 1) {
+                    quantityInput.value--;
+                  }
+                });
+              
+                document.getElementById("increase-quantity").addEventListener("click", function() {
+                  quantityInput.value++;
+                });
+              
+                // Добавление в корзину и избранное
+                document.getElementById("add-to-cart").addEventListener("click", function() {
+                  alert("Товар добавлен в корзину");
+                });
+              
+                document.getElementById("add-to-favorites").addEventListener("click", function() {
+                  alert("Товар добавлен в избранное");
+                });
+              
+                // Определение функции addScooterButton
+                window.addScooterButton = function() {
+                  alert("Модель скутера добавлена");
+                };
+              });
+              </script>
 
     
         
