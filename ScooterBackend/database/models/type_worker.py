@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class TypeWorker(MainBase):

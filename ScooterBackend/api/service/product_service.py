@@ -9,14 +9,14 @@ from fastapi import UploadFile
 
 
 #Local
-from ScooterBackend.database.models.product import Product
-from ScooterBackend.api.exception.http_product_exception import *
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.dto.product_dto import *
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.repository.product_repository import ProductRepository
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dep.dependencies import IEngineRepository
+from database.models.product import Product
+from api.exception.http_product_exception import *
+from api.exception.http_user_exception import UserHttpError
+from api.dto.product_dto import *
+from api.authentication.authentication_service import Authentication
+from database.repository.product_repository import ProductRepository
+from database.repository.admin_repository import AdminRepository
+from api.dep.dependencies import IEngineRepository
 
 
 class ProductService:

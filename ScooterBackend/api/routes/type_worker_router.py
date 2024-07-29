@@ -8,11 +8,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #Local
-from ScooterBackend.api.service.type_worker_service import TypeWorkerService
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.dto.type_worker_dto import TypeWorkerBase
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.service.type_worker_service import TypeWorkerService
+from api.authentication.authentication_service import Authentication
+from database.db_worker import db_work
+from api.dto.type_worker_dto import TypeWorkerBase
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()

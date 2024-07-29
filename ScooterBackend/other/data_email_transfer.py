@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 #Local
-from ScooterBackend.settings.email_transfer_settings import EmailTransferSettings
+from settings.email_transfer_settings import EmailTransferSettings
 
 
 class EmailTransfer:

@@ -1,19 +1,19 @@
 #Local
-from ScooterBackend.settings.api_settings import APISettings
+from settings.api_settings import APISettings
 
 #ROUTES
-from ScooterBackend.api.routes.user_router import user_router as user_router
-from ScooterBackend.api.routes.authentication_router import auth_router as auth_router
-from ScooterBackend.api.routes.category_router import category_router as category_router
-from ScooterBackend.api.routes.admin_router import admin_router as admin_router
-from ScooterBackend.api.routes.review_router import review_router as review_router
-from ScooterBackend.api.routes.product_router import product_router as product_router
-from ScooterBackend.api.routes.order_router import order_router as order_router
-from ScooterBackend.api.routes.favourite_router import favourite_router as favourite_router
-from ScooterBackend.api.routes.history_buy_router import history_buy_router as history_buy_router
-from ScooterBackend.api.routes.type_worker_router import type_worker_router as type_worker_router
-from ScooterBackend.api.routes.vacancies_router import vacancies_router as vacancies_router
-from ScooterBackend.api.routes.general_router import api_v1_router
+from api.routes.user_router import user_router as user_router
+from api.routes.authentication_router import auth_router as auth_router
+from api.routes.category_router import category_router as category_router
+from api.routes.admin_router import admin_router as admin_router
+from api.routes.review_router import review_router as review_router
+from api.routes.product_router import product_router as product_router
+from api.routes.order_router import order_router as order_router
+from api.routes.favourite_router import favourite_router as favourite_router
+from api.routes.history_buy_router import history_buy_router as history_buy_router
+from api.routes.type_worker_router import type_worker_router as type_worker_router
+from api.routes.vacancies_router import vacancies_router as vacancies_router
+from api.routes.general_router import api_v1_router
 
 
 #Other libraries
@@ -90,9 +90,7 @@ if __name__ == "__main__":
     try:
         uvicorn.run(
             app="main:app",
-            host=sett.api_host,
-            port=sett.api_port,
-            reload=sett.reload
+            #reload=sett.reload
         )
     except Exception as ex:
         logging.critical(msg="API cancel")

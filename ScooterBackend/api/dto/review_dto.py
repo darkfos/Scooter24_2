@@ -5,7 +5,7 @@ from typing import Union, Annotated, Dict
 from pydantic import BaseModel, Field
 
 #Local
-from ScooterBackend.database.models.category import Category
+from database.models.category import Category
 
 
 class ReviewBase(BaseModel):

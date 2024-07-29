@@ -9,7 +9,7 @@ from fastapi import UploadFile
 from fastapi.responses import FileResponse
 
 #Local
-from ScooterBackend.database.models.category import Category
+from database.models.category import Category
 
 
 class ProductBase(BaseModel):

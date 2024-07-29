@@ -6,16 +6,16 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union
 
 #Local
-from ScooterBackend.settings.authenticate_settings import auth
-from ScooterBackend.api.dto.auth_dto import CreateToken, Tokens, AccessToken
-from ScooterBackend.api.authentication.hashing import CryptographyScooter
-from ScooterBackend.api.exception.general_exceptions import GeneralExceptions
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.database.repository.user_repository import UserRepository
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.database.models.user import User
-from ScooterBackend.database.models.admin import Admin
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from settings.authenticate_settings import auth
+from api.dto.auth_dto import CreateToken, Tokens, AccessToken
+from api.authentication.hashing import CryptographyScooter
+from api.exception.general_exceptions import GeneralExceptions
+from api.exception.http_user_exception import UserHttpError
+from database.repository.user_repository import UserRepository
+from database.repository.admin_repository import AdminRepository
+from database.models.user import User
+from database.models.admin import Admin
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 class Authentication:

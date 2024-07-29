@@ -6,11 +6,11 @@ from fastapi import Depends, status, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.dto.review_dto import *
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.service.review_service import ReviewService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.dto.review_dto import *
+from database.db_worker import db_work
+from api.authentication.authentication_service import Authentication
+from api.service.review_service import ReviewService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 review_router: APIRouter = APIRouter(

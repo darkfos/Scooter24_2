@@ -5,10 +5,10 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import Annotated, Union, List, Dict
 
 #Local
-from ScooterBackend.database.models.order import Order
-from ScooterBackend.database.models.review import Review
-from ScooterBackend.database.models.history_buy import HistoryBuy
-from ScooterBackend.database.models.favourite import Favourite
+from database.models.order import Order
+from database.models.review import Review
+from database.models.history_buy import HistoryBuy
+from database.models.favourite import Favourite
 
 
 class UserBase(BaseModel):

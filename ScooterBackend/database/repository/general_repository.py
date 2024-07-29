@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
 
 #Local
-from ScooterBackend.database.models.product import Product
+from database.models.product import Product
 
 
 class GeneralSQLRepository:

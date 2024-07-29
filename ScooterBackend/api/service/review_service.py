@@ -6,15 +6,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #Local
-from ScooterBackend.database.models.review import Review
-from ScooterBackend.api.exception.http_review_exception import *
-from ScooterBackend.api.dto.review_dto import *
-from ScooterBackend.api.exception.http_review_exception import ReviewHttpError
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.repository.review_repository import ReviewRepository
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dep.dependencies import IEngineRepository
+from database.models.review import Review
+from api.exception.http_review_exception import *
+from api.dto.review_dto import *
+from api.exception.http_review_exception import ReviewHttpError
+from api.exception.http_user_exception import UserHttpError
+from api.authentication.authentication_service import Authentication
+from database.repository.review_repository import ReviewRepository
+from database.repository.admin_repository import AdminRepository
+from api.dep.dependencies import IEngineRepository
 
 
 class ReviewService:

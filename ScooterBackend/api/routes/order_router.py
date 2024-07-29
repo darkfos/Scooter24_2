@@ -6,11 +6,11 @@ from fastapi import Depends, status, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.dto.order_dto import *
-from ScooterBackend.api.service.order_service import OrderService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
+from database.db_worker import db_work
+from api.dto.order_dto import *
+from api.service.order_service import OrderService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()

@@ -6,15 +6,15 @@ from typing import List, Union, Dict
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.repository.category_repository import CategoryRepository, Category
-from ScooterBackend.api.dto.category_dto import *
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.authentication.hashing import CryptographyScooter
-from ScooterBackend.api.exception.http_category_exception import CategoryHttpError
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.exception.http_category_exception import CategoryHttpError
-from ScooterBackend.api.dep.dependencies import EngineRepository, IEngineRepository
+from database.repository.category_repository import CategoryRepository, Category
+from api.dto.category_dto import *
+from database.repository.admin_repository import AdminRepository
+from api.authentication.authentication_service import Authentication
+from api.authentication.hashing import CryptographyScooter
+from api.exception.http_category_exception import CategoryHttpError
+from api.exception.http_user_exception import UserHttpError
+from api.exception.http_category_exception import CategoryHttpError
+from api.dep.dependencies import EngineRepository, IEngineRepository
 
 
 class CategoryService:

@@ -6,11 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import status, Depends, APIRouter
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.service.vacancies_service import VacanciesService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
+from api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
+from database.db_worker import db_work
+from api.service.vacancies_service import VacanciesService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()

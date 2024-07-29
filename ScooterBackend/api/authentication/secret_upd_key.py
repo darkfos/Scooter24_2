@@ -7,7 +7,7 @@ from random import choice, randint
 
 
 #Local
-from ScooterBackend.settings.email_transfer_settings import EmailTransferSettings
+from settings.email_transfer_settings import EmailTransferSettings
 
 
 class SecretKey:

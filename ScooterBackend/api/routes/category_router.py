@@ -6,11 +6,11 @@ from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.dto.category_dto import *
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.service.category_service import CategoryService
-from ScooterBackend.api.dep.dependencies import EngineRepository, IEngineRepository
+from api.dto.category_dto import *
+from database.db_worker import db_work
+from api.authentication.authentication_service import Authentication
+from api.service.category_service import CategoryService
+from api.dep.dependencies import EngineRepository, IEngineRepository
 
 category_router = APIRouter(
     prefix="/category",

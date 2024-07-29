@@ -7,14 +7,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.models.history_buy import HistoryBuy
-from ScooterBackend.database.repository.history_buy_repository import HistoryBuyRepository
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.exception.http_history_buy_exception import HistoryBuyHttpError
-from ScooterBackend.api.dto.history_buy_dto import *
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
+from database.models.history_buy import HistoryBuy
+from database.repository.history_buy_repository import HistoryBuyRepository
+from api.exception.http_user_exception import UserHttpError
+from api.exception.http_history_buy_exception import HistoryBuyHttpError
+from api.dto.history_buy_dto import *
+from database.repository.admin_repository import AdminRepository
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 class HistoryBuyService:

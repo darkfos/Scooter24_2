@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, ForeignKey, Double, Text, Date
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class Product(MainBase):

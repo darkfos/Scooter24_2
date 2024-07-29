@@ -7,16 +7,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #Local
-from ScooterBackend.database.repository.order_repository import OrderRepository
-from ScooterBackend.database.repository.category_repository import CategoryRepository
-from ScooterBackend.database.models.order import Order
-from ScooterBackend.database.models.product import Product
-from ScooterBackend.database.models.user import User
-from ScooterBackend.database.models.category import Category
-from ScooterBackend.api.exception.http_order_exception import OrderHttpError
-from ScooterBackend.api.dto.order_dto import *
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.dep.dependencies import IEngineRepository
+from database.repository.order_repository import OrderRepository
+from database.repository.category_repository import CategoryRepository
+from database.models.order import Order
+from database.models.product import Product
+from database.models.user import User
+from database.models.category import Category
+from api.exception.http_order_exception import OrderHttpError
+from api.dto.order_dto import *
+from api.authentication.authentication_service import Authentication
+from api.dep.dependencies import IEngineRepository
 
 
 class OrderService:
