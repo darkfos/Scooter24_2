@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
-from ScooterBackend.api.exception.enum_message_for_excp import HeaderMessage
-from ScooterBackend.api.exception.global_excp import APIError
+from api.exception.enum_message_for_excp import HeaderMessage
+from api.exception.global_excp import APIError
 
 
 class UserHttpError(APIError):

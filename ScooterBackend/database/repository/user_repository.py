@@ -7,8 +7,8 @@ from sqlalchemy import select, update, delete, Result
 from sqlalchemy.orm import joinedload
 
 #Local
-from ScooterBackend.database.models.user import User
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.user import User
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class UserRepository(GeneralSQLRepository):

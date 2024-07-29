@@ -7,7 +7,7 @@ from sqlalchemy import String, Text, Date
 from sqlalchemy.orm import Mapped, mapped_column
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class Admin(MainBase):

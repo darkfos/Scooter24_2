@@ -6,8 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
-from ScooterBackend.database.models.admin import Admin
+from database.repository.general_repository import GeneralSQLRepository
+from database.models.admin import Admin
 
 
 class AdminRepository(GeneralSQLRepository):

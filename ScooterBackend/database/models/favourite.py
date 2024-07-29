@@ -6,7 +6,7 @@ from sqlalchemy import Integer, Text, String, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class Favourite(MainBase):

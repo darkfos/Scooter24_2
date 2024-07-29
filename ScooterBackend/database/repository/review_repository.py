@@ -7,8 +7,8 @@ from sqlalchemy import select, update, delete, Result
 from sqlalchemy.orm import joinedload
 
 #Local
-from ScooterBackend.database.models.review import Review
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.review import Review
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class ReviewRepository(GeneralSQLRepository):

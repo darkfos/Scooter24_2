@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey, String
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class Category(MainBase):

@@ -6,7 +6,7 @@ from sqlalchemy import Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 
 #Local
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 
 
 class Review(MainBase):

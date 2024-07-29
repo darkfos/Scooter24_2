@@ -7,9 +7,9 @@ from sqlalchemy import Result
 from sqlalchemy import select, update, delete
 
 #Local
-from ScooterBackend.database.models.category import Category
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.category import Category
+from database.db_worker import db_work
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class CategoryRepository(GeneralSQLRepository):

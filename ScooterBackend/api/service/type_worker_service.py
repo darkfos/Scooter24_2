@@ -5,13 +5,13 @@ from typing import List, Union, Dict
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.repository.type_worker_repository import TypeWorkerRepository, TypeWorker
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dto.type_worker_dto import TypeWorkerBase
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.exception.http_type_worker_exceptions import TypeWorkerExceptions
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.dep.dependencies import IEngineRepository
+from database.repository.type_worker_repository import TypeWorkerRepository, TypeWorker
+from database.repository.admin_repository import AdminRepository
+from api.dto.type_worker_dto import TypeWorkerBase
+from api.authentication.authentication_service import Authentication
+from api.exception.http_type_worker_exceptions import TypeWorkerExceptions
+from api.exception.http_user_exception import UserHttpError
+from api.dep.dependencies import IEngineRepository
 
 
 class TypeWorkerService:

@@ -6,13 +6,13 @@ from pydantic import EmailStr
 from typing import Annotated
 
 #Local
-from ScooterBackend.api.dto.auth_dto import Tokens, CreateToken, RegistrationUser, RefreshUpdateToken, AccessToken
-from ScooterBackend.api.dto.user_dto import AddUser
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.service.user_service import UserService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
-from ScooterBackend.other.data_email_transfer import email_transfer
+from api.dto.auth_dto import Tokens, CreateToken, RegistrationUser, RefreshUpdateToken, AccessToken
+from api.dto.user_dto import AddUser
+from database.db_worker import db_work
+from api.authentication.authentication_service import Authentication
+from api.service.user_service import UserService
+from api.dep.dependencies import IEngineRepository, EngineRepository
+from other.data_email_transfer import email_transfer
 
 
 auth_router: APIRouter = APIRouter(

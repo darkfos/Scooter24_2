@@ -2,7 +2,7 @@
 from fastapi import status
 
 #Local
-from ScooterBackend.api.exception.global_excp import APIError
+from api.exception.global_excp import APIError
 
 
 class VacanciesHttpError(APIError):

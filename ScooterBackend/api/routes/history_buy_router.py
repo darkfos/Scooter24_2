@@ -7,11 +7,11 @@ from fastapi import Depends, status, APIRouter
 
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.dto.history_buy_dto import *
-from ScooterBackend.api.service.history_buy_service import HistoryBuyService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
+from database.db_worker import db_work
+from api.dto.history_buy_dto import *
+from api.service.history_buy_service import HistoryBuyService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()

@@ -2,8 +2,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.models.vacancies import Vacancies
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.vacancies import Vacancies
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class VacanciesRepository(GeneralSQLRepository):

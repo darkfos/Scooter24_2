@@ -17,6 +17,7 @@ passlib = "^1.7.4"
 aiohttp = "^3.9.5"
 pillow = "^10.3.0"
 requests = "^2.32.3"
+pydantic-settings = "^2.3.4"
 
 [tool.poetry.dev-dependencies]
 

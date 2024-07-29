@@ -5,14 +5,14 @@ from typing import List, Dict, Union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.exception.http_favourite_exception import FavouriteHttpError
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.database.models.favourite import Favourite
-from ScooterBackend.database.repository.favourite_repository import FavouriteRepository
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dto.favourite_dto import *
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
+from api.exception.http_favourite_exception import FavouriteHttpError
+from api.exception.http_user_exception import UserHttpError
+from database.models.favourite import Favourite
+from database.repository.favourite_repository import FavouriteRepository
+from database.repository.admin_repository import AdminRepository
+from api.dto.favourite_dto import *
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 class FavouriteService:

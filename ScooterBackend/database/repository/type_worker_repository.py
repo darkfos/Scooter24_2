@@ -2,8 +2,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
-from ScooterBackend.database.models.type_worker import TypeWorker
+from database.repository.general_repository import GeneralSQLRepository
+from database.models.type_worker import TypeWorker
 
 
 class TypeWorkerRepository(GeneralSQLRepository):
