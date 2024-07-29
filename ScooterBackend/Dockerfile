@@ -5,6 +5,5 @@ WORKDIR /backend_scooter
 COPY . /backend_scooter
 
 RUN pip3 install --no-cache-dir -r requirements.txt
-RUN alembic upgrade head
 
 CMD ["uvicorn", "main:app"]
