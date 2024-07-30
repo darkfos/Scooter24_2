@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Бренды</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../static/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
@@ -26,12 +26,12 @@
         
             <div class="user-actions">
               <button id="favorite-button">
-                  <img src="image/favorite.png" alt="Избранное">
+                  <img src="../image/favorite.png" alt="Избранное">
                   <span id="favorite-count">0</span>
               </button>
-              <button id="scooter-button"><img src="image/scooter.png" alt="Модель скутера"></button>
+              <button id="scooter-button"><img src="../image/scooter.png" alt="Модель скутера"></button>
               <button id="cart-button">
-                <img src="image/cart.png" alt="Корзина">
+                <img src="../image/cart.png" alt="Корзина">
                 <span id="cart-count">0</span>
             </button>
           </div>
@@ -120,7 +120,7 @@
                   <p id="scooter-type-display"></p>
                   <p id="scooter-manufacturer-display"></p>
                   <p id="scooter-model-display"></p>
-                  <img id="scooter-image" src="image/scooter.png" alt="Фото скутера">
+                  <img id="scooter-image" src="../image/scooter.png" alt="Фото скутера">
               </div>
               <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
               <button id="login-button">Авторизация</button>
@@ -175,7 +175,7 @@
             document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
             document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
             document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
-            document.getElementById('scooter-image').src = `image/scooter_${type}_${manufacturer}_${model}.png`;
+            document.getElementById('scooter-image').src = `../image/scooter_${type}_${manufacturer}_${model}.png`;
         
             // Отображаем блок scooter-details
             document.getElementById('scooter-details').style.display = 'block';
@@ -255,66 +255,66 @@
                 <section class="brands">
                     <div class="brand-card" data-name="Malossi">
                         <h3>Malossi</h3>
-                        <img src="image/free.png" alt="Malossi">
+                        <img src="../image/free.png" alt="Malossi">
                         <p>Описание: Malossi - итальянский бренд, специализирующийся на производстве высококачественных запчастей для скутеров и мотоциклов.</p>
                     </div>
                     <div class="brand-card" data-name="Polini">
                         <h3>Polini</h3>
-                        <img src="image/free.png" alt="Polini">
+                        <img src="../image/free.png" alt="Polini">
                         <p>Описание: Polini - один из ведущих итальянских производителей запчастей и аксессуаров для скутеров, известных своими инновационными решениями.</p>
                     </div>
                     <div class="brand-card" data-name="Stage6">
                         <h3>Stage6</h3>
-                        <img src="image/free.png" alt="Stage6">
+                        <img src="../image/free.png" alt="Stage6">
                         <p>Описание: Stage6 - немецкий производитель высококачественных запчастей для тюнинга скутеров, известных своими спортивными характеристиками.</p>
                     </div>
                     <div class="brand-card" data-name="NGK">
                         <h3>NGK</h3>
-                        <img src="image/free.png" alt="NGK">
+                        <img src="../image/free.png" alt="NGK">
                         <p>Описание: NGK - мировой лидер в производстве свечей зажигания и компонентов системы зажигания для скутеров и мотоциклов.</p>
                     </div>
                     <div class="brand-card" data-name="Bando">
                         <h3>Bando</h3>
-                        <img src="image/free.png" alt="Bando">
+                        <img src="../image/free.png" alt="Bando">
                         <p>Описание: Bando - японский производитель ремней и ременных передач для скутеров, известный своим качеством и надежностью.</p>
                     </div>
                     <div class="brand-card" data-name="Michelin">
                         <h3>Michelin</h3>
-                        <img src="image/free.png" alt="Michelin">
+                        <img src="../image/free.png" alt="Michelin">
                         <p>Описание: Michelin - французский производитель шин для скутеров, известный своим качеством и долговечностью.</p>
                     </div>
                     <div class="brand-card" data-name="Dunlop">
                         <h3>Dunlop</h3>
-                        <img src="image/free.png" alt="Dunlop">
+                        <img src="../image/free.png" alt="Dunlop">
                         <p>Описание: Dunlop - один из ведущих производителей шин для скутеров, известный своими инновациями и надежностью.</p>
                     </div>
                     <div class="brand-card" data-name="Kenda">
                         <h3>Kenda</h3>
-                        <img src="image/free.png" alt="Kenda">
+                        <img src="../image/free.png" alt="Kenda">
                         <p>Описание: Kenda - тайваньский производитель шин для скутеров, известный своим качеством и доступностью.</p>
                     </div>
                     <div class="brand-card" data-name="Bridgestone">
                         <h3>Bridgestone</h3>
-                        <img src="image/free.png" alt="Bridgestone">
+                        <img src="../image/free.png" alt="Bridgestone">
                         <p>Описание: Bridgestone - японский производитель шин, известный своим качеством и долговечностью.</p>
                     </div>
                     <div class="brand-card" data-name="Continental">
                         <h3>Continental</h3>
-                        <img src="image/free.png" alt="Continental">
+                        <img src="../image/free.png" alt="Continental">
                         <p>Описание: Continental - немецкий производитель шин для скутеров, известный своими инновациями и надежностью.</p>
                     </div>
                     <div class="brand-card" data-name="Ferodo">
                         <h3>Ferodo</h3>
-                        <img src="image/free.png" alt="Ferodo">
+                        <img src="../image/free.png" alt="Ferodo">
                         <p>Описание: Ferodo - ведущий производитель тормозных колодок и систем для скутеров, известный своим качеством и надежностью.</p>
                     </div>
                     <div class="brand-card" data-name="Brembo">
                         <h3>Brembo</h3>
-                        <img src="image/free.png" alt="Brembo">
+                        <img src="../image/free.png" alt="Brembo">
                         <p>Описание: Brembo - итальянский производитель высококачественных тормозных систем для скутеров, известных своими инновациями и надежностью.</p>
                     </div>
                 </section>
-                    <a href="index.html" class="back-to-main">Вернуться на главную страницу</a>
+                    <a href="../index.html" class="back-to-main">Вернуться на главную страницу</a>
     </main>
     
 <style>.container {
@@ -398,22 +398,22 @@ button:hover {
     <div class="footer-section">
       <h3 class="yellow-text">FAQ</h3>
       <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
-      <h4><a href="pay.html">Способы оплаты</a></h4>
-      <h4><a href="delivery.html">Доставка</a></h4>
-      <h4><a href="return.html">Возвраты</a></h4>
-      <h4><a href="Salesroom.html">Торговое помещение</a></h4>
+      <h4><a href="./pay.html">Способы оплаты</a></h4>
+      <h4><a href="./delivery.html">Доставка</a></h4>
+      <h4><a href="./return.html">Возвраты</a></h4>
+      <h4><a href="./Salesroom.html">Торговое помещение</a></h4>
   </div>    
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">INFO</h3>
-      <h4><a href="legal.html">Официальное уведомление</a></h4>
-      <h4><a href="dataprotection.html">Защита данных</a></h4>
-      <h4><a href="revocation.html">Право отзыва</a></h4>
-      <h4><a href="jobs.html">Работа</a></h4>
-      <h4><a href="techtips.html">Технические советы и руководства</a></h4>
-      <h4><a href="brands.html">Бренды</a></h4>
+      <h4><a href="./legal.html">Официальное уведомление</a></h4>
+      <h4><a href="./dataprotection.html">Защита данных</a></h4>
+      <h4><a href="./revocation.html">Право отзыва</a></h4>
+      <h4><a href="./jobs.html">Работа</a></h4>
+      <h4><a href="./techtips.html">Технические советы и руководства</a></h4>
+      <h4><a href="./brands.html">Бренды</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
         <a href="https://telegram.example.com" class="social-icon">
@@ -423,10 +423,10 @@ button:hover {
             <i class="fab fa-whatsapp"></i>
         </a>
         <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
-            <img src="image/круг.png" alt="Image 1" class="social-image">
+            <img src="../image/круг.png" alt="Image 1" class="social-image">
         </a>
         <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
-            <img src="image/круг2.png" alt="Image 2" class="social-image">
+            <img src="../image/круг2.png" alt="Image 2" class="social-image">
         </a>
     </div>
     </div>    
@@ -441,6 +441,6 @@ button:hover {
   </footer>
 
 
-  <script src="js/dopscript.js"></script>
+  <script src="../js/dopscript.js"></script>
 </body>
 </html>

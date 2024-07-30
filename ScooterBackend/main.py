@@ -15,6 +15,9 @@ from api.routes.type_worker_router import type_worker_router as type_worker_rout
 from api.routes.vacancies_router import vacancies_router as vacancies_router
 from api.routes.general_router import api_v1_router
 
+from test.data.to_write_categories import write_in_db
+from test.data.to_write_products import create_products
+
 
 #Other libraries
 import uvicorn
@@ -79,6 +82,8 @@ app.include_router(api_v1_router.get_api_v1)
 #Redirect to docs
 @app.get(path="/", status_code=status.HTTP_200_OK, response_class=RedirectResponse)
 async def redirect_to_docs() -> RedirectResponse:
+    #await write_in_db()
+    await create_products()
     return RedirectResponse("/docs")
 
 
