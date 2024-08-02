@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Торговое помещение</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body onscroll="scrollHandler(event)">
+
+
+<header class="header" id="header">
+    <div id="parallelogram">
+        <span class="logo-text">LOGO</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu()" id="menu-toggle-button">&#9776;</div> 
+    <div class="action-container"> 
+      <div class="search-bar">
+        <input type="text" id="text-to-find" value="">
+        <button onclick="FindOnPage('text-to-find')">Поиск</button>
+    </div>
+    
+        <div class="user-actions">
+          <button id="favorite-button">
+              <img src="{{ url_for('static', path='/img/favorite.png')}}" alt="Избранное">
+              <span id="favorite-count">0</span>
+          </button>
+          <button id="scooter-button"><img src="{{ url_for('static', path='/img/scooter.png')}}" alt="Модель скутера"></button>
+          <button id="cart-button">
+            <img src="{{ url_for('static', path='/img/cart.png')}}" alt="Корзина">
+            <span id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="submenu">
+        <ul>
+            <li><a href="#">Личный кабинет</a></li>
+            <li><a href="#">Контакты</a></li>
+            <li><a href="#">Экипировка</a></li>
+            <li><a href="#">Запчасти</a></li>
+            <li><a href="#">Расходники</a></li>
+        </ul>
+    </div>    
+</header>
+
+<div id="favorites-modal" class="modal">
+  <div class="modal-contents">
+    <span class="close" id="favorites-close">&times;</span>
+    <h2>Избранное</h2>
+    <table id="favorite-list">
+      <thead>
+        <tr>
+          <th>Изображение</th>
+          <th>Название товара</th>
+          <th>Цена за штуку</th>
+          <th>Наличие на складе</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="cart-modal" class="modal">
+    <div class="modal-contents">
+      <span class="close" onclick="toggleCartModal()">&times;</span>
+      <h2>Корзина</h2>
+      <table id="cart-list">
+        <thead>
+          <tr>
+            <th>Изображение</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="cart-total">
+        <p>Итого: <span id="total-price">0.00 ₽</span></p>
+        <button class="buy-button" onclick="buyItems()">Купить</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="scooter-modal" class="modal">
+    <div class="modal-contents">
+        <span class="close" id="scooter-modal-close">&times;</span>
+        <h2>Выберите модель скутера</h2>
+        <form id="scooter-form">
+            <label for="scooter-type">Тип скутера:</label>
+            <select id="scooter-type">
+                <option value="electric">Электрический</option>
+                <option value="gas">Бензиновый</option>
+            </select>
+            <br>
+            <label for="scooter-manufacturer">Производитель:</label>
+            <select id="scooter-manufacturer">
+                <option value="yamaha">Yamaha</option>
+                <option value="honda">Honda</option>
+                <option value="vespa">Vespa</option>
+            </select>
+            <br>
+            <label for="scooter-model">Модель:</label>
+            <select id="scooter-model">
+                <option value="model1">Модель 1</option>
+                <option value="model2">Модель 2</option>
+                <option value="model3">Модель 3</option>
+            </select>
+            <br>
+            <button type="button" id="add-scooter">Добавить</button>
+        </form>
+        <div id="scooter-details" style="display: none;">
+            <h3>Выбранная модель скутера:</h3>
+            <p id="scooter-type-display"></p>
+            <p id="scooter-manufacturer-display"></p>
+            <p id="scooter-model-display"></p>
+            <img id="scooter-image" src="{{ url_for('static', path='/img/scooter.png')}}" alt="Фото скутера">
+        </div>
+        <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
+        <button id="login-button">Авторизация</button>
+    </div>
+</div>
+
+<main class="pay">
+  <div class="container salesroom-container">
+    <h1>Торговое Помещение</h1>
+
+    <!-- Фотографии помещения -->
+    <div class="salesroom-images">
+      <div class="large-images">
+        <img src="{{ url_for('static', path='/img/stroitelstvo-skladov-zapchastey-rsholod-3.jpg')}}" alt="Большая фотография помещения" class="large-image">
+      </div>
+      <div class="small-images">
+        <img src="{{ url_for('static', path='/img/sto_sklad.jpg')}}" alt="Маленькая фотография помещения 1" class="small-image">
+        <img src="{{ url_for('static', path='/img/sto_sklad2.jpg')}}" alt="Маленькая фотография помещения 2" class="small-image">
+      </div>
+    </div>
+
+    <!-- График работы -->
+    <div class="work-hours">
+      <h2>График работы</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Понедельник: 9:00 - 18:00</li>
+        <li class="list-group-item">Вторник: 9:00 - 18:00</li>
+        <li class="list-group-item">Среда: 9:00 - 18:00</li>
+        <li class="list-group-item">Четверг: 9:00 - 18:00</li>
+        <li class="list-group-item">Пятница: 9:00 - 18:00</li>
+        <li class="list-group-item">Суббота: 10:00 - 16:00</li>
+        <li class="list-group-item">Воскресенье: Закрыто</li>
+      </ul>
+    </div>
+
+    <!-- Способы оплаты -->
+    <div class="payment-methods">
+      <h2>Способы оплаты</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Наличные</li>
+        <li class="list-group-item">Кредитные карты</li>
+        <li class="list-group-item">Банковские переводы</li>
+        <li class="list-group-item">Электронные кошельки</li>
+      </ul>
+    </div>
+
+    <!-- Карта -->
+    <div id="map" class="map"></div>
+
+  </div>
+
+  <a href="{{ url_for('get_main_page') }}" class="back-to-main">Вернуться на главную страницу</a>
+</main>
+
+<footer class="footer">
+  <div class="footer-section">
+    <h4 class="yellow-text">НОВОСТНАЯ РАССЫЛКА</h4>
+    <p>Получайте последние новости, специальные предложения и купоны через <br>электронную почту! Вы можете отменить подписку в любое время.</p>
+    <form action="#" class="subscribe-form">
+      <input type="email" placeholder="Ваш email">
+      <button type="submit" class="subscribe-button">Подписаться</button>
+    </form>  
+    <h4 class="yellow-text">КОД КУПОНА</h4>
+    <p>Проверьте <span class="highlights">все текущие коды купонов</span> на странице.</p>
+  </div>
+  <div>
+    <hr class="divider">
+  </div>
+  <div class="footer-section">
+    <h3 class="yellow-text">FAQ</h3>
+    <h4 onclick="showModal()">Контакты</h4>
+    <h4><a href="{{ url_for('get_pay_page') }}">Способы оплаты</a></h4>
+    <h4><a href="{{ url_for('get_delivery_page') }}">Доставка</a></h4>
+    <h4><a href="{{ url_for('get_return_page') }}">Возвраты</a></h4>
+    <h4><a href="{{ url_for('get_salesroom_page') }}">Торговое помещение</a></h4>
+  </div>    
+  <div>
+    <hr class="divider">
+  </div>
+  <div class="footer-section">
+    <h3 class="yellow-text">INFO</h3>
+    <h4><a href="{{ url_for('get_legal_page') }}">Официальное уведомление</a></h4>
+    <h4><a href="{{ url_for('get_data_protection_page') }}">Защита данных</a></h4>
+    <h4><a href="{{ url_for('get_revocation_page') }}">Право отзыва</a></h4>
+    <h4><a href="{{ url_for('get_job_page') }}">Работа</a></h4>
+    <h4><a href="{{ url_for('get_techtips_page') }}">Технические советы и руководства</a></h4>
+    <h4><a href="{{ url_for('get_brands_page') }}">Бренды</a></h4>
+    <h3 class="yellow-text">Social</h3>
+    <div class="social-icons">
+      <a href="https://telegram.example.com" class="social-icon">
+        <i class="fab fa-telegram"></i>
+      </a>
+      <a href="https://whatsapp.example.com" class="social-icon">
+          <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
+          <img src="{{ url_for('static', path='/img/круг.png') }}" alt="Image 1" class="social-image">
+      </a>
+      <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
+          <img src="{{ url_for('static', path='/img/круг2.png') }}" alt="Image 2" class="social-image">
+      </a>
+    </div>
+  </div>    
+  <div class="modal" id="myModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <button class="whatsapp-btn" onclick="redirectToWhatsApp()">WhatsApp</button>
+      <button class="telegram-btn" onclick="redirectToTelegram()">Telegram</button>
+      <button class="phone-btn" onclick="makePhoneCall()">Звонок</button>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', path='/js/dopscript.js') }}"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</body>
+</html>

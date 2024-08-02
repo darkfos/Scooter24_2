@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Без категории</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+</head>
+<body onscroll="scrollHandler(event)">
+  <style>
+    .card { border: 1px solid #ddd; padding: 10px; margin: 10px; }
+    .cards-container { display: flex; flex-wrap: wrap; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+    .modal-content { background: #fff; margin: 10% auto; padding: 20px; width: 80%; }
+    .close { cursor: pointer; float: right; font-size: 1.5em; }
+</style>
+    <header class="header" id="header">
+        <div id="parallelogram">
+            <span class="logo-text">LOGO</span>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()" id="menu-toggle-button">&#9776;</div> 
+        <div class="action-container"> 
+          <div class="search-bar">
+            <input type="text" id="text-to-find" value="">
+            <button onclick="FindOnPage('text-to-find')">Поиск</button>
+        </div>
+        
+            <div class="user-actions">
+              <button id="favorite-button">
+                  <img src="{{ url_for('static', path='/img/favorite.png') }}" alt="Избранное">
+                  <span id="favorite-count">0</span>
+              </button>
+              <button id="scooter-button"><img src="{{ url_for('static', path='/img/scooter.png') }}" alt="Модель скутера"></button>
+              <button id="cart-button">
+                <img src="{{ url_for('static', path='/img/cart.png') }}" alt="Корзина">
+                <span id="cart-count">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="submenu">
+            <ul>
+                <li><a href="#">Личный кабинет</a></li>
+                <li><a href="#">Контакты</a></li>
+                <li><a href="#">Экипировка</a></li>
+                <li><a href="#">Запчасти</a></li>
+                <li><a href="#">Расходники</a></li>
+            </ul>
+        </div>
+    </header>
+    <div id="favorites-modal" class="modal">
+        <div class="modal-contents">
+          <span class="close" id="favorites-close">&times;</span>
+          <h2>Избранное</h2>
+          <table id="favorite-list">
+            <thead>
+              <tr>
+                <th>Изображение</th>
+                <th>Название товара</th>
+                <th>Цена за штуку</th>
+                <th>Наличие на складе</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    
+      <div id="cart-modal" class="modal">
+          <div class="modal-contents">
+            <span class="close" onclick="toggleCartModal()">&times;</span>
+            <h2>Корзина</h2>
+            <table id="cart-list">
+              <thead>
+                <tr>
+                  <th>Изображение</th>
+                  <th>Название</th>
+                  <th>Цена</th>
+                  <th>Количество</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="cart-total">
+              <p>Итого: <span id="total-price">0.00 ₽</span></p>
+              <button class="buy-button" onclick="buyItems()">Купить</button>
+            </div>
+          </div>
+        </div>
+    
+        <div id="scooter-modal" class="modal">
+          <div class="modal-contents">
+              <span class="close" id="scooter-modal-close">&times;</span>
+              <h2>Выберите модель скутера</h2>
+              <form id="scooter-form">
+                  <label for="scooter-type">Тип скутера:</label>
+                  <select id="scooter-type">
+                      <option value="electric">Электрический</option>
+                      <option value="gas">Бензиновый</option>
+                  </select>
+                  <br>
+                  <label for="scooter-manufacturer">Производитель:</label>
+                  <select id="scooter-manufacturer">
+                      <option value="yamaha">Yamaha</option>
+                      <option value="honda">Honda</option>
+                      <option value="vespa">Vespa</option>
+                  </select>
+                  <br>
+                  <label for="scooter-model">Модель:</label>
+                  <select id="scooter-model">
+                      <option value="model1">Модель 1</option>
+                      <option value="model2">Модель 2</option>
+                      <option value="model3">Модель 3</option>
+                  </select>
+                  <br>
+                  <button type="button" id="add-scooter">Добавить</button>
+              </form>
+              <div id="scooter-details" style="display: none;">
+                  <h3>Выбранная модель скутера:</h3>
+                  <p id="scooter-type-display"></p>
+                  <p id="scooter-manufacturer-display"></p>
+                  <p id="scooter-model-display"></p>
+                  <img id="scooter-image" src="{{ url_for('static', path='/img/scooter.png') }}" alt="Фото скутера">
+              </div>
+              <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
+              <button id="login-button">Авторизация</button>
+          </div>
+      </div>    
+
+      <script>
+        function setupScooterModal() {
+            const scooterButton = document.getElementById('scooter-button');
+            const scooterModal = document.getElementById('scooter-modal');
+            const scooterModalClose = document.getElementById('scooter-modal-close');
+            const addScooterButton = document.getElementById('add-scooter');
+            const loginButton = document.getElementById('login-button');
+          
+            scooterButton.addEventListener('click', () => {
+              scooterModal.style.display = 'block';
+            });
+          
+            scooterModalClose.addEventListener('click', () => {
+              scooterModal.style.display = 'none';
+            });
+          
+            window.addEventListener('click', (event) => {
+              if (event.target === scooterModal) {
+                scooterModal.style.display = 'none';
+              }
+            });
+          
+            addScooterButton.addEventListener('click', () => {
+              const type = document.getElementById('scooter-type').value;
+              const manufacturer = document.getElementById('scooter-manufacturer').value;
+              const model = document.getElementById('scooter-model').value;
+              alert(`Добавлен скутер: Тип - ${type}, Производитель - ${manufacturer}, Модель - ${model}`);
+              scooterModal.style.display = 'none';
+            });
+          
+            loginButton.addEventListener('click', () => {
+              // Перенаправление на страницу авторизации или открытие модального окна авторизации
+              alert('Перенаправление на страницу авторизации');
+            });
+          }
+          
+          // Вызываем функцию setupScooterModal после загрузки контента страницы
+          document.addEventListener('DOMContentLoaded', setupScooterModal);
+          
+          addScooterButton.addEventListener('click', () => {
+            const type = document.getElementById('scooter-type').value;
+            const manufacturer = document.getElementById('scooter-manufacturer').value;
+            const model = document.getElementById('scooter-model').value;
+        
+            // Обновляем данные в блоке scooter-details
+            document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
+            document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
+            document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
+            document.getElementById('scooter-image').src = `static/img/scooter_${type}_${manufacturer}_${model}.png`;
+        
+            // Отображаем блок scooter-details
+            document.getElementById('scooter-details').style.display = 'block';
+        
+            // Закрываем модальное окно
+            scooterModal.style.display = 'none';
+        });
+          </script>
+          
+
+          <main class="containers">
+            <aside class="sidebar">
+                <nav class="categories-nav">
+                    <h2>Категории</h2>
+                    <ul>
+                      <li><a href="{{ url_for('get_uncategorized_page') }}">Uncategorized</a></li>
+                      <li><a href="{{ url_for('get_accessories_page') }}">Аксессуары</a></li>
+                      <li><a href="{{ url_for('get_engine_page') }}">Двигатель</a></li>
+                      <li><a href="{{ url_for('get_suspension_page') }}">Подвеска</a></li>
+                      <li><a href="{{ url_for('get_fuel_system_page') }}">Топливная система</a></li>
+                      <li><a href="{{ url_for('get_brake_system_page') }}">Тормозная система</a></li>
+                      <li><a href="{{ url_for('get_transmission_page') }}">Трансмиссия</a></li>
+                      <li><a href="{{ url_for('get_electrics_page') }}">Электрика</a></li>
+                    </ul>
+                </nav>
+                <div class="filter-container">
+                  <h2>Фильтры</h2>
+                  <div class="filter">
+                      <label for="price-filter">Цена:</label>
+                      <input type="number" id="price-filter-min" placeholder="Мин">
+                      <input type="number" id="price-filter-max" placeholder="Макс">
+                      <button onclick="filterProducts()">Фильтровать</button>
+                      <button onclick="resetPriceFilter()">Сбросить цену</button>
+                  </div>
+                  <div class="filter">
+                      <label for="sorting">Сортировать по:</label>
+                      <select id="sorting" onchange="sortProducts()">
+                          <option value="default">По умолчанию</option>
+                          <option value="price-asc">Цена: по возрастанию</option>
+                          <option value="price-desc">Цена: по убыванию</option>
+                          <option value="availability">Наличие на складе</option>
+                      </select>
+                  </div>
+              </div>
+            </aside>
+            <section class="main-content">
+                <div class="breadcrumbs">
+                    <a href="{{ url_for('get_main_page') }}">Главная</a> &raquo; <span>Uncategorized</span>
+                </div>
+                <h2>Все категории</h2>
+                <hr class="dashed-line">
+                <!-- <div class="sorting">
+                    <label for="sort">Сортировка:</label>
+                    <select id="sort" name="sort" onchange="sortProducts()">
+                        <option value="default">Исходная сортировка</option>
+                        <option value="popularity">По популярности</option>
+                        <option value="price-asc">По возрастанию цены</option>
+                        <option value="price-desc">По убыванию цены</option>
+                    </select>
+                </div> -->
+                <section class="cards-container" id="cards-container">
+                  <div class="card" data-price="1565" data-availability="22">
+                    <img src="{{ url_for('static', path='/img/product/1_amor.jpg') }}" alt="Продукт 1">
+                    <div class="card-content">
+                      <h3>Амортизатор Задний 235 Мм </h3>
+                      <p class="description">На Скутер Ямаха Джог/ Априо / Поше 50 Кубов Регулируемый / 3kj / 2JA / 3aa / 5bm / Yamaha Jog / Aprio 50cc 235mm</p>
+                      <p class="price">1565 руб.</p>
+                      <p class="availability">На складе: 22</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1565" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/2_amor2.jpg') }}" alt="Продукт 2">
+                    <div class="card-content">
+                      <h3>Амортизатор Задний 280 Мм </h3>
+                      <p class="description">На Скутер На Скутер Хонда Дио / Такт / Джорно И Китайский Скутер / 139QMB / Honda Dio / Tact / Giorno 50cc 280 Mm</p>
+                      <p class="price">1565 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1775" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/3_amor3.jpg') }}" alt="Продукт 3">
+                    <div class="card-content">
+                      <h3>Амортизатор Задний 290 Мм </h3>
+                      <p class="description">На Скутер Ямаха Джог/ Такт / Джорно И Китайский Скутер / 139QMB / OEM / Honda Dio / Tact / Giorno</p>
+                      <p class="price">1775 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1775" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/4_amor4.jpg') }}" alt="Продукт 4">
+                    <div class="card-content">
+                      <h3>Амортизатор Задний 300 Мм</h3>
+                      <p class="description">На Скутер На Скутер Хонда Дио/ Такт / Джорно Аф-18 / 27 / 34 / И Китайский Скутер / Honda Dio / Tact / Giorno 50cc 310 Mm</p>
+                      <p class="price">1775 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1985" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/5_amor5.jpg') }}" alt="Продукт 5">
+                    <div class="card-content">
+                      <h3>Амортизатор Задний 320 Мм</h3>
+                      <p class="description">На Китайский Скутер 125 / 150 Кубов / 152QMI / 157QMJ / 320 Mm 150cc</p>
+                      <p class="price">1985 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2090" data-availability="22">
+                    <img src="{{ url_for('static', path='/img/product/6_amor6.jpg') }}" alt="Продукт 6">
+                    <div class="card-content">
+                      <h3>Амортизаторы Передние</h3>
+                      <p class="description">На Скутер На Скутер Сузуки Адрес 215 Mm / Сепия 50 Кубов 215мм / Suzuki Address / Sepia</p>
+                      <p class="price">2090 руб.</p>
+                      <p class="availability">На складе: 22</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2090" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/7_amor7.jpg') }}" alt="Продукт 7">
+                    <div class="card-content">
+                      <h3>Амортизаторы Передние </h3>
+                      <p class="description">На Скутер Хонда Джорно / Такт / Джулио Аф-24 / 31 / 51 / Honda Girno / Tact / Julio 50cc Af</p>
+                      <p class="price">2090 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2090" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/8_amor8.jpg') }}" alt="Продукт 8">
+                    <div class="card-content">
+                      <h3>Амортизаторы Передние</h3>
+                      <p class="description">На Скутер Хонда Лид 50 / 90 Кубов / Хонда Лиад / Аф-20 / Hf-05 / Honda Lead 50cc / 90cc</p>
+                      <p class="price">2090 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="914" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/9_amor9.jpg') }}" alt="Продукт 9">
+                    <div class="card-content">
+                      <h3>Бендикс</h3>
+                      <p class="description">На Китайский Скутер 50 Кубов / 139QMB / 50cc</p>
+                      <p class="price">914 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="914" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/10_amor10.jpg') }}" alt="Продукт 10">
+                    <div class="card-content">
+                      <h3>Бендикс</h3>
+                      <p class="description">На Скутер Хонда Дио / Джорно Аф-18 / 24 / 27 / 34 / 51 / Honda Dio / Giorno Af 50cc</p>
+                      <p class="price">914 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="914" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/11_amor11.jpg') }}" alt="Продукт 11">
+                    <div class="card-content">
+                      <h3>Бендикс</h3>
+                      <p class="description">На Скутер Хонда Лид 90 Кубов / Хонда Лиад / JH-05 / Honda Lead 90cc</p>
+                      <p class="price">914 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="914" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/12_amor12.jpg') }}" alt="Продукт 12">
+                    <div class="card-content">
+                      <h3>Бендикс</h3>
+                      <p class="description">На Скутер Хонда Такт 50 Кубов / Аф-16 / Pal / Honda Tact Af</p>
+                      <p class="price">914 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1774" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/13_amor13.jpg') }}" alt="Продукт 13">
+                    <div class="card-content">
+                      <h3>Бензонасос </h3>
+                      <p class="description">На Скутер Хонда Дио / Такт Аф-18 / 27 / 31 / 51 / Honda Dio / Tact / Giorno 50cc Af</p>
+                      <p class="price">1774 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1260" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/14_amor14.jpg') }}" alt="Продукт 14">
+                    <div class="card-content">
+                      <h3>Бензонасос </h3>
+                      <p class="description">На Скутер Хонда Дио Аф-34 / 35 / Honda Dio Zx-35 50cc</p>
+                      <p class="price">1260 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1410" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/15_amor15.jpg') }}" alt="Продукт 15">
+                    <div class="card-content">
+                      <h3>Блоки Переключателей  </h3>
+                      <p class="description">(Кнопок) На Китайский Скутер 50 Кубов / 139QMB / Барабан + Барабан 50cc</p>
+                      <p class="price">1410 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1410" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/16_amor16.jpg') }}" alt="Продукт 16">
+                    <div class="card-content">
+                      <h3>Блоки Переключателей </h3>
+                      <p class="description"> Пульты На Китайский Скутер 50 Кубов / 139QMB / Диск / Барабан / 50 / 80 Cc</p>
+                      <p class="price">1410 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="3185" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/17_amor17.jpg') }}" alt="Продукт 17">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Китайский Скутер 125/150 Кубов / 152QMI / 157QMJ В Сборе</p>
+                      <p class="price">3185 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="3247" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/18_amor18.jpg') }}" alt="Продукт 18">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Китайский Скутер Стелс 50 Кубов / 1e40qmb / И Ямаха БВС 100 / 4VP / Stels 50cc / Yamaha BWS 100cc</p>
+                      <p class="price">3247 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="3348" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/19_amor19.jpg') }}" alt="Продукт 19">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Скутер Сузуки Летс / Верде 50 Кубов / Suzuki Lets / Verde</p>
+                      <p class="price">3348 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2551" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/20_amor20.jpg') }}" alt="Продукт 20">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Скутер Хонда Дио / Лид 50 Кубов / Аф-18 / 27 / Honda Dio / Lead 50cc</p>
+                      <p class="price">2551 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2551" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/21_amor21.jpg') }}" alt="Продукт 21">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Скутер Ямаха Джог / Априо / Поше 50 Кубов / 2ja / 3kj / 3aa / Minarelli / Yamaha Jog / Aprio 50cc</p>
+                      <p class="price">2551 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="2840" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/22_amor22.jpg') }}" alt="Продукт 22">
+                    <div class="card-content">
+                      <h3>Вариатор Задний (Сцепление) </h3>
+                      <p class="description">На Хонда Дио 50 Кубов / Аф-34 / 35 / И Китайский Скутер / 139QMB / Honda Dio Zx Af-35</p>
+                      <p class="price">2840 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1097" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/23_amor23.jpg') }}" alt="Продукт 23">
+                    <div class="card-content">
+                      <h3>Вариатор <br> Передний</h3>
+                      <p class="description">На Китайский Скутер 125/150 Кубов / 152QMI / 157QMJ 150cc</p>
+                      <p class="price">1097 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1355" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/24_amor24.jpg') }}" alt="Продукт 24">
+                    <div class="card-content">
+                      <h3>Вариатор <br> Передний </h3>
+                      <p class="description">На Скутер Сузуки Летс / Верде 50 Кубов / Suzuki Lets / Verde</p>
+                      <p class="price">1355 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="935" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/25_amor25.jpg') }}" alt="Продукт 25">
+                    <div class="card-content">
+                      <h3>Вариатор Передний </h3>
+                      <p class="description">На Скутер Хонда Дио / Такт / Джорно / Аф-18/27/34 </p>
+                      <p class="price">935 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="987" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/26_amor26.jpg') }}" alt="Продукт 26">
+                    <div class="card-content">
+                      <h3>Вариатор Передний </h3>
+                      <p class="description">На Скутер Хонда Дио / Такт 50 Кубов / Аф-18</p>
+                      <p class="price">987 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1565" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/27_amor27.jpg') }}" alt="Продукт 27">
+                    <div class="card-content">
+                      <h3>Вариатор Передний </h3>
+                      <p class="description">На Скутер Хонда Лид 100 Кубов / Hf-06 / Honda Lead 100cc</p>
+                      <p class="price">1565 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1565" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/28_amor28.jpg') }}" alt="Продукт 28">
+                    <div class="card-content">
+                      <h3>Вариатор Передний </h3>
+                      <p class="description">На Скутер Хонда Лид 90 Кубов / Hf-05 / Honda Lead</p>
+                      <p class="price">1565 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                </section>
+                
+        </main>
+        <div class="pagination">
+          <button id="prev-page">Предыдущая</button>
+          <button id="next-page">Следующая</button>
+      </div>
+  
+
+        
+      <footer class="footer">
+        <div class="footer-section">
+          <h4 class="yellow-text">НОВОСТНАЯ РАССЫЛКА</h4>
+          <p>Получайте последние новости, специальные предложения и купоны через <br>электронную почту! Вы можете отменить подписку в любое время.</p>
+          <form action="#" class="subscribe-form">
+            <input type="email" placeholder="Your email">
+            <button type="submit" class="subscribe-button">Подписаться</button>
+          </form>  
+          <h4 class="yellow-text">КОД КУПОНА</h4>
+          <p>Проверьте <span class="highlights">все текущие коды купонов</span> на странице.</p>
+        </div>
+        <div>
+          <hr class="divider">
+        </div>
+        <div class="footer-section">
+          <h3 class="yellow-text">FAQ</h3>
+          <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
+          <h4><a href="{{ url_for('get_pay_page') }}">Способы оплаты</a></h4>
+          <h4><a href="{{ url_for('get_delivery_page') }}">Доставка</a></h4>
+          <h4><a href="{{ url_for('get_return_page') }}">Возвраты</a></h4>
+          <h4><a href="{{ url_for('get_salesroom_page') }}">Торговое помещение</a></h4>
+      </div>    
+        <div>
+          <hr class="divider">
+        </div>
+        <div class="footer-section">
+          <h3 class="yellow-text">INFO</h3>
+          <h4><a href="{{ url_for('get_legal_page') }}">Официальное уведомление</a></h4>
+          <h4><a href="{{ url_for('get_data_protection_page') }}">Защита данных</a></h4>
+          <h4><a href="{{ url_for('get_revocation_page') }}">Право отзыва</a></h4>
+          <h4><a href="{{ url_for('get_job_page') }}">Работа</a></h4>
+          <h4><a href="{{ url_for('get_techtips_page') }}">Технические советы и руководства</a></h4>
+          <h4><a href="{{ url_for('get_brands_page') }}">Бренды</a></h4>
+          <h3 class="yellow-text">Social</h3>
+          <div class="social-icons">
+            <a href="https://telegram.example.com" class="social-icon">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://whatsapp.example.com" class="social-icon">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
+                <img src="{{ url_for('static', path='/img/круг.png') }}" alt="Image 1" class="social-image">
+            </a>
+            <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
+                <img src="{{ url_for('static', path='/img/круг2.png') }}" alt="Image 2" class="social-image">
+            </a>
+        </div>
+        </div>    
+        <div class="modal" id="myModal">
+            <div class="modal-content">
+              <span class="close" onclick="closeModal()">&times;</span>
+              <button class="whatsapp-btn" onclick="redirectToWhatsApp()">WhatsApp</button>
+              <button class="telegram-btn" onclick="redirectToTelegram()">Telegram</button>
+              <button class="phone-btn" onclick="makePhoneCall()">Звонок</button>
+            </div>
+          </div>
+      </footer>
+
+
+  <script src="{{ url_for('static', path='/js/categories.js') }}"></script>
+</body>
+</html>
