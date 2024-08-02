@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Трансмиссия</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Топливная Система</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
@@ -32,12 +33,12 @@
         
             <div class="user-actions">
               <button id="favorite-button">
-                  <img src="image/favorite.png" alt="Избранное">
+                  <img src="{{ url_for('static', path='/img/favorite.png') }}" alt="Избранное">
                   <span id="favorite-count">0</span>
               </button>
-              <button id="scooter-button"><img src="image/scooter.png" alt="Модель скутера"></button>
+              <button id="scooter-button"><img src="{{ url_for('static', path='/img/scooter.png') }}" alt="Модель скутера"></button>
               <button id="cart-button">
-                <img src="image/cart.png" alt="Корзина">
+                <img src="{{ url_for('static', path='/img/cart.png') }}" alt="Корзина">
                 <span id="cart-count">0</span>
             </button>
           </div>
@@ -126,7 +127,7 @@
                   <p id="scooter-type-display"></p>
                   <p id="scooter-manufacturer-display"></p>
                   <p id="scooter-model-display"></p>
-                  <img id="scooter-image" src="image/scooter.png" alt="Фото скутера">
+                  <img id="scooter-image" src="{{ url_for('static', path='/img/scooter.png') }}" alt="Фото скутера">
               </div>
               <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
               <button id="login-button">Авторизация</button>
@@ -172,6 +173,12 @@
           // Вызываем функцию setupScooterModal после загрузки контента страницы
           document.addEventListener('DOMContentLoaded', setupScooterModal);
           
+
+
+
+
+
+
           addScooterButton.addEventListener('click', () => {
             const type = document.getElementById('scooter-type').value;
             const manufacturer = document.getElementById('scooter-manufacturer').value;
@@ -181,7 +188,7 @@
             document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
             document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
             document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
-            document.getElementById('scooter-image').src = `image/scooter_${type}_${manufacturer}_${model}.png`;
+            document.getElementById('scooter-image').src = `static/img/scooter_${type}_${manufacturer}_${model}.png`;
         
             // Отображаем блок scooter-details
             document.getElementById('scooter-details').style.display = 'block';
@@ -197,14 +204,14 @@
                 <nav class="categories-nav">
                     <h2>Категории</h2>
                     <ul>
-                        <li><a href="uncategorized.html">Uncategorized</a></li>
-                        <li><a href="accessories.html">Аксессуары</a></li>
-                        <li><a href="engine.html">Двигатель</a></li>
-                        <li><a href="suspension.html">Подвеска</a></li>
-                        <li><a href="fuel-system.html">Топливная система</a></li>
-                        <li><a href="brake-system.html">Тормозная система</a></li>
-                        <li><a href="transmission.html">Трансмиссия</a></li>
-                        <li><a href="electrics.html">Электрика</a></li>
+                      <li><a href="{{ url_for('get_uncategorized_page') }}">Uncategorized</a></li>
+                      <li><a href="{{ url_for('get_accessories_page') }}">Аксессуары</a></li>
+                      <li><a href="{{ url_for('get_engine_page') }}">Двигатель</a></li>
+                      <li><a href="{{ url_for('get_suspension_page') }}">Подвеска</a></li>
+                      <li><a href="{{ url_for('get_fuel_system_page') }}">Топливная система</a></li>
+                      <li><a href="{{ url_for('get_brake_system_page') }}">Тормозная система</a></li>
+                      <li><a href="{{ url_for('get_transmission_page') }}">Трансмиссия</a></li>
+                      <li><a href="{{ url_for('get_electrics_page') }}">Электрика</a></li>
                     </ul>
                 </nav>
                 <div class="filter-container">
@@ -229,9 +236,9 @@
             </aside>
             <section class="main-content">
                 <div class="breadcrumbs">
-                    <a href="index.html">Главная</a> &raquo; <span>Трансмиссия</span>
+                    <a href="{{ url_for('get_main_page') }}">Главная</a> &raquo; <span>Топливная система</span>
                 </div>
-                <h2>Трансмиссия</h2>
+                <h2>Топливная Система</h2>
                 <hr class="dashed-line">
                 <!-- <div class="sorting">
                     <label for="sort">Сортировка:</label>
@@ -243,28 +250,73 @@
                     </select>
                 </div> -->
                 <section class="cards-container" id="cards-container">
-                  <div class="card" data-price="463" data-availability="23">
-                    <img src="image/product/205_variator.jpg" alt="Продукт 1">
+                  <div class="card" data-price="2210" data-availability="22">
+                    <img src="{{ url_for('static', path='/img/product/197_Karb.jpg') }}" alt="Продукт 1">
                     <div class="card-content">
-                      <h3>Щека Вариатора Неподвижная</h3>
-                      <p class="description">На Китайский Скутер 125/150 Кубов 152QMI/157QMJ 150cc Внешняя </p>
-                      <p class="price">463 руб.</p>
+                      <h3>Карбюратор </h3>
+                      <p class="description">На Китайский Скутер Стелс 50 Кубов (1e40qmb) Stels Tactic</p>
+                      <p class="price">2210 руб.</p>
+                      <p class="availability">На складе: 22</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="1680" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/198_Karb2.jpg') }}" alt="Продукт 2">
+                    <div class="card-content">
+                      <h3>Карбюратор</h3>
+                      <p class="description">На Китайский Скутер Стелс 50 Кубов</p>
+                      <p class="price">1680 руб.</p>
                       <p class="availability">На складе: 23</p>
                       <button class="favorite-button">Добавить в избранное</button>
                       <button class="add-to-cart-button">Добавить в корзину</button>
                     </div>
                   </div>
-                    <div class="card" data-price="341" data-availability="23">
-                      <img src="image/product/167_amor160.png" alt="Продукт 160">
-                      <div class="card-content">
-                        <h3>Щека Вариатора Неподвижная</h3>
-                          <p class="description">На Китайский Скутер 50/80 Кубов 139QMB 50cc Внешняя Акционная фигня</p>
-                        <p class="price">341 руб.</p>
-                        <p class="availability">На складе: 23</p>
-                        <button class="favorite-button">Добавить в избранное</button>
-                        <button class="add-to-cart-button">Добавить в корзину</button>
-                      </div>
+                  <div class="card" data-price="1690" data-availability="22">
+                    <img src="{{ url_for('static', path='/img/product/199_Karb3.jpg') }}" alt="Продукт 3">
+                    <div class="card-content">
+                      <h3>Карбюратор</h3>
+                      <p class="description">На Скутер Хонда Такт / Джорно 50 Кубов (Af-16/24) Honda Tact</p>
+                      <p class="price">1690 руб.</p>
+                      <p class="availability">На складе: 22</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
                     </div>
+                  </div>
+                  <div class="card" data-price="479" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/194_engine25.jpg') }}" alt="Продукт 4">
+                    <div class="card-content">
+                      <h3>Патрубок Карбюратора </h3>
+                      <p class="description">На Скутер Ямаха Джог / Априо 50 Кубов </p>
+                      <p class="price">479 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="476" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/201_Karb4.jpg') }}" alt="Продукт 5">
+                    <div class="card-content">
+                      <h3>Топливный (Бензиновый) Фильтр Разборной </h3>
+                      <p class="description">Стайлинг S24 (Бензостойкая Колба)</p>
+                      <p class="price">476 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+                  <div class="card" data-price="385" data-availability="23">
+                    <img src="{{ url_for('static', path='/img/product/202_Karb5.jpg') }}" alt="Продукт 1">
+                    <div class="card-content">
+                      <h3>Топливный (Бензиновый) Фильтр Разборной </h3>
+                      <p class="description">Стайлинг S24 (Черный Металл) На Мотоцикл </p>
+                      <p class="price">385 руб.</p>
+                      <p class="availability">На складе: 23</p>
+                      <button class="favorite-button">Добавить в избранное</button>
+                      <button class="add-to-cart-button">Добавить в корзину</button>
+                    </div>
+                  </div>
+             
                 </section>
                 
         </main>
@@ -287,35 +339,35 @@
     <div class="footer-section">
       <h3 class="yellow-text">FAQ</h3>
       <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
-      <h4><a href="pay.html">Способы оплаты</a></h4>
-      <h4><a href="delivery.html">Доставка</a></h4>
-      <h4><a href="return.html">Возвраты</a></h4>
-      <h4><a href="Salesroom.html">Торговое помещение</a></h4>
+      <h4><a href="{{ url_for('get_pay_page') }}">Способы оплаты</a></h4>
+      <h4><a href="{{ url_for('get_delivery_page') }}">Доставка</a></h4>
+      <h4><a href="{{ url_for('get_return_page') }}">Возвраты</a></h4>
+      <h4><a href="{{ url_for('get_salesroom_page') }}">Торговое помещение</a></h4>
   </div>    
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">INFO</h3>
-      <h4><a href="legal.html">Официальное уведомление</a></h4>
-      <h4><a href="dataprotection.html">Защита данных</a></h4>
-      <h4><a href="revocation.html">Право отзыва</a></h4>
-      <h4><a href="jobs.html">Работа</a></h4>
-      <h4><a href="techtips.html">Технические советы и руководства</a></h4>
-      <h4><a href="brands.html">Бренды</a></h4>
+      <h4><a href="{{ url_for('get_legal_page') }}">Официальное уведомление</a></h4>
+      <h4><a href="{{ url_for('get_data_protection_page') }}">Защита данных</a></h4>
+      <h4><a href="{{ url_for('get_revocation_page') }}">Право отзыва</a></h4>
+      <h4><a href="{{ url_for('get_job_page') }}">Работа</a></h4>
+      <h4><a href="{{ url_for('get_techtips_page') }}">Технические советы и руководства</a></h4>
+      <h4><a href="{{ url_for('get_brands_page') }}">Бренды</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
         <a href="https://telegram.example.com" class="social-icon">
-            <i class="fab fa-telegram"></i>
+          <i class="fab fa-telegram"></i>
         </a>
         <a href="https://whatsapp.example.com" class="social-icon">
             <i class="fab fa-whatsapp"></i>
         </a>
         <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
-            <img src="image/круг.png" alt="Image 1" class="social-image">
+            <img src="{{ url_for('static', path='/img/круг.png') }}" alt="Image 1" class="social-image">
         </a>
         <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
-            <img src="image/круг2.png" alt="Image 2" class="social-image">
+            <img src="{{ url_for('static', path='/img/круг2.png') }}" alt="Image 2" class="social-image">
         </a>
     </div>
     </div>    
@@ -330,6 +382,6 @@
   </footer>
 
 
-  <script src="js/categories.js"></script>
+  <script src="{{ url_for('static', path='/js/categories.js') }}"></script>
 </body>
 </html>

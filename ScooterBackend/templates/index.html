@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scooter 24</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
@@ -27,12 +28,12 @@
     
         <div class="user-actions">
           <button id="favorite-button">
-              <img src="image/favorite.png" alt="Избранное">
+              <img src="{{ url_for('static', path='/img/favorite.png') }}" alt="Избранное">
               <span id="favorite-count">0</span>
           </button>
-          <button id="scooter-button"><img src="image/scooter.png" alt="Модель скутера"></button>
+          <button id="scooter-button"><img src="{{ url_for('static', path='/img/scooter.png') }}" alt="Модель скутера"></button>
           <button id="cart-button">
-            <img src="image/cart.png" alt="Корзина">
+            <img src="{{ url_for('static', path='/img/cart.png') }}" alt="Корзина">
             <span id="cart-count">0</span>
         </button>
       </div>
@@ -68,50 +69,50 @@
 
 <div class="categories-section">
   <div class="category">
-    <a href="uncategorized.html" class="category-container">
-        <img src="image/free-icon-suspension-9097745.png" alt="Icon 1">
+    <a href="{{ url_for('get_uncategorized_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-suspension-9097745.png') }}" alt="Icon 1">
         <p>Uncategorized</p>
     </a>
 </div>
 <div class="category">
-    <a href="accessories.html" class="category-container">
-        <img src="image/free-icon-spare-parts-12622092.png" alt="Аксессуары">
+    <a href="{{ url_for('get_accessories_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-spare-parts-12622092.png') }}" alt="Аксессуары">
         <p>Аксессуары</p>
     </a>
 </div>
 <div class="category">
-    <a href="engine.html" class="category-container">
-        <img src="image/free-icon-car-engine-2061956.png" alt="Двигатель">
+    <a href="{{ url_for('get_engine_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-car-engine-2061956.png') }}" alt="Двигатель">
         <p>Двигатель</p>
     </a>
 </div>
 <div class="category">
-    <a href="suspension.html" class="category-container">
-        <img src="image/free-icon-suspension-8547240.png" alt="Подвеска">
+    <a href="{{ url_for('get_suspension_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-suspension-8547240.png') }}" alt="Подвеска">
         <p>Подвеска</p>
     </a>
 </div>
 <div class="category">
-    <a href="fuel-system.html" class="category-container">
-        <img src="image/free-icon-gas-fuel-7667386.png" alt="Топливная система">
+    <a href="{{ url_for('get_fuel_system_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-gas-fuel-7667386.png') }}" alt="Топливная система">
         <p>Топливная система</p>
     </a>
 </div>
 <div class="category">
-    <a href="brake-system.html" class="category-container">
-        <img src="image/free-icon-brake-disc-2052424.png" alt="Тормозная система">
+    <a href="{{ url_for('get_brake_system_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-brake-disc-2052424.png') }}" alt="Тормозная система">
         <p>Тормозная система</p>
     </a>
 </div>
 <div class="category">
-    <a href="transmission.html" class="category-container">
-        <img src="image/free-icon-drivetrain-7642544.png" alt="Трансмиссия">
+    <a href="{{ url_for('get_transmission_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-drivetrain-7642544.png') }}" alt="Трансмиссия">
         <p>Трансмиссия</p>
     </a>
 </div>
 <div class="category">
-    <a href="electrics.html" class="category-container">
-        <img src="image/free-icon-electrical-service-3098405.png" alt="Электрика">
+    <a href="{{ url_for('get_electrics_page') }}" class="category-container">
+        <img src="{{ url_for('static', path='/img/free-icon-electrical-service-3098405.png') }}" alt="Электрика">
         <p>Электрика</p>
     </a>
 </div>
@@ -123,7 +124,7 @@
     <div class="carousel">
       <div class="product-card" data-id="1" data-stock="23">
         <div class="discount">43% скидка</div>
-        <img src="image/product/167_amor160.png" alt="Продукт 1">
+        <img src="{{ url_for('static', path='/img/product/167_amor160.png') }}" alt="Продукт 1">
         <div class="details">
             <p class="category">Uncategorized</p>
             <p class="name">Щека Вариатора</p>
@@ -137,7 +138,7 @@
     </div>
     
       <div class="product-card" data-id="2" data-stock="23">
-        <img src="image/product/168_zerkalo.jpg" alt="Product 2">
+        <img src="{{ url_for('static', path='/img/product/168_zerkalo.jpg') }}" alt="Product 2">
         <div class="details">
           <p class="category">Аксессуары</p>
           <p class="name">Зеркала На Мотоцикл</p>
@@ -151,7 +152,7 @@
         </div>
       </div>
       <div class="product-card" data-id="3" data-stock="22">
-        <img src="image/product/203_tormoz.jpg" alt="Product 3">
+        <img src="{{ url_for('static', path='/img/product/203_tormoz.jpg') }}" alt="Product 3">
         <div class="details">
           <p class="category">Тормозная Система</p>
           <p class="name">Машинка Тормозная (ГТЦ)</p>
@@ -165,7 +166,7 @@
         </div>
       </div>
       <div class="product-card" data-id="4" data-stock="23">
-        <img src="image/product/192_engine23.jpg" alt="Product 4">
+        <img src="{{ url_for('static', path='/img/product/192_engine23.jpg') }}" alt="Product 4">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Сальников </p>
@@ -179,7 +180,7 @@
         </div>
       </div>
       <div class="product-card" data-id="5" data-stock="23">
-        <img src="image/product/184_engine15.jpg" alt="Product 5">
+        <img src="{{ url_for('static', path='/img/product/184_engine15.jpg') }}" alt="Product 5">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Прокладок</p>
@@ -193,7 +194,7 @@
         </div>
       </div>
       <div class="product-card" data-id="6" data-stock="23">
-        <img src="image/product/179_engine10.jpg" alt="Product 6">
+        <img src="{{ url_for('static', path='/img/product/179_engine10.jpg') }}" alt="Product 6">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Коленвал </p>
@@ -207,7 +208,7 @@
         </div>
       </div>
       <div class="product-card" data-id="7" data-stock="23">
-        <img src="image/product/194_engine25.jpg" alt="Product 7">
+        <img src="{{ url_for('static', path='/img/product/194_engine25.jpg') }}" alt="Product 7">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Патрубок Карбюратора</p>
@@ -221,7 +222,7 @@
         </div>
       </div>
       <div class="product-card" data-id="8" data-stock="22">
-        <img src="image/product/197_Karb.jpg" alt="Product 8">
+        <img src="{{ url_for('static', path='/img/product/197_Karb.jpg') }}" alt="Product 8">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Карбюратор</p>
@@ -314,7 +315,7 @@
               <p id="scooter-type-display"></p>
               <p id="scooter-manufacturer-display"></p>
               <p id="scooter-model-display"></p>
-              <img id="scooter-image" src="image/scooter.png" alt="Фото скутера">
+              <img id="scooter-image" src="{{ url_for('static', path='/img/scooter.png') }}" alt="Фото скутера">
           </div>
           <p>Имея учетную запись клиента, вы можете навсегда сохранить несколько автомобилей и изменить их в любое время.</p>
           <button id="login-button">Авторизация</button>
@@ -371,7 +372,7 @@ function setupScooterModal() {
     document.getElementById('scooter-type-display').textContent = `Тип: ${type}`;
     document.getElementById('scooter-manufacturer-display').textContent = `Производитель: ${manufacturer}`;
     document.getElementById('scooter-model-display').textContent = `Модель: ${model}`;
-    document.getElementById('scooter-image').src = `image/scooter_${type}_${manufacturer}_${model}.png`;
+    document.getElementById('scooter-image').src = `static/img/scooter_${type}_${manufacturer}_${model}.png`;
 
     // Отображаем блок scooter-details
     document.getElementById('scooter-details').style.display = 'block';
@@ -388,23 +389,23 @@ function setupScooterModal() {
       <div class="contact-banner">
       <div class="banner-item">
         <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340">
-          <img src="image/шапка-мп-14.png" alt="Banner 1">
+          <img src="{{ url_for('static', path='/img/шапка-мп-14.png') }}" alt="Banner 1">
           <div class="banner-text">
             <p class="banner-title">Оформить заказ</p>
             <p>на площадке Ozon</p>
             <p class="banner-description">Жми</p>
-            <img src="image/free-icon-arrow-right-8213402.png" alt="Arrow">
+            <img src="{{ url_for('static', path='/img/free-icon-arrow-right-8213402.png') }}" alt="Arrow">
           </div>
         </a>
       </div>
       <div class="banner-item">
-        <a href=" https://market.yandex.ru/business--scooter-24/35256421">
-          <img src="image/шапка-мп-13.png" alt="Banner 2">
+        <a href="https://market.yandex.ru/business--scooter-24/35256421">
+          <img src="{{ url_for('static', path='/img/шапка-мп-13.png') }}" alt="Banner 2">
           <div class="banner-text">
             <p class="banner-title">Оформить заказ</p>
             <p>на площадке Я.Маркет</p>
             <p class="banner-description">Жми</p>
-            <img src="image/free-icon-arrow-right-8213402.png" alt="Arrow">
+            <img src="{{ url_for('static', path='/img/free-icon-arrow-right-8213402.png') }}" alt="Arrow">
           </div>
         </a>
       </div>
@@ -416,28 +417,28 @@ function setupScooterModal() {
 
   <section class="guarantees">
     <div class="guarantee-item">
-      <img src="image/free-icon-smiley-142310.png" alt="Надежность">
+      <img src="{{ url_for('static', path='/img/free-icon-smiley-142310.png') }}" alt="Надежность">
       <div class="guarantee-text">
       <h3>100% Надежность</h3>
       <p>Более 1000 отзывов</p>
       </div>
     </div>
     <div class="guarantee-item">
-      <img src="image/free-icon-thumb-up-like-13578170.png" alt="Скидка">
+      <img src="{{ url_for('static', path='/img/free-icon-thumb-up-like-13578170.png') }}" alt="Скидка">
       <div class="guarantee-text">
       <h3>Скидка 10% при</h3>
       <p>оплате СБП от Сбера</p>
       </div>
     </div>
     <div class="guarantee-item">
-      <img src="image/free-icon-airplane-31069.png" alt="Быстрая доставка">
+      <img src="{{ url_for('static', path='/img/free-icon-airplane-31069.png') }}" alt="Быстрая доставка">
       <div class="guarantee-text">
       <h3>Быстрая доставка </h3>
       <p>по всей России</p>
       </div>
     </div>
     <div class="guarantee-item">
-      <img src="image/free-icon-dollar-symbol-126179.png" alt="Возврат">
+      <img src="{{ url_for('static', path='/img/free-icon-dollar-symbol-126179.png') }}" alt="Возврат">
       <div class="guarantee-text">
       <h3>14 дней на возврат</h3>
       <p>независимо от причин</p>
@@ -455,7 +456,7 @@ function setupScooterModal() {
     <div class="card-row">
       <div class="product-card" data-id="9" data-stock="23">
         <div class="discount">43% off</div>
-        <img src="image/product/167_amor160.png" alt="Product 9">
+        <img src="{{ url_for('static', path='/img/product/167_amor160.png') }}" alt="Product 9">
         <div class="details">
           <p class="category">Uncategorized</p>
           <p class="name">Щека Вариатора</p>
@@ -470,7 +471,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="10" data-stock="23">
-        <img src="image/product/168_zerkalo.jpg" alt="Product 10">
+        <img src="{{ url_for('static', path='/img/product/168_zerkalo.jpg') }}" alt="Product 10">
         <div class="details">
           <p class="category">Аксессуары</p>
           <p class="name">Зеркала На Мотоцикл</p>
@@ -484,7 +485,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="11" data-stock="22">
-        <img src="image/product/203_tormoz.jpg" alt="Product 11">
+        <img src="{{ url_for('static', path='/img/product/203_tormoz.jpg') }}" alt="Product 11">
         <div class="details">
           <p class="category">Тормозная Система</p>
           <p class="name">Машинка Тормозная (ГТЦ)</p>
@@ -498,7 +499,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="12" data-stock="23">
-        <img src="image/product/192_engine23.jpg" alt="Product 12">
+        <img src="{{ url_for('static', path='/img/product/192_engine23.jpg') }}" alt="Product 12">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Сальников </p>
@@ -518,7 +519,7 @@ function setupScooterModal() {
     <!-- Второй ряд карточек -->
     <div class="card-row">
       <div class="product-card" data-id="13" data-stock="23">
-        <img src="image/product/184_engine15.jpg" alt="Product 13">
+        <img src="{{ url_for('static', path='/img/product/184_engine15.jpg') }}" alt="Product 13">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Прокладок</p>
@@ -532,7 +533,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="14" data-stock="23">
-        <img src="image/product/179_engine10.jpg" alt="Product 14">
+        <img src="{{ url_for('static', path='/img/product/179_engine10.jpg') }}" alt="Product 14">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Коленвал </p>
@@ -546,7 +547,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="15" data-stock="23">
-        <img src="image/product/194_engine25.jpg" alt="Product 15">
+        <img src="{{ url_for('static', path='/img/product/194_engine25.jpg') }}" alt="Product 15">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Патрубок Карбюратора</p>
@@ -560,7 +561,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="16" data-stock="22">
-        <img src="image/product/197_Karb.jpg" alt="Product 16">
+        <img src="{{ url_for('static', path='/img/product/197_Karb.jpg') }}" alt="Product 16">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Карбюратор</p>
@@ -578,7 +579,7 @@ function setupScooterModal() {
 
     <div class="card-row">
       <div class="product-card" data-id="17" data-stock="23">
-        <img src="image/product/179_engine10.jpg" alt="Product 17">
+        <img src="{{ url_for('static', path='/img/product/179_engine10.jpg') }}" alt="Product 17">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Коленвал </p>
@@ -592,7 +593,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="18" data-stock="23">
-        <img src="image/product/192_engine23.jpg" alt="Product 18">
+        <img src="{{ url_for('static', path='/img/product/192_engine23.jpg') }}" alt="Product 18">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Сальников </p>
@@ -607,7 +608,7 @@ function setupScooterModal() {
       </div>
       <div class="product-card" data-id="19" data-stock="23">
         <div class="discount">43% off</div>
-        <img src="image/product/167_amor160.png" alt="Product 19">
+        <img src="{{ url_for('static', path='/img/product/167_amor160.png') }}" alt="Product 19">
         <div class="details">
           <p class="category">Uncategorized</p>
           <p class="name">Щека Вариатора</p>
@@ -622,7 +623,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="20" data-stock="23">
-        <img src="image/product/194_engine25.jpg" alt="Product 20">
+        <img src="{{ url_for('static', path='/img/product/194_engine25.jpg') }}" alt="Product 20">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Патрубок Карбюратора</p>
@@ -642,7 +643,7 @@ function setupScooterModal() {
     <div class="contact-banner">
     <div class="banner-item">
       <a href="tel:+1234567890">
-        <img src="image/шапка-озон-16.png" alt="Banner 3">
+        <img src="{{ url_for('static', path='/img/шапка-озон-16.png') }}" alt="Banner 3">
         <div class="banner-text">
           <p class="banner-title">Позвоните нам</p>
           <p>И мы поможем подобрать</p>
@@ -653,7 +654,7 @@ function setupScooterModal() {
     </div>
     <div class="banner-item">
       <a href="tel:+1234567890">
-        <img src="image/шапка-озон-17.png" alt="Banner 4">
+        <img src="{{ url_for('static', path='/img/шапка-озон-17.png') }}" alt="Banner 4">
         <div class="banner-text">
           <p class="banner-title">Напишите нам</p>
           <p>мы подберем вам запчасти</p>
@@ -670,7 +671,7 @@ function setupScooterModal() {
     <div class="carousel">
       <div class="product-card" data-id="21">
         <div class="discount">43% off</div>
-        <img src="image/product/167_amor160.png" alt="Product 21">
+        <img src="{{ url_for('static', path='/img/product/167_amor160.png') }}" alt="Product 21">
         <div class="details">
           <p class="category">Uncategorized</p>
           <p class="name">Щека Вариатора</p>
@@ -685,7 +686,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="22">
-        <img src="image/product/168_zerkalo.jpg" alt="Product 22">
+        <img src="{{ url_for('static', path='/img/product/168_zerkalo.jpg') }}" alt="Product 22">
         <div class="details">
           <p class="category">Аксессуары</p>
           <p class="name">Зеркала На Мотоцикл</p>
@@ -699,7 +700,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="23">
-        <img src="image/product/203_tormoz.jpg" alt="Product 23">
+        <img src="{{ url_for('static', path='/img/product/203_tormoz.jpg') }}" alt="Product 23">
         <div class="details">
           <p class="category">Тормозная Система</p>
           <p class="name">Машинка Тормозная (ГТЦ)</p>
@@ -713,7 +714,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="24">
-        <img src="image/product/192_engine23.jpg" alt="Product 24">
+        <img src="{{ url_for('static', path='/img/product/192_engine23.jpg') }}" alt="Product 24">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Сальников </p>
@@ -727,7 +728,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="25">
-        <img src="image/product/192_engine23.jpg" alt="Product 25">
+        <img src="{{ url_for('static', path='/img/product/192_engine23.jpg') }}" alt="Product 25">
         <div class="details">
           <p class="category">Двигатель</p>
           <p class="name">Набор Сальников </p>
@@ -742,7 +743,7 @@ function setupScooterModal() {
       </div>
       <div class="product-card" data-id="26">
         <div class="discount">43% off</div>
-        <img src="image/product/167_amor160.png" alt="Product 26">
+        <img src="{{ url_for('static', path='/img/product/167_amor160.png') }}" alt="Product 26">
         <div class="details">
           <p class="category">Uncategorized</p>
           <p class="name">Щека Вариатора</p>
@@ -757,7 +758,7 @@ function setupScooterModal() {
         </div>
       </div>
       <div class="product-card" data-id="27">
-        <img src="image/product/194_engine25.jpg" alt="Product 27">
+        <img src="{{ url_for('static', path='/img/product/194_engine25.jpg') }}" alt="Product 27">
         <div class="details">
           <p class="category">Топливная Система</p>
           <p class="name">Патрубок Карбюратора</p>
@@ -777,7 +778,7 @@ function setupScooterModal() {
   <section>
     <div class="banner-container">
       <div class="banner-item">
-      <img src="image/banner5.png" alt="Banner5" class="banner-image" onclick="showModal()">
+      <img src="{{ url_for('static', path='/img/banner5.png') }}" alt="Banner5" class="banner-image" onclick="showModal()">
       <div class="banner-text">
         <p class="banner-title">Доставка тюнинга</p>
         <p>и стайлинга под заказ</p>
@@ -814,41 +815,41 @@ function setupScooterModal() {
     <div class="footer-section">
       <h3 class="yellow-text">FAQ</h3>
       <h4 onclick="showModal()">Контакты</h4> <!-- Либо ссылка на сторонний источник -->
-      <h4><a href="pay.html">Способы оплаты</a></h4>
-      <h4><a href="delivery.html">Доставка</a></h4>
-      <h4><a href="return.html">Возвраты</a></h4>
-      <h4><a href="Salesroom.html">Торговое помещение</a></h4>
+      <h4><a href="{{ url_for('get_pay_page') }}">Способы оплаты</a></h4>
+      <h4><a href="{{ url_for('get_delivery_page') }}">Доставка</a></h4>
+      <h4><a href="{{ url_for('get_return_page') }}">Возвраты</a></h4>
+      <h4><a href="{{ url_for('get_salesroom_page') }}">Торговое помещение</a></h4>
   </div>    
     <div>
       <hr class="divider">
     </div>
     <div class="footer-section">
       <h3 class="yellow-text">INFO</h3>
-      <h4><a href="legal.html">Официальное уведомление</a></h4>
-      <h4><a href="dataprotection.html">Защита данных</a></h4>
-      <h4><a href="revocation.html">Право отзыва</a></h4>
-      <h4><a href="jobs.html">Работа</a></h4>
-      <h4><a href="techtips.html">Технические советы и руководства</a></h4>
-      <h4><a href="brands.html">Бренды</a></h4>
+      <h4><a href="{{ url_for('get_legal_page') }}">Официальное уведомление</a></h4>
+      <h4><a href="{{ url_for('get_data_protection_page') }}">Защита данных</a></h4>
+      <h4><a href="{{ url_for('get_revocation_page') }}">Право отзыва</a></h4>
+      <h4><a href="{{ url_for('get_job_page') }}">Работа</a></h4>
+      <h4><a href="{{ url_for('get_techtips_page') }}">Технические советы и руководства</a></h4>
+      <h4><a href="{{ url_for('get_brands_page') }}">Бренды</a></h4>
       <h3 class="yellow-text">Social</h3>
       <div class="social-icons">
         <a href="https://telegram.example.com" class="social-icon">
-            <i class="fab fa-telegram"></i>
+          <i class="fab fa-telegram"></i>
         </a>
         <a href="https://whatsapp.example.com" class="social-icon">
             <i class="fab fa-whatsapp"></i>
         </a>
         <a href="https://www.wildberries.ru/brands/scooters" class="social-icon">
-            <img src="image/круг.png" alt="Image 1" class="social-image">
+            <img src="{{ url_for('static', path='/img/круг.png') }}" alt="Image 1" class="social-image">
         </a>
         <a href="https://www.ozon.ru/seller/scooter24-462340/products/?miniapp=seller_462340" class="social-icon">
-            <img src="image/круг2.png" alt="Image 2" class="social-image">
+            <img src="{{ url_for('static', path='/img/круг2.png') }}" alt="Image 2" class="social-image">
         </a>
     </div>
     </div>    
   </footer>
 
 
-<script src="js/script.js" defer></script>
+  <script src="{{ url_for('static', path='/js/script.js') }}" defer></script>
 </body>
 </html>
