@@ -4,19 +4,19 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 #Local
 
 ##MODELS##
-from ScooterBackend.database.models.product import Product
-from ScooterBackend.database.models.category import Category
-from ScooterBackend.database.models.order import Order
-from ScooterBackend.database.models.user import User
-from ScooterBackend.database.models.review import Review
-from ScooterBackend.database.models.history_buy import HistoryBuy
-from ScooterBackend.database.models.favourite import Favourite
-from ScooterBackend.database.models.admin import Admin
-from ScooterBackend.database.models.type_worker import TypeWorker
-from ScooterBackend.database.models.vacancies import Vacancies
+from database.models.product import Product
+from database.models.category import Category
+from database.models.order import Order
+from database.models.user import User
+from database.models.review import Review
+from database.models.history_buy import HistoryBuy
+from database.models.favourite import Favourite
+from database.models.admin import Admin
+from database.models.type_worker import TypeWorker
+from database.models.vacancies import Vacancies
 
-from ScooterBackend.settings.database_settings import DatabaseSettings
-from ScooterBackend.database.mainbase import MainBase
+from settings.database_settings import DatabaseSettings
+from database.mainbase import MainBase
 
 
 class DatabaseEngine:

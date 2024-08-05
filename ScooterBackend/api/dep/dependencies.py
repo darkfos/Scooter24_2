@@ -9,17 +9,17 @@ from fastapi import Depends
 
 
 #Local
-from ScooterBackend.database.repository.user_repository import UserRepository
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.database.repository.category_repository import CategoryRepository
-from ScooterBackend.database.repository.product_repository import ProductRepository
-from ScooterBackend.database.repository.vacancies_repository import VacanciesRepository
-from ScooterBackend.database.repository.type_worker_repository import TypeWorkerRepository
-from ScooterBackend.database.repository.favourite_repository import FavouriteRepository
-from ScooterBackend.database.repository.history_buy_repository import HistoryBuyRepository
-from ScooterBackend.database.repository.order_repository import OrderRepository
-from ScooterBackend.database.repository.review_repository import ReviewRepository
-from ScooterBackend.database.db_worker import db_work
+from database.repository.user_repository import UserRepository
+from database.repository.admin_repository import AdminRepository
+from database.repository.category_repository import CategoryRepository
+from database.repository.product_repository import ProductRepository
+from database.repository.vacancies_repository import VacanciesRepository
+from database.repository.type_worker_repository import TypeWorkerRepository
+from database.repository.favourite_repository import FavouriteRepository
+from database.repository.history_buy_repository import HistoryBuyRepository
+from database.repository.order_repository import OrderRepository
+from database.repository.review_repository import ReviewRepository
+from database.db_worker import db_work
 
 
 class IEngineRepository(ABC):

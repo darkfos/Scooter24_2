@@ -5,13 +5,13 @@ from typing import List, Union, Dict
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.exception.http_vacancies_exception import VacanciesHttpError
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.database.repository.vacancies_repository import VacanciesRepository, Vacancies
-from ScooterBackend.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
-from ScooterBackend.api.dep.dependencies import IEngineRepository
+from api.exception.http_user_exception import UserHttpError
+from api.exception.http_vacancies_exception import VacanciesHttpError
+from api.authentication.authentication_service import Authentication
+from database.repository.admin_repository import AdminRepository
+from database.repository.vacancies_repository import VacanciesRepository, Vacancies
+from api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
+from api.dep.dependencies import IEngineRepository
 
 
 class VacanciesService:

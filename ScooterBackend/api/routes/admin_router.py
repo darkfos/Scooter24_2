@@ -6,13 +6,13 @@ from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.dto.admin_dto import (
+from api.dto.admin_dto import (
     AdminBase,
     AdminIsCreated
 )
-from ScooterBackend.api.service.admin_service import AdminService
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.service.admin_service import AdminService
+from database.db_worker import db_work
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 admin_router: APIRouter = APIRouter(
     prefix="/admin",

@@ -995,7 +995,7 @@ button:hover {
 .line  {
   border-top: 1px dashed #000; /* Параметры линии */
   height: 18px; /* Высота блока */
-  background: url(images/scissors.png) no-repeat 10px -18px; /* Параметры фона */
+  background: url(../images/scissors.png) no-repeat 10px -18px; /* Параметры фона */
  }
 
  .jobs {

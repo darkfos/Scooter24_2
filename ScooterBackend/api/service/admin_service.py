@@ -5,11 +5,11 @@ from typing import Union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.api.dto.admin_dto import *
-from ScooterBackend.database.models.admin import Admin
-from ScooterBackend.api.authentication.hashing import CryptographyScooter
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from database.repository.admin_repository import AdminRepository
+from api.dto.admin_dto import *
+from database.models.admin import Admin
+from api.authentication.hashing import CryptographyScooter
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 class AdminService:

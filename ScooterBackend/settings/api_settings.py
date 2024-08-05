@@ -13,7 +13,9 @@ load_dotenv()
 class APISettings(BaseSettings):
     #API host
     api_host: str = os.getenv("API_HOST")
+
     #API port
     api_port: int = int(os.getenv("API_PORT"))
+    
     #API reload
     reload: bool = bool(os.getenv("RELOAD"))

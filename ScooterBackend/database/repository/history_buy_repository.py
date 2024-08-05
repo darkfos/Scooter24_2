@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, Result
 
 #Local
-from ScooterBackend.database.models.history_buy import HistoryBuy
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.history_buy import HistoryBuy
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class HistoryBuyRepository(GeneralSQLRepository):

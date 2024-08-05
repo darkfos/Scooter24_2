@@ -7,8 +7,8 @@ from sqlalchemy import select, update, delete, Result
 from sqlalchemy.orm import joinedload
 
 #Local
-from ScooterBackend.database.models.favourite import Favourite
-from ScooterBackend.database.repository.general_repository import GeneralSQLRepository
+from database.models.favourite import Favourite
+from database.repository.general_repository import GeneralSQLRepository
 
 
 class FavouriteRepository(GeneralSQLRepository):

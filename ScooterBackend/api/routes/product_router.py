@@ -6,12 +6,12 @@ from fastapi import APIRouter, status, Depends, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.exception.http_product_exception import *
-from ScooterBackend.api.dto.product_dto import *
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.service.product_service import ProductService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.exception.http_product_exception import *
+from api.dto.product_dto import *
+from api.authentication.authentication_service import Authentication
+from database.db_worker import db_work
+from api.service.product_service import ProductService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 product_router: APIRouter = APIRouter(

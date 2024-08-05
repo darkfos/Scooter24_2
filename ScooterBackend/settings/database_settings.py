@@ -22,4 +22,6 @@ class DatabaseSettings(BaseSettings):
     #Database name
     db_name: str = os.getenv("DB_NAME")
     #Database url
-    db_url: str = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    #db_url: str = f"postgresql+asyncpg://darkfos82:afqsQdmQiHAlkFVKf3oKpd149iFq2rdd@dpg-cqjuj6ogph6c739eqic0-a.frankfurt-postgres.render.com/scooter24_db"
+
+    db_url: str = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}/{db_name}"

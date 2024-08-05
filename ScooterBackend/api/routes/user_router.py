@@ -6,8 +6,8 @@ from fastapi import APIRouter, status, Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.api.dto.user_dto import (
+from api.authentication.authentication_service import Authentication
+from api.dto.user_dto import (
     InformationAboutUser,
     AllDataUser,
     UserReviewData,
@@ -20,9 +20,9 @@ from ScooterBackend.api.dto.user_dto import (
     UserIsDeleted,
     UpdateAddressDate
 )
-from ScooterBackend.database.db_worker import db_work
-from ScooterBackend.api.service.user_service import UserService
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from database.db_worker import db_work
+from api.service.user_service import UserService
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 user_router: APIRouter = APIRouter(

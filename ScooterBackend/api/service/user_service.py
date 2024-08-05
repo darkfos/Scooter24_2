@@ -3,7 +3,7 @@ from typing import Union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
-from ScooterBackend.api.dto.user_dto import (
+from api.dto.user_dto import (
     AddUser,
     InformationAboutUser,
     AllDataUser,
@@ -17,16 +17,16 @@ from ScooterBackend.api.dto.user_dto import (
     UserIsDeleted,
     UpdateAddressDate
 )
-from ScooterBackend.api.dto.auth_dto import RegistrationUser
-from ScooterBackend.database.repository.user_repository import UserRepository
-from ScooterBackend.database.models.user import User
-from ScooterBackend.api.exception.http_user_exception import UserHttpError
-from ScooterBackend.api.authentication.hashing import CryptographyScooter
-from ScooterBackend.api.authentication.authentication_service import Authentication
-from ScooterBackend.database.repository.admin_repository import AdminRepository
-from ScooterBackend.other.data_email_transfer import email_transfer
-from ScooterBackend.api.authentication.secret_upd_key import SecretKey
-from ScooterBackend.api.dep.dependencies import IEngineRepository, EngineRepository
+from api.dto.auth_dto import RegistrationUser
+from database.repository.user_repository import UserRepository
+from database.models.user import User
+from api.exception.http_user_exception import UserHttpError
+from api.authentication.hashing import CryptographyScooter
+from api.authentication.authentication_service import Authentication
+from database.repository.admin_repository import AdminRepository
+from other.data_email_transfer import email_transfer
+from api.authentication.secret_upd_key import SecretKey
+from api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 class UserService:
