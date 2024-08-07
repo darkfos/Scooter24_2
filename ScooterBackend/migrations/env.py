@@ -11,7 +11,7 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-from ScooterBackend.settings.database_settings import DatabaseSettings
+from settings.database_settings import DatabaseSettings
 
 #URL to database
 config.set_main_option("sqlalchemy.url", DatabaseSettings().db_url)
@@ -26,19 +26,19 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 
 #Tables
-from ScooterBackend.database.models.user import User
-from ScooterBackend.database.models.order import Order
-from ScooterBackend.database.models.product import Product
-from ScooterBackend.database.models.history_buy import HistoryBuy
-from ScooterBackend.database.models.review import Review
-from ScooterBackend.database.models.favourite import Favourite
-from ScooterBackend.database.models.category import Category
-from ScooterBackend.database.models.admin import Admin
-from ScooterBackend.database.models.type_worker import TypeWorker
-from ScooterBackend.database.models.vacancies import Vacancies
+from database.models.user import User
+from database.models.order import Order
+from database.models.product import Product
+from database.models.history_buy import HistoryBuy
+from database.models.review import Review
+from database.models.favourite import Favourite
+from database.models.category import Category
+from database.models.admin import Admin
+from database.models.type_worker import TypeWorker
+from database.models.vacancies import Vacancies
 
 #Database for migrations
-from ScooterBackend.database.mainbase import MainBase
+from database.mainbase import MainBase
 target_metadata = MainBase.metadata
 
 # other values from the config, defined by the needs of env.py,
