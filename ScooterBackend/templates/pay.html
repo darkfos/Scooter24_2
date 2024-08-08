@@ -25,17 +25,18 @@
             <button onclick="FindOnPage('text-to-find')">Поиск</button>
         </div>
         
-            <div class="user-actions">
-              <button id="favorite-button">
-                  <img src="{{ url_for('static', path='favorite.png') }}" alt="Избранное">
-                  <span id="favorite-count">0</span>
-              </button>
-              <button id="scooter-button"><img src="{{ url_for('static', path='scooter.png') }}" alt="Модель скутера"></button>
-              <button id="cart-button">
-                <img src="{{ url_for('static', path='cart.png') }}" alt="Корзина">
-                <span id="cart-count">0</span>
-            </button>
-          </div>
+        <div class="user-actions">
+          <button id="favorite-button">
+              <img src="{{ url_for('static', path='/img/favorite.png') }}" alt="Избранное">
+              <span id="favorite-count">0</span>
+          </button>
+          <button id="scooter-button"><img src="{{ url_for('static', path='/img/scooter.png') }}" alt="Модель скутера"></button>
+          <button id="cart-button">
+            <img src="{{ url_for('static', path='/img/cart.png') }}" alt="Корзина">
+            <span id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
         </div>
         <div class="submenu">
             <ul>
