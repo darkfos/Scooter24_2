@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Техническое руководство</title>
   <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
@@ -251,7 +251,7 @@
                 </article>
             </section>
 
-                    <a href="{{ url_for('main') }}" class="back-to-main">Вернуться на главную страницу</a>
+                    <a href="{{ url_for('get_main_page') }}" class="back-to-main">Вернуться на главную страницу</a>
     </main>
     
     <style>.container {
