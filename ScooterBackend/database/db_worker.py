@@ -1,6 +1,8 @@
 #Other
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
+#System
+from typing import Union, ClassVar
 #Local
 
 ##MODELS##
@@ -20,6 +22,14 @@ from database.mainbase import MainBase
 
 
 class DatabaseEngine:
+
+    __instance: Union[None, ClassVar] = None
+
+    def __new__(cls, *args, **kwargs) -> None:
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            return cls.__instance
+        return cls.__instance
 
     def __init__(self):
         self.db_engine = create_async_engine(

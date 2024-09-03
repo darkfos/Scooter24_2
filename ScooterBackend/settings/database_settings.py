@@ -1,27 +1,36 @@
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
+
+#System
 import os
+from typing import Union, Type
+from dotenv import load_dotenv
 
-#Load
-load_dotenv()
+#Local
+from settings.descriptor import SettingsDescriptor
 
 
-class DatabaseSettings(BaseSettings):
+
+class DatabaseSettings:
     """
     Settings for connect to db (PostgreSQL)
     """
 
-    #Database user
-    db_user: str = os.getenv("DB_USER")
-    #Database password
-    db_password: str = os.getenv("DB_PASSWORD")
-    #Database host
-    db_host: str = os.getenv("DB_HOST")
-    #Database port
-    db_port: int = int(os.getenv("DB_PORT"))
-    #Database name
-    db_name: str = os.getenv("DB_NAME")
-    #Database url
-    #db_url: str = f"postgresql+asyncpg://darkfos82:afqsQdmQiHAlkFVKf3oKpd149iFq2rdd@dpg-cqjuj6ogph6c739eqic0-a.frankfurt-postgres.render.com/scooter24_db"
+    db_user: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
+    db_password: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
+    db_host: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
+    db_port: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
+    db_name: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
+    db_url: str = ""
 
-    db_url: str = f"postgresql+asyncpg://{db_user}:{db_password}@{db_host}/{db_name}"
+    def __init__ (self) -> None:
+        load_dotenv()
+        self.db_user=os.getenv("DB_USER")
+        self.db_password=os.getenv("DB_PASSWORD")
+        self.db_host=os.getenv("DB_HOST")
+        self.db_port=os.getenv("DB_PORT")
+        self.db_name=os.getenv("DB_NAME")
+        self.db_url=f"postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}/{self.db_name}"
+
+
+    def __str__(self) -> str:
+        return f"{type(self)}"
