@@ -2,8 +2,7 @@
 from passlib.context import CryptContext
 
 #Local
-from settings.authenticate_settings import auth
-
+...
 
 class CryptographyScooter:
 

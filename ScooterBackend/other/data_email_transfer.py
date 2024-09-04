@@ -4,14 +4,14 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 #Local
-from settings.email_transfer_settings import EmailTransferSettings
+from settings.engine_settings import Settings
 
 
 class EmailTransfer:
 
     def __init__(self):
 
-        self.__email_data = EmailTransferSettings()
+        self.__email_data = Settings.email_tr_settings
         self.__email_from: str = self.__email_data.email
         self.__password: str = self.__email_data.password
 

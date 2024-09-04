@@ -7,10 +7,6 @@ class APIError:
     """
     
     def __init__(self):
-        """
-        Инициализация класса
-        """
-
         from fastapi import HTTPException, status
 
     async def api_error(self, code: status, detail_inf: str = "Ошибка", header: str = None):

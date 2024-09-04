@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union
 
 #Local
-from settings.authenticate_settings import auth
+from settings.engine_settings import Settings
 from api.dto.auth_dto import CreateToken, Tokens, AccessToken
 from api.authentication.hashing import CryptographyScooter
 from api.exception.general_exceptions import GeneralExceptions
@@ -53,12 +53,12 @@ class Authentication:
                     }
 
                     data_for_refresh_token: Dict[str, str] = data_for_token.copy()
-                    data_for_token.update({"exp": (datetime.utcnow() + timedelta(minutes=auth.time_work_secret_key))})
-                    data_for_refresh_token.update({"exp": (datetime.utcnow() + timedelta(days=auth.time_work_refresh_secret_key))})
+                    data_for_token.update({"exp": (datetime.utcnow() + timedelta(minutes=Settings.auth_settings.time_work_secret_key))})
+                    data_for_refresh_token.update({"exp": (datetime.utcnow() + timedelta(days=Settings.auth_settings.time_work_refresh_secret_key))})
 
 
-                    jwt_token = jwt.encode(data_for_token, auth.jwt_secret_key, auth.algorithm)
-                    jwt_refresh_token = jwt.encode(data_for_refresh_token, auth.jwt_secret_refresh_key, auth.algorithm)
+                    jwt_token = jwt.encode(data_for_token, Settings.auth_settings.jwt_secret_key, Settings.auth_settings.algorithm)
+                    jwt_refresh_token = jwt.encode(data_for_refresh_token, Settings.auth_settings.jwt_secret_refresh_key, Settings.auth_settings.algorithm)
 
                     return Tokens(
                         token=jwt_token,
@@ -77,10 +77,10 @@ class Authentication:
         try:
             match type_token.lower():
                 case "access":
-                    token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_key, algorithms=auth.algorithm)
+                    token_data: Dict[str, str] = jwt.decode(token, Settings.auth_settings.jwt_secret_key, algorithms=Settings.auth_settings.algorithm)
                     return token_data
                 case "refresh":
-                    token_data: Dict[str, str] = jwt.decode(token, auth.jwt_secret_refresh_key, algorithms=auth.algorithm)
+                    token_data: Dict[str, str] = jwt.decode(token, Settings.auth_settings.jwt_secret_refresh_key, algorithms=Settings.auth_settings.algorithm)
                     return token_data
                 case _:
                     await UserHttpError().http_user_not_found()
@@ -96,8 +96,8 @@ class Authentication:
 
         try:
             token_data: Dict[str, str] = await self.decode_jwt_token(token=refresh_token, type_token="refresh")
-            token_data.update({"exp": datetime.utcnow() + timedelta(minutes=auth.time_work_secret_key)})
-            new_access_token: str = jwt.encode(token_data, auth.jwt_secret_key, auth.algorithm)
+            token_data.update({"exp": datetime.utcnow() + timedelta(minutes=Settings.auth_settings.time_work_secret_key)})
+            new_access_token: str = jwt.encode(token_data, Settings.auth_settings.jwt_secret_key, Settings.auth_settings.algorithm)
             return new_access_token
         except jwt.PyJWTError as jwterr:
             await GeneralExceptions().http_auth_error()

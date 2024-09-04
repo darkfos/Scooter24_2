@@ -17,7 +17,7 @@ from database.models.admin import Admin
 from database.models.type_worker import TypeWorker
 from database.models.vacancies import Vacancies
 
-from settings.database_settings import DatabaseSettings
+from settings.engine_settings import Settings
 from database.mainbase import MainBase
 
 
@@ -33,7 +33,7 @@ class DatabaseEngine:
 
     def __init__(self):
         self.db_engine = create_async_engine(
-            url=DatabaseSettings().db_url,
+            url=Settings.database_settings.db_url,
             echo=True
         )
         self.async_session: async_sessionmaker = async_sessionmaker(bind=self.db_engine)
