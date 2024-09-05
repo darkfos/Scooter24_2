@@ -1,5 +1,6 @@
 #Other libraries
 from fastapi import APIRouter, Depends, status
+from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import EmailStr
@@ -37,7 +38,7 @@ authentication_app: Authentication = Authentication()
     status_code=status.HTTP_201_CREATED
 )
 async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
-                     session: Annotated[IEngineRepository, Depends(EngineRepository)]):
+                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: Response):
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -48,6 +49,10 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
         token_data=CreateToken(email=data_login.username, password=data_login.password),
         engine=session
     )
+
+    response.set_cookie(key="access_token", value=tokens.token)
+    response.set_cookie(key="refresh_token", value=tokens.refresh_token)
+    
     return AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token)
 
 

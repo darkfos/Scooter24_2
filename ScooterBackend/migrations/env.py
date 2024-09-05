@@ -36,6 +36,7 @@ from database.models.category import Category
 from database.models.admin import Admin
 from database.models.type_worker import TypeWorker
 from database.models.vacancies import Vacancies
+from database.models.product_category import ProductCategory
 
 #Database for migrations
 from database.mainbase import MainBase

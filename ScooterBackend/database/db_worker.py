@@ -2,7 +2,7 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
 #System
-from typing import Union, ClassVar
+from typing import Union
 #Local
 
 ##MODELS##
@@ -23,7 +23,7 @@ from database.mainbase import MainBase
 
 class DatabaseEngine:
 
-    __instance: Union[None, ClassVar] = None
+    __instance: Union[None] = None
 
     def __new__(cls, *args, **kwargs) -> None:
         if cls.__instance is None:

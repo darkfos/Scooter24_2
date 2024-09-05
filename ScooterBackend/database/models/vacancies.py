@@ -14,6 +14,7 @@ class Vacancies(MainBase):
 
     #Заработная плата для вакансии
     salary_employee: Mapped[int] = mapped_column(type_=Integer, nullable=False, unique=False, index=False)
+
     #Описание вакансии
     description_vacancies: Mapped[str] = mapped_column(type_=Text, nullable=False, unique=False, index=False)
 

@@ -13,6 +13,7 @@ from api.dto.admin_dto import (
 from api.service.admin_service import AdminService
 from database.db_worker import db_work
 from api.dep.dependencies import IEngineRepository, EngineRepository
+from api.authentication.authentication_service import Authentication
 
 admin_router: APIRouter = APIRouter(
     prefix="/admin",
@@ -32,6 +33,7 @@ admin_router: APIRouter = APIRouter(
 )
 async def create_admin(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(Authentication().jwt_auth)],
     new_admin: AdminBase
 ) -> AdminIsCreated:
     """
@@ -39,4 +41,4 @@ async def create_admin(
     :return:
     """
 
-    return await AdminService.create_admin(engine=session, new_admin=new_admin)
+    return await AdminService.create_admin(engine=session, new_admin=new_admin, user_data=user_data)

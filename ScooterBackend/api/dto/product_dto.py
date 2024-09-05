@@ -21,7 +21,6 @@ class ProductBase(BaseModel):
     article_product: Annotated[str, Field(max_length=300)]
     tags: Annotated[str, Field(min_length=0)]
     other_data: Annotated[str, Field(min_length=0)]
-    id_category: int
     photo_product: Annotated[str, Field()] = None
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
@@ -31,9 +30,9 @@ class ProductBase(BaseModel):
 class ProductAllInformation(ProductBase):
 
     reviews: List[dict]
-    category_data: List[dict]
     orders: List[dict]
     favourites: List[dict]
+    categories: List[dict]
 
 
 class DeleteProduct(BaseModel):

@@ -16,7 +16,7 @@ class Review(MainBase):
     text_review: Mapped[str] = mapped_column(type_=Text, default="", nullable=False)
 
     #Оценка товара
-    estimation_review: Mapped[int] = mapped_column(type_=Integer, default=1, nullable=True)
+    estimation_review: Mapped[int] = mapped_column(type_=Integer, default=1, nullable=False)
 
     #Пользователь - id
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), type_=Integer)

@@ -12,10 +12,10 @@ from database.mainbase import MainBase
 
 class Admin(MainBase):
 
-    email_admin: Mapped[str] = mapped_column(type_=String(150), unique=True, nullable=True, index=True)
-    password_user: Mapped[str] = mapped_column(type_=Text, unique=False, nullable=True)
-    date_create: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=False, default=datetime.date)
-    date_update: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=False, default=datetime.date)
+    email_admin: Mapped[str] = mapped_column(type_=String(150), unique=True, nullable=False, index=True)
+    password_user: Mapped[str] = mapped_column(type_=Text, unique=False, nullable=False)
+    date_create: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=True, default=datetime.date)
+    date_update: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=True, default=datetime.date)
 
     def read_model(self) -> Dict[str, Union[str, int, datetime.date]]:
         """

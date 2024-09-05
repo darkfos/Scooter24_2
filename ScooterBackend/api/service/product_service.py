@@ -12,8 +12,10 @@ from fastapi import UploadFile
 from database.models.product import Product
 from api.exception.http_product_exception import *
 from api.exception.http_user_exception import UserHttpError
+from api.exception.http_category_exception import CategoryHttpError
 from api.dto.product_dto import *
 from api.authentication.authentication_service import Authentication
+from api.authentication.hashing import CryptographyScooter
 from database.repository.product_repository import ProductRepository
 from database.repository.admin_repository import AdminRepository
 from api.dep.dependencies import IEngineRepository
@@ -50,7 +52,6 @@ class ProductService:
                     article_product=new_product.article_product,
                     tags=new_product.tags,
                     other_data=new_product.other_data,
-                    id_category=new_product.id_category,
                     photo_product=new_product.photo_product,
                     date_create_product=new_product.date_create_product,
                     date_update_information=new_product.date_update_information,
@@ -72,6 +73,38 @@ class ProductService:
                         )
 
             await ProductHttpError().http_failed_to_create_a_new_product()
+
+    @staticmethod
+    async def add_new_category(
+        engine: IEngineRepository,
+        id_product: int,
+        id_category: int,
+        admin_data: str
+    ) -> None:
+        """
+        Метод сервиса для добавления новой категории для товара
+        :param engine:
+        :param id_product:
+        :param id_category:
+        :param admin_data:
+        """
+
+        token_data: dict = await Authentication().decode_jwt_token(token=admin_data, type_token="access")
+
+        async with engine:
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data.get("email"),
+                password=CryptographyScooter().hashed_password(password=token_data.get("password"))
+            )
+            if is_admin:
+                created_new_category_for_product = await engine.product_category_repository.add_new_category(
+                    id_category=id_category,
+                    id_product=id_product
+                )
+                return True if created_new_category_for_product else await CategoryHttpError().http_failed_to_create_a_new_category()
+            await UserHttpError().http_user_not_found()
+
+        
 
     @staticmethod
     async def get_all_products(
@@ -99,7 +132,6 @@ class ProductService:
                         photo_product=f"{product[0].photo_product}",
                         date_create_product=product[0].date_create_product,
                         date_update_information=product[0].date_update_information,
-                        id_category=product[0].id_category,
                         price_discount=product[0].product_discount if product[0].product_discount else 0
                 )
                     for product in all_products
@@ -134,7 +166,6 @@ class ProductService:
                         date_create_product=product[0].date_create_product,
                         date_update_information=product[0].date_update_information,
                         photo_product=f"{product[0].photo_product}",
-                        id_category=product[0].id_category,
                         price_discount=product[0].product_discount if product[0].product_discount else 0
                     )
                     for product in all_products
@@ -166,7 +197,6 @@ class ProductService:
                     date_create_product=product_data[0].date_create_product,
                     date_update_information=product_data[0].date_update_information,
                     photo_product=f"{product_data[0].photo_product}",
-                    id_category=product_data[0].id_category,
                     price_discount=product_data[0].product_discount if product_data[0].product_discount else 0
                 )
 
@@ -197,7 +227,6 @@ class ProductService:
                     date_create_product=product_data[0].date_create_product,
                     date_update_information=product_data[0].date_update_information,
                     photo_product=f"{product_data[0].photo_product}",
-                    id_category=product_data[0].id_category,
                     price_discount=product_data[0].product_discount if product_data[0].product_discount else 0
                 )
 
@@ -249,13 +278,11 @@ class ProductService:
                         date_create_product=product_data[0].date_create_product,
                         date_update_information=product_data[0].date_update_information,
                         photo_product=f"{product_data[0].photo_product}",
-                        id_category=product_data[0].id_category,
                         price_discount=product_data[0].product_discount if product_data[0].product_discount else 0,
                         reviews=[
                             review_p.read_model()
                             for review_p in product_data[0].reviews
                         ],
-                        category_data=[product_data[0].category.read_model()],
                         orders=[
                             order_pr.read_model()
                             for order_pr in product_data[0].order
@@ -263,6 +290,10 @@ class ProductService:
                         favourites=[
                             fav_p.read_model()
                             for fav_p in product_data[0].product_info_for_fav
+                        ],
+                        categories=[
+                            cat_data.read_model()
+                            for cat_data in product_data[0].product_all_categories
                         ]
                     )
 
@@ -398,7 +429,6 @@ class ProductService:
                         tags=product.tags,
                         other_data=product.other_data,
                         photo_product=product.photo_product,
-                        id_category=product.id_category,
                         price_discount=product.product_discount if product.product_discount else 0
                     )
                     for product in products
@@ -435,7 +465,6 @@ class ProductService:
                             article_product=rnd_product[0].article_product,
                             tags=rnd_product[0].tags,
                             other_data=rnd_product[0].other_data,
-                            id_category=rnd_product[0].id_category,
                             photo_product=rnd_product[0].photo_product,
                             date_create_product=rnd_product[0].date_create_product,
                             date_update_information=rnd_product[0].date_update_information,
@@ -511,7 +540,6 @@ class ProductService:
                             article_product=product[0].article_product,
                             tags=product[0].tags,
                             other_data=product[0].other_data,
-                            id_category=product[0].id_category,
                             photo_product=product[0].photo_product,
                             date_create_product=product[0].date_create_product,
                             date_update_information=product[0].date_update_information,

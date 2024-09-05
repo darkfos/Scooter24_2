@@ -81,8 +81,8 @@ class ProductRepository(GeneralSQLRepository):
         stmt = select(Product).where(Product.id == id_product).options(
             joinedload(Product.reviews),
             joinedload(Product.product_info_for_fav),
-            joinedload(Product.category),
-            joinedload(Product.order)
+            joinedload(Product.order),
+            joinedload(Product.product_all_categories)
         )
         product_data = ((await self.async_session.execute(stmt)).unique()).one_or_none()
 

@@ -51,6 +51,30 @@ async def create_product(
     return await ProductService.create_product(engine=session, token=admin_data, new_product=new_product)
 
 
+@product_router.post(
+    path="/add_new_category",
+    description="""
+    ### Endpoint - Добавление новой категории для товара.
+    Данный метод позволяет добавить новую категорию для товара.
+    """,
+    summary="Добавление категории",
+    status_code=status.HTTP_201_CREATED,
+    response_model=None
+)
+async def add_new_category_to_product(
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_product: int,
+    id_category: int
+) -> None:
+    
+    return await ProductService.add_new_category(
+        admin_data=user_data,
+        engine=session,
+        id_category=id_category,
+        id_product=id_product
+    )
+
 @product_router.get(
     path="/get_all_products",
     description="""

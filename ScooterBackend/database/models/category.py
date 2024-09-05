@@ -15,9 +15,6 @@ class Category(MainBase):
     #Колонки таблицы
     name_category: Mapped[str] = mapped_column(type_=String(150), nullable=False, unique=True, index=True)
 
-    #Связи к таблицам
-    product: Mapped[List["Product"]] = relationship("Product", back_populates="category", uselist=True)
-
     def read_model(self) -> Dict[str, str]:
         return {
             k: v

@@ -38,29 +38,26 @@ class Product(MainBase):
     tags: Mapped[str] = mapped_column(type_=Text, nullable=True, default="")
 
     #Вес продукта
-    other_data: Mapped[str] = mapped_column(type_=Text, nullable=False, default="")
+    other_data: Mapped[str] = mapped_column(type_=Text, nullable=True, default="")
 
     #Фотография продукта
     photo_product: Mapped[bytes] = mapped_column(type_=Text, nullable=True, default=None)
 
     #Дата создания
-    date_create_product: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date)
+    date_create_product: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date)
 
     #Дата обновления информации
-    date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date)
+    date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date)
 
     #Скидка на товар
     product_discount: Mapped[int] = mapped_column(type_=Integer, nullable=True, default=0)
 
-    #Категория продукта - id
-    id_category: Mapped[int] = mapped_column(ForeignKey('Category.id'), type_=Integer)
-
     #Связи к таблицам
-    reviews: Mapped[List["Category"]] = relationship("Review", back_populates="product", uselist=True) #Отзывы
-    category: Mapped["Category"] = relationship("Category", back_populates="product", uselist=False) #Категория
+    reviews: Mapped[List["Review"]] = relationship("Review", back_populates="product", uselist=True) #Отзывы
     order: Mapped[List["Order"]] = relationship("Order", back_populates="product_info", uselist=True) #Заказы
     product_info_for_fav: Mapped[List["Favourite"]] = relationship(
         "Favourite", back_populates="product_info", uselist=True) #Избр.
+    product_all_categories: Mapped[List["ProductCategory"]] = relationship("ProductCategory", back_populates="product_information", uselist=True)
 
     def read_model(self) -> Dict[str, str]:
         return {

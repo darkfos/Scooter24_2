@@ -34,7 +34,8 @@ class Authentication:
             res_to_find_user: Union[bool, User] = await engine.user_repository.find_user_by_email_and_password(
                 email=token_data.email)
             res_to_find_admin: Union[bool, Admin] = await engine.admin_repository.find_admin_by_email_and_password(
-                email=token_data.email
+                email=token_data.email,
+                password=token_data.password
             )
 
             if res_to_find_user or res_to_find_admin:

@@ -9,9 +9,9 @@ from settings.descriptor import SettingsDescriptor
 
 class APISettings:
 
-    api_host: Union[str, SettingsDescriptor] = SettingsDescriptor()
-    api_port: Union[str, SettingsDescriptor] = SettingsDescriptor()
-    reload: Union[str, SettingsDescriptor] = SettingsDescriptor()
+    api_host: Union[str, SettingsDescriptor, int] = SettingsDescriptor()
+    api_port: Union[str, SettingsDescriptor, int] = SettingsDescriptor()
+    reload: Union[str, SettingsDescriptor, int] = SettingsDescriptor()
 
     def __init__(self) -> None:
         load_dotenv()
