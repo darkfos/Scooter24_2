@@ -8,7 +8,7 @@ class FavouriteModelView(ModelView, model=Favourite):
     #Metadata
     name: str = "Избранные товары"
     name_plural: str = "Добавить избранное"
-    icon: str = "fa-star-half-o"
+    icon: str = "fa fa-bookmark"
     category: str = "Пользователь"
 
     column_list: List[Any] = [Favourite.id, Favourite.id_user, Favourite.id_product, Favourite.fav_user, Favourite.product_info]

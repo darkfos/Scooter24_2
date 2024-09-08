@@ -35,11 +35,17 @@ class ScooterBackendApplication:
             description="Программный интерфейс для сайта по продаже мото-деталей",
             #lifespan=connection_db
         )
-        self.admin: Type[AdminPanel] = AdminPanel(app=self.scooter24_app)
-        self.origins: List[str] = ["*", "http://localhost:8000"]
 
+        #Static's
+        self.statics: Type[StaticFiles] = StaticFiles(directory="src/static")
+        self.scooter24_app.mount(path="/static", app=self.statics, name="static")
+
+        #Admjn panel
+        self.admin: Type[AdminPanel] = AdminPanel(app=self.scooter24_app)
         #Initialize model's view
         self.admin.initialize_models_view(models=[])
+
+        self.origins: List[str] = ["*", "http://localhost:8000"]
 
     def include_router(self, routers: List[APIRouter]) -> None:
 

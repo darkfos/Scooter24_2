@@ -10,8 +10,15 @@ from src.admin import all_models
 class AdminPanel:
 
     def __init__(self, app: FastAPI) -> None:
-        self.admin_panel: Type[Admin] = Admin(engine=db_work.db_engine, app=app)
+        self.admin_panel: Type[Admin] = Admin(
 
+            #Set settings
+            engine=db_work.db_engine,
+            app=app,
+            title="Scooter24",
+            logo_url="/static/scooter-logo.png"
+            )
+        
         #initialize
         self.initialize_models_view(models=all_models)
 

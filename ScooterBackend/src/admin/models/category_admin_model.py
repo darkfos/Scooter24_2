@@ -8,7 +8,7 @@ class CategoryModelView(ModelView, model=Category):
     #Metadata
     name: str = "Категории"
     name_plural: str = "Добавить категорию"
-    icon: str = "fa-star-half-o"
+    icon: str = "fa fa-tags"
     category: str = "Товар"
 
     column_list: List[Any] = [Category.id, Category.name_category]
