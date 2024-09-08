@@ -12,6 +12,7 @@ class ProductCategory(MainBase):
     id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer)
 
     product_information: Mapped["Product"] = relationship("Product", back_populates="product_all_categories", uselist=False)
+    category_information: Mapped["Category"] = relationship("Category", back_populates="category_data", uselist=False)
 
     def read_model(self) -> dict:
         return {

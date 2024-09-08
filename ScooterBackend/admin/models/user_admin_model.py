@@ -28,7 +28,22 @@ class UserModelView(ModelView, model=User):
     can_view_details: bool = True
 
     #Form's
-    form_create_rules: List = ["name_user", "email_user", "surname_user", "main_name_user", "surname_user_address",
+    form_ajax_refs: dict = {
+        "reviews": {
+            "fields": ("id"),
+            "order_by": ("id")
+        },
+        "orders_user": {
+            "fields": ("id"),
+            "order_by": ("id")
+        },
+        "favourites_user": {
+            "fields": ("id"),
+            "order_by": ("od")
+        }
+    }
+
+    form_create_rules: List[Any] = ["name_user", "email_user", "surname_user", "main_name_user", "surname_user_address",
                                "address_area", "address_index", "address_locality", "country_address", "address_phone_number",
                                "address_rl_et_home", "name_company_address", "password_user", "date_update", "date_registration"]
     form_edit_rules = form_create_rules[:-1].copy()
