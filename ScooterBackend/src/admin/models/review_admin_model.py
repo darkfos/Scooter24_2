@@ -8,7 +8,7 @@ class ReviewModelView(ModelView, model=Review):
     #Metadata
     name: str = "Отзывы"
     name_plural: str = "Добавить отзыв"
-    icon: str = "fa-comment"
+    icon: str = "fa fa-comment"
     category: str = "Товар"
 
     column_list: List[Any] = [Review.id, Review.id_product, Review.id_user, Review.text_review, Review.estimation_review]

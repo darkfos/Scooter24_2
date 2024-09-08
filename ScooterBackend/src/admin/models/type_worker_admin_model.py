@@ -8,7 +8,7 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     #Metadata
     name: str = "Тип работника"
     name_plural: str = "Добавить тип работника"
-    icon: str = "fa-users"
+    icon: str = "fa fa-users"
     category: str = "Пользователь"
 
     column_list: List[Any] = [TypeWorker.id, TypeWorker.name_type, TypeWorker.vacancies]

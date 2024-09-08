@@ -7,8 +7,8 @@ class ProductCategoryModelView(ModelView, model=ProductCategory):
 
     #Metadata
     name: str = "Категории продукта"
-    name_plural: str = "Добавление категории"
-    icon: str = "fa-puzzle-piece"
+    name_plural: str = "Добавление категории к товару"
+    icon: str = "fa fa-puzzle-piece"
     category: str = "Товар"
 
     column_list: List[Any] = [ProductCategory.id, ProductCategory.id_category, ProductCategory.id_product,

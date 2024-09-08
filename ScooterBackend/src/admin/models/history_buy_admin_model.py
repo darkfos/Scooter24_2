@@ -8,7 +8,7 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
     #Metadata
     name: str = "История покупок"
     name_plural: str = "Добавить историю"
-    icon: str = "fa-archive"
+    icon: str = "fa fa-archive"
     category: str = "Пользователь"
 
     column_list: List[Any] = [HistoryBuy.id, HistoryBuy.id_user, HistoryBuy.id_product, HistoryBuy.hst_user]

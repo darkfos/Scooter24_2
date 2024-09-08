@@ -8,7 +8,7 @@ class VacanciesModelView(ModelView, model=Vacancies):
     #Metadata
     name: str = "Вакансии"
     name_plural: str = "Добавить вакансию"
-    icon: str = "fa-user-plus"
+    icon: str = "fa fa-user-plus"
     category: str = "Пользователь"
 
     column_list: List[Any] = [Vacancies.id, Vacancies.description_vacancies, Vacancies.id_type_worker,

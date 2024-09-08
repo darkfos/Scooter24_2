@@ -8,7 +8,7 @@ class OrderModelView(ModelView, model=Order):
     #Metadata
     name: str = "Заказы"
     name_plural: str = "Добавить заказ"
-    icon: str = "fa-shopping-cart"
+    icon: str = "fa fa-shopping-cart"
     category: str = "Товар"
 
     column_list: List[Any] = [Order.id, Order.id_product, Order.id_user, Order.date_buy, Order.ord_user, Order.product_info]
