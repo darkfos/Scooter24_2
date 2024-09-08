@@ -11,7 +11,7 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-from settings.database_settings import DatabaseSettings
+from src.settings.database_settings import DatabaseSettings
 
 #URL to database
 config.set_main_option("sqlalchemy.url", DatabaseSettings().db_url)
@@ -26,20 +26,20 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 
 #Tables
-from database.models.user import User
-from database.models.order import Order
-from database.models.product import Product
-from database.models.history_buy import HistoryBuy
-from database.models.review import Review
-from database.models.favourite import Favourite
-from database.models.category import Category
-from database.models.admin import Admin
-from database.models.type_worker import TypeWorker
-from database.models.vacancies import Vacancies
-from database.models.product_category import ProductCategory
+from src.database.models.user import User
+from src.database.models.order import Order
+from src.database.models.product import Product
+from src.database.models.history_buy import HistoryBuy
+from src.database.models.review import Review
+from src.database.models.favourite import Favourite
+from src.database.models.category import Category
+from src.database.models.admin import Admin
+from src.database.models.type_worker import TypeWorker
+from src.database.models.vacancies import Vacancies
+from src.database.models.product_category import ProductCategory
 
 #Database for migrations
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 target_metadata = MainBase.metadata
 
 # other values from the config, defined by the needs of env.py,

@@ -1,0 +1,165 @@
+#System
+from typing import Annotated
+
+
+#Other libraries
+from fastapi import Depends, status, APIRouter
+from sqlalchemy.ext.asyncio import AsyncSession
+
+
+#Local
+from src.api.dto.favourite_dto import *
+from src.database.db_worker import db_work
+from src.api.authentication.authentication_service import Authentication
+from src.api.service.favourite_service import FavouriteService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+
+
+auth: Authentication = Authentication()
+favourite_router: APIRouter = APIRouter(
+    prefix="/favourite",
+    tags=["Favourite - Избранные товары"]
+)
+
+
+@favourite_router.post(
+    path="/create_a_new_favourite_product",
+    description="""
+    ### Endpoint - Добавление нового товара в список избранных.
+    Данный метод позволяет добавить продукт в список избранных.
+    Необходим jwt токен и Bearer в заголовке запроса.
+    """,
+    summary="Добавление избранного товара",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def create_a_new_favourite(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    new_favourite: AddFavourite
+) -> None:
+    """
+    ENDPOINT - Добавление нового товара в избранное
+    :param session:
+    :param user_data:
+    :param new_favourite:
+    :return:
+    """
+
+    return await FavouriteService.create_favourite_product(
+        engine=session,
+        token=user_data,
+        new_product_in_favourite=new_favourite
+    )
+
+
+@favourite_router.get(
+    path="/get_all_favourites_by_user_id",
+    description="""
+    ### Endpoint - Все избранные товары пользователя.
+    Данный метод предоставляет информацию обо всех избранных товарах пользователя.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Список избранных товаров",
+    status_code=status.HTTP_200_OK,
+    response_model=Union[List, List[FavouriteBase]]
+)
+async def get_all_favourites_products_by_user_id(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+) -> Union[List, List[FavouriteBase]]:
+    """
+    ENDPOINT - Получение всех избранных товаров пользователя
+    :param session:
+    :param user_data:
+    :param id_user:
+    :return:
+    """
+
+    return await FavouriteService.get_all_favourite_product_by_user_id(engine=session, token=user_data)
+
+
+@favourite_router.get(
+    path="/get_favourite_data_for_id/{id_fav_product}",
+    description="""
+    ### Endpoint - Получение информации о избранном товаре по id.
+    Данный метод позволяет получить полную информацию об избранном товаре.
+    Доступно для администраторов.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Детальная информация об избранном товаре",
+    status_code=status.HTTP_200_OK,
+    response_model=FavouriteInformation,
+    tags=["AdminPanel - Панель администратора"]
+)
+async def get_full_information_about_favourite_product_by_id(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    admin_data: Annotated[AsyncSession, Depends(auth.jwt_auth)],
+    id_fav_product: int
+) -> FavouriteInformation:
+    """
+    ENDPOINT - Получение полной информации о продукте по его id
+    :param session:
+    :param id_fav_product:
+    :return:
+    """
+
+    return await FavouriteService.get_information_about_fav_product_by_id(
+        engine=session,
+        token=admin_data,
+        id_fav_product=id_fav_product
+    )
+
+
+@favourite_router.get(
+    path="/get_all_favourites",
+    description="""
+    ### Endpoint - Получение всех избранных товаров.
+    Данный метод позволяет получить все избранные товары.
+    Доступен для администратора.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Все избранные товары",
+    status_code=status.HTTP_200_OK,
+    response_model=Union[List, List[FavouriteSmallData]],
+    tags=["AdminPanel - Панель администратора"]
+)
+async def get_all_favourites_products(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    admin_data: Annotated[str, Depends(auth.jwt_auth)]
+) -> Union[List, List[FavouriteSmallData]]:
+    """
+    ENDPOINT - Получение информации обо всех избранных товаров
+    :param session:
+    :param admin_data:
+    :return:
+    """
+
+    return await FavouriteService.get_all_favourites(engine=session, token=admin_data)
+
+
+@favourite_router.delete(
+    path="/delete_favourite_product",
+    description="""
+    ### Endpoint - Удаление избранного товара пользователя.
+    Данный метод позволяет удалить товар из избранного списка.
+    Необходим jwt ключ и Bearer в заголовке запроса.
+    """,
+    summary="Удаление избранного товара",
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=None
+)
+async def delete_favourite_product(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    id_favourite: int
+) -> None:
+    """
+    ENDPOINT - Удаление товара из списка избранных
+    :param session:
+    :param user_data:
+    :param id_favourite:
+    :return:
+    """
+
+    return await FavouriteService.delete_favourite_product(engine=session, token=user_data, id_favourite=id_favourite)
