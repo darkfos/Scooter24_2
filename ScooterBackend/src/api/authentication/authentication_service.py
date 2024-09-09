@@ -86,7 +86,7 @@ class Authentication:
                 case _:
                     await UserHttpError().http_user_not_found()
         except jwt.PyJWTError as er:
-            return GeneralExceptions().http_auth_error()
+            await GeneralExceptions().http_auth_error()
 
     async def update_token(self, refresh_token: str) -> str:
         """

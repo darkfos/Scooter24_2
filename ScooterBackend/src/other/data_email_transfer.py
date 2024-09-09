@@ -27,6 +27,8 @@ class EmailTransfer:
         :title_message:
         """
 
+        print(self.__email_from, self.__password)
+
         new_message = MIMEMultipart()
         new_message["From"] = self.__email_from
         new_message["To"] = whom_email

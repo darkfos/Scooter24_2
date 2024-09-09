@@ -298,37 +298,6 @@ async def update_address_data(
     return await UserService.update_address_user_data(engine=session, token=user_data, data_update=data_to_update)
 
 
-@user_router.patch(
-    path="/update_user_password",
-    description="""
-    ### Endpoint - Обновление пароля пользователя.
-    Данный метод позволяет обновить пароль пользователя.
-    Необходим jwt ключ и Bearer в заголовке запроса.
-    """,
-    summary="Обновление пароля пользователя",
-    response_model=UserIsUpdated,
-    status_code=status.HTTP_200_OK
-)
-async def update_user_password(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
-    data_to_update: DataToUpdateUserPassword
-) -> UserIsUpdated:
-    """
-    ENDPOINT - Обновление пароля пользователя
-    :param session:
-    :param usr_data:
-    :param data_to_update:
-    :return:
-    """
-
-    return await UserService.update_user_password(
-        engine=session,
-        token=user_data,
-        to_update=data_to_update
-    )
-
-
 @user_router.delete(
     path="/delete_user",
     description="""

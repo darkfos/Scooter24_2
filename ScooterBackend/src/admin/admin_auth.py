@@ -32,13 +32,13 @@ class AdminPanelAuthentication(AuthenticationBackend):
     async def authenticate(self, request: Request) -> Response | bool:
         tokens: tuple = request.session.get("token"), request.session.get("refresh_token")
         
-        if tokens:
+        if tokens[-1]:
             #Check jwt token and update this as needed
             update_tokens = await self.auth_service.update_token(refresh_token=tokens[-1])
             #request.session.update(update_tokens)
             return True
         return False
     
-    async def logout(self, request: Request) -> bool:
+    async def logout(self, request: Request):
         request.session.clear()
-        return True
+        return RedirectResponse(url="http://localhost:8000/admin/login")
