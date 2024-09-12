@@ -13,7 +13,7 @@ if __name__ == "__main__":
     @app.get(path="/", status_code=status.HTTP_200_OK, response_class=RedirectResponse)
     async def redirect_to_docs() -> RedirectResponse:
         #return RedirectResponse("/site/main")
-        return RedirectResponse("/admin")
+        return RedirectResponse("/admin", status_code=status.HTTP_307_TEMPORARY_REDIRECT)
 
     
     #Start project

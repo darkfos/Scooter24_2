@@ -137,4 +137,6 @@ class Authentication:
                 refresh_token=jwt.encode(token_refresh_data, key=Settings.auth_settings.jwt_secret_refresh_key, algorithm=Settings.auth_settings.algorithm)
             )
         
+        session.close()
+        
         await UserHttpError().http_user_not_found()

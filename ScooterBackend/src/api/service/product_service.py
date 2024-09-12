@@ -1,6 +1,6 @@
 #System
 import datetime
-from typing import Union, Dict, List
+from typing import Union, Dict, List, Type
 from random import choice
 
 #Other libraries
@@ -19,6 +19,7 @@ from src.api.authentication.hashing import CryptographyScooter
 from src.database.repository.product_repository import ProductRepository
 from src.database.repository.admin_repository import AdminRepository
 from src.api.dep.dependencies import IEngineRepository
+from src.other.image_saver import ImageSaver
 
 
 class ProductService:
@@ -28,6 +29,7 @@ class ProductService:
         engine: IEngineRepository,
         token: str,
         new_product: ProductBase,
+        photo_product: UploadFile
     ) -> ProductIsCreated:
         """
         Метод для создания нового продукта
@@ -61,16 +63,31 @@ class ProductService:
                 product_is_created: bool = await (engine.product_repository.add_one(
                     data=product
                 ))
+                
+                image_saver: Type[ImageSaver] = ImageSaver()
+
                 if product_is_created:
-                    is_updated: bool = await engine.product_repository.update_one(
-                               other_id=product_is_created,
-                                data_to_update={"photo_product": (str(product_is_created)+"_"+product.photo_product)}
+                    await image_saver.generate_filename(id_=product_is_created, filename=photo_product.filename)
+
+                    #Save file
+                    url_save_photo: str = await image_saver.save_file(file=photo_product)
+
+                    if url_save_photo:
+                    
+                        is_updated: bool = await engine.product_repository.update_one(
+                                other_id=product_is_created,
+                                    data_to_update={"photo_product": url_save_photo}
+                                )
+                        if is_updated:
+                            return ProductIsCreated(
+                                is_created=True,
+                                product_name=url_save_photo
                             )
-                    if is_updated:
-                        return ProductIsCreated(
-                            is_created=True,
-                            product_name=str(product_is_created)+"_"+product.photo_product
-                        )
+                    
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail="Не удалось загрузить фотографию продукта"
+                    )
 
             await ProductHttpError().http_failed_to_create_a_new_product()
 
@@ -384,9 +401,17 @@ class ProductService:
             is_admin: bool = await engine.admin_repository.find_admin_by_email_and_password(email=jwt_data.get("email"))
 
             if is_admin:
-                is_del: bool = await engine.product_repository.delete_one(other_id=id_product)
+                product_data: Product = await engine.product_repository.find_one(other_id=id_product)
+                if product_data:
+                    product_data = product_data[0]
 
+                is_del: bool = await engine.product_repository.delete_one(other_id=id_product)
                 if is_del:
+
+                    #Delete photo
+                    image = ImageSaver()
+                    image.filename = product_data.photo_product
+                    await image.remove_file()
                     return
 
                 await ProductHttpError().http_failed_to_delete_product()

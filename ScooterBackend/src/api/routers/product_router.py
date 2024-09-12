@@ -1,8 +1,9 @@
 #System
-from typing import Annotated, List
+from typing import Annotated, List, Type
 
 #Other libraries
 from fastapi import APIRouter, status, Depends, UploadFile, File
+from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
@@ -12,6 +13,7 @@ from src.api.authentication.authentication_service import Authentication
 from src.database.db_worker import db_work
 from src.api.service.product_service import ProductService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.image_saver import ImageSaver
 
 
 product_router: APIRouter = APIRouter(
@@ -19,7 +21,7 @@ product_router: APIRouter = APIRouter(
     tags=["Product - Товары магазина"]
 )
 
-auth: Authentication = Authentication()
+auth: Type[Authentication] = Authentication()
 
 
 @product_router.post(
@@ -38,7 +40,17 @@ auth: Authentication = Authentication()
 async def create_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_product: ProductBase
+    photo_product: UploadFile,
+    title_product: str,
+    price_product: float,
+    quantity_product: int,
+    explanation_product: str,
+    article_product: str,
+    tags: str,
+    other_data: str,
+    price_discount: int,
+    date_create_product: datetime.date = datetime.date.today(),
+    date_update_information: datetime.date = datetime.date.today(),
 ) -> ProductIsCreated:
     """
     ENDPOINT - Создание продукта
@@ -48,7 +60,19 @@ async def create_product(
     :return:
     """
 
-    return await ProductService.create_product(engine=session, token=admin_data, new_product=new_product)
+    return await ProductService.create_product(engine=session, token=admin_data, new_product=ProductBase(
+        title_product=title_product,
+        price_discount=price_discount,
+        price_product=price_product,
+        explanation_product=explanation_product,
+        quantity_product=quantity_product,
+        article_product=article_product,
+        tags=tags,
+        other_data=other_data,
+        date_create_product=date_create_product,
+        date_update_information=date_update_information,
+        photo_product=""
+    ), photo_product=photo_product)
 
 
 @product_router.post(
@@ -154,6 +178,32 @@ async def get_products_by_category(
     return await ProductService.get_products_by_category(
         engine=session,
         category_data=category_data
+    )
+
+
+@product_router.get(
+    path="/get_image_product/{photo_product_name}",
+    description="""
+    ### Endpoint - Получение картинки продукта по названию.
+    Данный метод позволяет получить картинку продукта по названию
+    """,
+    summary="Получение изображения",
+    response_class=FileResponse,
+    status_code=status.HTTP_200_OK
+)
+async def get_image_product(
+    photo_product_name: str
+) -> FileResponse:
+    """
+    ### Endpoint - Получение картинки продукта по названию.
+    Данный метод позволяет получить картинку продукта по названию
+    """
+    
+    return FileResponse(
+        path=f"src/static/{photo_product_name}",
+        filename="product_avatar.png",
+        media_type="image/jpeg",
+        status_code=status.HTTP_200_OK,
     )
 
 
