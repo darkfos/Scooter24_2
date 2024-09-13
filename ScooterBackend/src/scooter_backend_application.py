@@ -2,19 +2,19 @@
 from src.settings.api_settings import APISettings
 
 #ROUTES
-from src.api.routes.user_router import user_router as user_router
-from src.api.routes.authentication_router import auth_router as auth_router
-from src.api.routes.category_router import category_router as category_router
-from src.api.routes.admin_router import admin_router as admin_router
-from src.api.routes.review_router import review_router as review_router
-from src.api.routes.product_router import product_router as product_router
-from src.api.routes.order_router import order_router as order_router
-from src.api.routes.favourite_router import favourite_router as favourite_router
-from src.api.routes.history_buy_router import history_buy_router as history_buy_router
-from src.api.routes.type_worker_router import type_worker_router as type_worker_router
-from src.api.routes.vacancies_router import vacancies_router as vacancies_router
-from src.api.routes.page_router import page_router
-from src.api.routes.general_router import api_v1_router
+from src.api.routers.user_router import user_router as user_router
+from src.api.routers.authentication_router import auth_router as auth_router
+from src.api.routers.category_router import category_router as category_router
+from src.api.routers.admin_router import admin_router as admin_router
+from src.api.routers.review_router import review_router as review_router
+from src.api.routers.product_router import product_router as product_router
+from src.api.routers.order_router import order_router as order_router
+from src.api.routers.favourite_router import favourite_router as favourite_router
+from src.api.routers.history_buy_router import history_buy_router as history_buy_router
+from src.api.routers.type_worker_router import type_worker_router as type_worker_router
+from src.api.routers.vacancies_router import vacancies_router as vacancies_router
+from src.api.routers.page_router import page_router
+from src.api.routers.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
 
@@ -47,11 +47,13 @@ class ScooterBackendApplication:
 
         self.origins: List[str] = ["*", "http://localhost:8000"]
 
-    def include_router(self, routers: List[APIRouter]) -> None:
+        self.include_router()
 
-        routers_list: List[APIRouter] = [user_router, admin_router, product_router, favourite_router, category_router,
-                                         vacancies_router, type_worker_router, api_v1_router.get_api_v1(), history_buy_router,
-                                         order_router, auth_router, review_router]
+    def include_router(self, routers: List[APIRouter] = []) -> None:
+
+        routers_list: List[APIRouter] = [auth_router, user_router, admin_router, product_router, favourite_router, category_router,
+                                         vacancies_router, type_worker_router, api_v1_router.get_api_v1, history_buy_router,
+                                         order_router, review_router]
         if routers:
             routers_list.extend(routers)
 

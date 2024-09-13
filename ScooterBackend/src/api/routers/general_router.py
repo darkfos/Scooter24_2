@@ -8,17 +8,17 @@ from fastapi import APIRouter
 
 
 #Local
-from src.api.routes.admin_router import admin_router
-from src.api.routes.authentication_router import auth_router
-from src.api.routes.category_router import category_router
-from src.api.routes.favourite_router import favourite_router
-from src.api.routes.history_buy_router import history_buy_router
-from src.api.routes.order_router import order_router
-from src.api.routes.product_router import product_router
-from src.api.routes.review_router import review_router
-from src.api.routes.type_worker_router import type_worker_router
-from src.api.routes.user_router import user_router
-from src.api.routes.vacancies_router import vacancies_router
+from src.api.routers.admin_router import admin_router
+from src.api.routers.authentication_router import auth_router
+from src.api.routers.category_router import category_router
+from src.api.routers.favourite_router import favourite_router
+from src.api.routers.history_buy_router import history_buy_router
+from src.api.routers.order_router import order_router
+from src.api.routers.product_router import product_router
+from src.api.routers.review_router import review_router
+from src.api.routers.type_worker_router import type_worker_router
+from src.api.routers.user_router import user_router
+from src.api.routers.vacancies_router import vacancies_router
 
 
 class GeneralRouter:

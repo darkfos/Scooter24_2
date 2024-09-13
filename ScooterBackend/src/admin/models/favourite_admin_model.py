@@ -12,6 +12,13 @@ class FavouriteModelView(ModelView, model=Favourite):
     category: str = "Пользователь"
 
     column_list: List[Any] = [Favourite.id, Favourite.id_user, Favourite.id_product, Favourite.fav_user, Favourite.product_info]
+    column_labels: dict = {
+        Favourite.id: "Идентификатор избр. товара",
+        Favourite.id_user: "Идентификатор пользователя",
+        Favourite.id_product: "Идентификатор продукта",
+        Favourite.fav_user: "Пользователь",
+        Favourite.product_info: "Продукт"
+    }
     
     #Operations
     can_create: bool = True

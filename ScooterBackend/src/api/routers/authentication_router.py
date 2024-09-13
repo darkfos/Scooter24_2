@@ -1,6 +1,6 @@
 #Other libraries
-from fastapi import APIRouter, Depends, status
-from fastapi.responses import Response
+from fastapi import APIRouter, Depends, status, BackgroundTasks
+from fastapi.responses import JSONResponse, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import EmailStr
@@ -38,7 +38,7 @@ authentication_app: Authentication = Authentication()
     status_code=status.HTTP_201_CREATED
 )
 async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
-                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: Response):
+                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: JSONResponse):
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -51,9 +51,10 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
     )
 
     response.set_cookie(key="access_token", value=tokens.token)
+    response.set_cookie(key="token_type", value=tokens.token_type)
     response.set_cookie(key="refresh_token", value=tokens.refresh_token)
     
-    return AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token)
+    return JSONResponse(content=AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token).model_dump(), status_code=status.HTTP_200_OK)
 
 
 @auth_router.post(
@@ -118,15 +119,17 @@ async def update_by_refresh_token(
 )
 async def create_and_send_secret_key(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    background_task: BackgroundTasks,
     user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
-    user_email: EmailStr
 ) -> None:
     """
     Обновление пароля пользователя
     :user_email:
     """
 
-    return await UserService.send_secret_key_by_update_password(engine=session, email=user_email, token=user_data)
+    print(user_data)
+    token_data: dict = await authentication_app.decode_jwt_token(token=user_data, type_token="access")
+    return background_task.add_task(UserService.send_secret_key_by_update_password, session, token_data.get("email"), user_data)
 
 
 @auth_router.post(

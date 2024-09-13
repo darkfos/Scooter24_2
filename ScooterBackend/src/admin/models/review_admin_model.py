@@ -12,6 +12,13 @@ class ReviewModelView(ModelView, model=Review):
     category: str = "Товар"
 
     column_list: List[Any] = [Review.id, Review.id_product, Review.id_user, Review.text_review, Review.estimation_review]
+    column_labels: dict = {
+        Review.id: "Идентификатор отзыва",
+        Review.id_product: "Идентификатор продукта",
+        Review.id_user: "Идентификатор пользователя",
+        Review.text_review: "Текст отзыва",
+        Review.estimation_review: "Оценка"
+    }
 
     #Operation's
     can_create: bool = True

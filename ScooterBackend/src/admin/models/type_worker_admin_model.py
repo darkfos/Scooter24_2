@@ -12,6 +12,11 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     category: str = "Пользователь"
 
     column_list: List[Any] = [TypeWorker.id, TypeWorker.name_type, TypeWorker.vacancies]
+    column_labels: dict = {
+        TypeWorker.id: "Идентификатор типа работника",
+        TypeWorker.name_type: "Название",
+        TypeWorker.vacancies: "Вакансии"
+    }
 
     #Operation's
     can_create: bool = True

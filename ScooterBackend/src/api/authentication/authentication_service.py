@@ -86,7 +86,7 @@ class Authentication:
                 case _:
                     await UserHttpError().http_user_not_found()
         except jwt.PyJWTError as er:
-            return GeneralExceptions().http_auth_error()
+            await GeneralExceptions().http_auth_error()
 
     async def update_token(self, refresh_token: str) -> str:
         """
@@ -102,3 +102,41 @@ class Authentication:
             return new_access_token
         except jwt.PyJWTError as jwterr:
             await GeneralExceptions().http_auth_error()
+
+    async def is_admin(self, session: AsyncSession, email: str, password: str) -> dict:
+        """
+        Проверка, что данные соответствуют данным какого-либо администратора.
+        :param engine:
+        :param email:
+        :param password:
+        """
+
+        hash_password: str = CryptographyScooter().hashed_password(password=password)
+        is_admin: Union[Admin, None] = await AdminRepository(session=session).find_admin_by_email_and_password(
+            email=email, password=hash_password
+        )
+
+        if is_admin:
+            
+            token_access_data: Dict[Union[str, int], Union[str, int]] = {
+                "email": email,
+                "password": hash_password,
+                "id_admin": is_admin.id
+            }
+            token_refresh_data: Dict[Union[str, int], Union[str, int]] = {
+                "email": email,
+                "password": hash_password,
+                "is_admin": is_admin.id
+            }
+
+            token_access_data.update({"exp": (datetime.now() + timedelta(minutes=Settings.auth_settings.time_work_secret_key))})
+            token_refresh_data.update({"exp": (datetime.now() + timedelta(days=Settings.auth_settings.time_work_refresh_secret_key))})
+
+            return Tokens(
+                token=jwt.encode(token_access_data, key=Settings.auth_settings.jwt_secret_key, algorithm=Settings.auth_settings.algorithm),
+                refresh_token=jwt.encode(token_refresh_data, key=Settings.auth_settings.jwt_secret_refresh_key, algorithm=Settings.auth_settings.algorithm)
+            )
+        
+        session.close()
+        
+        await UserHttpError().http_user_not_found()
