@@ -13,6 +13,13 @@ class VacanciesModelView(ModelView, model=Vacancies):
 
     column_list: List[Any] = [Vacancies.id, Vacancies.description_vacancies, Vacancies.id_type_worker,
                               Vacancies.salary_employee, Vacancies.type_work]
+    column_labels: dict = {
+        Vacancies.id: "Идентификатор вакансии",
+        Vacancies.id_type_worker: "Идентификатор типа работника",
+        Vacancies.description_vacancies: "Описание",
+        Vacancies.salary_employee: "Заработная плата",
+        Vacancies.type_work: "Тип работника"
+    }
     
     #Operation's
     can_create: bool = True

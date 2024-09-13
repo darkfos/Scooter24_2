@@ -13,6 +13,13 @@ class AdminModelView(ModelView, model=Admin):
 
     #Columns
     column_list: List[Any] = [Admin.id, Admin.date_create, Admin.date_update, Admin.email_admin, Admin.password_user]
+    column_labels: dict = {
+        Admin.id: "Идентификатор администратора",
+        Admin.email_admin: "Электронная почта",
+        Admin.password_user: "Пароль администратора",
+        Admin.date_create: "Дата регистрации",
+        Admin.date_update: "Дата обновления"
+    }
     
     #Operations
     can_create: bool = True

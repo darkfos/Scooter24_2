@@ -13,7 +13,14 @@ class ProductCategoryModelView(ModelView, model=ProductCategory):
 
     column_list: List[Any] = [ProductCategory.id, ProductCategory.id_category, ProductCategory.id_product,
                               ProductCategory.category_information, ProductCategory.product_information]
-    
+    column_labels: dict = {
+        ProductCategory.id: "Идентификатор категории продукта",
+        ProductCategory.id_category: "Идентификатор категории",
+        ProductCategory.id_product: "Идентификатор продукта",
+        ProductCategory.category_information: "Категория",
+        ProductCategory.product_information: "Продукт"
+    }
+
     #Operation's
     can_create: bool = True
     can_delete: bool = True

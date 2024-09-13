@@ -12,6 +12,10 @@ class CategoryModelView(ModelView, model=Category):
     category: str = "Товар"
 
     column_list: List[Any] = [Category.id, Category.name_category]
+    column_labels: dict = {
+        Category.id: "Идентификатор категории",
+        Category.name_category: "Название категории"
+    }
 
     can_create: bool = True
     can_delete: bool = True

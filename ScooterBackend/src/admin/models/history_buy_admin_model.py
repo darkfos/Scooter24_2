@@ -12,6 +12,12 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
     category: str = "Пользователь"
 
     column_list: List[Any] = [HistoryBuy.id, HistoryBuy.id_user, HistoryBuy.id_product, HistoryBuy.hst_user]
+    column_labels: dict = {
+        HistoryBuy.id: "Идентификатор истории",
+        HistoryBuy.id_user: "Идентификатор пользователя",
+        HistoryBuy.id_product: "Идентификатор продукта",
+        HistoryBuy.hst_user: "Пользователь"
+    }
 
     #Operation's
     can_create: bool = True

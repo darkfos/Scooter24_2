@@ -19,6 +19,25 @@ class UserModelView(ModelView, model=User):
         User.country_address, User.address_phone_number, User.address_rl_et_home,
         User.name_company_address, User.date_registration, User.date_update]
     
+    column_labels: dict = {
+        User.id: "Идентификатор пользователя",
+        User.name_user: "Имя пользователя",
+        User.email_user: "Электронная почта",
+        User.password_user: "Пароль",
+        User.surname_user: "Фамилия",
+        User.main_name_user: "Основное имя",
+        User.address_locality: "Адрес №1",
+        User.surname_user_address: "Адрес №2",
+        User.address_area: "Адрес области",
+        User.address_phone_number: "Номер телефона",
+        User.address_index: "Почтовый индекс",
+        User.country_address: "Адрес страны",
+        User.address_rl_et_home: "Адрес дома, квартиры",
+        User.name_company_address: "Адрес компании",
+        User.date_registration: "Дата регистрации",
+        User.date_update: "Дата обновления"
+    }
+    
     #Operations
     can_create: bool = True
     can_delete: bool = True

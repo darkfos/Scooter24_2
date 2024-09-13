@@ -12,6 +12,14 @@ class OrderModelView(ModelView, model=Order):
     category: str = "Товар"
 
     column_list: List[Any] = [Order.id, Order.id_product, Order.id_user, Order.date_buy, Order.ord_user, Order.product_info]
+    column_labels: dict = {
+        Order.id: "Идентификатор заказа",
+        Order.id_product: "Идентификатор продукта",
+        Order.id_user: "Идентификатор пользователя",
+        Order.date_buy: "Дата покупки",
+        Order.ord_user: "Пользователь",
+        Order.product_info: "Продукт"
+    }
 
     #Operation's
     can_create: bool = True
