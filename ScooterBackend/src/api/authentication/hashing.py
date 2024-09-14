@@ -13,6 +13,10 @@ class CryptographyScooter:
     def hashed_password(self, password) -> str:
         hash_password = self.crypto.hash(password)
         return hash_password
+    
+    def hashed_img(self, img_name) -> str:
+        hash_image = self.crypto.hash(img_name)
+        return hash_image
 
     def verify_password(self, password: str, hashed_password: str) -> bool:
         check_password = self.crypto.verify(secret=password, hash=hashed_password)

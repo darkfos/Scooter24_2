@@ -1,6 +1,7 @@
 from fastapi import UploadFile
 from os import remove
 from typing import Union
+from src.api.authentication.hashing import CryptographyScooter
 import shutil
 
 class ImageSaver:
@@ -9,14 +10,21 @@ class ImageSaver:
         self.filename: str = ""
 
     async def generate_filename(self, id_: int, filename: str) -> None:
-        self.filename = filename + "__" + str(id_) 
+        self.filename = str(id_) + "__" + filename
 
-    async def save_file(self, file: UploadFile) -> Union[None, str]:
+    async def save_file(self, file: UploadFile, is_admin: bool = False) -> Union[None, str]:
         try:
-            with open(file=self.init_url+self.filename, mode="wb") as file_catalog:
-                shutil.copyfileobj(file.file, file_catalog)
+            if is_admin:
+                crypt = CryptographyScooter()
+                await self.generate_filename(id_=crypt.hashed_img(img_name=file.filename)[0::5], filename=file.filename)
+                with open(file=self.init_url+self.filename, mode="wb") as file_catalog:
+                    shutil.copyfileobj(file.file, file_catalog)
+            else:
+                with open(file=self.init_url+self.filename, mode="wb") as file_catalog:
+                    shutil.copyfileobj(file.file, file_catalog)
             return self.filename
         except Exception as ex:
+            print(ex)
             return False
 
     async def remove_file(self) -> bool:
