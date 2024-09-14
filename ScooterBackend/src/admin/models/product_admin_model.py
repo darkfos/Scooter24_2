@@ -48,5 +48,9 @@ class ProductModelView(ModelView, model=Product):
         "product_all_categories": {
             "fields": ("id", "id_category", ),
             "order_by": ("id", )
+        },
+        "product_all_categories": {
+            "fields": ("id", "id_product", "id_category", ),
+            "order_by": ("id", )
         }
     }

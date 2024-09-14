@@ -44,10 +44,10 @@ class Product(MainBase):
     photo_product: Mapped[bytes] = mapped_column(type_=Text, nullable=True, default=None)
 
     #Дата создания
-    date_create_product: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date)
+    date_create_product: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date.today())
 
     #Дата обновления информации
-    date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date)
+    date_update_information: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date.today())
 
     #Скидка на товар
     product_discount: Mapped[int] = mapped_column(type_=Integer, nullable=True, default=0)
