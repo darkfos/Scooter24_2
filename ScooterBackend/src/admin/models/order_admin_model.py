@@ -32,10 +32,10 @@ class OrderModelView(ModelView, model=Order):
     form_ajax_refs: dict = {
         "ord_user": {
             "fields": ("id", "name_user", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "product_info": {
             "fields": ("id", "title_product", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

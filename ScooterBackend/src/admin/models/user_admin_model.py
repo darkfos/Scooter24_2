@@ -55,18 +55,18 @@ class UserModelView(ModelView, model=User):
     form_ajax_refs: dict = {
         "reviews": {
             "fields": ("id", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "orders_user": {
             "fields": ("id", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "favourites_user": {
             "fields": ("id", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "history_buy_user": {
             "fields": ("id", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

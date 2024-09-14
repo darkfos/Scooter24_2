@@ -32,10 +32,10 @@ class ProductCategoryModelView(ModelView, model=ProductCategory):
     form_ajax_refs: dict = {
         "category_information": {
             "fields": ("id", "name_category", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "product_information": {
             "fields": ("id", "title_product", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

@@ -40,23 +40,27 @@ class ProductModelView(ModelView, model=Product):
 
     column_exclude_list = ["order", "reviews", "product_all_categories", "product_info_for_fav"]
 
+    form_create_rules: list = [
+        "title_product", "article_product", "explanation_product", "tags", "quantity_product",
+        "product_discount", "price_product", "date_create_product", "date_update_information", "photo_product"
+    ]
     #Form's for FK
     form_ajax_refs: dict = {
         "reviews": {
             "fields": ("id", "id_user", "id_product", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "order": {
             "fields":("id", "date_buy", "id_user", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "product_all_categories": {
             "fields": ("id", "id_category", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "product_info_for_fav": {
             "fields": ("id", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }
 
