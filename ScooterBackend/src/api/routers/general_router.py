@@ -19,7 +19,6 @@ from src.api.routers.review_router import review_router
 from src.api.routers.type_worker_router import type_worker_router
 from src.api.routers.user_router import user_router
 from src.api.routers.vacancies_router import vacancies_router
-from src.api.routers.test_redis import redis_router
 
 
 class GeneralRouter:
@@ -40,7 +39,7 @@ class GeneralRouter:
         routers: List[APIRouter] = [
             product_router, category_router, user_router, auth_router, type_worker_router,
             vacancies_router, type_worker_router, order_router, favourite_router, review_router,
-            admin_router, history_buy_router, redis_router
+            admin_router, history_buy_router
         ]
 
         if new_router: routers.extend(new_router)

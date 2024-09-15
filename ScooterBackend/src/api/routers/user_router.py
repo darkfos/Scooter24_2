@@ -4,6 +4,7 @@ from typing import Annotated
 #Other libraries
 from fastapi import APIRouter, status, Depends, Header
 from sqlalchemy.ext.asyncio import AsyncSession
+import json
 
 #Local
 from src.api.authentication.authentication_service import Authentication
@@ -23,7 +24,6 @@ from src.api.dto.user_dto import (
 from src.database.db_worker import db_work
 from src.api.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
-
 
 user_router: APIRouter = APIRouter(
     prefix="/user",
@@ -47,7 +47,7 @@ auth: Authentication = Authentication()
 )
 async def get_information_about_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> InformationAboutUser:
     """
     ENDPOINT - Получение краткой информации о пользователе, (ЛИЧНОЕ)
@@ -55,6 +55,7 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
+    
     information_about_user = await UserService.get_information_about_me(engine=session, token=user_data)
     return information_about_user
 
@@ -215,7 +216,7 @@ async def get_information_about_other_users(
     :return:
     """
 
-    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data)
+    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data, redis_search="user_%s"%id_user)
 
 
 @user_router.get(

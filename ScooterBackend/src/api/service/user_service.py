@@ -28,6 +28,11 @@ from src.other.data_email_transfer import email_transfer
 from src.api.authentication.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
+#redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
+
 
 class UserService:
 
@@ -75,7 +80,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (await engine.user_repository.find_one(other_id=jwt_data.get("id_user")))[0]
             if user_data:
-                return InformationAboutUser(
+                information = InformationAboutUser(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
                     surname_user=user_data.surname_user,
@@ -83,10 +88,13 @@ class UserService:
                     date_registration=user_data.date_registration
                 )
 
+                return information
+
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str) -> InformationAboutUser:
+    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str, redis_search: str) -> InformationAboutUser:
         """
         Метод сервиса для получения информации о пользователе по токену
         :param session:

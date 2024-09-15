@@ -1,7 +1,6 @@
 #Other libraries
 from fastapi import APIRouter, Depends, status, BackgroundTasks
-from fastapi.responses import JSONResponse, Response
-from fastapi.requests import Request
+from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import EmailStr
@@ -39,7 +38,7 @@ authentication_app: Authentication = Authentication()
     status_code=status.HTTP_201_CREATED
 )
 async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
-                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: JSONResponse):
+                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: Response):
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -51,12 +50,11 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
         engine=session
     )
 
-    json_response: JSONResponse = JSONResponse(content=AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token).model_dump_json(), status_code=status.HTTP_201_CREATED)
-    json_response.set_cookie(key="access_token", value=tokens.token)
-    json_response.set_cookie(key="token_type", value=tokens.token_type)
-    json_response.set_cookie(key="refresh_token", value=tokens.refresh_token)
+    #Set cookie's
+    response.set_cookie(key="refresh_key", value=tokens.refresh_token)
+    response.set_cookie(key="token_type", value="bearer")
 
-    return json_response
+    return AccessToken(access_token=tokens.token, token_type="bearer", refresh_token=tokens.refresh_token)
 
 
 @auth_router.post(
