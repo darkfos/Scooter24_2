@@ -12,7 +12,6 @@ class RedisTools:
 
     @classmethod
     async def get_value(cls, key):
-        print("DA")
         return cls.__REDIS_CONNECTION.get(key)
     
     @classmethod
