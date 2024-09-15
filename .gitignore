@@ -4,3 +4,4 @@ venv_scooter
 ./venv_scooter
 ./.env
 .env
+.idea
