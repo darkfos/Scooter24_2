@@ -2,16 +2,18 @@
 import smtplib as smtp
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from typing import Type
 
 #Local
 from src.settings.engine_settings import Settings
+from src.settings.email_transfer_settings import EmailTransferSettings
 
 
 class EmailTransfer:
 
     def __init__(self):
 
-        self.__email_data = Settings.email_tr_settings
+        self.__email_data: Type[EmailTransferSettings] = Settings.email_tr_settings
         self.__email_from: str = self.__email_data.email
         self.__password: str = self.__email_data.password
 

@@ -1,5 +1,5 @@
 #System
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Coroutine, Any
 
 
 #Other libraries
@@ -32,7 +32,7 @@ class OrderService:
         """
 
         #Получение данных с токена
-        jwt_data: Dict[str, Union[int, str]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Создание отзыва

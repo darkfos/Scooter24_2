@@ -1,13 +1,14 @@
 from src.scooter_backend_application import ScooterBackendApplication
 from fastapi.responses import RedirectResponse
-from fastapi import status
+from fastapi import status, FastAPI
+from typing import Type
 import uvicorn
 
 
 if __name__ == "__main__":
 
-    scooter24 = ScooterBackendApplication()
-    app = scooter24.scooter24_app
+    scooter24: Type[ScooterBackendApplication] = ScooterBackendApplication()
+    app: Type[FastAPI] = scooter24.scooter24_app
 
     #Redirect to docs
     @app.get(path="/", status_code=status.HTTP_200_OK, response_class=RedirectResponse)

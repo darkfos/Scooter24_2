@@ -1,6 +1,6 @@
 #System
 import datetime
-from typing import Union, Dict, List, Type
+from typing import Union, Dict, List, Type, Coroutine, Any
 from random import choice
 
 #Other libraries
@@ -40,7 +40,7 @@ class ProductService:
         """
 
         #Getting token data
-        jwt_data: Dict[str, Union[int, str]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на администратора

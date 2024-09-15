@@ -15,7 +15,7 @@ from src.database.models.category import Category
 class ProductRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Product = Product
+        self.model: Type[Product] = Product
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, session: AsyncSession, id_products: List[int]) -> bool:

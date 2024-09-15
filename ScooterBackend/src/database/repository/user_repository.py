@@ -14,7 +14,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class UserRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: User = User
+        self.model: Type[User] = User
         super().__init__(session=session, model=self.model)
 
     async def find_user_by_email_and_password(self, email: str) -> Union[User, bool]:

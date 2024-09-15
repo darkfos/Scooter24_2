@@ -1,5 +1,5 @@
 #System
-from typing import Union, Dict, List
+from typing import Union, Dict, List, Coroutine, Any
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -34,7 +34,7 @@ class ReviewService:
         """
 
         #Get user id
-        token_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
+        token_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(
             token=token, type_token="access")
 
         async with engine:

@@ -14,7 +14,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class ReviewRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Review = Review
+        self.model: Type[Review] = Review
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, id_reviews: List[int]) -> bool:

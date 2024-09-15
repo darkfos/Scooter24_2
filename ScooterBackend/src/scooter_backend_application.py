@@ -30,7 +30,7 @@ from typing import Type, List
 class ScooterBackendApplication:
 
     def __init__(self) -> None:
-        self.scooter24_app: FastAPI = FastAPI(
+        self.scooter24_app: Type[FastAPI] = FastAPI(
             title="Scooter24 API",
             description="Программный интерфейс для сайта по продаже мото-деталей",
             #lifespan=connection_db

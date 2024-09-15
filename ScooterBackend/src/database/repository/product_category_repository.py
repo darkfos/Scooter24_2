@@ -3,17 +3,15 @@ from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.repository.product_repository import ProductRepository
 from src.database.repository.category_repository import CategoryRepository
 from src.database.models.product_category import ProductCategory
-from src.database.models.product import Product
-from src.database.models.category import Category
-from sqlalchemy import select
+from typing import Type
 
 
 class ProductCategoryRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession, model=ProductCategory):
         super().__init__(session, model)
-        self.category_rep: CategoryRepository = CategoryRepository(session=session)
-        self.product_rep: ProductRepository = ProductRepository(session=session)
+        self.category_rep: Type[CategoryRepository] = CategoryRepository(session=session)
+        self.product_rep: Type[ProductRepository] = ProductRepository(session=session)
 
     async def add_new_category(self, id_product: int, id_category: int) -> bool:
         """

@@ -15,7 +15,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class CategoryRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Category = Category
+        self.model: Type[Category] = Category
         super().__init__(session=session, model=self.model)
 
     async def find_by_name(self, category_name: str, type_find: bool = False) -> bool:

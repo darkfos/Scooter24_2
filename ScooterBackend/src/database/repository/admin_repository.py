@@ -1,5 +1,5 @@
 #System
-from typing import Union
+from typing import Union, Type
 
 #Other libraries
 from sqlalchemy import select
@@ -13,7 +13,7 @@ from src.database.models.admin import Admin
 class AdminRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model = Admin
+        self.model: Type[Admin] = Admin
         super().__init__(session=session, model=self.model)
 
     async def find_admin_by_email_and_password(self, email: str, password: str = None) -> Union[Admin, None]:

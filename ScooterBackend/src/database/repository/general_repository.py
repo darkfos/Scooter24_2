@@ -1,16 +1,16 @@
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
+from typing import Type
 
 #Local
-from src.database.models.product import Product
-
+...
 
 class GeneralSQLRepository:
 
     def __init__(self, session: AsyncSession, model=None):
         self.model = model
-        self.async_session = session
+        self.async_session: Type[AsyncSession] = session
 
     async def add_one(self, data: dict) -> bool:
         """

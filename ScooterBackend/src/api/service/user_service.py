@@ -1,5 +1,5 @@
 #Other libraries
-from typing import Union
+from typing import Union, Any, Coroutine, Dict, Type
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
@@ -41,7 +41,7 @@ class UserService:
         """
 
         #Hash password
-        hashed_password = CryptographyScooter().hashed_password(password=new_user.password_user)
+        hashed_password: Type[CryptographyScooter] = CryptographyScooter().hashed_password(password=new_user.password_user)
 
         async with engine:
             #Create a new user
@@ -70,7 +70,7 @@ class UserService:
         """
 
         #Getting user id
-        jwt_data: dict = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             user_data: Union[User, None] = (await engine.user_repository.find_one(other_id=jwt_data.get("id_user")))[0]

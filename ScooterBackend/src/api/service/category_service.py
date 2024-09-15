@@ -1,6 +1,6 @@
 #System
 import datetime
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Coroutine, Any
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -34,7 +34,7 @@ class CategoryService:
         """
 
         #Decode jwt token
-        jwt_data: Dict[str, Union[str, int, datetime.date]] = await Authentication().decode_jwt_token(
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(
             token=token,
             type_token="access"
         )

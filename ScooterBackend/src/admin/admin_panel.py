@@ -15,7 +15,7 @@ from src.api.authentication.authentication_service import Authentication
 class AdminPanel:
 
     def __init__(self, app: FastAPI) -> None:
-        self.admin_panel_auth: AdminPanelAuthentication = AdminPanelAuthentication(
+        self.admin_panel_auth: Type[AdminPanelAuthentication] = AdminPanelAuthentication(
             secret_key=Settings.auth_settings.jwt_secret_key,
             auth_service=Authentication()
         )
@@ -25,7 +25,7 @@ class AdminPanel:
             engine=db_work.db_engine,
             app=app,
             title="Scooter24",
-            logo_url="/static/scooter-logo.png",
+            logo_url="/static/images/scooter-logo.png",
             authentication_backend=self.admin_panel_auth
             )
         

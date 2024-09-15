@@ -1,5 +1,5 @@
 #System
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Coroutine, Any
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,7 +26,7 @@ class TypeWorkerService:
 
 
         #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на администратора
