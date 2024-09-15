@@ -1,6 +1,7 @@
 #Other libraries
 from fastapi import APIRouter, Depends, status, BackgroundTasks
 from fastapi.responses import JSONResponse, Response
+from fastapi.requests import Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import EmailStr
@@ -50,11 +51,12 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
         engine=session
     )
 
-    response.set_cookie(key="access_token", value=tokens.token)
-    response.set_cookie(key="token_type", value=tokens.token_type)
-    response.set_cookie(key="refresh_token", value=tokens.refresh_token)
-    
-    return JSONResponse(content=AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token).model_dump(), status_code=status.HTTP_200_OK)
+    json_response: JSONResponse = JSONResponse(content=AccessToken(access_token=tokens.token, token_type=tokens.token_type, refresh_token=tokens.refresh_token).model_dump_json(), status_code=status.HTTP_201_CREATED)
+    json_response.set_cookie(key="access_token", value=tokens.token)
+    json_response.set_cookie(key="token_type", value=tokens.token_type)
+    json_response.set_cookie(key="refresh_token", value=tokens.refresh_token)
+
+    return json_response
 
 
 @auth_router.post(
@@ -127,7 +129,6 @@ async def create_and_send_secret_key(
     :user_email:
     """
 
-    print(user_data)
     token_data: dict = await authentication_app.decode_jwt_token(token=user_data, type_token="access")
     return background_task.add_task(UserService.send_secret_key_by_update_password, session, token_data.get("email"), user_data)
 
