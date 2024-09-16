@@ -68,7 +68,7 @@ async def find_category_by_name(
     :return:
     """
 
-    return await CategoryService.find_category_by_name(engine=session, name_category=category_name)
+    return await CategoryService.find_category_by_name(engine=session, name_category=category_name, redis_search_data="category_by_name_%s" % category_name)
 
 
 @category_router.get(
@@ -78,19 +78,19 @@ async def find_category_by_name(
     Данный метод позволяет получить все имеющиеся категории.
     """,
     summary="Все категории",
-    response_model=List[CategoryBase],
+    response_model=CategoriesList,
     status_code=status.HTTP_200_OK
 )
 async def get_all_categories(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> List[CategoryBase]:
+) -> CategoriesList:
     """
     ENDPOINT - Получение всех имеющихся категорий
     :param session:
     :return:
     """
 
-    return await CategoryService.find_all_categories(engine=session)
+    return await CategoryService.find_all_categories(engine=session, redis_search_data="all_categories")
 
 
 @category_router.get(
@@ -113,7 +113,7 @@ async def find_category_by_id(
     :return:
     """
 
-    return await CategoryService.find_by_id(engine=session, id_category=id_category)
+    return await CategoryService.find_by_id(engine=session, id_category=id_category, redis_search_data="category_by_id_%s" % id_category)
 
 
 @category_router.patch(

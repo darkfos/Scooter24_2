@@ -10,12 +10,13 @@ from sqlalchemy.orm import joinedload
 from src.database.models.product import Product
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
+from src.database.models.product_category import ProductCategory
 
 
 class ProductRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Product = Product
+        self.model: Type[Product] = Product
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, session: AsyncSession, id_products: List[int]) -> bool:
@@ -42,7 +43,7 @@ class ProductRepository(GeneralSQLRepository):
         """
 
         if isinstance(how_to_find, int):
-            stmt = select(Product).where(Product.id_category == how_to_find)
+            stmt = select(Product).join(ProductCategory).where(ProductCategory.id_category == how_to_find)
             all_products = (await self.async_session.execute(stmt)).fetchall()
             return all_products
         elif isinstance(how_to_find, str):
@@ -84,7 +85,7 @@ class ProductRepository(GeneralSQLRepository):
             joinedload(Product.order),
             joinedload(Product.product_all_categories)
         )
-        product_data = ((await self.async_session.execute(stmt)).unique()).one_or_none()
+        product_data = (await self.async_session.execute(stmt)).unique().one_or_none()
 
         return product_data
 
@@ -96,32 +97,20 @@ class ProductRepository(GeneralSQLRepository):
         :param max_price:
         """
 
-        if id_categories and min_price and max_price:
-            stmt = select(Product).where(Product.id_category == id_categories)
-            stmt = stmt.filter(Product.price_product.between(min_price, max_price))
-        elif id_categories and min_price:
-            stmt = select(Product).where(Product.id_category == id_categories)
+        stmt = select(Product).options(joinedload(Product.product_all_categories))
+
+        if id_categories:
+            stmt = stmt.join(ProductCategory).filter(ProductCategory.id_category == id_categories)
+        
+        if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)
-        elif id_categories and max_price:
-            stmt = select(Product).filter(Product.id_category == id_categories)
+        if max_price:
             stmt = stmt.filter(Product.price_product <= max_price)
-        elif id_categories:
-            stmt = select(Product).filter(Product.id_category == id_categories)
-        elif min_price:
-            stmt = select(Product).filter(Product.price_product >= min_price)
-        elif max_price:
-            stmt = select(Product).filter(Product.price_product <= max_price)
-        elif min_price and max_price:
-            stmt = select(Product).filter(Product.price_product.between(min_price, max_price))
-        else:
-            return []
 
         if desc:
             stmt = stmt.order_by(Product.price_product.desc())
 
-        products: Union[List, List[Product]] = (await self.async_session.execute(stmt)).fetchall()
-        if products:
-            return products[0]
+        products: Union[List, List[Product]] = (await self.async_session.execute(stmt)).unique().scalars().all()
         return products
 
     async def get_products_by_date(self) -> Union[None, List[Product]]:

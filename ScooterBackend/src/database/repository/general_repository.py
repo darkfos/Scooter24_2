@@ -1,16 +1,16 @@
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
+from typing import Type
 
 #Local
-from src.database.models.product import Product
-
+...
 
 class GeneralSQLRepository:
 
     def __init__(self, session: AsyncSession, model=None):
         self.model = model
-        self.async_session = session
+        self.async_session: Type[AsyncSession] = session
 
     async def add_one(self, data: dict) -> bool:
         """
@@ -22,9 +22,13 @@ class GeneralSQLRepository:
         try:
             stmt = insert(self.model).values(data.read_model()).returning(self.model.id)
             result = await self.async_session.execute(stmt)
-            await self.async_session.commit()
-            return result.scalar()
+            if result:
+                await self.async_session.commit()
+                return result.scalar()
+            else:
+                raise Exception
         except Exception as ex:
+            await self.async_session.rollback()
             return False
 
     async def find_one(self, other_id: int):
@@ -59,10 +63,14 @@ class GeneralSQLRepository:
         data_to_update = {data: data_to_update.get(data) for data in data_to_update if data_to_update.get(data) != None}
         stmt = update(self.model).where(self.model.id == other_id).values(data_to_update)
         try:
-            await self.async_session.execute(stmt)
-            await self.async_session.commit()
-            return True
+            update_data = await self.async_session.execute(stmt)
+            if update_data:
+                await self.async_session.commit()
+                return True
+            else:
+                raise Exception
         except Exception as ex:
+            await self.async_session.rollback()
             return False
 
     async def delete_one(self, other_id: int) -> bool:
@@ -74,6 +82,9 @@ class GeneralSQLRepository:
 
         stmt = delete(self.model).where(self.model.id == other_id)
         res_to_del: int = (await self.async_session.execute(stmt)).rowcount
-        await self.async_session.commit()
-        if res_to_del > 0: return True
-        return False
+        if res_to_del:
+            await self.async_session.commit()
+            if res_to_del > 0: return True
+        else:
+            await self.async_session.rollback()
+            return False

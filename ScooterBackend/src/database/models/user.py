@@ -1,5 +1,5 @@
 #System
-import datetime
+from datetime import date
 from typing import List, Dict
 
 #Other
@@ -30,10 +30,10 @@ class User(MainBase):
     main_name_user: Mapped[str] = mapped_column(type_=String(250), nullable=False)
 
     #Дата регистрации
-    date_registration: Mapped[datetime.date] = mapped_column(type_=Date, nullable=False, default=datetime.date)
+    date_registration: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date.today())
 
     #Дата обновления информации
-    date_update: Mapped[datetime.date] = mapped_column(type_=Date, nullable=False, default=datetime.date)
+    date_update: Mapped[date] = mapped_column(type_=Date, nullable=False, default=date.today())
 
     ###ДАННЫЕ ДЛЯ АДРЕСА###
 

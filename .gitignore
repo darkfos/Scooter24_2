@@ -1,6 +1,8 @@
 __pycache__
 .__pycache__
+./__pycache__
 venv_scooter
 ./venv_scooter
 ./.env
 .env
+.idea

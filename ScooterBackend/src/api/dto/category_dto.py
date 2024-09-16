@@ -1,6 +1,6 @@
 #Other libraries
 from pydantic import Field, BaseModel
-from typing import List, Union, Annotated
+from typing import List, Union, Annotated, Dict
 
 #Local
 ...
@@ -33,3 +33,7 @@ class DataCategoryToUpdate(BaseModel):
 class CategoryIsUpdated(BaseModel):
 
     is_updated: bool
+
+
+class CategoriesList(BaseModel):
+    categories: Annotated[List[CategoryBase], Field()]

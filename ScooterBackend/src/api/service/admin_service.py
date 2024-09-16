@@ -1,5 +1,5 @@
 #System
-from typing import Union
+from typing import Union, Coroutine, Any, Dict
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,7 +26,7 @@ class AdminService:
         """
 
         #Decode token
-        token_data = await Authentication().decode_jwt_token(token=user_data, type_token="access")
+        token_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=user_data, type_token="access")
         token_data["password"] = CryptographyScooter().hashed_password(password=token_data.get("password"))
 
         #Hash password

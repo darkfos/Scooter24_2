@@ -1,17 +1,21 @@
 #System
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Coroutine, Any, Type
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
+...
 
 #Local
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.exception.http_vacancies_exception import VacanciesHttpError
 from src.api.authentication.authentication_service import Authentication
-from src.database.repository.admin_repository import AdminRepository
-from src.database.repository.vacancies_repository import VacanciesRepository, Vacancies
-from src.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
+from src.database.repository.vacancies_repository import Vacancies
+from src.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies, VacanciesGeneralData
 from src.api.dep.dependencies import IEngineRepository
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class VacanciesService:
@@ -26,7 +30,7 @@ class VacanciesService:
         """
 
         #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на администратора
@@ -47,8 +51,9 @@ class VacanciesService:
                 await VacanciesHttpError().http_dont_create_a_new_vacancies()
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_all_vacancies(engine: IEngineRepository) -> Union[List, List[VacanciesBase]]:
+    async def get_all_vacancies(engine: IEngineRepository, redis_search_data: str) -> Union[List, List[VacanciesBase]]:
         """
         Метод сервиса для получения списка вакансий
         :session:
@@ -56,23 +61,26 @@ class VacanciesService:
 
         async with engine:
             all_vacancies: Union[List, List[Vacancies]] = await engine.vacancies_repository.find_all()
-
             if all_vacancies:
-                return [
-                    VacanciesBase(
-                        salary_employee=vac[0].salary_employee,
-                        description_vacancies=vac[0].description_vacancies,
-                        id_type_worker=vac[0].id_type_worker
-                    )
-                    for vac in all_vacancies
-                ]
+                vacancies_data: VacanciesGeneralData = VacanciesGeneralData(
+                    vacancies=[
+                        {
+                            k: v
+                            for k, v in vac[0].read_model().items()
+                        }
+                        for vac in all_vacancies
+                    ]
+                )
+                return vacancies_data
             else:
-                return []
+                return VacanciesGeneralData(vacancies=[{}])
 
+    @redis
     @staticmethod
     async def get_vacancies_by_id(
         engine: IEngineRepository,
-        id_vacancies: int
+        id_vacancies: int,
+        redis_search_data: str
     ) -> VacanciesBase:
         """
         Метод сервиса для получения информации о вакансии по id.

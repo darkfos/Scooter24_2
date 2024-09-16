@@ -1,10 +1,9 @@
 #System
 import datetime
-from typing import Union, Dict, List, Type
+from typing import Union, Dict, List, Type, Coroutine, Any
 from random import choice
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import UploadFile
 
 
@@ -16,10 +15,14 @@ from src.api.exception.http_category_exception import CategoryHttpError
 from src.api.dto.product_dto import *
 from src.api.authentication.authentication_service import Authentication
 from src.api.authentication.hashing import CryptographyScooter
-from src.database.repository.product_repository import ProductRepository
-from src.database.repository.admin_repository import AdminRepository
 from src.api.dep.dependencies import IEngineRepository
 from src.other.image_saver import ImageSaver
+
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class ProductService:
@@ -40,7 +43,7 @@ class ProductService:
         """
 
         #Getting token data
-        jwt_data: Dict[str, Union[int, str]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на администратора
@@ -121,12 +124,12 @@ class ProductService:
                 return True if created_new_category_for_product else await CategoryHttpError().http_failed_to_create_a_new_category()
             await UserHttpError().http_user_not_found()
 
-        
-
+    @redis
     @staticmethod
     async def get_all_products(
-        engine: IEngineRepository
-    ) -> List[ProductBase]:
+        engine: IEngineRepository,
+        redis_search_data: str
+    ) -> ListProductBase:
         """
         Метод сервиса для получения всех товаров
         :param session:
@@ -137,27 +140,30 @@ class ProductService:
             all_products = await engine.product_repository.find_all()
 
             if all_products:
-                return [
-                    ProductBase(
-                        title_product=product[0].title_product,
-                        price_product=product[0].price_product,
-                        quantity_product=product[0].quantity_product,
-                        explanation_product=product[0].explanation_product,
-                        article_product=product[0].article_product,
-                        tags=product[0].tags,
-                        other_data=product[0].other_data,
-                        photo_product=f"{product[0].photo_product}",
-                        date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,
-                        price_discount=product[0].product_discount if product[0].product_discount else 0
+                return ListProductBase(
+                    products=[
+                            ProductBase(
+                                title_product=product[0].title_product,
+                                price_product=product[0].price_product,
+                                quantity_product=product[0].quantity_product,
+                                explanation_product=product[0].explanation_product,
+                                article_product=product[0].article_product,
+                                tags=product[0].tags,
+                                other_data=product[0].other_data,
+                                photo_product=f"{product[0].photo_product}",
+                                date_create_product=product[0].date_create_product,
+                                date_update_information=product[0].date_update_information,
+                                price_discount=product[0].product_discount if product[0].product_discount else 0
+                                )
+                        for product in all_products
+                    ]
                 )
-                    for product in all_products
-                ]
 
-            return []
+            return ListProductBase(products=[])
 
+    @redis
     @staticmethod
-    async def get_products_by_category(engine: IEngineRepository, category_data: Union[str, int]) -> Union[List, List[ProductBase]]:
+    async def get_products_by_category(engine: IEngineRepository, category_data: Union[str, int], redis_search_data: str) -> Union[List, List[ProductBase]]:
         """
         Метод сервиса для получения списка товаров по категории
         :param session:
@@ -171,24 +177,26 @@ class ProductService:
             )
 
             if all_products:
-                return [
-                    ProductBase(
-                        title_product=product[0].title_product,
-                        price_product=product[0].price_product,
-                        quantity_product=product[0].quantity_product,
-                        explanation_product=product[0].explanation_product,
-                        article_product=product[0].article_product,
-                        tags=product[0].tags,
-                        other_data=product[0].other_data,
-                        date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,
-                        photo_product=f"{product[0].photo_product}",
-                        price_discount=product[0].product_discount if product[0].product_discount else 0
-                    )
+                return ListProductBase(
+                    products=[
+                        ProductBase(
+                            title_product=product[0].title_product,
+                            price_product=product[0].price_product,
+                            quantity_product=product[0].quantity_product,
+                            explanation_product=product[0].explanation_product,
+                            article_product=product[0].article_product,
+                            tags=product[0].tags,
+                            other_data=product[0].other_data,
+                            date_create_product=product[0].date_create_product,
+                            date_update_information=product[0].date_update_information,
+                            photo_product=f"{product[0].photo_product}",
+                            price_discount=product[0].product_discount if product[0].product_discount else 0
+                        )
                     for product in all_products
-                ]
+                    ]
+                )
 
-            return []
+            return ListProductBase(products=[])
 
     @staticmethod
     async def find_product_by_id(engine: IEngineRepository, id_product: int) -> ProductBase:
@@ -262,11 +270,12 @@ class ProductService:
             product_is_created = await engine.product_repository.find_product_by_name(name_product=product_name)
 
             if product_is_created:
-                return
+                return True
             await ProductHttpError().http_product_not_found()
 
+    @redis
     @staticmethod
-    async def get_all_information_about_product(engine: IEngineRepository, token: str, id_product: int) -> ProductAllInformation:
+    async def get_all_information_about_product(engine: IEngineRepository, token: str, id_product: int, redis_search_data: str) -> ProductAllInformation:
         """
         Метод сервиса для получения полной информации о продукте
         :param session:
@@ -418,14 +427,16 @@ class ProductService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
     async def get_products_by_sorted(
         engine: IEngineRepository,
         desc: bool,
+        redis_search_data: str,
         sorted_by_category: int = None,
         sorted_by_price_min: int = None,
         sorted_by_price_max: int = None,
-    ) -> List[ProductBase]:
+    ) -> ListProductBase:
         """
         Метод сервиса для поиска товаров, а также их сортировки
         :param session:
@@ -444,26 +455,29 @@ class ProductService:
             )
 
             if products:
-                return [
-                    ProductBase(
-                        title_product=product.title_product,
-                        price_product=product.price_product,
-                        quantity_product=product.quantity_product,
-                        explanation_product=product.explanation_product,
-                        article_product=product.article_product,
-                        tags=product.tags,
-                        other_data=product.other_data,
-                        photo_product=product.photo_product,
-                        price_discount=product.product_discount if product.product_discount else 0
-                    )
+                return ListProductBase(
+                    products=[
+                        ProductBase(
+                            title_product=product.title_product,
+                            price_product=product.price_product,
+                            quantity_product=product.quantity_product,
+                            explanation_product=product.explanation_product,
+                            article_product=product.article_product,
+                            tags=product.tags,
+                            other_data=product.other_data,
+                            photo_product=product.photo_product,
+                            price_discount=product.product_discount if product.product_discount else 0
+                        )
                     for product in products
-                ]
+                    ]
+                )
+            return ListProductBase(products=[])
 
-            return []
-
+    @redis
     @staticmethod
     async def get_recommended_products(
-        engine: IEngineRepository
+        engine: IEngineRepository,
+        redis_search_data: str
     ) -> Union[List, List[ProductBase]]:
         """
         Метод сервиса для получения рекомендованных товаров.
@@ -476,7 +490,7 @@ class ProductService:
 
             if all_products:
 
-                result: List[ProductBase] = []
+                result: list = []
 
                 while len(result) != 7:
 
@@ -500,7 +514,7 @@ class ProductService:
                     if len(all_products) < 7:
                         break
 
-                return result
+                return ListProductBase(products=[*result])
 
             return []
 
@@ -539,8 +553,10 @@ class ProductService:
 
             await UserHttpError().http_user_not_found()
 
+    #TODO: Refactor
+    @redis
     @staticmethod
-    async def get_new_products(engine: IEngineRepository) -> Union[List, List[ProductBase]]:
+    async def get_new_products(engine: IEngineRepository, redis_search_data: str) -> Union[List, List[ProductBase]]:
         """
         Получение новых продуктов
         """
@@ -550,7 +566,7 @@ class ProductService:
 
             if all_products:
 
-                result: List[ProductBase] = []
+                result: list = []
 
                 for product in all_products:
                     if len(result) >= 7:
@@ -572,6 +588,6 @@ class ProductService:
                         )
                     )
 
-                return result
+                return ListProductBase(products=[*result])
 
-            return []
+            return ListProductBase(products=[])

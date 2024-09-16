@@ -1,5 +1,5 @@
 #System
-from typing import Annotated
+from typing import Annotated, List, Dict, Union
 
 #Other libraries
 from pydantic import BaseModel, Field
@@ -16,3 +16,7 @@ class UpdateVacancies(BaseModel):
     id: int
     salary_employee: Annotated[int, Field(gt=0)] = None
     description_vacancies: Annotated[str, Field(gt=0)] = None
+
+
+class VacanciesGeneralData(BaseModel):
+    vacancies: List[Dict[Union[str, int], Union[int, str]]]

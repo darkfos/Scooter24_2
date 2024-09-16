@@ -32,6 +32,6 @@ class VacanciesModelView(ModelView, model=Vacancies):
     form_ajax_refs: dict = {
         "type_work": {
             "fields": ("id", "name_type", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

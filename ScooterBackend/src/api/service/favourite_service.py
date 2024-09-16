@@ -1,18 +1,22 @@
 #System
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Coroutine, Any, Type
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
+pass
 
 #Local
 from src.api.authentication.authentication_service import Authentication
 from src.api.exception.http_favourite_exception import FavouriteHttpError
 from src.api.exception.http_user_exception import UserHttpError
 from src.database.models.favourite import Favourite
-from src.database.repository.favourite_repository import FavouriteRepository
-from src.database.repository.admin_repository import AdminRepository
 from src.api.dto.favourite_dto import *
-from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.dep.dependencies import IEngineRepository
+
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class FavouriteService:
@@ -32,7 +36,7 @@ class FavouriteService:
         """
 
         #Получаем данные из токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на добавление в избранное
@@ -48,8 +52,9 @@ class FavouriteService:
 
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
+    @redis
     @staticmethod
-    async def get_all_favourite_product_by_user_id(engine: IEngineRepository, token: str) -> FavouriteBase:
+    async def get_all_favourite_product_by_user_id(engine: IEngineRepository, token: str, redis_search_data: str) -> FavouriteBase:
         """
         Список всех избранных товаров пользователя.
         :param session:
@@ -66,7 +71,7 @@ class FavouriteService:
             all_favourite_products: Union[List, List[Favourite]] = await engine.favourite_repository.get_all_data_for_id_user(id_user=jwt_data.get("id_user"))
 
             if all_favourite_products:
-                product_data: List[FavouriteBase] = []
+                product_data: list = []
                 for product in all_favourite_products:
                     product_data.append(
                         FavouriteBase(
@@ -78,15 +83,17 @@ class FavouriteService:
                         )
                     )
 
-                return product_data
+                return ListFavouriteBase(favourites=[*product_data])
 
-            return all_favourite_products
+            return ListFavouriteBase(favourites=[])
 
+    @redis
     @staticmethod
     async def get_information_about_fav_product_by_id(
         engine: IEngineRepository,
         token: str,
-        id_fav_product: int
+        id_fav_product: int,
+        redis_search_data: str
     ) -> FavouriteInformation:
         """
         Метод сервиса для получение полной информации о избранном товаре

@@ -4,14 +4,12 @@ from typing import Annotated, List, Union
 
 #Other libraries
 from fastapi import APIRouter, status, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #Local
 from src.api.service.type_worker_service import TypeWorkerService
 from src.api.authentication.authentication_service import Authentication
-from src.database.db_worker import db_work
-from src.api.dto.type_worker_dto import TypeWorkerBase
+from src.api.dto.type_worker_dto import TypeWorkerBase, TypeWorkerList
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
@@ -57,18 +55,19 @@ async def create_new_type_worker(
     path="/get_all_types_workers",
     description="""### Endpoint - Получение всех типов работников.""",
     summary="Все типы работников",
-    response_model=Union[List, List[TypeWorkerBase]],
+    response_model=TypeWorkerList,
     status_code=status.HTTP_200_OK
 )
 async def get_all_types_workers(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[TypeWorkerBase]]:
+) -> TypeWorkerList:
     """
     ENDPOINT - Получение всех типов работников.
     """
 
     return await TypeWorkerService.get_all_types(
-        engine=session
+        engine=session,
+        redis_search_data="get_all_types_workers"
     )
 
 
@@ -86,7 +85,8 @@ async def get_type_worker_by_id(
 ) -> TypeWorkerBase:
     return await TypeWorkerService.get_type_worker_by_id(
         engine=session,
-        id_type_worker=id_type_worker
+        id_type_worker=id_type_worker,
+        redis_search_data="type_worker_by_id_%s" % id_type_worker
     )
 
 

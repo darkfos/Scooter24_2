@@ -29,6 +29,6 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     form_ajax_refs: dict = {
         "vacancies": {
             "fields": ("id", "description_vacancies", "salary_employee", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

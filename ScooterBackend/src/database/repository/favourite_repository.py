@@ -14,7 +14,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class FavouriteRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Favourite = Favourite
+        self.model: Type[Favourite] = Favourite
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, id_favourites: List[int]) -> bool:

@@ -1,17 +1,23 @@
 #System
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Coroutine, Any, Type
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
+...
 
 #Local
-from src.database.repository.type_worker_repository import TypeWorkerRepository, TypeWorker
-from src.database.repository.admin_repository import AdminRepository
-from src.api.dto.type_worker_dto import TypeWorkerBase
+from src.database.repository.type_worker_repository import TypeWorker
+from src.api.dto.type_worker_dto import TypeWorkerBase, TypeWorkerList
 from src.api.authentication.authentication_service import Authentication
 from src.api.exception.http_type_worker_exceptions import TypeWorkerExceptions
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.dep.dependencies import IEngineRepository
+
+
+#Redis
+from src.store.tools import RedisTools
+
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class TypeWorkerService:
@@ -26,7 +32,7 @@ class TypeWorkerService:
 
 
         #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Проверка на администратора
@@ -41,8 +47,9 @@ class TypeWorkerService:
                 await TypeWorkerExceptions().http_dont_create_a_new_type_worker()
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_all_types(engine: IEngineRepository) -> List[TypeWorkerBase]:
+    async def get_all_types(engine: IEngineRepository, redis_search_data: str) -> List[TypeWorkerBase]:
         """
         Метод сервиса для получение всех категорий работников.
         :session:
@@ -52,12 +59,13 @@ class TypeWorkerService:
             all_types_workers: Union[List, List[TypeWorkerBase]] = await engine.type_worker_repository.find_all()
 
             if all_types_workers:
-                return [TypeWorkerBase(name_type=worker[0].name_type) for worker in all_types_workers]
+                return TypeWorkerList(type_worker=[TypeWorkerBase(name_type=worker[0].name_type) for worker in all_types_workers])
             else:
                 return []
 
+    @redis
     @staticmethod
-    async def get_type_worker_by_id(engine: IEngineRepository, id_type_worker: int) -> TypeWorkerBase:
+    async def get_type_worker_by_id(engine: IEngineRepository, id_type_worker: int, redis_search_data: str) -> TypeWorkerBase:
         """
         Получение типа работника по id.
         :session:

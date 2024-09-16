@@ -1,22 +1,23 @@
 #System
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Coroutine, Any, Type
 
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
-
+...
 
 #Local
-from src.database.repository.order_repository import OrderRepository
-from src.database.repository.category_repository import CategoryRepository
 from src.database.models.order import Order
-from src.database.models.product import Product
-from src.database.models.user import User
 from src.database.models.category import Category
 from src.api.exception.http_order_exception import OrderHttpError
 from src.api.dto.order_dto import *
 from src.api.authentication.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
+
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class OrderService:
@@ -32,7 +33,7 @@ class OrderService:
         """
 
         #Получение данных с токена
-        jwt_data: Dict[str, Union[int, str]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             #Создание отзыва
@@ -49,8 +50,9 @@ class OrderService:
 
             await OrderHttpError().http_failed_to_create_a_new_order()
 
+    @redis
     @staticmethod
-    async def get_full_information_by_user_id(engine: IEngineRepository, token: str) -> Union[List, List[OrderAndUserInformation]]:
+    async def get_full_information_by_user_id(engine: IEngineRepository, token: str, redis_search_data: str) -> Union[List, List[OrderAndUserInformation]]:
         """
         Метод сервиса для получения всей информации об заказах для пользователя
         :param session:
@@ -66,7 +68,7 @@ class OrderService:
             orders_data: Union[None, List[Order]] = await engine.order_repository.get_full_information(id_user=jwt_data.get("id_user"))
 
             if orders_data:
-                data_orders: List[OrderAndUserInformation] = []
+                data_orders: list = []
 
                 for order in orders_data:
                     order_user_data: dict = order.ord_user.read_model()
@@ -92,15 +94,17 @@ class OrderService:
                     else:
                         continue
 
-                return data_orders
+                return ListOrderAndUserInformation(orders=[*data_orders])
 
-            return []
+            return ListOrderAndUserInformation(orders=[])
 
+    @redis
     @staticmethod
     async def get_information_about_order_by_id(
         engine: IEngineRepository,
         token: str,
-        id_order: int
+        id_order: int,
+        redis_search_data: str
     ) -> OrderAndUserInformation:
         """
         Метод сервиса для получения полной информации о заказе по id
@@ -126,7 +130,7 @@ class OrderService:
                     product_data={
                         "name_product": order_product_data.get("title_product"),
                         "price_product": order_product_data.get("price_product"),
-                        "category_product": get_category[0].name_category,
+                        "category_product": get_category[0].name_category if get_category else "",
                         "date_buy": order_data[0].date_buy
                     },
                     user_data={

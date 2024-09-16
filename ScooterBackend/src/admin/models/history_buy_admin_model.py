@@ -29,7 +29,7 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
     #Form's
     form_ajax_refs: dict = {
         "hst_user": {
-            "fields": {"id", "name_user", },
-            "order_by": ("id", )
+            "fields": ("id", "name_user", ),
+            "order_by": ("id")
         }
     }

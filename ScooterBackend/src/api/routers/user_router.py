@@ -2,8 +2,7 @@
 from typing import Annotated
 
 #Other libraries
-from fastapi import APIRouter, status, Depends, Header
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, status, Depends
 
 #Local
 from src.api.authentication.authentication_service import Authentication
@@ -16,14 +15,11 @@ from src.api.dto.user_dto import (
     UserHistoryData,
     UserIsUpdated,
     DataToUpdate,
-    DataToUpdateUserPassword,
     UserIsDeleted,
     UpdateAddressDate
 )
-from src.database.db_worker import db_work
 from src.api.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
-
 
 user_router: APIRouter = APIRouter(
     prefix="/user",
@@ -47,7 +43,7 @@ auth: Authentication = Authentication()
 )
 async def get_information_about_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> InformationAboutUser:
     """
     ENDPOINT - Получение краткой информации о пользователе, (ЛИЧНОЕ)
@@ -55,6 +51,7 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
+    
     information_about_user = await UserService.get_information_about_me(engine=session, token=user_data)
     return information_about_user
 
@@ -86,7 +83,7 @@ async def get_full_information_about_user(
     :return:
     """
 
-    return await UserService.get_full_information(engine=session, token=user_data)
+    return await UserService.get_full_information(engine=session, token=user_data, redis_search_data="user_full_information_by_id_%s"%user_data)
 
 
 @user_router.get(
@@ -111,7 +108,7 @@ async def get_user_data_and_all_reviews(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_review(engine=session, token=user_data)
+    return await UserService.get_information_about_me_and_review(engine=session, token=user_data, redis_search_data="user_reviews_by_token_%s" % user_data)
 
 
 @user_router.get(
@@ -136,7 +133,7 @@ async def get_user_data_and_all_favourites_product(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_favourite(engine=session, token=user_data)
+    return await UserService.get_information_about_me_and_favourite(engine=session, token=user_data, redis_search_data="user_favourites_by_token_%s" % user_data)
 
 
 @user_router.get(
@@ -161,7 +158,7 @@ async def get_user_data_and_all_orders(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_orders(engine=session, token=user_data)
+    return await UserService.get_information_about_me_and_orders(engine=session, token=user_data, redis_search_data="user_orders_by_token_%s" % user_data)
 
 
 @user_router.get(
@@ -186,7 +183,7 @@ async def get_user_data_and_history(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_history(engine=session, token=user_data)
+    return await UserService.get_information_about_me_and_history(engine=session, token=user_data, redis_search_data="user_history_by_token_%s" % user_data)
 
 
 @user_router.get(
@@ -247,7 +244,7 @@ async def get_all_information_about_other_users(
     return await UserService.get_full_information_other_user(
         engine=session,
         token=admin_data,
-        user_id=id_user
+        user_id=id_user,
     )
 
 

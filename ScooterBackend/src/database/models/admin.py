@@ -8,14 +8,15 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 #Local
 from src.database.mainbase import MainBase
+from datetime import date
 
 
 class Admin(MainBase):
 
     email_admin: Mapped[str] = mapped_column(type_=String(150), unique=True, nullable=False, index=True)
     password_user: Mapped[str] = mapped_column(type_=Text, unique=False, nullable=False)
-    date_create: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=True, default=datetime.date)
-    date_update: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=True, default=datetime.date)
+    date_create: Mapped[date] = mapped_column(type_=Date, unique=False, nullable=True, default=date.today())
+    date_update: Mapped[date] = mapped_column(type_=Date, unique=False, nullable=True, default=date.today())
 
     def read_model(self) -> Dict[str, Union[str, int, datetime.date]]:
         """

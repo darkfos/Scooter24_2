@@ -8,13 +8,14 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 #Local
 from src.database.mainbase import MainBase
+from datetime import date
 
 
 class Order(MainBase):
     #Таблица заказы
 
     #Дата заказа
-    date_buy: Mapped[datetime.date] = mapped_column(type_=Date, unique=False, nullable=False, default=datetime.date)
+    date_buy: Mapped[date] = mapped_column(type_=Date, unique=False, nullable=False, default=date.today())
 
     #Связи
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), type_=Integer) #id пользователя

@@ -13,7 +13,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class HistoryBuyRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: HistoryBuy = HistoryBuy
+        self.model: Type[HistoryBuy] = HistoryBuy
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, id_histories: List[int]) -> bool:

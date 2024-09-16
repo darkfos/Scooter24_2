@@ -1,5 +1,5 @@
 #System
-from typing import Union, Annotated, Dict
+from typing import Union, Annotated, Dict, List
 
 #Other libraries
 from pydantic import BaseModel, Field
@@ -20,6 +20,10 @@ class ReviewMessage(BaseModel):
     text_review: Annotated[str, Field()]
     estimation_review: Annotated[int, Field(lt=11)]
     user_data: Dict[Union[str, int], Union[str, int]]
+
+
+class ListReviewMessageForProduct(BaseModel):
+    reviews: List[ReviewMessage]
 
 
 class AddReview(ReviewBase):

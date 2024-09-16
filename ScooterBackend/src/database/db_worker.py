@@ -1,8 +1,9 @@
 #Other
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession, AsyncEngine
 
 #System
-from typing import Union
+from typing import Union, Type
+
 #Local
 
 ##MODELS##
@@ -32,11 +33,11 @@ class DatabaseEngine:
         return cls.__instance
 
     def __init__(self):
-        self.db_engine = create_async_engine(
+        self.db_engine: Type[AsyncEngine] = create_async_engine(
             url=Settings.database_settings.db_url,
             echo=True
         )
-        self.async_session: async_sessionmaker = async_sessionmaker(bind=self.db_engine)
+        self.async_session: Type[async_sessionmaker] = async_sessionmaker(bind=self.db_engine)
 
     async def create_tables(self):
         #Creating tables

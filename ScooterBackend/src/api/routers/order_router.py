@@ -55,13 +55,13 @@ async def create_a_new_order(
     Необходимо передать id пользователя.
     """,
     summary="Все заказы пользователя",
-    response_model=Union[List, List[OrderAndUserInformation]],
+    response_model=ListOrderAndUserInformation,
     status_code=status.HTTP_200_OK
 )
 async def get_orders_by_id_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)]
-) -> Union[List, List[OrderAndUserInformation]]:
+) -> ListOrderAndUserInformation:
     """
     ENDPOINT - Получение всех заказов пользователя, подробная информация
     :param session:
@@ -69,7 +69,7 @@ async def get_orders_by_id_user(
     :return:
     """
 
-    return await OrderService.get_full_information_by_user_id(engine=session, token=user_data)
+    return await OrderService.get_full_information_by_user_id(engine=session, token=user_data, redis_search_data="orders_by_token_%s" % user_data)
 
 
 @order_router.get(
@@ -96,7 +96,7 @@ async def get_information_about_order_by_id(
     """
 
     return await OrderService.get_information_about_order_by_id(
-        engine=session, token=user_data, id_order=id_order
+        engine=session, token=user_data, id_order=id_order, redis_search_data="order_by_id_%s" % id_order
     )
 
 

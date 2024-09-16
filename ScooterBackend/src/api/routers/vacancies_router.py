@@ -2,13 +2,11 @@
 from typing import Annotated, List, Union
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import status, Depends, APIRouter
 
 #Local
 from src.api.authentication.authentication_service import Authentication
-from src.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies
-from src.database.db_worker import db_work
+from src.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies, VacanciesGeneralData
 from src.api.service.vacancies_service import VacanciesService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
@@ -59,17 +57,17 @@ async def create_a_new_vacancies(
     Данный метод позволяет получить все вакансии.
     """,
     summary="Список всех вакансий",
-    response_model=Union[List, List[VacanciesBase]],
+    response_model=VacanciesGeneralData,
     status_code=status.HTTP_200_OK
 )
 async def get_all_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[VacanciesBase]]:
+) -> VacanciesGeneralData:
     """
     ENDPOINT - Получение все вакансий.
     """
 
-    return await VacanciesService.get_all_vacancies(engine=session)
+    return await VacanciesService.get_all_vacancies(engine=session, redis_search_data="all_vacancies")
 
 
 @vacancies_router.get(
@@ -90,8 +88,8 @@ async def get_all_vacancies(
     """
     ENDPOINT - Получение все вакансий.
     """
-
-    return await VacanciesService.get_vacancies_by_id(engine=session, id_vacancies=id_vacancies)
+ 
+    return await VacanciesService.get_vacancies_by_id(engine=session, id_vacancies=id_vacancies, redis_search_data="vacancies_data_by_id_%s" % id_vacancies)
 
 
 @vacancies_router.put(

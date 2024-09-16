@@ -31,10 +31,10 @@ class ReviewModelView(ModelView, model=Review):
     form_ajax_refs: dict = {
         "product": {
             "fields": ("id", "title_product", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         },
         "user": {
             "fields": ("id", "name_user", ),
-            "order_by": ("id", )
+            "order_by": ("id")
         }
     }

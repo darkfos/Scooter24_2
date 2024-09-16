@@ -2,9 +2,8 @@
 from typing import Annotated, List, Type
 
 #Other libraries
-from fastapi import APIRouter, status, Depends, UploadFile, File
+from fastapi import APIRouter, status, Depends, UploadFile
 from fastapi.responses import FileResponse
-from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
 from src.api.exception.http_product_exception import *
@@ -13,7 +12,6 @@ from src.api.authentication.authentication_service import Authentication
 from src.database.db_worker import db_work
 from src.api.service.product_service import ProductService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
-from src.other.image_saver import ImageSaver
 
 
 product_router: APIRouter = APIRouter(
@@ -107,18 +105,18 @@ async def add_new_category_to_product(
     """,
     summary="Список товаров",
     status_code=status.HTTP_200_OK,
-    response_model=Union[List, List[ProductBase]]
+    response_model=ListProductBase
 )
 async def get_all_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[ProductBase]]:
+) -> ListProductBase:
     """
     ENDPOINT - Получение списка товаров.
     :param session:
     :return:
     """
 
-    return await ProductService.get_all_products(engine=session)
+    return await ProductService.get_all_products(engine=session, redis_search_data="all_products")
 
 
 @product_router.get(
@@ -128,7 +126,7 @@ async def get_all_products(
     Данный метод позволяет получить список продуктов по фильтрам поиска.
     """,
     summary="Поиск продуктов по фильтру",
-    response_model=Union[List, List[ProductBase]],
+    response_model=ListProductBase,
     status_code=status.HTTP_200_OK
 )
 async def get_products_by_filters(
@@ -137,7 +135,7 @@ async def get_products_by_filters(
     min_price: int = None,
     max_price: int = None,
     desc_or_not: bool = False
-) -> Union[List, List[ProductBase]]:
+) -> ListProductBase:
     """
     ENDPOINT - Получение списка продуктов по фильтру.
     :param id_category:
@@ -150,7 +148,8 @@ async def get_products_by_filters(
         sorted_by_category=id_category,
         sorted_by_price_min=min_price,
         sorted_by_price_max=max_price,
-        desc=desc_or_not
+        desc=desc_or_not,
+        redis_search_data="search_by_filters_%s_%s_%s_%s" % (id_category, min_price, max_price, desc_or_not)
     )
 
 
@@ -162,12 +161,12 @@ async def get_products_by_filters(
     """,
     summary="Получение всех товаров по категории",
     status_code=status.HTTP_200_OK,
-    response_model=Union[List, List[ProductBase]]
+    response_model=ListProductBase
 )
-async def get_products_by_category(
+async def get_products_by_category_or_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     category_data: Union[int, str]
-) -> Union[List, List[ProductBase]]:
+) -> ListProductBase:
     """
     ENDPOINT - Получение списка товаров по категории
     :param session:
@@ -177,7 +176,8 @@ async def get_products_by_category(
 
     return await ProductService.get_products_by_category(
         engine=session,
-        category_data=category_data
+        category_data=category_data,
+        redis_search_data="find_products_by_id_category_%s" % category_data
     )
 
 
@@ -205,56 +205,6 @@ async def get_image_product(
         media_type="image/jpeg",
         status_code=status.HTTP_200_OK,
     )
-
-
-@product_router.get(
-    path="/find_product_by_id/{id_product}",
-    description="""
-    ### Endpoint - Поиск продукта по id.
-    Позволяет информацию о продукте по id.
-    Необходимо передать ид в ссылке запроса.
-    """,
-    summary="Поиск продукта по id",
-    response_model=ProductBase,
-    status_code=status.HTTP_200_OK
-)
-async def find_product_by_id(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_product: int
-) -> ProductBase:
-    """
-    ENDPOINT - Поиск продукта по id
-    :param session:
-    :param id_product:
-    :return:
-    """
-
-    return await ProductService.find_product_by_id(engine=session, id_product=id_product)
-
-
-@product_router.get(
-    path="/get_product_by_name/{name_product}",
-    description="""
-    ### Endpoint - Получение продукта по названию.
-    Данный метод позволяет получить информацию о продукте по названию.
-    Необходимо передать название продукта в ссылку.
-    """,
-    summary="Получение продукта по названию",
-    status_code=status.HTTP_200_OK,
-    response_model=ProductBase
-)
-async def find_product_by_name(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    name_product: str
-) -> ProductBase:
-    """
-    ENDPOINT - Поиск продукта по названию
-    :param session:
-    :param name_product:
-    :return:
-    """
-
-    return await ProductService.find_product_by_name(engine=session, name_product=name_product)
 
 
 @product_router.get(
@@ -301,7 +251,7 @@ async def get_all_information_about_product(
     :return:
     """
 
-    return await ProductService.get_all_information_about_product(engine=session, token=admin_data, id_product=id_product)
+    return await ProductService.get_all_information_about_product(engine=session, token=admin_data, id_product=id_product, redis_search_data="full_information_about_product_by_id_%s" % id_product)
 
 
 @product_router.get(
@@ -311,18 +261,18 @@ async def get_all_information_about_product(
     Данный метод позволяет получить товары по рекомендации
     """,
     summary="Рекомендованные товары",
-    response_model=Union[List, List[ProductBase]],
+    response_model=ListProductBase,
     status_code=status.HTTP_200_OK
 )
 async def recommended_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[ProductBase]]:
+) -> ListProductBase:
     """
     ENDPOINT - Получение товаров по системе рекомендаций
     :session:
     """
 
-    return await ProductService.get_recommended_products(engine=session)
+    return await ProductService.get_recommended_products(engine=session, redis_search_data="recommended_products")
 
 
 @product_router.get(
@@ -332,18 +282,18 @@ async def recommended_products(
     Данный метод позволяет получить список из <8 новых продуктов
     """,
     summary="Новые продукты",
-    response_model=Union[List, List[ProductBase]],
+    response_model=ListProductBase,
     status_code=status.HTTP_200_OK
 )
 async def get_new_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[ProductBase]]:
+) -> ListProductBase:
     """
     ENDPOINT - Получение новых товаров в количестве <8.
     :session:
     """
 
-    return await ProductService.get_new_products(engine=session)
+    return await ProductService.get_new_products(engine=session, redis_search_data="new_products")
 
 
 @product_router.put(

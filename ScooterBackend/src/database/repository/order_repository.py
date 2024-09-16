@@ -14,7 +14,7 @@ from src.database.repository.general_repository import GeneralSQLRepository
 class OrderRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
-        self.model: Order = Order
+        self.model: Type[Order] = Order
         super().__init__(session=session, model=self.model)
 
     async def del_more(self, id_orders: List[int]) -> bool:
