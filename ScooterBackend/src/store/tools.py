@@ -20,13 +20,13 @@ class RedisTools:
     
     def __call__(self, func: Callable) -> Any:
         async def wrapper_service(*args, **kwargs):
-            redis_data = await self.get_value(key=kwargs["redis_search"])
+            redis_data = await self.get_value(key=kwargs["redis_search_data"])
             if redis_data:
                 return json.loads(redis_data)
             result_func = await func(*args, **kwargs)
             
             #Set data in redis DB
-            await self.set_key_and_value(key=kwargs["redis_search"], value=result_func.model_dump_json())
+            await self.set_key_and_value(key=kwargs["redis_search_data"], value=result_func.model_dump_json())
             
             return result_func
         return wrapper_service

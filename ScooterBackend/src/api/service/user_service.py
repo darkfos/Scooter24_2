@@ -1,5 +1,5 @@
 #Other libraries
-from typing import Union
+from typing import Union, Type
 from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
@@ -27,6 +27,11 @@ from src.database.repository.admin_repository import AdminRepository
 from src.other.data_email_transfer import email_transfer
 from src.api.authentication.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class UserService:
@@ -85,8 +90,9 @@ class UserService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str) -> InformationAboutUser:
+    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str, redis_search_data: str) -> InformationAboutUser:
         """
         Метод сервиса для получения информации о пользователе по токену
         :param session:

@@ -1,6 +1,6 @@
 #System
 import datetime
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Type
 
 #Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +15,11 @@ from src.api.exception.http_category_exception import CategoryHttpError
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.exception.http_category_exception import CategoryHttpError
 from src.api.dep.dependencies import EngineRepository, IEngineRepository
+
+#Redis
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class CategoryService:
