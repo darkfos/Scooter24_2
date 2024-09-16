@@ -1,20 +1,23 @@
 #System
 import datetime
-from typing import List, Union, Dict, Coroutine, Any
+from typing import List, Union, Dict, Coroutine, Any, Type
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
+...
 
 #Local
-from src.database.repository.category_repository import CategoryRepository, Category
+from src.database.repository.category_repository import Category
 from src.api.dto.category_dto import *
-from src.database.repository.admin_repository import AdminRepository
 from src.api.authentication.authentication_service import Authentication
-from src.api.authentication.hashing import CryptographyScooter
 from src.api.exception.http_category_exception import CategoryHttpError
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.exception.http_category_exception import CategoryHttpError
-from src.api.dep.dependencies import EngineRepository, IEngineRepository
+from src.api.dep.dependencies import IEngineRepository
+
+
+#Redis
+from src.store.tools import RedisTools
+redis: Type[RedisTools] = RedisTools()
 
 
 class CategoryService:
@@ -53,8 +56,9 @@ class CategoryService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def find_category_by_name(engine: IEngineRepository, name_category: str) -> CategoryIsFinded:
+    async def find_category_by_name(engine: IEngineRepository, name_category: str, redis_search_data: str) -> CategoryIsFinded:
         """
         Метод сервиса для поиска категории по названию
         :param session:
@@ -69,8 +73,9 @@ class CategoryService:
                 is_find=is_found
             )
 
+    @redis
     @staticmethod
-    async def find_all_categories(engine: IEngineRepository):
+    async def find_all_categories(engine: IEngineRepository, redis_search_data: str):
         """
         Метод сервиса для получения всех категорий
         :param session:
@@ -80,11 +85,12 @@ class CategoryService:
         async with engine:
             #Get categories
             categories: List[CategoryBase] = await engine.category_repository.find_all()
-            result = [category[0] for category in categories]
+            result = CategoriesList(categories=[CategoryBase(name_category=category[0].name_category) for category in categories])
             return result
 
+    @redis
     @staticmethod
-    async def find_by_id(engine: IEngineRepository, id_category: int) -> CategoryBase:
+    async def find_by_id(engine: IEngineRepository, id_category: int, redis_search_data: str) -> CategoryBase:
         """
         Метод сервиса для поиска категории по id
         :param session:
