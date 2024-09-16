@@ -24,7 +24,7 @@ class RedisTools:
             if redis_data:
                 return json.loads(redis_data)
             result_func = await func(*args, **kwargs)
-            
+            print(result_func)
             #Set data in redis DB
             await self.set_key_and_value(key=kwargs["redis_search_data"], value=result_func.model_dump_json())
 

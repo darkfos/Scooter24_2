@@ -1,6 +1,5 @@
 #Other libraries
 from typing import Union, Any, Coroutine, Dict, Type
-from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
 from src.api.dto.user_dto import (
@@ -18,15 +17,13 @@ from src.api.dto.user_dto import (
     UpdateAddressDate
 )
 from src.api.dto.auth_dto import RegistrationUser
-from src.database.repository.user_repository import UserRepository
 from src.database.models.user import User
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.authentication.hashing import CryptographyScooter
 from src.api.authentication.authentication_service import Authentication
-from src.database.repository.admin_repository import AdminRepository
 from src.other.data_email_transfer import email_transfer
 from src.api.authentication.secret_upd_key import SecretKey
-from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.dep.dependencies import IEngineRepository
 
 #redis
 from src.store.tools import RedisTools
@@ -122,8 +119,9 @@ class UserService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_me_and_review(engine: IEngineRepository, token: str) -> UserReviewData:
+    async def get_information_about_me_and_review(engine: IEngineRepository, token: str, redis_search_data: str) -> UserReviewData:
         """
         Метод сервиса для получения информации о пользователе + его отзывы
         :param session:
@@ -149,8 +147,9 @@ class UserService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_me_and_favourite(engine: IEngineRepository, token: str) -> UserFavouritesData:
+    async def get_information_about_me_and_favourite(engine: IEngineRepository, token: str, redis_search_data: str) -> UserFavouritesData:
         """
         Метод сервиса для получения информации о пользователе + его товары в избранном
         :param session:
@@ -176,8 +175,9 @@ class UserService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_me_and_orders(engine: IEngineRepository, token: str) -> UserOrdersData:
+    async def get_information_about_me_and_orders(engine: IEngineRepository, token: str, redis_search_data: str) -> UserOrdersData:
         """
         Метод сервиса для получения информации о пользователе + его заказы
         :param session:
@@ -190,7 +190,7 @@ class UserService:
 
         async with engine:
             user_data: Union[User, None] = await engine.user_repository.find_user_and_get_orders(user_id=jwt_data.get("id_user"))
-
+            #print(user_data)
             if user_data:
                 return UserOrdersData(
                     email_user=user_data.email_user,
@@ -198,13 +198,14 @@ class UserService:
                     surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
-                    orders=user_data.orders_user
+                    orders=[{"id_user": order.id_user, "id_product": order.id_product, "date_buy": order.date_buy} for order in user_data.orders_user]
                 )
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_information_about_me_and_history(engine: IEngineRepository, token: str) -> UserHistoryData:
+    async def get_information_about_me_and_history(engine: IEngineRepository, token: str, redis_search_data: str) -> UserHistoryData:
         """
         Метод сервиса для получения информации о пользователе + история заказов
         :param session:
@@ -230,8 +231,9 @@ class UserService:
 
             await UserHttpError().http_user_not_found()
 
+    @redis
     @staticmethod
-    async def get_full_information(engine: IEngineRepository, token: str) -> AllDataUser:
+    async def get_full_information(engine: IEngineRepository, token: str, redis_search_data: str) -> AllDataUser:
         """
         Метод сервиса для получения полной информации о пользователе
         :param session:

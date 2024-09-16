@@ -2,7 +2,7 @@
 import datetime
 
 from pydantic import BaseModel, Field, EmailStr
-from typing import Annotated, Union, List, Dict
+from typing import Annotated, Union, List, Dict, Any
 
 #Local
 from src.database.models.order import Order
@@ -75,7 +75,7 @@ class UserOrdersData(InformationAboutUser):
     Информация о пользователе + все его заказы
     """
 
-    orders: List[Dict]
+    orders: List[Dict[str, Union[str, int, datetime.date]]]
 
 
 class UserHistoryData(InformationAboutUser):
@@ -129,16 +129,16 @@ class UpdateAddressDate(BaseModel):
     Обновление адресных данных пользователя
     """
 
-    name_user_address: Annotated[str, Field(max_length=200)]
-    surname_user_address: Annotated[str, Field(max_length=200)]
-    name_company_address: Annotated[str, Field(max_length=200)]
-    country_address: Annotated[str, Field(max_length=250)]
-    address_street: Annotated[str, Field(max_length=450)]
-    address_rl_et_home: Annotated[str, Field(max_length=250)]
-    address_locality: Annotated[str, Field(max_length=300)]
-    address_area: Annotated[str, Field(max_length=350)]
-    address_index: Annotated[int, Field()]
-    address_phone_number: Annotated[str, Field(max_length=40)]
+    name_user_address: Annotated[Union[None, str], Field(max_length=200)]
+    surname_user_address: Annotated[Union[None, str], Field(max_length=200)]
+    name_company_address: Annotated[Union[None, str], Field(max_length=200)]
+    country_address: Annotated[Union[None, str], Field(max_length=250)]
+    address_street: Annotated[Union[None, str], Field(max_length=450)]
+    address_rl_et_home: Annotated[Union[None, str], Field(max_length=250)]
+    address_locality: Annotated[Union[None, str], Field(max_length=300)]
+    address_area: Annotated[Union[None, str], Field(max_length=350)]
+    address_index: Annotated[Union[None, int], Field()]
+    address_phone_number: Annotated[Union[None, str], Field(max_length=40)]
 
 
 class AllDataUser(InformationAboutUser):
