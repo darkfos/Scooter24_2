@@ -11,6 +11,11 @@ class FavouriteBase(BaseModel):
     product_info: Annotated[Dict[str, Union[str, int]], Field()]
 
 
+class ListFavouriteBase(BaseModel):
+
+    favourites: Annotated[List[FavouriteBase], Field()]
+
+
 class DeleteFavourite(BaseModel):
 
     id_favourite: Annotated[int, Field()]

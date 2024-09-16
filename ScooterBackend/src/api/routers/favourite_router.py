@@ -62,12 +62,12 @@ async def create_a_new_favourite(
     """,
     summary="Список избранных товаров",
     status_code=status.HTTP_200_OK,
-    response_model=Union[List, List[FavouriteBase]]
+    response_model=ListFavouriteBase
 )
 async def get_all_favourites_products_by_user_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-) -> Union[List, List[FavouriteBase]]:
+) -> ListFavouriteBase:
     """
     ENDPOINT - Получение всех избранных товаров пользователя
     :param session:
@@ -76,7 +76,7 @@ async def get_all_favourites_products_by_user_id(
     :return:
     """
 
-    return await FavouriteService.get_all_favourite_product_by_user_id(engine=session, token=user_data)
+    return await FavouriteService.get_all_favourite_product_by_user_id(engine=session, token=user_data, redis_search_data="all_favourites_by_id_user_%s" % user_data)
 
 
 @favourite_router.get(
@@ -107,7 +107,7 @@ async def get_full_information_about_favourite_product_by_id(
     return await FavouriteService.get_information_about_fav_product_by_id(
         engine=session,
         token=admin_data,
-        id_fav_product=id_fav_product
+        id_fav_product=id_fav_product,
     )
 
 
