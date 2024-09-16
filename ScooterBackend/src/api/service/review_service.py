@@ -1,9 +1,8 @@
 #System
-from typing import Union, Dict, List, Coroutine, Any
+from typing import Union, Dict, List, Coroutine, Any, Type
 
 #Other libraries
-from sqlalchemy.ext.asyncio import AsyncSession
-
+...
 
 #Local
 from src.database.models.review import Review
@@ -12,9 +11,12 @@ from src.api.dto.review_dto import *
 from src.api.exception.http_review_exception import ReviewHttpError
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.authentication.authentication_service import Authentication
-from src.database.repository.review_repository import ReviewRepository
-from src.database.repository.admin_repository import AdminRepository
 from src.api.dep.dependencies import IEngineRepository
+
+
+from src.store.tools import RedisTools
+
+redis: Type[RedisTools] = RedisTools()
 
 
 class ReviewService:
@@ -52,8 +54,9 @@ class ReviewService:
                 is_created=is_created
             )
 
+    @redis
     @staticmethod
-    async def get_all_reviews_by_id_product(engine: IEngineRepository, id_product: int) -> Union[List, List[ReviewMessage]]:
+    async def get_all_reviews_by_id_product(engine: IEngineRepository, id_product: int, redis_search_data: str) -> Union[List, List[ReviewMessage]]:
         """
         Метод сервиса для получения списка комментариев к указанному товару.
         :param session:
@@ -66,19 +69,21 @@ class ReviewService:
             all_reviews_for_product: Union[None, Review] = await engine.review_repository.find_all_reviews_by_id_product(id_product=id_product)
 
             if all_reviews_for_product:
-                reviews: List[ReviewMessage] = [
-                    ReviewMessage(
-                        text_review=review[0].text_review,
-                        estimation_review=review[0].estimation_review,
-                        user_data={"user_name": review[0].user.read_model().get("name_user"),
-                                   "email_user": review[0].user.read_model().get("email_user")}
-                    )
+                reviews: ListReviewMessageForProduct = ListReviewMessageForProduct(
+                    reviews=[
+                            ReviewMessage(
+                            text_review=review[0].text_review,
+                            estimation_review=review[0].estimation_review,
+                            user_data={"user_name": review[0].user.read_model().get("name_user"),
+                                    "email_user": review[0].user.read_model().get("email_user")}
+                            )
                     for review in all_reviews_for_product
-                ]
+                    ]
+                )
 
                 return reviews
 
-            return all_reviews_for_product
+            return ListReviewMessageForProduct(reviews=[])
 
     @staticmethod
     async def get_all_reviews(engine: IEngineRepository) -> Union[List, List[ReviewMessage]]:
@@ -105,10 +110,12 @@ class ReviewService:
 
             return all_reviews
 
+    @redis
     @staticmethod
     async def get_review_by_id(
         engine: IEngineRepository,
-        review_id: int
+        review_id: int,
+        redis_search_data: str
     ) -> ReviewMessage:
         """
         Метод сервиса для получения данных об отзыве через id.

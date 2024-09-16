@@ -3,11 +3,9 @@ from typing import Annotated, List
 
 #Other libraries
 from fastapi import Depends, status, APIRouter
-from sqlalchemy.ext.asyncio import AsyncSession
 
 #Local
 from src.api.dto.review_dto import *
-from src.database.db_worker import db_work
 from src.api.authentication.authentication_service import Authentication
 from src.api.service.review_service import ReviewService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
@@ -55,13 +53,13 @@ async def create_review(
     Данный метод позволяет получить список всех отзывов по id продукта.
     """,
     summary="Список отзывов по id",
-    response_model=List[ReviewMessage],
+    response_model=ListReviewMessageForProduct,
     status_code=status.HTTP_200_OK
 )
 async def get_all_reviews_by_id_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_product: int
-) -> Union[List, List[ReviewMessage]]:
+) -> ListReviewMessageForProduct:
     """
     ENDPOINT - Получение всех комментариев к указанному товару.
     :param session:
@@ -69,7 +67,7 @@ async def get_all_reviews_by_id_product(
     :return:
     """
 
-    return await ReviewService.get_all_reviews_by_id_product(engine=session, id_product=id_product)
+    return await ReviewService.get_all_reviews_by_id_product(engine=session, id_product=id_product, redis_search_data="get_all_reviews_for_product_by_id_%s" % id_product)
 
 
 @review_router.get(
@@ -116,7 +114,7 @@ async def get_review_data_by_id(
     :return:
     """
 
-    return await ReviewService.get_review_by_id(engine=session, review_id=review_id)
+    return await ReviewService.get_review_by_id(engine=session, review_id=review_id, redis_search_data="review_by_id_%s" % review_id)
 
 
 @review_router.delete(
