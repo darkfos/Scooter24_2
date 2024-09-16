@@ -22,3 +22,7 @@ class AddOrder(BaseModel):
 class OrderAndUserInformation(OrderBase):
 
     user_data: Annotated[Dict[str, Union[str, int, datetime.date]], Field()]
+
+class ListOrderAndUserInformation(BaseModel):
+
+    orders: List[OrderAndUserInformation]
