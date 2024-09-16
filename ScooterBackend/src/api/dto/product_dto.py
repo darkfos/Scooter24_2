@@ -4,12 +4,9 @@ from typing import List, Union, Annotated
 
 #Other libraries
 from pydantic import BaseModel, Field
-from sqlalchemy import LargeBinary
-from fastapi import UploadFile
-from fastapi.responses import FileResponse
 
 #Local
-from src.database.models.category import Category
+...
 
 
 class ProductBase(BaseModel):
@@ -25,6 +22,11 @@ class ProductBase(BaseModel):
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
     price_discount: Annotated[int, Field(lt=100)]
+
+
+class ListProductBase(BaseModel):
+    
+    products: Annotated[List[ProductBase], Field()]
 
 
 class ProductAllInformation(ProductBase):
