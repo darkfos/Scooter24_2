@@ -216,7 +216,7 @@ async def get_information_about_other_users(
     :return:
     """
 
-    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data, redis_search="user_%s"%id_user)
+    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data, redis_search_data="user_%s"%id_user)
 
 
 @user_router.get(

@@ -94,7 +94,7 @@ class UserService:
 
     @redis
     @staticmethod
-    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str, redis_search: str) -> InformationAboutUser:
+    async def get_information_about_user(engine: IEngineRepository, user_id: int, token: str, redis_search_data: str) -> InformationAboutUser:
         """
         Метод сервиса для получения информации о пользователе по токену
         :param session:
