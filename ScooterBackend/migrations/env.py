@@ -13,7 +13,7 @@ config = context.config
 
 from src.settings.database_settings import DatabaseSettings
 
-#URL to database
+# URL to database
 config.set_main_option("sqlalchemy.url", DatabaseSettings().db_url)
 
 # Interpret the config file for Python logging.
@@ -25,7 +25,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-#Tables
+# Tables
 from src.database.models.user import User
 from src.database.models.order import Order
 from src.database.models.product import Product
@@ -38,8 +38,9 @@ from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
 from src.database.models.product_category import ProductCategory
 
-#Database for migrations
+# Database for migrations
 from src.database.mainbase import MainBase
+
 target_metadata = MainBase.metadata
 
 # other values from the config, defined by the needs of env.py,

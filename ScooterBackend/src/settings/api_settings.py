@@ -1,9 +1,9 @@
-#System
+# System
 from typing import Union
 from dotenv import load_dotenv
 import os
 
-#Local
+# Local
 from src.settings.descriptor import SettingsDescriptor
 
 
@@ -15,9 +15,9 @@ class APISettings:
 
     def __init__(self) -> None:
         load_dotenv()
-        self.api_host=os.getenv("API_HOST")
-        self.api_port=os.getenv("API_PORT")
-        self.reload=os.getenv("RELOAD")
+        self.api_host = os.getenv("API_HOST")
+        self.api_port = os.getenv("API_PORT")
+        self.reload = os.getenv("RELOAD")
 
     def __str__(self) -> str:
         return f"{type(self)}"

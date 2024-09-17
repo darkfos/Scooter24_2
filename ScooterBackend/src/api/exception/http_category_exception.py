@@ -17,7 +17,7 @@ class CategoryHttpError(APIError):
         await self.api_error(
             code=status.HTTP_404_NOT_FOUND,
             detail_inf="Не удалось найти категорию",
-            header=HeaderMessage.header_find.value
+            header=HeaderMessage.header_find.value,
         )
 
     async def http_failed_to_create_a_new_category(self):
@@ -40,7 +40,7 @@ class CategoryHttpError(APIError):
         await self.api_error(
             code=status.HTTP_400_BAD_REQUEST,
             detail_inf="Не удалось обновить категорию",
-            header=HeaderMessage.header_update.value
+            header=HeaderMessage.header_update.value,
         )
 
     async def http_failed_to_delete_category(self):

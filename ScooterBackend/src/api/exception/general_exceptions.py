@@ -28,7 +28,7 @@ class GeneralExceptions(APIError):
         await self.api_error(
             code=status.HTTP_408_REQUEST_TIMEOUT,
             detail_inf="Превышено время работы запроса",
-            header=HeaderMessage.header_auth.value
+            header=HeaderMessage.header_auth.value,
         )
 
     async def http_data_error(self):
@@ -51,5 +51,5 @@ class GeneralExceptions(APIError):
         await self.api_error(
             code=status.HTTP_405_METHOD_NOT_ALLOWED,
             detail_inf="Запрещенный метод",
-            header=HeaderMessage.header_find.value
+            header=HeaderMessage.header_find.value,
         )

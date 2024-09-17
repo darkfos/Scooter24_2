@@ -5,7 +5,7 @@ from typing import List, Any
 
 class TypeWorkerModelView(ModelView, model=TypeWorker):
 
-    #Metadata
+    # Metadata
     name: str = "Тип работника"
     name_plural: str = "Добавить тип работника"
     icon: str = "fa fa-users"
@@ -15,20 +15,24 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     column_labels: dict = {
         TypeWorker.id: "Идентификатор типа работника",
         TypeWorker.name_type: "Название",
-        TypeWorker.vacancies: "Вакансии"
+        TypeWorker.vacancies: "Вакансии",
     }
 
-    #Operation's
+    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
 
-    #Form's for FK
+    # Form's for FK
     form_ajax_refs: dict = {
         "vacancies": {
-            "fields": ("id", "description_vacancies", "salary_employee", ),
-            "order_by": ("id")
+            "fields": (
+                "id",
+                "description_vacancies",
+                "salary_employee",
+            ),
+            "order_by": ("id"),
         }
     }

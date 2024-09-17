@@ -1,20 +1,23 @@
-#System
+# System
 from typing import Annotated, List, Union
 
-#Other libraries
+# Other libraries
 from fastapi import status, Depends, APIRouter
 
-#Local
+# Local
 from src.api.authentication.authentication_service import Authentication
-from src.api.dto.vacancies_dto import VacanciesBase, UpdateVacancies, VacanciesGeneralData
+from src.api.dto.vacancies_dto import (
+    VacanciesBase,
+    UpdateVacancies,
+    VacanciesGeneralData,
+)
 from src.api.service.vacancies_service import VacanciesService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 auth: Authentication = Authentication()
 vacancies_router: APIRouter = APIRouter(
-    prefix="/vacancies",
-    tags=["Vacancies - Вакансии"]
+    prefix="/vacancies", tags=["Vacancies - Вакансии"]
 )
 
 
@@ -29,12 +32,12 @@ vacancies_router: APIRouter = APIRouter(
     summary="Создание вакансии",
     response_model=None,
     status_code=status.HTTP_200_OK,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def create_a_new_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_vacancies: VacanciesBase
+    new_vacancies: VacanciesBase,
 ) -> None:
     """
     ENDPOINT - Создание новой вакансии
@@ -44,9 +47,7 @@ async def create_a_new_vacancies(
     """
 
     return await VacanciesService.create_vacancies(
-        engine=session,
-        token=admin_data,
-        vac_data=new_vacancies
+        engine=session, token=admin_data, vac_data=new_vacancies
     )
 
 
@@ -58,7 +59,7 @@ async def create_a_new_vacancies(
     """,
     summary="Список всех вакансий",
     response_model=VacanciesGeneralData,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -67,7 +68,9 @@ async def get_all_vacancies(
     ENDPOINT - Получение все вакансий.
     """
 
-    return await VacanciesService.get_all_vacancies(engine=session, redis_search_data="all_vacancies")
+    return await VacanciesService.get_all_vacancies(
+        engine=session, redis_search_data="all_vacancies"
+    )
 
 
 @vacancies_router.get(
@@ -79,17 +82,20 @@ async def get_all_vacancies(
     """,
     summary="Данные о вакансии по id",
     response_model=VacanciesBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_vacancies(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_vacancies: int
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_vacancies: int
 ) -> VacanciesBase:
     """
     ENDPOINT - Получение все вакансий.
     """
- 
-    return await VacanciesService.get_vacancies_by_id(engine=session, id_vacancies=id_vacancies, redis_search_data="vacancies_data_by_id_%s" % id_vacancies)
+
+    return await VacanciesService.get_vacancies_by_id(
+        engine=session,
+        id_vacancies=id_vacancies,
+        redis_search_data="vacancies_data_by_id_%s" % id_vacancies,
+    )
 
 
 @vacancies_router.put(
@@ -103,21 +109,19 @@ async def get_all_vacancies(
     summary="Обновление информации о вакансии",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def get_all_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    data_to_update: UpdateVacancies
+    data_to_update: UpdateVacancies,
 ) -> None:
     """
     ENDPOINT - Получение все вакансий.
     """
 
     return await VacanciesService.update_vacancies(
-        engine=session,
-        token=admin_data,
-        data_to_update=data_to_update
+        engine=session, token=admin_data, data_to_update=data_to_update
     )
 
 
@@ -132,12 +136,12 @@ async def get_all_vacancies(
     summary="Удаление вакансии по id",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def delete_vacancies_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_vacancies: int
+    id_vacancies: int,
 ) -> None:
     """
     ENDPOINT - Удаление вакансии.
@@ -147,7 +151,5 @@ async def delete_vacancies_by_id(
     """
 
     return await VacanciesService.delete_vacancies_by_id(
-        engine=session,
-        token=admin_data,
-        id_vacancies=id_vacancies
+        engine=session, token=admin_data, id_vacancies=id_vacancies
     )

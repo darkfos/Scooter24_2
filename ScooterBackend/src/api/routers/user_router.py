@@ -1,10 +1,10 @@
-#System
+# System
 from typing import Annotated
 
-#Other libraries
+# Other libraries
 from fastapi import APIRouter, status, Depends
 
-#Local
+# Local
 from src.api.authentication.authentication_service import Authentication
 from src.api.dto.user_dto import (
     InformationAboutUser,
@@ -16,15 +16,12 @@ from src.api.dto.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
-    UpdateAddressDate
+    UpdateAddressDate,
 )
 from src.api.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
-user_router: APIRouter = APIRouter(
-    prefix="/user",
-    tags=["User - Работа пользователя"]
-)
+user_router: APIRouter = APIRouter(prefix="/user", tags=["User - Работа пользователя"])
 
 auth: Authentication = Authentication()
 
@@ -39,7 +36,7 @@ auth: Authentication = Authentication()
     """,
     summary="Краткая информация",
     response_model=InformationAboutUser,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_information_about_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -51,8 +48,10 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
-    
-    information_about_user = await UserService.get_information_about_me(engine=session, token=user_data)
+
+    information_about_user = await UserService.get_information_about_me(
+        engine=session, token=user_data
+    )
     return information_about_user
 
 
@@ -71,11 +70,11 @@ async def get_information_about_user(
     """,
     summary="Полная информация",
     response_model=AllDataUser,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_full_information_about_user(
-        session: Annotated[IEngineRepository, Depends(EngineRepository)],
-        user_data: Annotated[str, Depends(auth.jwt_auth)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> AllDataUser:
     """
     ENDPOINT - Получение полной информации об пользователе, (ЛИЧНОЕ
@@ -83,7 +82,11 @@ async def get_full_information_about_user(
     :return:
     """
 
-    return await UserService.get_full_information(engine=session, token=user_data, redis_search_data="user_full_information_by_id_%s"%user_data)
+    return await UserService.get_full_information(
+        engine=session,
+        token=user_data,
+        redis_search_data="user_full_information_by_id_%s" % user_data,
+    )
 
 
 @user_router.get(
@@ -95,11 +98,11 @@ async def get_full_information_about_user(
     """,
     summary="Отзывы пользователя",
     response_model=UserReviewData,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_user_data_and_all_reviews(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> UserReviewData:
     """
     ENDPOINT - Получение информации о пользователе + отзывы
@@ -108,7 +111,11 @@ async def get_user_data_and_all_reviews(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_review(engine=session, token=user_data, redis_search_data="user_reviews_by_token_%s" % user_data)
+    return await UserService.get_information_about_me_and_review(
+        engine=session,
+        token=user_data,
+        redis_search_data="user_reviews_by_token_%s" % user_data,
+    )
 
 
 @user_router.get(
@@ -120,11 +127,11 @@ async def get_user_data_and_all_reviews(
     """,
     summary="Избранное пользователя",
     response_model=UserFavouritesData,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_user_data_and_all_favourites_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> UserFavouritesData:
     """
     ENDPOINT - Получение информации о пользователе + избранные товары
@@ -133,7 +140,11 @@ async def get_user_data_and_all_favourites_product(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_favourite(engine=session, token=user_data, redis_search_data="user_favourites_by_token_%s" % user_data)
+    return await UserService.get_information_about_me_and_favourite(
+        engine=session,
+        token=user_data,
+        redis_search_data="user_favourites_by_token_%s" % user_data,
+    )
 
 
 @user_router.get(
@@ -145,11 +156,11 @@ async def get_user_data_and_all_favourites_product(
     """,
     summary="Заказы пользователя",
     response_model=UserOrdersData,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_user_data_and_all_orders(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> UserOrdersData:
     """
     ENDPOINT - Получение информации о пользователе + заказы
@@ -158,7 +169,11 @@ async def get_user_data_and_all_orders(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_orders(engine=session, token=user_data, redis_search_data="user_orders_by_token_%s" % user_data)
+    return await UserService.get_information_about_me_and_orders(
+        engine=session,
+        token=user_data,
+        redis_search_data="user_orders_by_token_%s" % user_data,
+    )
 
 
 @user_router.get(
@@ -170,11 +185,11 @@ async def get_user_data_and_all_orders(
     """,
     summary="История покупок",
     response_model=UserHistoryData,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_user_data_and_history(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> UserHistoryData:
     """
     ENDPOINT - Получение информации о пользователе + история заказов
@@ -183,7 +198,11 @@ async def get_user_data_and_history(
     :return:
     """
 
-    return await UserService.get_information_about_me_and_history(engine=session, token=user_data, redis_search_data="user_history_by_token_%s" % user_data)
+    return await UserService.get_information_about_me_and_history(
+        engine=session,
+        token=user_data,
+        redis_search_data="user_history_by_token_%s" % user_data,
+    )
 
 
 @user_router.get(
@@ -197,7 +216,7 @@ async def get_user_data_and_history(
     """,
     summary="Другие лица",
     response_model=InformationAboutUser,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def get_information_about_other_users(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -212,7 +231,12 @@ async def get_information_about_other_users(
     :return:
     """
 
-    return await UserService.get_information_about_user(engine=session, user_id=id_user, token=admin_data, redis_search_data="user_%s"%id_user)
+    return await UserService.get_information_about_user(
+        engine=session,
+        user_id=id_user,
+        token=admin_data,
+        redis_search_data="user_%s" % id_user,
+    )
 
 
 @user_router.get(
@@ -226,7 +250,7 @@ async def get_information_about_other_users(
     summary="Полная информация о другом пользователе",
     response_model=AllDataUser,
     status_code=status.HTTP_200_OK,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def get_all_information_about_other_users(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -257,19 +281,21 @@ async def get_all_information_about_other_users(
     """,
     summary="Обновление данных пользователя",
     response_model=UserIsUpdated,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def update_user_information(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    data_to_update: DataToUpdate
+    data_to_update: DataToUpdate,
 ) -> UserIsUpdated:
     """
     ENDPOINT - Обновление данных о пользователе
     :return:
     """
 
-    return await UserService.update_user_information(engine=session, token=user_data, to_update=data_to_update)
+    return await UserService.update_user_information(
+        engine=session, token=user_data, to_update=data_to_update
+    )
 
 
 @user_router.put(
@@ -281,18 +307,20 @@ async def update_user_information(
     """,
     summary="Обновление адресных данных",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def update_address_data(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    data_to_update: UpdateAddressDate
+    data_to_update: UpdateAddressDate,
 ) -> None:
     """
     ENDPOINT - Обновление адресных данных пользователя
     """
 
-    return await UserService.update_address_user_data(engine=session, token=user_data, data_update=data_to_update)
+    return await UserService.update_address_user_data(
+        engine=session, token=user_data, data_update=data_to_update
+    )
 
 
 @user_router.delete(
@@ -304,11 +332,11 @@ async def update_address_data(
     """,
     summary="Удаление пользователя",
     response_model=UserIsDeleted,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def delete_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> UserIsDeleted:
     """
     Удаление всех данных о пользователе

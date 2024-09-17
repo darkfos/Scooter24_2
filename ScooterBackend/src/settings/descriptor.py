@@ -1,5 +1,6 @@
 from typing import Union
 
+
 class SettingsDescriptor:
 
     def __set_name__(self, owner, name: str) -> None:

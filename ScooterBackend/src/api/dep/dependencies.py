@@ -1,14 +1,14 @@
-#System
+# System
 from typing import Annotated, Type
 from abc import ABC, abstractmethod
 
 
-#Other libraries
+# Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends
 
 
-#Local
+# Local
 from src.database.repository.user_repository import UserRepository
 from src.database.repository.admin_repository import AdminRepository
 from src.database.repository.category_repository import CategoryRepository
@@ -19,7 +19,9 @@ from src.database.repository.favourite_repository import FavouriteRepository
 from src.database.repository.history_buy_repository import HistoryBuyRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
-from src.database.repository.product_category_repository import ProductCategoryRepository
+from src.database.repository.product_category_repository import (
+    ProductCategoryRepository,
+)
 from src.database.db_worker import db_work
 
 
@@ -72,7 +74,9 @@ class EngineRepository(IEngineRepository):
         self.product_repository = ProductRepository(session=self.session)
         self.type_worker_repository = TypeWorkerRepository(session=self.session)
         self.history_buy_repository = HistoryBuyRepository(session=self.session)
-        self.product_category_repository = ProductCategoryRepository(session=self.session)
+        self.product_category_repository = ProductCategoryRepository(
+            session=self.session
+        )
 
     async def __aexit__(self, *args):
         """

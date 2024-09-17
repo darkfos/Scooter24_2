@@ -1,11 +1,11 @@
-#System
+# System
 from typing import Annotated, List, Type
 
-#Other libraries
+# Other libraries
 from fastapi import APIRouter, status, Depends, UploadFile
 from fastapi.responses import FileResponse
 
-#Local
+# Local
 from src.api.exception.http_product_exception import *
 from src.api.dto.product_dto import *
 from src.api.authentication.authentication_service import Authentication
@@ -15,8 +15,7 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 product_router: APIRouter = APIRouter(
-    prefix="/product",
-    tags=["Product - Товары магазина"]
+    prefix="/product", tags=["Product - Товары магазина"]
 )
 
 auth: Type[Authentication] = Authentication()
@@ -33,7 +32,7 @@ auth: Type[Authentication] = Authentication()
     summary="Создание товара",
     status_code=status.HTTP_201_CREATED,
     response_model=ProductIsCreated,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def create_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -58,19 +57,24 @@ async def create_product(
     :return:
     """
 
-    return await ProductService.create_product(engine=session, token=admin_data, new_product=ProductBase(
-        title_product=title_product,
-        price_discount=price_discount,
-        price_product=price_product,
-        explanation_product=explanation_product,
-        quantity_product=quantity_product,
-        article_product=article_product,
-        tags=tags,
-        other_data=other_data,
-        date_create_product=date_create_product,
-        date_update_information=date_update_information,
-        photo_product=""
-    ), photo_product=photo_product)
+    return await ProductService.create_product(
+        engine=session,
+        token=admin_data,
+        new_product=ProductBase(
+            title_product=title_product,
+            price_discount=price_discount,
+            price_product=price_product,
+            explanation_product=explanation_product,
+            quantity_product=quantity_product,
+            article_product=article_product,
+            tags=tags,
+            other_data=other_data,
+            date_create_product=date_create_product,
+            date_update_information=date_update_information,
+            photo_product="",
+        ),
+        photo_product=photo_product,
+    )
 
 
 @product_router.post(
@@ -81,21 +85,22 @@ async def create_product(
     """,
     summary="Добавление категории",
     status_code=status.HTTP_201_CREATED,
-    response_model=None
+    response_model=None,
 )
 async def add_new_category_to_product(
     user_data: Annotated[str, Depends(auth.jwt_auth)],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_product: int,
-    id_category: int
+    id_category: int,
 ) -> None:
-    
+
     return await ProductService.add_new_category(
         admin_data=user_data,
         engine=session,
         id_category=id_category,
-        id_product=id_product
+        id_product=id_product,
     )
+
 
 @product_router.get(
     path="/get_all_products",
@@ -105,7 +110,7 @@ async def add_new_category_to_product(
     """,
     summary="Список товаров",
     status_code=status.HTTP_200_OK,
-    response_model=ListProductBase
+    response_model=ListProductBase,
 )
 async def get_all_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -116,7 +121,9 @@ async def get_all_products(
     :return:
     """
 
-    return await ProductService.get_all_products(engine=session, redis_search_data="all_products")
+    return await ProductService.get_all_products(
+        engine=session, redis_search_data="all_products"
+    )
 
 
 @product_router.get(
@@ -127,14 +134,14 @@ async def get_all_products(
     """,
     summary="Поиск продуктов по фильтру",
     response_model=ListProductBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_products_by_filters(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_category: int = None,
     min_price: int = None,
     max_price: int = None,
-    desc_or_not: bool = False
+    desc_or_not: bool = False,
 ) -> ListProductBase:
     """
     ENDPOINT - Получение списка продуктов по фильтру.
@@ -149,7 +156,8 @@ async def get_products_by_filters(
         sorted_by_price_min=min_price,
         sorted_by_price_max=max_price,
         desc=desc_or_not,
-        redis_search_data="search_by_filters_%s_%s_%s_%s" % (id_category, min_price, max_price, desc_or_not)
+        redis_search_data="search_by_filters_%s_%s_%s_%s"
+        % (id_category, min_price, max_price, desc_or_not),
     )
 
 
@@ -161,11 +169,11 @@ async def get_products_by_filters(
     """,
     summary="Получение всех товаров по категории",
     status_code=status.HTTP_200_OK,
-    response_model=ListProductBase
+    response_model=ListProductBase,
 )
 async def get_products_by_category_or_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    category_data: Union[int, str]
+    category_data: Union[int, str],
 ) -> ListProductBase:
     """
     ENDPOINT - Получение списка товаров по категории
@@ -177,7 +185,7 @@ async def get_products_by_category_or_id(
     return await ProductService.get_products_by_category(
         engine=session,
         category_data=category_data,
-        redis_search_data="find_products_by_id_category_%s" % category_data
+        redis_search_data="find_products_by_id_category_%s" % category_data,
     )
 
 
@@ -189,16 +197,14 @@ async def get_products_by_category_or_id(
     """,
     summary="Получение изображения",
     response_class=FileResponse,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def get_image_product(
-    photo_product_name: str
-) -> FileResponse:
+async def get_image_product(photo_product_name: str) -> FileResponse:
     """
     ### Endpoint - Получение картинки продукта по названию.
     Данный метод позволяет получить картинку продукта по названию
     """
-    
+
     return FileResponse(
         path=f"src/static/{photo_product_name}",
         filename="product_avatar.png",
@@ -216,8 +222,7 @@ async def get_image_product(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def product_is_created(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    product_name: str
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], product_name: str
 ) -> None:
     """
     ENDPOINT - Поиск продукта по названию
@@ -226,7 +231,9 @@ async def product_is_created(
     :return:
     """
 
-    return await ProductService.product_is_created(engine=session, product_name=product_name)
+    return await ProductService.product_is_created(
+        engine=session, product_name=product_name
+    )
 
 
 @product_router.get(
@@ -237,12 +244,12 @@ async def product_is_created(
     """,
     summary="Вся информация о продукте",
     status_code=status.HTTP_200_OK,
-    response_model=ProductAllInformation
+    response_model=ProductAllInformation,
 )
 async def get_all_information_about_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_product: int
+    id_product: int,
 ) -> ProductAllInformation:
     """
     ENDPOINT - Получение всей информации о товаре
@@ -251,7 +258,12 @@ async def get_all_information_about_product(
     :return:
     """
 
-    return await ProductService.get_all_information_about_product(engine=session, token=admin_data, id_product=id_product, redis_search_data="full_information_about_product_by_id_%s" % id_product)
+    return await ProductService.get_all_information_about_product(
+        engine=session,
+        token=admin_data,
+        id_product=id_product,
+        redis_search_data="full_information_about_product_by_id_%s" % id_product,
+    )
 
 
 @product_router.get(
@@ -262,7 +274,7 @@ async def get_all_information_about_product(
     """,
     summary="Рекомендованные товары",
     response_model=ListProductBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def recommended_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -272,18 +284,20 @@ async def recommended_products(
     :session:
     """
 
-    return await ProductService.get_recommended_products(engine=session, redis_search_data="recommended_products")
+    return await ProductService.get_recommended_products(
+        engine=session, redis_search_data="recommended_products"
+    )
 
 
 @product_router.get(
-    path='/new_products',
+    path="/new_products",
     description="""
     ### Endpoint - Получение новых продуктов.
     Данный метод позволяет получить список из <8 новых продуктов
     """,
     summary="Новые продукты",
     response_model=ListProductBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_new_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -293,7 +307,9 @@ async def get_new_products(
     :session:
     """
 
-    return await ProductService.get_new_products(engine=session, redis_search_data="new_products")
+    return await ProductService.get_new_products(
+        engine=session, redis_search_data="new_products"
+    )
 
 
 @product_router.put(
@@ -305,13 +321,13 @@ async def get_new_products(
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="Обновление информации о продукте",
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def update_information_about_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_product: int,
-    data_update: UpdateProduct
+    data_update: UpdateProduct,
 ) -> None:
     """
     ENDPOINT - Обновление информации о продукте.
@@ -324,7 +340,7 @@ async def update_information_about_product(
         engine=session,
         id_product=id_product,
         data_to_update=data_update,
-        token=admin_data
+        token=admin_data,
     )
 
 
@@ -338,7 +354,7 @@ async def update_information_about_product(
     """,
     summary="Обновление фотографии продукта",
     status_code=status.HTTP_204_NO_CONTENT,
-    response_model=None
+    response_model=None,
 )
 async def update_photo_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -355,10 +371,7 @@ async def update_photo_product(
     """
 
     return await ProductService.update_photo(
-        engine=session,
-        photo_data=new_photo,
-        token=admin_data,
-        product_id=product_id
+        engine=session, photo_data=new_photo, token=admin_data, product_id=product_id
     )
 
 
@@ -371,13 +384,13 @@ async def update_photo_product(
     Необходим jwt ключ и Bearer в заголовке запроса.""",
     summary="Обновление скидки",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def update_product_discount(
     session: Annotated[IEngineRepository, Depends(db_work.get_session)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     id_product: int,
-    data_to_update: UpdateProductDiscount
+    data_to_update: UpdateProductDiscount,
 ) -> None:
     """
     Обновление скидки товара
@@ -390,7 +403,7 @@ async def update_product_discount(
         engine=session,
         token=admin_data,
         id_product=id_product,
-        new_discount=data_to_update
+        new_discount=data_to_update,
     )
 
 
@@ -404,12 +417,12 @@ async def update_product_discount(
     """,
     summary="Удаление товара",
     status_code=status.HTTP_204_NO_CONTENT,
-    response_model=None
+    response_model=None,
 )
 async def delete_product_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_product: int
+    id_product: int,
 ) -> None:
     """
     ENDPOINT - Удаление продукта по id.
@@ -419,4 +432,6 @@ async def delete_product_by_id(
     :return:
     """
 
-    return await ProductService.delete_product_by_id(engine=session, id_product=id_product, token=admin_data)
+    return await ProductService.delete_product_by_id(
+        engine=session, id_product=id_product, token=admin_data
+    )

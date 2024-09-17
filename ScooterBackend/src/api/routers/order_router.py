@@ -1,11 +1,11 @@
-#System
+# System
 from typing import Annotated
 
-#Other libraries
+# Other libraries
 from fastapi import Depends, status, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-#Local
+# Local
 from src.api.authentication.authentication_service import Authentication
 from src.database.db_worker import db_work
 from src.api.dto.order_dto import *
@@ -15,8 +15,7 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 auth: Authentication = Authentication()
 order_router: APIRouter = APIRouter(
-    prefix="/order",
-    tags=["Order - Заказы пользователей"]
+    prefix="/order", tags=["Order - Заказы пользователей"]
 )
 
 
@@ -29,12 +28,12 @@ order_router: APIRouter = APIRouter(
     """,
     summary="Создание заказа",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def create_a_new_order(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_order: AddOrder
+    new_order: AddOrder,
 ) -> None:
     """
     ENDPOINT - Добавление нового заказа
@@ -44,7 +43,9 @@ async def create_a_new_order(
     :return:
     """
 
-    return await OrderService.create_new_order(engine=session, token=user_data, new_order=new_order)
+    return await OrderService.create_new_order(
+        engine=session, token=user_data, new_order=new_order
+    )
 
 
 @order_router.get(
@@ -56,11 +57,11 @@ async def create_a_new_order(
     """,
     summary="Все заказы пользователя",
     response_model=ListOrderAndUserInformation,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_orders_by_id_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)]
+    user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> ListOrderAndUserInformation:
     """
     ENDPOINT - Получение всех заказов пользователя, подробная информация
@@ -69,7 +70,11 @@ async def get_orders_by_id_user(
     :return:
     """
 
-    return await OrderService.get_full_information_by_user_id(engine=session, token=user_data, redis_search_data="orders_by_token_%s" % user_data)
+    return await OrderService.get_full_information_by_user_id(
+        engine=session,
+        token=user_data,
+        redis_search_data="orders_by_token_%s" % user_data,
+    )
 
 
 @order_router.get(
@@ -80,12 +85,12 @@ async def get_orders_by_id_user(
     """,
     summary="Информация о заказе",
     status_code=status.HTTP_200_OK,
-    response_model=OrderAndUserInformation
+    response_model=OrderAndUserInformation,
 )
 async def get_information_about_order_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_order: int
+    id_order: int,
 ) -> OrderAndUserInformation:
     """
     ENDPOINT - Получение информации о заказе по id заказа
@@ -96,7 +101,10 @@ async def get_information_about_order_by_id(
     """
 
     return await OrderService.get_information_about_order_by_id(
-        engine=session, token=user_data, id_order=id_order, redis_search_data="order_by_id_%s" % id_order
+        engine=session,
+        token=user_data,
+        id_order=id_order,
+        redis_search_data="order_by_id_%s" % id_order,
     )
 
 
@@ -110,12 +118,12 @@ async def get_information_about_order_by_id(
     """,
     summary="Удаление заказа",
     status_code=status.HTTP_204_NO_CONTENT,
-    response_model=None
+    response_model=None,
 )
 async def delete_order_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_order: int
+    id_order: int,
 ) -> None:
     """
     ENDPOINT - Удаление заказа по id
@@ -125,4 +133,6 @@ async def delete_order_by_id(
     :return:
     """
 
-    return await OrderService.delete_order_by_id(engine=session, token=user_data, id_order=id_order)
+    return await OrderService.delete_order_by_id(
+        engine=session, token=user_data, id_order=id_order
+    )

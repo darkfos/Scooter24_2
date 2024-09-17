@@ -1,12 +1,12 @@
-#System
+# System
 from typing import Annotated, List, Union
 
 
-#Other libraries
+# Other libraries
 from fastapi import APIRouter, status, Depends
 
 
-#Local
+# Local
 from src.api.service.type_worker_service import TypeWorkerService
 from src.api.authentication.authentication_service import Authentication
 from src.api.dto.type_worker_dto import TypeWorkerBase, TypeWorkerList
@@ -15,8 +15,7 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 auth: Authentication = Authentication()
 type_worker_router: APIRouter = APIRouter(
-    prefix="/type_worker",
-    tags=["TypeWorker - Тип работников"]
+    prefix="/type_worker", tags=["TypeWorker - Тип работников"]
 )
 
 
@@ -30,12 +29,12 @@ type_worker_router: APIRouter = APIRouter(
     summary="Создание типа работника",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def create_new_type_worker(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_type_worker: TypeWorkerBase
+    new_type_worker: TypeWorkerBase,
 ) -> None:
     """
     ENDPOINT - Создание нового типа работникаю
@@ -45,9 +44,7 @@ async def create_new_type_worker(
     """
 
     return await TypeWorkerService.create_a_new_type_worker(
-        engine=session,
-        token=admin_data,
-        new_type_worker=new_type_worker
+        engine=session, token=admin_data, new_type_worker=new_type_worker
     )
 
 
@@ -56,7 +53,7 @@ async def create_new_type_worker(
     description="""### Endpoint - Получение всех типов работников.""",
     summary="Все типы работников",
     response_model=TypeWorkerList,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_types_workers(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -66,8 +63,7 @@ async def get_all_types_workers(
     """
 
     return await TypeWorkerService.get_all_types(
-        engine=session,
-        redis_search_data="get_all_types_workers"
+        engine=session, redis_search_data="get_all_types_workers"
     )
 
 
@@ -77,16 +73,16 @@ async def get_all_types_workers(
     Необходимо передать id типа работника в query параметры""",
     summary="Поиск типа работника по id",
     response_model=TypeWorkerBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_type_worker_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_type_worker: int
+    id_type_worker: int,
 ) -> TypeWorkerBase:
     return await TypeWorkerService.get_type_worker_by_id(
         engine=session,
         id_type_worker=id_type_worker,
-        redis_search_data="type_worker_by_id_%s" % id_type_worker
+        redis_search_data="type_worker_by_id_%s" % id_type_worker,
     )
 
 
@@ -99,7 +95,7 @@ async def get_type_worker_by_id(
     """,
     summary="Удаление типа работника",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_type_worker(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -110,4 +106,6 @@ async def delete_type_worker(
     ENDPOINT - Удаление типа работника
     """
 
-    return await TypeWorkerService.delete_type_worker(engine=session, id_type_worker=id_type, token=admin_data)
+    return await TypeWorkerService.delete_type_worker(
+        engine=session, id_type_worker=id_type, token=admin_data
+    )

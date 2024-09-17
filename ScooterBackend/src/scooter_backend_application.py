@@ -1,7 +1,7 @@
-#Local
+# Local
 from src.settings.api_settings import APISettings
 
-#ROUTES
+# ROUTES
 from src.api.routers.user_router import user_router as user_router
 from src.api.routers.authentication_router import auth_router as auth_router
 from src.api.routers.category_router import category_router as category_router
@@ -18,7 +18,7 @@ from src.api.routers.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
 
-#Other libraries
+# Other libraries
 from fastapi import FastAPI, status, APIRouter
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -33,16 +33,16 @@ class ScooterBackendApplication:
         self.scooter24_app: Type[FastAPI] = FastAPI(
             title="Scooter24 API",
             description="Программный интерфейс для сайта по продаже мото-деталей",
-            #lifespan=connection_db
+            # lifespan=connection_db
         )
 
-        #Static's
+        # Static's
         self.statics: Type[StaticFiles] = StaticFiles(directory="src/static")
         self.scooter24_app.mount(path="/static", app=self.statics, name="static")
 
-        #Admjn panel
+        # Admjn panel
         self.admin: Type[AdminPanel] = AdminPanel(app=self.scooter24_app)
-        #Initialize model's view
+        # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
         self.origins: List[str] = ["*", "http://localhost:8000"]
@@ -51,28 +51,39 @@ class ScooterBackendApplication:
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
-        routers_list: List[APIRouter] = [auth_router, user_router, admin_router, product_router, favourite_router, category_router,
-                                         vacancies_router, type_worker_router, api_v1_router.get_api_v1, history_buy_router,
-                                         order_router, review_router]
+        routers_list: List[APIRouter] = [
+            auth_router,
+            user_router,
+            admin_router,
+            product_router,
+            favourite_router,
+            category_router,
+            vacancies_router,
+            type_worker_router,
+            api_v1_router.get_api_v1,
+            history_buy_router,
+            order_router,
+            review_router,
+        ]
         if routers:
             routers_list.extend(routers)
 
         for router in routers_list:
             self.scooter24_app.include_router(router=router)
-    
+
     def added_middleware(self) -> None:
         self.scooter24_app.add_middleware(
             CORSMiddleware,
             allow_origins=self.origins,
             allow_credentials=True,
             allow_method=["*"],
-            allow_headers=["*"]
+            allow_headers=["*"],
         )
 
     @staticmethod
     @asynccontextmanager
     async def connection_db(app: FastAPI) -> None:
-        #lifespan for db
+        # lifespan for db
         # await db_work.create_tables()
         # yield
         pass

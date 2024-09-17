@@ -5,11 +5,13 @@ class APIError:
     """
     Класс для вызова ошибок в API
     """
-    
+
     def __init__(self):
         from fastapi import HTTPException, status
 
-    async def api_error(self, code: status, detail_inf: str = "Ошибка", header: str = None):
+    async def api_error(
+        self, code: status, detail_inf: str = "Ошибка", header: str = None
+    ):
         """
         Базовая ошибка
         :param code:
@@ -18,8 +20,4 @@ class APIError:
         :return:
         """
 
-        raise HTTPException(
-            status_code=code,
-            detail=detail_inf,
-            headers=header
-        )
+        raise HTTPException(status_code=code, detail=detail_inf, headers=header)

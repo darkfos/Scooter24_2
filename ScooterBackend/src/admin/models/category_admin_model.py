@@ -5,7 +5,7 @@ from typing import List, Any
 
 class CategoryModelView(ModelView, model=Category):
 
-    #Metadata
+    # Metadata
     name: str = "Категории"
     name_plural: str = "Добавить категорию"
     icon: str = "fa fa-tags"
@@ -14,7 +14,7 @@ class CategoryModelView(ModelView, model=Category):
     column_list: List[Any] = [Category.id, Category.name_category]
     column_labels: dict = {
         Category.id: "Идентификатор категории",
-        Category.name_category: "Название категории"
+        Category.name_category: "Название категории",
     }
 
     can_create: bool = True

@@ -25,15 +25,11 @@ def upgrade():
     )
     op.add_column(
         "User",
-        sa.Column(
-            "surname_user_address", sa.String(length=200), nullable=True
-        ),
+        sa.Column("surname_user_address", sa.String(length=200), nullable=True),
     )
     op.add_column(
         "User",
-        sa.Column(
-            "name_company_address", sa.String(length=200), nullable=True
-        ),
+        sa.Column("name_company_address", sa.String(length=200), nullable=True),
     )
     op.add_column(
         "User",
@@ -54,9 +50,7 @@ def upgrade():
     op.add_column(
         "User", sa.Column("address_area", sa.String(length=350), nullable=True)
     )
-    op.add_column(
-        "User", sa.Column("address_index", sa.Integer(), nullable=True)
-    )
+    op.add_column("User", sa.Column("address_index", sa.Integer(), nullable=True))
     op.add_column(
         "User",
         sa.Column("address_phone_number", sa.String(length=40), nullable=True),

@@ -27,9 +27,7 @@ def upgrade():
         "Product",
         sa.Column("date_update_information", sa.Date(), nullable=False),
     )
-    op.add_column(
-        "User", sa.Column("date_registration", sa.Date(), nullable=False)
-    )
+    op.add_column("User", sa.Column("date_registration", sa.Date(), nullable=False))
     op.add_column("User", sa.Column("date_update", sa.Date(), nullable=False))
     # ### end Alembic commands ###
 

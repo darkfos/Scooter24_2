@@ -1,9 +1,9 @@
-#System
+# System
 import os
 from typing import Union, Type, Annotated
 from dotenv import load_dotenv
 
-#Local
+# Local
 from src.settings.descriptor import SettingsDescriptor
 
 
@@ -16,10 +16,10 @@ class EmailTransferSettings:
 
     def __init__(self) -> None:
         load_dotenv()
-        self.email=os.getenv("EMAIL")
-        self.password=os.getenv("PASSWORD")
-        self.secret_symbols=os.getenv("SECRET_SYMBOLS")
-        self.min_length_key=int(os.getenv("MIN_LENGTH_KEY"))
+        self.email = os.getenv("EMAIL")
+        self.password = os.getenv("PASSWORD")
+        self.secret_symbols = os.getenv("SECRET_SYMBOLS")
+        self.min_length_key = int(os.getenv("MIN_LENGTH_KEY"))
 
     def __str__(self) -> str:
         return f"{type(self)}"

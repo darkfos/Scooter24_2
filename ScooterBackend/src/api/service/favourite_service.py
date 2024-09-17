@@ -1,10 +1,10 @@
-#System
+# System
 from typing import List, Dict, Union, Coroutine, Any, Type
 
-#Other libraries
+# Other libraries
 pass
 
-#Local
+# Local
 from src.api.authentication.authentication_service import Authentication
 from src.api.exception.http_favourite_exception import FavouriteHttpError
 from src.api.exception.http_user_exception import UserHttpError
@@ -13,7 +13,7 @@ from src.api.dto.favourite_dto import *
 from src.api.dep.dependencies import IEngineRepository
 
 
-#Redis
+# Redis
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
@@ -23,9 +23,7 @@ class FavouriteService:
 
     @staticmethod
     async def create_favourite_product(
-        engine: IEngineRepository,
-        token: str,
-        new_product_in_favourite: AddFavourite
+        engine: IEngineRepository, token: str, new_product_in_favourite: AddFavourite
     ) -> None:
         """
         Добавление нового товара в избранное
@@ -35,15 +33,17 @@ class FavouriteService:
         :return:
         """
 
-        #Получаем данные из токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        # Получаем данные из токена
+        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
+            await Authentication().decode_jwt_token(token=token, type_token="access")
+        )
 
         async with engine:
-            #Проверка на добавление в избранное
+            # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
                 data=Favourite(
                     id_user=jwt_data.get("id_user"),
-                    id_product=new_product_in_favourite.id_product
+                    id_product=new_product_in_favourite.id_product,
                 )
             )
 
@@ -54,7 +54,9 @@ class FavouriteService:
 
     @redis
     @staticmethod
-    async def get_all_favourite_product_by_user_id(engine: IEngineRepository, token: str, redis_search_data: str) -> FavouriteBase:
+    async def get_all_favourite_product_by_user_id(
+        engine: IEngineRepository, token: str, redis_search_data: str
+    ) -> FavouriteBase:
         """
         Список всех избранных товаров пользователя.
         :param session:
@@ -63,12 +65,18 @@ class FavouriteService:
         :return:
         """
 
-        #Получаем данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        # Получаем данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
+            token=token, type_token="access"
+        )
 
         async with engine:
-            #Получаем список товаров
-            all_favourite_products: Union[List, List[Favourite]] = await engine.favourite_repository.get_all_data_for_id_user(id_user=jwt_data.get("id_user"))
+            # Получаем список товаров
+            all_favourite_products: Union[List, List[Favourite]] = (
+                await engine.favourite_repository.get_all_data_for_id_user(
+                    id_user=jwt_data.get("id_user")
+                )
+            )
 
             if all_favourite_products:
                 product_data: list = []
@@ -79,7 +87,8 @@ class FavouriteService:
                                 "product_name": product.product_info.title_product,
                                 "price_product": product.product_info.price_product,
                                 "article_product": product.product_info.article_product,
-                                "tags": product.product_info.tags}
+                                "tags": product.product_info.tags,
+                            }
                         )
                     )
 
@@ -93,7 +102,7 @@ class FavouriteService:
         engine: IEngineRepository,
         token: str,
         id_fav_product: int,
-        redis_search_data: str
+        redis_search_data: str,
     ) -> FavouriteInformation:
         """
         Метод сервиса для получение полной информации о избранном товаре
@@ -103,16 +112,25 @@ class FavouriteService:
         :return:
         """
 
-        #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        # Данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
+            token=token, type_token="access"
+        )
 
         async with engine:
-            #Проверка на администратора
-            is_admin: bool = await engine.admin_repository.find_admin_by_email_and_password(email=jwt_data.get("email"))
+            # Проверка на администратора
+            is_admin: bool = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    email=jwt_data.get("email")
+                )
+            )
 
             if is_admin:
-                find_favourite_product: Union[Favourite, None] = \
-                    await engine.favourite_repository.get_all_data_for_favourite_product_by_id(id_fav_product=id_fav_product)
+                find_favourite_product: Union[Favourite, None] = (
+                    await engine.favourite_repository.get_all_data_for_favourite_product_by_id(
+                        id_fav_product=id_fav_product
+                    )
+                )
 
                 if find_favourite_product:
                     return FavouriteInformation(
@@ -120,11 +138,11 @@ class FavouriteService:
                             "name_product": find_favourite_product.product_info.title_product,
                             "price_product": find_favourite_product.product_info.price_product,
                             "description": find_favourite_product.product_info.explanation_product,
-                            "id_category": find_favourite_product.product_info.id_category
+                            "id_category": find_favourite_product.product_info.id_category,
                         },
                         user_detail_information={
                             "email_user": find_favourite_product.fav_user.email_user,
-                            "name_user": find_favourite_product.fav_user.name_user
+                            "name_user": find_favourite_product.fav_user.name_user,
                         },
                     )
 
@@ -134,8 +152,7 @@ class FavouriteService:
 
     @staticmethod
     async def get_all_favourites(
-        engine: IEngineRepository,
-        token: str
+        engine: IEngineRepository, token: str
     ) -> Union[List, List[FavouriteSmallData]]:
         """
         Получение всех избранных товаров
@@ -144,15 +161,23 @@ class FavouriteService:
         :return:
         """
 
-        #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        # Данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
+            token=token, type_token="access"
+        )
 
         async with engine:
-            #Проверка на администратора
-            is_admin: bool = await engine.admin_repository.find_admin_by_email_and_password(email=jwt_data.get("email"))
+            # Проверка на администратора
+            is_admin: bool = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    email=jwt_data.get("email")
+                )
+            )
 
             if is_admin:
-                all_fav: Union[List, List[Favourite]] =  await engine.favourite_repository.find_all()
+                all_fav: Union[List, List[Favourite]] = (
+                    await engine.favourite_repository.find_all()
+                )
                 if all_fav:
                     all_fav_products: List[FavouriteSmallData] = list()
 
@@ -161,7 +186,7 @@ class FavouriteService:
                             FavouriteSmallData(
                                 id_fav=fav.id,
                                 id_product=fav.id_product,
-                                id_user=fav.id_user
+                                id_user=fav.id_user,
                             )
                         )
 
@@ -172,9 +197,7 @@ class FavouriteService:
 
     @staticmethod
     async def delete_favourite_product(
-        engine: IEngineRepository,
-        token: str,
-        id_favourite: int
+        engine: IEngineRepository, token: str, id_favourite: int
     ) -> None:
         """
         Метод сервиса для удаление товара из списка избранных.
@@ -184,19 +207,26 @@ class FavouriteService:
         :return:
         """
 
-        #Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(token=token, type_token="access")
+        # Данные токена
+        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
+            token=token, type_token="access"
+        )
 
         async with engine:
-            #Проверка на пользователя
-            get_favourite_data: Union[None, Favourite] = await engine.favourite_repository.find_one(other_id=id_favourite)
+            # Проверка на пользователя
+            get_favourite_data: Union[None, Favourite] = (
+                await engine.favourite_repository.find_one(other_id=id_favourite)
+            )
 
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
 
                 if get_favourite_data.id_user == jwt_data.get("id_user"):
-                    is_deleted: bool = await engine.favourite_repository.delete_one(other_id=id_favourite)
-                    if is_deleted: return
+                    is_deleted: bool = await engine.favourite_repository.delete_one(
+                        other_id=id_favourite
+                    )
+                    if is_deleted:
+                        return
                     await FavouriteHttpError().http_failed_to_delete_favourite()
                 await UserHttpError().http_user_not_found()
             await FavouriteHttpError().http_favourite_not_found()

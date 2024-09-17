@@ -1,4 +1,4 @@
-#Other libraries
+# Other libraries
 from fastapi import APIRouter, Depends, status, BackgroundTasks
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
@@ -6,8 +6,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import EmailStr
 from typing import Annotated
 
-#Local
-from src.api.dto.auth_dto import Tokens, CreateToken, RegistrationUser, RefreshUpdateToken, AccessToken
+# Local
+from src.api.dto.auth_dto import (
+    Tokens,
+    CreateToken,
+    RegistrationUser,
+    RefreshUpdateToken,
+    AccessToken,
+)
 from src.api.dto.user_dto import AddUser
 from src.database.db_worker import db_work
 from src.api.authentication.authentication_service import Authentication
@@ -17,8 +23,7 @@ from src.other.data_email_transfer import email_transfer
 
 
 auth_router: APIRouter = APIRouter(
-    prefix="/auth",
-    tags=["Auth - Система аутентификации, авторизации, регистрации"]
+    prefix="/auth", tags=["Auth - Система аутентификации, авторизации, регистрации"]
 )
 authentication_app: Authentication = Authentication()
 
@@ -35,10 +40,13 @@ authentication_app: Authentication = Authentication()
     """,
     summary="Авторизация",
     response_model=AccessToken,
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
-async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
-                     session: Annotated[IEngineRepository, Depends(EngineRepository)], response: Response):
+async def login_user(
+    data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    response: Response,
+):
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -47,14 +55,18 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
 
     tokens = await authentication_app.create_tokens(
         token_data=CreateToken(email=data_login.username, password=data_login.password),
-        engine=session
+        engine=session,
     )
 
-    #Set cookie's
+    # Set cookie's
     response.set_cookie(key="refresh_key", value=tokens.refresh_token)
     response.set_cookie(key="token_type", value="bearer")
 
-    return AccessToken(access_token=tokens.token, token_type="bearer", refresh_token=tokens.refresh_token)
+    return AccessToken(
+        access_token=tokens.token,
+        token_type="bearer",
+        refresh_token=tokens.refresh_token,
+    )
 
 
 @auth_router.post(
@@ -66,11 +78,10 @@ async def login_user(data_login: Annotated[OAuth2PasswordRequestForm, Depends()]
     """,
     summary="Авторизация",
     response_model=RegistrationUser,
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
 async def registration_user(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    new_user: AddUser
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], new_user: AddUser
 ) -> RegistrationUser:
     """
     Создание нового пользователя
@@ -91,11 +102,9 @@ async def registration_user(
     """,
     summary="Обновление токена",
     response_model=Tokens,
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
-async def update_by_refresh_token(
-    refresh_token: RefreshUpdateToken
-) -> Tokens:
+async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
     """
     Обновление существующего токена
     :param session:
@@ -103,7 +112,9 @@ async def update_by_refresh_token(
     :return:
     """
 
-    data_tokens: str = await authentication_app.update_token(refresh_token=refresh_token.refresh_token)
+    data_tokens: str = await authentication_app.update_token(
+        refresh_token=refresh_token.refresh_token
+    )
     return Tokens(token=data_tokens, refresh_token=refresh_token.refresh_token)
 
 
@@ -115,7 +126,7 @@ async def update_by_refresh_token(
     """,
     summary="Отправка сообщения по почте",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def create_and_send_secret_key(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -127,8 +138,15 @@ async def create_and_send_secret_key(
     :user_email:
     """
 
-    token_data: dict = await authentication_app.decode_jwt_token(token=user_data, type_token="access")
-    return background_task.add_task(UserService.send_secret_key_by_update_password, session, token_data.get("email"), user_data)
+    token_data: dict = await authentication_app.decode_jwt_token(
+        token=user_data, type_token="access"
+    )
+    return background_task.add_task(
+        UserService.send_secret_key_by_update_password,
+        session,
+        token_data.get("email"),
+        user_data,
+    )
 
 
 @auth_router.post(
@@ -139,13 +157,13 @@ async def create_and_send_secret_key(
     Необходим новый пароль.""",
     summary="Обновление пароля",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def update_password_with_email(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
     secret_key: str,
-    new_password: str
+    new_password: str,
 ) -> None:
     """
     Обновление пароля пользователя
@@ -155,5 +173,5 @@ async def update_password_with_email(
         engine=session,
         secret_key=secret_key,
         token=user_data,
-        new_password=new_password
+        new_password=new_password,
     )

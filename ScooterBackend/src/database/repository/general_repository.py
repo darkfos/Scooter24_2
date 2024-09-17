@@ -1,10 +1,12 @@
-#Other libraries
+# Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
 from typing import Type
+import logging
 
-#Local
+# Local
 ...
+
 
 class GeneralSQLRepository:
 
@@ -20,12 +22,14 @@ class GeneralSQLRepository:
         """
 
         try:
+            logging.info(msg=f"{self.model.__class__.__name__} Добавление записи, data={data}")
             stmt = insert(self.model).values(data.read_model()).returning(self.model.id)
             result = await self.async_session.execute(stmt)
             if result:
                 await self.async_session.commit()
                 return result.scalar()
             else:
+                logging.exception(msg=f"{self.model.__class__.__name__} Не удалось добавить новую запись")
                 raise Exception
         except Exception as ex:
             await self.async_session.rollback()
@@ -38,6 +42,7 @@ class GeneralSQLRepository:
         :return:
         """
 
+        logging.info(msg=f"{self.model.__class__.__name__} Получение записи по ключу = {other_id}")
         stmt = select(self.model).where(self.model.id == other_id)
         information_about_object = await self.async_session.execute(stmt)
         return information_about_object.fetchone()
@@ -48,6 +53,7 @@ class GeneralSQLRepository:
         :return:
         """
 
+        logging.info(msg=f"{self.model.__class__.__name__} Получение всех записей")
         stmt = select(self.model)
         all_info = await self.async_session.execute(stmt)
         return all_info.fetchall()
@@ -60,14 +66,22 @@ class GeneralSQLRepository:
         :return:
         """
 
-        data_to_update = {data: data_to_update.get(data) for data in data_to_update if data_to_update.get(data) != None}
-        stmt = update(self.model).where(self.model.id == other_id).values(data_to_update)
+        logging.info(msg=f"{self.model.__class__.__name__} Обновление данных по id={other_id}, data={data_to_update}")
+        data_to_update = {
+            data: data_to_update.get(data)
+            for data in data_to_update
+            if data_to_update.get(data) != None
+        }
+        stmt = (
+            update(self.model).where(self.model.id == other_id).values(data_to_update)
+        )
         try:
             update_data = await self.async_session.execute(stmt)
             if update_data:
                 await self.async_session.commit()
                 return True
             else:
+                logging.exception(msg=f"{self.model.__class__.__name__} Не удалось обновить данные")
                 raise Exception
         except Exception as ex:
             await self.async_session.rollback()
@@ -80,11 +94,14 @@ class GeneralSQLRepository:
         :return:
         """
 
+        logging.info(msg=f"{self.model.__class__.__name__} Удаление записи по id={other_id}")
         stmt = delete(self.model).where(self.model.id == other_id)
         res_to_del: int = (await self.async_session.execute(stmt)).rowcount
         if res_to_del:
             await self.async_session.commit()
-            if res_to_del > 0: return True
+            if res_to_del > 0:
+                return True
         else:
             await self.async_session.rollback()
+            logging.critical(msg=f"{self.model.__class__.__name__} Не удалось удалить запись по id={other_id}")
             return False

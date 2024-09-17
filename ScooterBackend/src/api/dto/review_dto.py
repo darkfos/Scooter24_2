@@ -1,10 +1,10 @@
-#System
+# System
 from typing import Union, Annotated, Dict, List
 
-#Other libraries
+# Other libraries
 from pydantic import BaseModel, Field
 
-#Local
+# Local
 from src.database.models.category import Category
 
 

@@ -1,10 +1,15 @@
-#Other
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession, AsyncEngine
+# Other
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_sessionmaker,
+    AsyncSession,
+    AsyncEngine,
+)
 
-#System
+# System
 from typing import Union, Type
 
-#Local
+# Local
 
 ##MODELS##
 from src.database.models.product import Product
@@ -34,19 +39,21 @@ class DatabaseEngine:
 
     def __init__(self):
         self.db_engine: Type[AsyncEngine] = create_async_engine(
-            url=Settings.database_settings.db_url,
-            echo=True
+            url=Settings.database_settings.db_url, echo=True
         )
-        self.async_session: Type[async_sessionmaker] = async_sessionmaker(bind=self.db_engine)
+        self.async_session: Type[async_sessionmaker] = async_sessionmaker(
+            bind=self.db_engine
+        )
 
     async def create_tables(self):
-        #Creating tables
+        # Creating tables
         async with self.db_engine.begin() as session:
             await session.run_sync(MainBase.metadata.create_all)
 
     async def get_session(self) -> AsyncSession:
-        #Return session
+        # Return session
         async with self.async_session.begin() as session:
             return session
+
 
 db_work: DatabaseEngine = DatabaseEngine()

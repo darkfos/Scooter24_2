@@ -1,10 +1,10 @@
-#Other libraries
+# Other libraries
 import datetime
 
 from pydantic import BaseModel, Field, EmailStr
 from typing import Annotated, Union, List, Dict, Any
 
-#Local
+# Local
 from src.database.models.order import Order
 from src.database.models.review import Review
 from src.database.models.history_buy import HistoryBuy
@@ -45,7 +45,7 @@ class AddUser(UserBase):
 
 class UpdateDataUser(BaseModel):
     """
-     Обновление данных о пользователе
+    Обновление данных о пользователе
     """
 
     name_user: Annotated[str, Field(le=100)]

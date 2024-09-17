@@ -1,12 +1,13 @@
-#System
+# System
 from typing import Union, List, Type
+import logging
 
-#Other
+# Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Result
 from sqlalchemy import select, update, delete
 
-#Local
+# Local
 from src.database.models.category import Category
 from src.database.db_worker import db_work
 from src.database.repository.general_repository import GeneralSQLRepository
@@ -25,17 +26,19 @@ class CategoryRepository(GeneralSQLRepository):
         :return:
         """
 
+        #Logging
+        logging.info(msg=f"{self.__class__.__name} Осуществлен поиск категории по названию category_name={category_name}, type_find={type_find}")
+
         stmt = select(Category).where(Category.name_category == category_name)
         res_to_find = (await self.async_session.execute(stmt)).one_or_none()
 
         if type_find:
             return res_to_find[0]
-
-        if res_to_find:
-            return True
+        
+        logging.critical(msg=f"{self.__class__.__name} Не удалось найти категорию по названию category_name={category_name}, type_find={type_find}")
         return False
 
-    async def del_more(session: AsyncSession, id_categories: List[int]) -> bool:
+    async def del_more(self, session: AsyncSession, id_categories: List[int]) -> bool:
         """
         Удаление нескольких категорий
         :param args:
@@ -43,6 +46,7 @@ class CategoryRepository(GeneralSQLRepository):
         :return:
         """
 
+        logging.info(msg=f"{self.__class__.__name} Осуществление операции удаления категории по id_categories={id_categories}")
         for id_cat in id_categories:
             delete_category = delete(Category).where(Category.id == id_cat)
             await session.execute((delete_category))

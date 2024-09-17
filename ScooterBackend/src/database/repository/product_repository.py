@@ -1,12 +1,13 @@
-#System
+# System
 from typing import List, Union, Type
+import logging
 
-#Other
+# Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, Result
 from sqlalchemy.orm import joinedload
 
-#Local
+# Local
 from src.database.models.product import Product
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
@@ -27,6 +28,7 @@ class ProductRepository(GeneralSQLRepository):
         :return:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Удаление нескольких товаров id={id_product}")
         for id_product in id_products:
             delete_product = delete(Product).where(Product.id == id_product)
             await session.execute(delete_product)
@@ -34,7 +36,9 @@ class ProductRepository(GeneralSQLRepository):
 
         return True
 
-    async def find_by_category(self, how_to_find: Union[str, int]) -> Union[List, List[Product]]:
+    async def find_by_category(
+        self, how_to_find: Union[str, int]
+    ) -> Union[List, List[Product]]:
         """
         Поиск товаров по категории
         :param session:
@@ -42,19 +46,24 @@ class ProductRepository(GeneralSQLRepository):
         :return:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Поиск товаров по категории")
         if isinstance(how_to_find, int):
-            stmt = select(Product).join(ProductCategory).where(ProductCategory.id_category == how_to_find)
+            stmt = (
+                select(Product)
+                .join(ProductCategory)
+                .where(ProductCategory.id_category == how_to_find)
+            )
             all_products = (await self.async_session.execute(stmt)).fetchall()
             return all_products
         elif isinstance(how_to_find, str):
-            #Поиск категории
+            # Поиск категории
             stmt = select(Category).where(Category.name_category == how_to_find)
             category_data = (await self.async_session.execute(stmt)).one_or_none()
 
             if category_data:
                 category_data: Category = category_data[0]
 
-                #Поиск товаров
+                # Поиск товаров
                 stmt = select(Product).where(Product.id_category == category_data.id)
                 all_products = (await self.async_session.execute(stmt)).fetchall()
                 return all_products
@@ -62,11 +71,12 @@ class ProductRepository(GeneralSQLRepository):
 
     async def find_product_by_name(self, name_product: str) -> Union[None, Product]:
         """
-        Поиск продукта по названи.
+        Поиск продукта по названию.
         :param name_product:
         :return:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Поиск продукта по названию name_product={name_product}")
         stmt = select(Product).where(Product.title_product == name_product)
         product_data = (await self.async_session.execute(stmt)).one_or_none()
 
@@ -79,17 +89,24 @@ class ProductRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Product).where(Product.id == id_product).options(
-            joinedload(Product.reviews),
-            joinedload(Product.product_info_for_fav),
-            joinedload(Product.order),
-            joinedload(Product.product_all_categories)
+        logging.info(msg=f"{self.__class__.__name__} Получение всей информации о продукте id_product={id_product}")
+        stmt = (
+            select(Product)
+            .where(Product.id == id_product)
+            .options(
+                joinedload(Product.reviews),
+                joinedload(Product.product_info_for_fav),
+                joinedload(Product.order),
+                joinedload(Product.product_all_categories),
+            )
         )
         product_data = (await self.async_session.execute(stmt)).unique().one_or_none()
 
         return product_data
 
-    async def find_by_filters(self, id_categories: int, min_price: int, max_price: int, desc: bool) -> Union[List, List[Product]]:
+    async def find_by_filters(
+        self, id_categories: int, min_price: int, max_price: int, desc: bool
+    ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов по фильтру
         :param id_categories:
@@ -97,11 +114,14 @@ class ProductRepository(GeneralSQLRepository):
         :param max_price:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам id_categories={id_categories}; min_price={min_price}; max_price={max_price}; desc={desc}")
         stmt = select(Product).options(joinedload(Product.product_all_categories))
 
         if id_categories:
-            stmt = stmt.join(ProductCategory).filter(ProductCategory.id_category == id_categories)
-        
+            stmt = stmt.join(ProductCategory).filter(
+                ProductCategory.id_category == id_categories
+            )
+
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)
         if max_price:
@@ -110,7 +130,9 @@ class ProductRepository(GeneralSQLRepository):
         if desc:
             stmt = stmt.order_by(Product.price_product.desc())
 
-        products: Union[List, List[Product]] = (await self.async_session.execute(stmt)).unique().scalars().all()
+        products: Union[List, List[Product]] = (
+            (await self.async_session.execute(stmt)).unique().scalars().all()
+        )
         return products
 
     async def get_products_by_date(self) -> Union[None, List[Product]]:
@@ -119,6 +141,7 @@ class ProductRepository(GeneralSQLRepository):
         :session:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Получение всех товаров по новым датам")
         stmt = select(Product).order_by(Product.date_create_product.desc())
         products = (await self.async_session.execute(stmt)).fetchall()
 

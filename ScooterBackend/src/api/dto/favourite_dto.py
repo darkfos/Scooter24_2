@@ -1,8 +1,8 @@
-#Other libraries
+# Other libraries
 from pydantic import BaseModel, Field
 from typing import Annotated, Union, List, Dict
 
-#Local
+# Local
 from src.database.models.product import Product
 
 

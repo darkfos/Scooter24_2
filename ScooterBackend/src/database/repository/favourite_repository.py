@@ -1,12 +1,13 @@
-#System
+# System
 from typing import Union, List, Type
+import logging
 
-#Other
+# Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, Result
 from sqlalchemy.orm import joinedload
 
-#Local
+# Local
 from src.database.models.favourite import Favourite
 from src.database.repository.general_repository import GeneralSQLRepository
 
@@ -25,6 +26,8 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
+        logging.info(msg=f"{self.__class__.__name__} Осуществлён процесс удаления избранных товаров id_favourites={id_favourites}")
+
         for id_fav in id_favourites:
             del_favourite: Result = delete(Favourite).where(Favourite.id == id_fav)
             await self.async_session.execute(del_favourite)
@@ -32,36 +35,49 @@ class FavouriteRepository(GeneralSQLRepository):
 
         return True
 
-    async def get_all_data_for_id_user(self, id_user: int) -> Union[List, List[Favourite]]:
+    async def get_all_data_for_id_user(
+        self, id_user: int
+    ) -> Union[List, List[Favourite]]:
         """
         Список избранных товаров
         :param id_user:
         :return:
         """
 
-        stmt = select(Favourite).where(Favourite.id_user == id_user).options(
-            joinedload(Favourite.fav_user),
-            joinedload(Favourite.product_info)
+        logging.info(msg=f"{self.__class__.__name} Осуществлён процесс получения списка избранных товаров по id_user=%s" % id_user)
+
+        stmt = (
+            select(Favourite)
+            .where(Favourite.id_user == id_user)
+            .options(joinedload(Favourite.fav_user), joinedload(Favourite.product_info))
         )
 
-        all_data_products = ((await self.async_session.execute(stmt)).unique()).fetchall()
+        all_data_products = (
+            (await self.async_session.execute(stmt)).unique()
+        ).fetchall()
 
         if all_data_products:
             return all_data_products[0]
         return all_data_products
 
-    async def get_all_data_for_favourite_product_by_id(self, id_fav_product: int) -> Union[None, Favourite]:
+    async def get_all_data_for_favourite_product_by_id(
+        self, id_fav_product: int
+    ) -> Union[None, Favourite]:
         """
         Получение полной информации о избранном товаре
         :param id_fav_product:
         :return:
         """
 
-        stmt = select(Favourite).where(Favourite.id == id_fav_product).options(
-            joinedload(Favourite.fav_user),
-            joinedload(Favourite.product_info)
+        logging.info(msg=f"{self.__class__.__name} Осуществлён процесс получения полной информации о избранном товаре по id = %s" % id_fav_product)
+        stmt = (
+            select(Favourite)
+            .where(Favourite.id == id_fav_product)
+            .options(joinedload(Favourite.fav_user), joinedload(Favourite.product_info))
         )
-        data_favourite_product = ((await self.async_session.execute(stmt)).unique()).one_or_none()
+        data_favourite_product = (
+            (await self.async_session.execute(stmt)).unique()
+        ).one_or_none()
 
         if data_favourite_product:
             return data_favourite_product[0]

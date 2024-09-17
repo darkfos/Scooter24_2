@@ -1,10 +1,10 @@
-#System
+# System
 from typing import Annotated, List
 
-#Other libraries
+# Other libraries
 from fastapi import Depends, status, APIRouter
 
-#Local
+# Local
 from src.api.dto.review_dto import *
 from src.api.authentication.authentication_service import Authentication
 from src.api.service.review_service import ReviewService
@@ -12,8 +12,7 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
 review_router: APIRouter = APIRouter(
-    prefix="/review",
-    tags=["Review - Отзывы товаров, магазина"]
+    prefix="/review", tags=["Review - Отзывы товаров, магазина"]
 )
 
 auth: Authentication = Authentication()
@@ -28,12 +27,12 @@ auth: Authentication = Authentication()
     """,
     summary="Create review",
     status_code=status.HTTP_201_CREATED,
-    response_model=ReviewIsCreated
+    response_model=ReviewIsCreated,
 )
 async def create_review(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_review: ReviewBase
+    new_review: ReviewBase,
 ) -> ReviewIsCreated:
     """
     ENDPOINT - Создание нового отзыва
@@ -43,7 +42,9 @@ async def create_review(
     :return:
     """
 
-    return await ReviewService.create_review(engine=session, token=user_data, new_review=new_review)
+    return await ReviewService.create_review(
+        engine=session, token=user_data, new_review=new_review
+    )
 
 
 @review_router.get(
@@ -54,11 +55,10 @@ async def create_review(
     """,
     summary="Список отзывов по id",
     response_model=ListReviewMessageForProduct,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_reviews_by_id_product(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_product: int
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_product: int
 ) -> ListReviewMessageForProduct:
     """
     ENDPOINT - Получение всех комментариев к указанному товару.
@@ -67,7 +67,11 @@ async def get_all_reviews_by_id_product(
     :return:
     """
 
-    return await ReviewService.get_all_reviews_by_id_product(engine=session, id_product=id_product, redis_search_data="get_all_reviews_for_product_by_id_%s" % id_product)
+    return await ReviewService.get_all_reviews_by_id_product(
+        engine=session,
+        id_product=id_product,
+        redis_search_data="get_all_reviews_for_product_by_id_%s" % id_product,
+    )
 
 
 @review_router.get(
@@ -78,7 +82,7 @@ async def get_all_reviews_by_id_product(
     """,
     summary="Все отзывы",
     status_code=status.HTTP_200_OK,
-    response_model=Union[List, List[ReviewMessage]]
+    response_model=Union[List, List[ReviewMessage]],
 )
 async def get_all_reviews(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -101,11 +105,10 @@ async def get_all_reviews(
     """,
     summary="Получение отзыва по id",
     status_code=status.HTTP_200_OK,
-    response_model=ReviewMessage
+    response_model=ReviewMessage,
 )
 async def get_review_data_by_id(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    review_id: int
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], review_id: int
 ) -> ReviewMessage:
     """
     ENDPOINT - Получение отзыва по id
@@ -114,7 +117,11 @@ async def get_review_data_by_id(
     :return:
     """
 
-    return await ReviewService.get_review_by_id(engine=session, review_id=review_id, redis_search_data="review_by_id_%s" % review_id)
+    return await ReviewService.get_review_by_id(
+        engine=session,
+        review_id=review_id,
+        redis_search_data="review_by_id_%s" % review_id,
+    )
 
 
 @review_router.delete(
@@ -127,7 +134,7 @@ async def get_review_data_by_id(
     summary="Удаление отзыва",
     status_code=status.HTTP_204_NO_CONTENT,
     response_model=None,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def delete_review_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],

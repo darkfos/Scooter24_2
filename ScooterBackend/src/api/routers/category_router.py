@@ -1,11 +1,11 @@
-#System
+# System
 from typing import Annotated
 
-#Other libraries
+# Other libraries
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-#Local
+# Local
 from src.api.dto.category_dto import *
 from src.database.db_worker import db_work
 from src.api.authentication.authentication_service import Authentication
@@ -31,12 +31,12 @@ auth: Authentication = Authentication()
     summary="Создание категории",
     status_code=status.HTTP_201_CREATED,
     response_model=CategoryIsCreated,
-    tags=["AdminPanel - Панель администратора"]
+    tags=["AdminPanel - Панель администратора"],
 )
 async def create_new_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_category: CategoryBase
+    new_category: CategoryBase,
 ) -> CategoryIsCreated:
     """
     ENDPOINT - Создание новой категории
@@ -45,7 +45,9 @@ async def create_new_category(
     :return:
     """
 
-    return await CategoryService.create_category(engine=session, token=admin_data, new_category=new_category)
+    return await CategoryService.create_category(
+        engine=session, token=admin_data, new_category=new_category
+    )
 
 
 @category_router.get(
@@ -56,11 +58,10 @@ async def create_new_category(
     """,
     summary="Поиск категории",
     response_model=CategoryIsFinded,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def find_category_by_name(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    category_name: str
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], category_name: str
 ) -> CategoryIsFinded:
     """
     ENDPOINT - Поиск категории
@@ -68,7 +69,11 @@ async def find_category_by_name(
     :return:
     """
 
-    return await CategoryService.find_category_by_name(engine=session, name_category=category_name, redis_search_data="category_by_name_%s" % category_name)
+    return await CategoryService.find_category_by_name(
+        engine=session,
+        name_category=category_name,
+        redis_search_data="category_by_name_%s" % category_name,
+    )
 
 
 @category_router.get(
@@ -79,7 +84,7 @@ async def find_category_by_name(
     """,
     summary="Все категории",
     response_model=CategoriesList,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_categories(
     session: Annotated[IEngineRepository, Depends(EngineRepository)]
@@ -90,7 +95,9 @@ async def get_all_categories(
     :return:
     """
 
-    return await CategoryService.find_all_categories(engine=session, redis_search_data="all_categories")
+    return await CategoryService.find_all_categories(
+        engine=session, redis_search_data="all_categories"
+    )
 
 
 @category_router.get(
@@ -101,11 +108,10 @@ async def get_all_categories(
     """,
     summary="Поиск категории по id",
     response_model=CategoryBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def find_category_by_id(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_category: int
+    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_category: int
 ) -> CategoryBase:
     """
     ENDPOINT - Поиск категории по id
@@ -113,7 +119,11 @@ async def find_category_by_id(
     :return:
     """
 
-    return await CategoryService.find_by_id(engine=session, id_category=id_category, redis_search_data="category_by_id_%s" % id_category)
+    return await CategoryService.find_by_id(
+        engine=session,
+        id_category=id_category,
+        redis_search_data="category_by_id_%s" % id_category,
+    )
 
 
 @category_router.patch(
@@ -126,12 +136,12 @@ async def find_category_by_id(
     summary="Обновление названия категории",
     response_model=CategoryIsUpdated,
     status_code=status.HTTP_200_OK,
-    tags=["AdminPanel"]
+    tags=["AdminPanel"],
 )
 async def update_category_name(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    to_update: DataCategoryToUpdate
+    to_update: DataCategoryToUpdate,
 ) -> CategoryIsUpdated:
     """
     ENDPOINT - Обновление названия категории
@@ -140,7 +150,9 @@ async def update_category_name(
     :return:
     """
 
-    return await CategoryService.update_category(engine=session, token=admin_data, data_to_update=to_update)
+    return await CategoryService.update_category(
+        engine=session, token=admin_data, data_to_update=to_update
+    )
 
 
 @category_router.delete(
@@ -153,12 +165,12 @@ async def update_category_name(
     """,
     summary="Удаление категории",
     status_code=status.HTTP_204_NO_CONTENT,
-    tags=["AdminPanel"]
+    tags=["AdminPanel"],
 )
 async def delete_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_category: int
+    id_category: int,
 ) -> None:
     """
     ENDPOINT - удаление категории
@@ -167,4 +179,6 @@ async def delete_category(
     :return:
     """
 
-    await CategoryService.delete_category(engine=session, id_category=id_category, token=admin_data)
+    await CategoryService.delete_category(
+        engine=session, id_category=id_category, token=admin_data
+    )

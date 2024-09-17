@@ -14,16 +14,16 @@ async def create_products():
 
     products: list[dict] = [
         {
-          "title_product": "Зеркала на мотоцикл / скутер / мопед круглые S24 (встраиваемые в клипоны или руль) черные регулируемые / универсальные / для мотоцикла",
-          "price_product": 996,
-          "quantity_product": 23,
-          "explanation_product": "2 шт. — зеркала, комплект адаптеров для установки.",
-          "article_product": "SCOT78541892936",
-          "tags": "1, год",
-          "other_data": "Габариты: 5 x 13 x 13 cm,",
-          "id_category": 1,
-          "photo_product": "6449875038.jpg",
-          "price_discount": 0
+            "title_product": "Зеркала на мотоцикл / скутер / мопед круглые S24 (встраиваемые в клипоны или руль) черные регулируемые / универсальные / для мотоцикла",
+            "price_product": 996,
+            "quantity_product": 23,
+            "explanation_product": "2 шт. — зеркала, комплект адаптеров для установки.",
+            "article_product": "SCOT78541892936",
+            "tags": "1, год",
+            "other_data": "Габариты: 5 x 13 x 13 cm,",
+            "id_category": 1,
+            "photo_product": "6449875038.jpg",
+            "price_discount": 0,
         },
         {
             "title_product": "Ручка газа короткоходная (механизм / пульт) грипсы и трос газа / универсальные «S24» (2 клавиши) черная (полный комплект)",
@@ -35,7 +35,7 @@ async def create_products():
             "other_data": "Габариты: 7 × 10 × 20 cm,",
             "id_category": 1,
             "photo_product": "6449875650.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Тахометр цифровой со счетчиком моточасов «S24» / Сменная батарея, в комплекте / Монтажный набор (электронный счетчик) на мотоцикл / скутер / мопед (Универсальный)",
@@ -47,7 +47,7 @@ async def create_products():
             "other_data": "Габариты: 3 × 6 × 5 cm,",
             "id_category": 1,
             "photo_product": "6449880136.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на китайский скутер 125/150 кубов (152QMI/157QMJ) 150cc",
@@ -59,7 +59,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439246916.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на китайский скутер 50 кубов (139QMB) 80cc",
@@ -71,7 +71,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439244719.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на китайский скутер Стелс / Венто 50 кубов (12 мм палец)(1e40qmb) Stels 50cc / Vento",
@@ -83,7 +83,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439246282.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Сузуки Адрес / Сепия 50 кубов (v50g) Suzuki Address / Sepia 50cc",
@@ -95,7 +95,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439246282.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Сузуки Летс / Верде 50 кубов (Morini) Suzuki Lets / Verde 50cc",
@@ -107,7 +107,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439246673.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Хонда Дио 50 кубов (32.5мм)(Af-34/35) Honda Dio ZX 50cc",
@@ -119,7 +119,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439245882.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Хонда Лид 90 кубов (Hf-05) Honda Lead 90cc",
@@ -131,7 +131,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439198834.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Ямаха Аксис 90 кубов (Ямаха Аксис)(3WF) Yamaha Axis 90cc",
@@ -143,7 +143,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439247131.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Коленвал на скутер Ямаха Джог/Априо/Аерокс 50 кубов (3kj/5bm/Minarelli) Yamaha Jog / Aprio 50cc",
@@ -155,7 +155,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 20 × 10 cm,Вес: 1 kg,",
             "id_category": 2,
             "photo_product": "6439246198.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Набор прокладок на китайский скутер 50 кубов (139QMB) 80 кубов (80cc)",
@@ -167,7 +167,7 @@ async def create_products():
             "other_data": "Габариты: 20 × 10 cm,",
             "id_category": 2,
             "photo_product": "6447222252.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Карбюратор на китайский скутер Стелс 50 кубов (1e40qmb) Stels Tactic / Vento",
@@ -179,7 +179,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 15 × 10 cm,",
             "id_category": 3,
             "photo_product": "6439246782.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Карбюратор на скутер Хонда Дио / Лид 50 кубов (Af-27/28) Honda Dio / Lead",
@@ -191,7 +191,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 15 × 10 cm,",
             "id_category": 3,
             "photo_product": "6439246506.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Топливный (бензиновый) фильтр разборной / стайлинг S24 (бензостойкая колба) на мотоцикл / мопед / скутер (Тюнинг)",
@@ -203,7 +203,7 @@ async def create_products():
             "other_data": "Габариты: 2 × 7 × 7 cm,",
             "id_category": 3,
             "photo_product": "6449870141.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Машинка тормозная (ГТЦ) универсальная «S24» (левая с выносным бачком) (черная) стайлинговая на мотоцикл / скутер / мопед (шланг и бочек брембо)",
@@ -215,7 +215,7 @@ async def create_products():
             "other_data": "Габариты: 5 × 6 × 15 cm,",
             "id_category": 4,
             "photo_product": "6449883508.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Машинка тормозная (ГТЦ) универсальная «S24» (правая с выносным бачком) (черная) стайлинговая на мотоцикл / скутер / мопед (шланг и бочек брембо)",
@@ -227,7 +227,7 @@ async def create_products():
             "other_data": "Габариты: 5 × 6 × 15 cm,",
             "id_category": 4,
             "photo_product": "6449883741.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Щека вариатора неподвижная на китайский скутер 125/150 кубов 152QMI/157QMJ 150cc внешняя",
@@ -239,7 +239,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 10 × 10 cm,",
             "id_category": 5,
             "photo_product": "6478512376.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Щека вариатора неподвижная на китайский скутер 50/80 кубов 139QMB 50cc внешняя",
@@ -251,7 +251,7 @@ async def create_products():
             "other_data": "Габариты: 10 × 10 × 10 cm,",
             "id_category": 6,
             "photo_product": "6478517794.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Катушка зажигания на скутер стайлинг Хонда Дио (Af-18/27/34) и китайский скутер (139QMB/152QMI/157QMJ) Honda Dio / Tact (Тюнинг)",
@@ -263,7 +263,7 @@ async def create_products():
             "other_data": "Габариты: 2 × 8 × 2 cm,",
             "id_category": 7,
             "photo_product": "6478453611.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
         {
             "title_product": "Тахометр цифровой со счетчиком моточасов «S24» / Сменная батарея, в комплекте / Монтажный набор (электронный счетчик) на мотоцикл / скутер / мопед (Универсальный)",
@@ -275,7 +275,7 @@ async def create_products():
             "other_data": "Габариты: 3 × 6 × 5 cm,",
             "id_category": 8,
             "photo_product": "6449880136.jpg",
-            "price_discount": 0
+            "price_discount": 0,
         },
     ]
 
@@ -285,11 +285,8 @@ async def create_products():
     async with aiohttp.ClientSession() as session:
         # Токен
         async with session.post(
-                url="https://scooter24-2.onrender.com/api/v1/auth/login",
-                data={
-                    "username": "test@mail.ru",
-                    "password": "test123"
-                }
+            url="https://scooter24-2.onrender.com/api/v1/auth/login",
+            data={"username": "test@mail.ru", "password": "test123"},
         ) as j_session:
             jwt_token = (await j_session.json()).get("access_token")
 
@@ -310,21 +307,20 @@ async def create_products():
                     "other_data": product.get("other_data"),
                     "id_category": product.get("id_category"),
                     "photo_product": "None",
-                    "price_discount": product.get("price_discount")
-                }
+                    "price_discount": product.get("price_discount"),
+                },
             )
 
-            #Установка фотографии
+            # Установка фотографии
             req_photo = requests.patch(
                 url=f"https://scooter24-2.onrender.com/api/v1/product/update_product_photo/{id_test}",
                 headers={"Authorization": f"Bearer {jwt_token}"},
-                params={
-                    "new_photo": product.get("photo_product")
-                }
+                params={"new_photo": product.get("photo_product")},
             )
 
-            #print(req.json())
+            # print(req.json())
             print(req_photo.status_code)
             id_test += 1
+
 
 asyncio.run(create_products())

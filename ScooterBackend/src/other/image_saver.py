@@ -3,6 +3,8 @@ from os import remove
 from typing import Union, Type
 from src.api.authentication.hashing import CryptographyScooter
 import shutil
+import logging
+
 
 class ImageSaver:
     def __init__(self) -> None:
@@ -12,24 +14,45 @@ class ImageSaver:
     async def generate_filename(self, id_: int, filename: str) -> None:
         self.filename: str = str(id_) + "__" + filename
 
-    async def save_file(self, file: Type[UploadFile], is_admin: bool = False) -> Union[None, str]:
+    # aiofiles - async
+    async def save_file(
+        self, file: Type[UploadFile], is_admin: bool = False
+    ) -> Union[None, str]:
         try:
             if is_admin:
                 crypt: Type[CryptographyScooter] = CryptographyScooter()
-                await self.generate_filename(id_=crypt.hashed_img(img_name=file.filename)[0::5], filename=file.filename)
-                with open(file=self.init_url+self.filename, mode="wb") as file_catalog:
+                await self.generate_filename(
+                    id_=crypt.hashed_img(img_name=file.filename)[0::5],
+                    filename=file.filename,
+                )
+
+                # Logging
+                logging.info(
+                    msg="Image Saver (Admin Panel) сохранение фотографии в директории"
+                )
+                with open(
+                    file=self.init_url + self.filename, mode="wb"
+                ) as file_catalog:
                     shutil.copyfileobj(file.file, file_catalog)
             else:
-                with open(file=self.init_url+self.filename, mode="wb") as file_catalog:
+                # Logging
+                logging.info(msg="Image Saver сохранение фотографии в директории")
+                with open(
+                    file=self.init_url + self.filename, mode="wb"
+                ) as file_catalog:
                     shutil.copyfileobj(file.file, file_catalog)
             return self.filename
         except Exception as ex:
-            print(ex)
+            logging.exception(msg="Image Saver Не удалось сохранить файл")
             return False
 
     async def remove_file(self) -> bool:
         try:
-            remove(path=self.init_url+self.filename)
+            # Logging
+            logging.info(msg="Image Saver Картинка была успешно удалена")
+            remove(path=self.init_url + self.filename)
             return True
         except Exception as ex:
+            # Logging
+            logging.exception(msg="Image Saver не удалось удалить картинку")
             return False
