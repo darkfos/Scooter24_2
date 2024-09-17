@@ -7,7 +7,7 @@ import logging
 
 # Local
 from src.settings.engine_settings import Settings
-from src.settings.email_transfer_settings import EmailTransferSettings
+from src.settings.other_settings.email_transfer_settings import EmailTransferSettings
 
 
 class EmailTransfer:

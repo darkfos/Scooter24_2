@@ -1,5 +1,5 @@
 # Local
-from src.settings.api_settings import APISettings
+from src.settings.api_settings.api_settings import APISettings
 
 # ROUTES
 from src.api.routers.user_router import user_router as user_router

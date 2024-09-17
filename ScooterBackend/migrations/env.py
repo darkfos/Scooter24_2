@@ -11,7 +11,7 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-from src.settings.database_settings import DatabaseSettings
+from src.settings.database_settings.database_settings import DatabaseSettings
 
 # URL to database
 config.set_main_option("sqlalchemy.url", DatabaseSettings().db_url)
