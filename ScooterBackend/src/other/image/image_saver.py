@@ -1,7 +1,7 @@
 from fastapi import UploadFile
 from os import remove
 from typing import Union, Type
-from src.api.authentication.hashing import CryptographyScooter
+from src.api.authentication.hash_service.hashing import CryptographyScooter
 import shutil
 import logging
 

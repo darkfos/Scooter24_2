@@ -9,7 +9,7 @@ from src.admin import all_models
 
 # Admin Authentication
 from src.admin.admin_auth import AdminPanelAuthentication
-from src.api.authentication.authentication_service import Authentication
+from src.api.authentication.secure.authentication_service import Authentication
 
 
 class AdminPanel:

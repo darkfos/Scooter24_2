@@ -2,19 +2,18 @@
 from src.settings.api_settings.api_settings import APISettings
 
 # ROUTES
-from src.api.routers.user_router import user_router as user_router
-from src.api.routers.authentication_router import auth_router as auth_router
-from src.api.routers.category_router import category_router as category_router
-from src.api.routers.admin_router import admin_router as admin_router
-from src.api.routers.review_router import review_router as review_router
-from src.api.routers.product_router import product_router as product_router
-from src.api.routers.order_router import order_router as order_router
-from src.api.routers.favourite_router import favourite_router as favourite_router
-from src.api.routers.history_buy_router import history_buy_router as history_buy_router
-from src.api.routers.type_worker_router import type_worker_router as type_worker_router
-from src.api.routers.vacancies_router import vacancies_router as vacancies_router
-from src.api.routers.page_router import page_router
-from src.api.routers.general_router import api_v1_router
+from src.api.core.user_catalog.router.user_router import user_router as user_router
+from src.api.core.auth_catalog.router.authentication_router import auth_router as auth_router
+from src.api.core.category_catalog.router.category_router import category_router as category_router
+from src.api.core.admin_catalog.router.admin_router import admin_router as admin_router
+from src.api.core.review_catalog.router.review_router import review_router as review_router
+from src.api.core.product_catalog.router.product_router import product_router as product_router
+from src.api.core.order_catalog.router.order_router import order_router as order_router
+from src.api.core.favourite_catalog.router.favourite_router import favourite_router as favourite_router
+from src.api.core.history_catalog.router.history_buy_router import history_buy_router as history_buy_router
+from src.api.core.type_worker_catalog.router.type_worker_router import type_worker_router as type_worker_router
+from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router as vacancies_router
+from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
 
