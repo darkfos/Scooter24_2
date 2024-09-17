@@ -1,5 +1,6 @@
 # System
 from typing import List, Dict, Union, Coroutine, Any, Type
+import logging
 
 
 # Other libraries
@@ -34,6 +35,7 @@ class OrderService:
         :return:
         """
 
+        logging.info(msg=f"{OrderService.__name__} Создание нового заказа")
         # Получение данных с токена
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -51,7 +53,7 @@ class OrderService:
 
             if is_created:
                 return
-
+            logging.critical(msg=f"{OrderService.__name__} Не удалось создать новый заказ")
             await OrderHttpError().http_failed_to_create_a_new_order()
 
     @redis
@@ -66,6 +68,7 @@ class OrderService:
         :return:
         """
 
+        logging.info(msg=f"{OrderService.__name__} Получение всей информации о всех заказах")
         # Получение данных с токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -131,6 +134,7 @@ class OrderService:
         :return:
         """
 
+        logging.info(msg=f"{OrderService.__name__} Получение полной информации о заказе id_order={id_order}")
         # Данные jwt токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -165,7 +169,7 @@ class OrderService:
                         "email": order_user_data.get("email_user"),
                     },
                 )
-
+            logging.critical(msg=f"{OrderService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await OrderHttpError().http_order_not_found()
 
     @staticmethod
@@ -180,6 +184,7 @@ class OrderService:
         :return:
         """
 
+        logging.info(msg=f"{OrderService.__name__} Удаление заказа по id_order={id_order}")
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -202,5 +207,5 @@ class OrderService:
                     if is_deleted:
                         return
                     await OrderHttpError().http_failed_to_delete_order()
-
+            logging.critical(msg=f"{OrderService.__name__} Не удалось удалить заказ, заказ не был найден")
             await OrderHttpError().http_order_not_found()

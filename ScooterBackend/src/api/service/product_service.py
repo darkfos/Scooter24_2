@@ -1,5 +1,5 @@
 # System
-import datetime
+import datetime, logging
 from typing import Union, Dict, List, Type, Coroutine, Any
 from random import choice
 
@@ -42,6 +42,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Создание нового продукта")
         # Getting token data
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -100,7 +101,7 @@ class ProductService:
                         status_code=status.HTTP_409_CONFLICT,
                         detail="Не удалось загрузить фотографию продукта",
                     )
-
+            logging.critical(msg=f"{ProductService.__name__} Не удалось создать новый продукт")
             await ProductHttpError().http_failed_to_create_a_new_product()
 
     @staticmethod
@@ -115,6 +116,7 @@ class ProductService:
         :param admin_data:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Добавление новой категории для товара")
         token_data: dict = await Authentication().decode_jwt_token(
             token=admin_data, type_token="access"
         )
@@ -137,6 +139,7 @@ class ProductService:
                     if created_new_category_for_product
                     else await CategoryHttpError().http_failed_to_create_a_new_category()
                 )
+            logging.critical(msg=f"{ProductService.__name__} Не удалось добавить новую категорию к товару")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -150,6 +153,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Получение всех товаров")
         async with engine:
             all_products = await engine.product_repository.find_all()
 
@@ -193,6 +197,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Получение списка товаров по категории category_data={category_data}")
         async with engine:
             all_products: Union[List, List[Product]] = (
                 await engine.product_repository.find_by_category(
@@ -241,6 +246,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Поиск продукта по id={id_product}")
         async with engine:
             product_data = await engine.product_repository.find_one(other_id=id_product)
 
@@ -262,7 +268,7 @@ class ProductService:
                         else 0
                     ),
                 )
-
+            logging.critical(msg=f"{ProductService.__name__} Не удалось удалить продукт по id={id_product}")
             await ProductHttpError().http_product_not_found()
 
     @staticmethod
@@ -276,6 +282,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Поиск продукта по name={name_product}")
         async with engine:
             product_data: Union[None, Product] = (
                 await engine.product_repository.find_product_by_name(
@@ -301,7 +308,8 @@ class ProductService:
                         else 0
                     ),
                 )
-
+            
+            logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт")
             await ProductHttpError().http_product_not_found()
 
     @staticmethod
@@ -313,6 +321,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Проверка существования продукта")
         async with engine:
             product_is_created = await engine.product_repository.find_product_by_name(
                 name_product=product_name
@@ -320,6 +329,7 @@ class ProductService:
 
             if product_is_created:
                 return True
+            logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт")
             await ProductHttpError().http_product_not_found()
 
     @redis
@@ -334,6 +344,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Получение полной информации о продукте")
         # Get data from token
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -384,9 +395,9 @@ class ProductService:
                             for cat_data in product_data[0].product_all_categories
                         ],
                     )
-
+                logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт")
                 await ProductHttpError().http_product_not_found()
-
+            logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -426,8 +437,9 @@ class ProductService:
 
                 if is_updated:
                     return
+                logging.critical(msg=f"{ProductService.__name__} Не удалось обновить продукт, продукт не был найден")
                 await ProductHttpError().http_failed_to_update_product_information()
-
+            logging.critical(msg=f"{ProductService.__name__} Не удалось обновить продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -442,6 +454,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Обновление фотографии")
         # Getting data from token
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -465,7 +478,7 @@ class ProductService:
                     },
                 )
                 return
-
+            logging.critical(msg=f"{ProductService.__name__} Не удалось обновить фотографию")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -480,6 +493,7 @@ class ProductService:
         :return:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Удаление продукта по id = {id_product}")
         # Getting data from token
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -510,9 +524,9 @@ class ProductService:
                     image.filename = product_data.photo_product
                     await image.remove_file()
                     return
-
+                logging.critical(msg=f"{ProductService.__name__} Не удалось удалить продукт по id = {id_product}")
                 await ProductHttpError().http_failed_to_delete_product()
-
+            logging.info(msg=f"{ProductService.__name__} Не удалось удалить продукт по id = {id_product}, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -532,6 +546,8 @@ class ProductService:
         :param id_product:
         :return:
         """
+
+        logging.info(msg=f"{ProductService.__name__} Поиск продуктов по требованиям desc={desc}, category={sorted_by_category}, min_price={sorted_by_price_min}, max_price={sorted_by_price_max}")
 
         async with engine:
             # Получаем товары
@@ -576,6 +592,8 @@ class ProductService:
         Метод сервиса для получения рекомендованных товаров.
         :session:
         """
+
+        logging.info(msg=f"{ProductService.__name__} Получение рекомендованных товаров")
 
         async with engine:
             # Получение всех товаров
@@ -634,6 +652,8 @@ class ProductService:
         :new_discout:
         """
 
+        logging.info(msg=f"{ProductService.__name__} Обновление скидки товара")
+
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -654,9 +674,10 @@ class ProductService:
 
                 if is_updated:
                     return
-
+                
+                logging.info(msg=f"{ProductService.__name__} Не удалось обновить скидку товара")
                 await ProductHttpError().http_failed_to_update_product_information()
-
+            logging.info(msg=f"{ProductService.__name__} Не удалось обновить скидку товара, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     # TODO: Refactor
@@ -669,6 +690,7 @@ class ProductService:
         Получение новых продуктов
         """
 
+        logging.info(msg=f"{ProductService.__name__} Получение новых товаров")
         async with engine:
             all_products: Union[None, List[ProductBase]] = (
                 await engine.product_repository.get_products_by_date()

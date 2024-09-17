@@ -1,5 +1,6 @@
 # System
 from typing import List, Union, Dict, Coroutine, Any, Type
+import logging
 
 # Other libraries
 ...
@@ -35,6 +36,7 @@ class VacanciesService:
         :vac_data:
         """
 
+        logging.info(msg=f"{VacanciesService.__name__} Создание новой вакансии")
         # Данные токена
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -59,7 +61,9 @@ class VacanciesService:
 
                 if is_created:
                     return
+                logging.critical(msg=f"{VacanciesService.__name__} Не удалось создать новую вакансию")
                 await VacanciesHttpError().http_dont_create_a_new_vacancies()
+            logging.critical(msg=f"{VacanciesService.__name__} Не удалось создать новую вакансию, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -72,6 +76,7 @@ class VacanciesService:
         :session:
         """
 
+        logging.info(msg=f"{VacanciesService.__name__} Получение списка вакансий")
         async with engine:
             all_vacancies: Union[List, List[Vacancies]] = (
                 await engine.vacancies_repository.find_all()
@@ -98,6 +103,7 @@ class VacanciesService:
         :id_vacancies:
         """
 
+        logging.info(msg=f"{VacanciesService.__name__} Получение информации о вакансии по id={id_vacancies}")
         async with engine:
             vacancies_data: Union[None, Vacancies] = (
                 await engine.vacancies_repository.find_one(other_id=id_vacancies)
@@ -109,6 +115,7 @@ class VacanciesService:
                     description_vacancies=vacancies_data[0].description_vacancies,
                     id_type_worker=vacancies_data[0].id_type_worker,
                 )
+            logging.critical(msg=f"{VacanciesService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await VacanciesHttpError().http_vacancies_not_found()
 
     @staticmethod
@@ -122,6 +129,7 @@ class VacanciesService:
         :data_to_update:
         """
 
+        logging.info(msg=f"{VacanciesService.__name__} Обновление вакансии")
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -141,7 +149,9 @@ class VacanciesService:
                 )
                 if is_updated:
                     return
+                logging.critical(msg=f"{VacanciesService.__name__} Не удалось обновить вакансию")
                 await VacanciesHttpError().http_dont_update_vacancies()
+            logging.critical(msg=f"{VacanciesService.__name__} Не удалось обновить вакансию, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -157,6 +167,7 @@ class VacanciesService:
         :id_vacancies:
         """
 
+        logging.info(msg=f"{VacanciesService.__name__} Удаление вакансии")
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -176,5 +187,7 @@ class VacanciesService:
                 )
                 if is_deleted:
                     return
+                logging.critical(msg=f"{VacanciesService.__name__} Не удалось удалить вакансию")
                 await VacanciesHttpError().http_dont_delete_vacancies()
+            logging.critical(msg=f"{VacanciesService.__name__} Не удалось удалить вакансию, пользователь не был найден")
             await UserHttpError().http_user_not_found()

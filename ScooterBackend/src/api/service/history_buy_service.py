@@ -1,5 +1,6 @@
 # System
 from typing import List, Union, Dict, Coroutine, Any
+import logging
 
 
 # Other libraries
@@ -31,6 +32,7 @@ class HistoryBuyService:
         :return:
         """
 
+        logging.info(msg=f"{HistoryBuyService.__name__} Создание новой истории")
         # Получение данных токена
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -46,7 +48,7 @@ class HistoryBuyService:
 
             if is_created:
                 return
-
+            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось создать новую историю")
             await HistoryBuyHttpError().http_failed_to_create_a_new_history()
 
     @staticmethod
@@ -60,6 +62,7 @@ class HistoryBuyService:
         :return:
         """
 
+        logging.info(msg=f"{HistoryBuyService.__name__} Получение всей истории покупок")
         # Получение данных токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -92,6 +95,7 @@ class HistoryBuyService:
         :return:
         """
 
+        logging.info(msg=f"{HistoryBuyService.__name__} Получение данных об истории")
         # Получение данных токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -105,7 +109,9 @@ class HistoryBuyService:
             if history_data:
                 if history_data[0].id_user == jwt_data.get("id_user"):
                     return HistoryBuyBase(id_product=history_data[0].id_product)
+                logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, пользователь не был найден")
                 await UserHttpError().http_user_not_found()
+            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, не была найдена история")
             await HistoryBuyHttpError().http_history_buy_not_found()
 
     @staticmethod
@@ -120,6 +126,7 @@ class HistoryBuyService:
         :return:
         """
 
+        logging.info(msg=f"{HistoryBuyService.__name__} Удаление истории id_history={id_history}")
         # Получение данных токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -138,4 +145,5 @@ class HistoryBuyService:
                 if is_deleted:
                     return
                 await HistoryBuyHttpError().http_failed_to_delete_history()
+            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось удалить историю, id_history={id_history}")
             await UserHttpError().http_user_not_found()

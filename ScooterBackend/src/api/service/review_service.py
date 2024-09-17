@@ -1,5 +1,6 @@
 # System
 from typing import Union, Dict, List, Coroutine, Any, Type
+import logging
 
 # Other libraries
 ...
@@ -33,6 +34,7 @@ class ReviewService:
         :return:
         """
 
+        logging.info(msg=f"{ReviewService.__name__} Создание нового отзыва о товаре")
         # Get user id
         token_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -63,6 +65,7 @@ class ReviewService:
         :return:
         """
 
+        logging.info(msg=f"{ReviewService.__name__} Получение списка комментариев к указанному товару id_product={id_product}")
         async with engine:
             # Получение всех отзывов к товару
             all_reviews_for_product: Union[None, Review] = (
@@ -104,6 +107,7 @@ class ReviewService:
         :return:
         """
 
+        logging.info(msg=f"{ReviewService.__name__} Получение списка имеющихся товаров")
         async with engine:
             # Получение всех отзывов к товару
             all_reviews: Union[None, Review] = (
@@ -136,7 +140,8 @@ class ReviewService:
         :param review_id:
         :return:
         """
-
+        
+        logging.info(msg=f"{ReviewService.__name__} Получение данных об отзыве по id={review_id}")
         async with engine:
             review_data = (
                 await engine.review_repository.find_all_reviews_with_user_data(
@@ -156,7 +161,7 @@ class ReviewService:
                         .get("email_user"),
                     },
                 )
-
+            logging.critical(msg=f"{ReviewService.__name__} Не удалось найти отзыв")
             await ReviewHttpError().http_review_not_found()
 
     @staticmethod
@@ -171,6 +176,7 @@ class ReviewService:
         :return:
         """
 
+        logging.info(msg=f"{ReviewService.__name__} Удаление отзыва по id_review={id_review}")
         # Getting data
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -204,6 +210,9 @@ class ReviewService:
                         )
                         if is_review_deleted:
                             return
+                        logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв")
                         await ReviewHttpError().http_failed_to_delete_review()
+                    logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв, пользователь не был найден")
                     await UserHttpError().http_user_not_found()
+                logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв, отзыв не был найден")
                 await ReviewHttpError().http_review_not_found()

@@ -1,5 +1,6 @@
 # System
 from typing import List, Dict, Union, Coroutine, Any, Type
+import logging
 
 # Other libraries
 pass
@@ -37,7 +38,8 @@ class FavouriteService:
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
         )
-
+        
+        logging.info(msg=f"{FavouriteService.__name__} Добавление нового товара в избранное")
         async with engine:
             # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
@@ -49,7 +51,7 @@ class FavouriteService:
 
             if is_created:
                 return
-
+            logging.critical(msg=f"{FavouriteService.__name__} Не удалось добавить новый товар в избранное")
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
     @redis
@@ -65,6 +67,7 @@ class FavouriteService:
         :return:
         """
 
+        logging.info(msg=f"{FavouriteService.__name__} Получения списка всех избранных товаров")
         # Получаем данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -93,7 +96,6 @@ class FavouriteService:
                     )
 
                 return ListFavouriteBase(favourites=[*product_data])
-
             return ListFavouriteBase(favourites=[])
 
     @redis
@@ -111,6 +113,8 @@ class FavouriteService:
         :param id_fav_product:
         :return:
         """
+
+        logging.info(msg=f"{FavouriteService.__name__} Получения полной информации о избранном товаре id={id_fav_product}")
 
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
@@ -147,7 +151,7 @@ class FavouriteService:
                     )
 
                 await FavouriteHttpError().http_favourite_not_found()
-
+            logging.critical(msg=f"{FavouriteService.__name__} Не удалось получить полную информацию о избранном товара, не был найден пользователь")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -161,6 +165,7 @@ class FavouriteService:
         :return:
         """
 
+        logging.info(msg=f"{FavouriteService.__name__} Получение всех избранных товаров")
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -192,7 +197,7 @@ class FavouriteService:
 
                     return all_fav_products
                 return []
-
+            logging.critical(msg=f"{FavouriteService.__name__} не удалось получить список избранных товаров, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -207,6 +212,7 @@ class FavouriteService:
         :return:
         """
 
+        logging.info(msg=f"{FavouriteService.__name__} Удаление товара из списка избранных id_favourite={id_favourite}")
         # Данные токена
         jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -229,4 +235,5 @@ class FavouriteService:
                         return
                     await FavouriteHttpError().http_failed_to_delete_favourite()
                 await UserHttpError().http_user_not_found()
+            logging.critical(msg=f"{FavouriteService.__name__} Не удалось удалить товар из списка избранных id_favourite={id_favourite}")
             await FavouriteHttpError().http_favourite_not_found()

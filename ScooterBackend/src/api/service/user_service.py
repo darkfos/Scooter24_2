@@ -1,7 +1,7 @@
 # Other libraries
 from typing import Union, Type
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Union, Any, Coroutine, Dict, Type
+import logging
 
 # Local
 from src.api.dto.user_dto import (
@@ -51,6 +51,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Создание пользователя")
         # Hash password
         hashed_password: Type[CryptographyScooter] = (
             CryptographyScooter().hashed_password(password=new_user.password_user)
@@ -72,6 +73,7 @@ class UserService:
 
             if res_to_add_new_user:
                 return RegistrationUser(is_registry=True)
+            logging.critical(msg=f"{UserService.__name__} Не удалось создать пользователя")
             await UserHttpError().http_failed_to_create_a_new_user()
 
     @staticmethod
@@ -85,6 +87,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации пользователе")
         # Getting user id
         jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -104,7 +107,7 @@ class UserService:
                 )
 
                 return information
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -119,6 +122,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации о пользователе")
         # Получение данных токена
         jwt_data: dict = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -144,7 +148,7 @@ class UserService:
                         main_name_user=user_data[0].main_name_user,
                         date_registration=user_data[0].date_registration,
                     )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -159,6 +163,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его отзывах")
         # Getting user_id
         jwt_data = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -180,7 +185,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     reviews=user_data.reviews,
                 )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его отзывах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -195,6 +200,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его избранных товарах")
         # Getting user_id
         jwt_data = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -216,7 +222,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     favourites=user_data.favourites_user,
                 )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его избранных товарах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -231,6 +237,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его заказах")
         # Getting user_id
         jwt_data = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -259,7 +266,7 @@ class UserService:
                         for order in user_data.orders_user
                     ],
                 )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его заказах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -274,6 +281,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его истории")
         # Getting user_id
         jwt_data = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -295,7 +303,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     history=user_data.history_buy_user,
                 )
-
+            logging.info(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его истории, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -310,6 +318,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение полной информации о пользователе")
         # Getting user id
         user_id: int = (
             await Authentication().decode_jwt_token(token=token, type_token="access")
@@ -355,7 +364,7 @@ class UserService:
                         address_phone_number=user_all_information.address_phone_number,
                     ),
                 )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -370,6 +379,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Получение полной информации о других пользователях")
         # Получение данных токена
         jwt_data: dict = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -414,7 +424,7 @@ class UserService:
                             address_phone_number=user_all_information.address_phone_number,
                         ),
                     )
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось получить полную информацию о других пользователях")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -422,12 +432,13 @@ class UserService:
         engine: IEngineRepository, email: str, password: str
     ) -> bool:
         """
-        Метод сервися для нахождения пользователя с указанной почтой и паролем
+        Метод сервиса для поиска пользователя с указанной почтой и паролем
         :param session:
         :param email:
         :return:
         """
-
+        
+        logging.info(msg=f"{UserService.__name__} Поиск пользователя по почте и паролю")
         async with engine:
             result_find_user: Union[bool, User] = (
                 await engine.user_repository.find_user_by_email_and_password(
@@ -454,7 +465,8 @@ class UserService:
         :param to_update:
         :return:
         """
-
+        
+        logging.info(msg=f"{UserService.__name__} Обновление данных о пользователе")
         # Getting id
         jwt_data = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -467,8 +479,9 @@ class UserService:
                     data_to_update=to_update.model_dump(),
                 )
             )
-
-            await UserHttpError().http_user_not_found()
+        
+        logging.info(msg=f"{UserService.__name__} Не удалось обновить данные о пользователе, пользователь не был найден")
+        await UserHttpError().http_user_not_found()
 
     @staticmethod
     async def update_user_password(
@@ -482,6 +495,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Обновление пароля пользователя")
         # Getting user_id
         auth = Authentication()
         crypt = CryptographyScooter()
@@ -510,8 +524,9 @@ class UserService:
                             },
                         )
                     )
+                logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя")
                 await UserHttpError().http_failed_to_update_user_information()
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
     @staticmethod
@@ -523,6 +538,7 @@ class UserService:
         :return:
         """
 
+        logging.info(msg=f"{UserService.__name__} Удаление пользователя")
         # Getting user_id
         auth = Authentication()
         jwt_data: dict = await auth.decode_jwt_token(token=token, type_token="access")
@@ -533,7 +549,7 @@ class UserService:
             )
             if res_del:
                 return UserIsDeleted(is_deleted=res_del)
-
+            logging.info(msg=f"{UserService.__name__} Не удалось обновить пользователя")
             await UserHttpError().http_failed_to_delete_user()
 
     @staticmethod
@@ -545,6 +561,7 @@ class UserService:
         :email:
         """
 
+        logging.info(msg=f"{UserService.__name__} Отправка секретного ключа для обновления пароля")
         sctr_key: str = SecretKey().generate_password()
         token_data: dict = await Authentication().decode_jwt_token(
             token=token, type_token="access"
@@ -565,7 +582,7 @@ class UserService:
 
             if is_updated:
                 return
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось отправить секретный ключ")
             await UserHttpError().http_failed_to_update_user_information()
 
     @staticmethod
@@ -573,10 +590,11 @@ class UserService:
         engine: IEngineRepository, secret_key: str, token: str, new_password: str
     ) -> None:
         """
-        Отправка секретного ключа для обновления пароля
+        Проверка секретного ключа для обновления пароля
         :email:
         """
 
+        logging.info(msg=f"{UserService.__name__} Проверка секретного ключа")
         token_data: dict = await Authentication().decode_jwt_token(
             token=token, type_token="access"
         )
@@ -608,7 +626,7 @@ class UserService:
                         )
                         if password_is_updated:
                             return
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя")
             await UserHttpError().http_failed_to_update_user_information()
 
     @staticmethod
@@ -620,6 +638,7 @@ class UserService:
         :engine:
         :data_update:
         """
+        logging.info(msg=f"{UserService.__name__} Обновление данных пользователя")
 
         # Данные токена
         jwt_data: dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
@@ -635,5 +654,5 @@ class UserService:
 
             if is_updated:
                 return True
-
+            logging.critical(msg=f"{UserService.__name__} Не удалось обновить данные пользователя")
             await UserHttpError().http_failed_to_update_user_information()
