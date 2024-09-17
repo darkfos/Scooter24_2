@@ -23,7 +23,7 @@ from src.database.models.user import User
 from src.api.exception.http_user_exception import UserHttpError
 from src.api.authentication.hashing import CryptographyScooter
 from src.api.authentication.authentication_service import Authentication
-from src.other.data_email_transfer import email_transfer
+from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository
 

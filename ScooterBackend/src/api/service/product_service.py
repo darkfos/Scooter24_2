@@ -16,7 +16,7 @@ from src.api.dto.product_dto import *
 from src.api.authentication.authentication_service import Authentication
 from src.api.authentication.hashing import CryptographyScooter
 from src.api.dep.dependencies import IEngineRepository
-from src.other.image_saver import ImageSaver
+from src.other.image.image_saver import ImageSaver
 
 
 # Redis

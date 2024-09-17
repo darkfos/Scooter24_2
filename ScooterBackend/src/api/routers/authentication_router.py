@@ -19,7 +19,7 @@ from src.database.db_worker import db_work
 from src.api.authentication.authentication_service import Authentication
 from src.api.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
-from src.other.data_email_transfer import email_transfer
+from src.other.email.data_email_transfer import email_transfer
 
 
 auth_router: APIRouter = APIRouter(
