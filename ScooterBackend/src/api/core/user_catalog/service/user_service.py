@@ -36,6 +36,7 @@ redis: Type[RedisTools] = RedisTools()
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
+auth: Authentication = Authentication()
 
 
 class UserService:
@@ -76,9 +77,10 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось создать пользователя")
             await UserHttpError().http_failed_to_create_a_new_user()
 
+    @auth
     @staticmethod
     async def get_information_about_me(
-        engine: IEngineRepository, token: str
+        engine: IEngineRepository, token: str, token_data: dict = dict()
     ) -> InformationAboutUser:
         """
         Метож сервиса для получения информации о пользователе по токену
@@ -88,14 +90,10 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации пользователе")
-        # Getting user id
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             user_data: Union[User, None] = (
-                await engine.user_repository.find_one(other_id=jwt_data.get("id_user"))
+                await engine.user_repository.find_one(other_id=token_data.get("id_user"))
             )[0]
             if user_data:
                 information = InformationAboutUser(
@@ -110,10 +108,11 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_user(
-        engine: IEngineRepository, user_id: int, token: str, redis_search_data: str
+        engine: IEngineRepository, user_id: int, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> InformationAboutUser:
         """
         Метод сервиса для получения информации о пользователе по токену
@@ -123,16 +122,12 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации о пользователе")
-        # Получение данных токена
-        jwt_data: dict = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -151,10 +146,11 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_me_and_review(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> UserReviewData:
         """
         Метод сервиса для получения информации о пользователе + его отзывы
@@ -164,15 +160,11 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его отзывах")
-        # Getting user_id
-        jwt_data = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_reviews(
-                    user_id=jwt_data.get("id_user")
+                    user_id=token_data.get("id_user")
                 )
             )
 
@@ -188,10 +180,11 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его отзывах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_me_and_favourite(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> UserFavouritesData:
         """
         Метод сервиса для получения информации о пользователе + его товары в избранном
@@ -201,15 +194,11 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его избранных товарах")
-        # Getting user_id
-        jwt_data = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_favourites(
-                    user_id=jwt_data.get("id_user")
+                    user_id=token_data.get("id_user")
                 )
             )
 
@@ -225,10 +214,11 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его избранных товарах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_me_and_orders(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> UserOrdersData:
         """
         Метод сервиса для получения информации о пользователе + его заказы
@@ -238,15 +228,11 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его заказах")
-        # Getting user_id
-        jwt_data = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_orders(
-                    user_id=jwt_data.get("id_user")
+                    user_id=token_data.get("id_user")
                 )
             )
             # print(user_data)
@@ -269,10 +255,11 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его заказах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_me_and_history(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> UserHistoryData:
         """
         Метод сервиса для получения информации о пользователе + история заказов
@@ -282,15 +269,11 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение информации о пользователе и его истории")
-        # Getting user_id
-        jwt_data = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_history(
-                    user_id=jwt_data.get("id_user")
+                    user_id=token_data.get("id_user")
                 )
             )
 
@@ -306,10 +289,11 @@ class UserService:
             logging.info(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его истории, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_full_information(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> AllDataUser:
         """
         Метод сервиса для получения полной информации о пользователе
@@ -320,9 +304,7 @@ class UserService:
 
         logging.info(msg=f"{UserService.__name__} Получение полной информации о пользователе")
         # Getting user id
-        user_id: int = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        ).get("id_user")
+        user_id: int = token_data.get("id_user")
 
         async with engine:
             user_all_information: Union[User, None] = (
@@ -367,9 +349,10 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def get_full_information_other_user(
-        engine: IEngineRepository, user_id: int, token: str
+        engine: IEngineRepository, user_id: int, token: str, token_data: dict = dict()
     ) -> AllDataUser:
         """
         Метод сервиса для получения полной информации о других пользователях
@@ -380,16 +363,12 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Получение полной информации о других пользователях")
-        # Получение данных токена
-        jwt_data: dict = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -454,9 +433,10 @@ class UserService:
 
             return result_find_user
 
+    @auth
     @staticmethod
     async def update_user_information(
-        engine: IEngineRepository, token: str, to_update: DataToUpdate
+        engine: IEngineRepository, token: str, to_update: DataToUpdate, token_data: dict = dict()
     ) -> UserIsUpdated:
         """
         Метод сервиса для обновления данных о пользователе
@@ -467,15 +447,11 @@ class UserService:
         """
         
         logging.info(msg=f"{UserService.__name__} Обновление данных о пользователе")
-        # Getting id
-        jwt_data = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
-                    other_id=jwt_data.get("id_user"),
+                    other_id=token_data.get("id_user"),
                     data_to_update=to_update.model_dump(),
                 )
             )
@@ -483,9 +459,10 @@ class UserService:
         logging.info(msg=f"{UserService.__name__} Не удалось обновить данные о пользователе, пользователь не был найден")
         await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def update_user_password(
-        engine: IEngineRepository, token: str, to_update: DataToUpdateUserPassword
+        engine: IEngineRepository, token: str, to_update: DataToUpdateUserPassword, token_data: dict = dict()
     ) -> UserIsUpdated:
         """
         Метод сервиса для обновления пароля пользователя
@@ -496,15 +473,12 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Обновление пароля пользователя")
-        # Getting user_id
-        auth = Authentication()
         crypt = CryptographyScooter()
-        jwt_data: dict = await auth.decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             # Проверка на совпадение пароля
             get_user_data: Union[User, None] = await engine.user_repository.find_one(
-                other_id=jwt_data.get("id_user")
+                other_id=token_data.get("id_user")
             )
             if get_user_data:
                 check_password = crypt.verify_password(
@@ -517,7 +491,7 @@ class UserService:
                     )
                     return UserIsUpdated(
                         is_updated=await engine.user_repository.update_one(
-                            other_id=jwt_data.get("id_user"),
+                            other_id=token_data.get("id_user"),
                             data_to_update={
                                 "password_user": hash_password,
                                 "date_update": to_update.date_update,
@@ -529,8 +503,9 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
-    async def delete_user(engine: IEngineRepository, token: str) -> UserIsDeleted:
+    async def delete_user(engine: IEngineRepository, token: str, token_data: dict = dict()) -> UserIsDeleted:
         """
         Метод сервиса для удаления всех данных пользователя
         :param session:
@@ -539,22 +514,20 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Удаление пользователя")
-        # Getting user_id
-        auth = Authentication()
-        jwt_data: dict = await auth.decode_jwt_token(token=token, type_token="access")
 
         async with engine:
             res_del = await engine.user_repository.delete_one(
-                other_id=jwt_data.get("id_user")
+                other_id=token_data.get("id_user")
             )
             if res_del:
                 return UserIsDeleted(is_deleted=res_del)
             logging.info(msg=f"{UserService.__name__} Не удалось обновить пользователя")
             await UserHttpError().http_failed_to_delete_user()
 
+    @auth
     @staticmethod
     async def send_secret_key_by_update_password(
-        engine: IEngineRepository, email: str, token: str
+        engine: IEngineRepository, email: str, token: str, token_data: dict = dict()
     ) -> None:
         """
         Отправка секретного ключа для обновления пароля
@@ -563,9 +536,6 @@ class UserService:
 
         logging.info(msg=f"{UserService.__name__} Отправка секретного ключа для обновления пароля")
         sctr_key: str = SecretKey().generate_password()
-        token_data: dict = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         email_transfer.send_message(
             text_to_message="Ваш секретный ключ для обновления пароля: {}\nПожалуйсте ни кому не передавайте его.".format(
@@ -585,9 +555,10 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось отправить секретный ключ")
             await UserHttpError().http_failed_to_update_user_information()
 
+    @auth
     @staticmethod
     async def check_secret_key(
-        engine: IEngineRepository, secret_key: str, token: str, new_password: str
+        engine: IEngineRepository, secret_key: str, token: str, new_password: str, token_data: dict = dict()
     ) -> None:
         """
         Проверка секретного ключа для обновления пароля
@@ -595,9 +566,6 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Проверка секретного ключа")
-        token_data: dict = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             user_data: User = (
@@ -629,9 +597,10 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя")
             await UserHttpError().http_failed_to_update_user_information()
 
+    @auth
     @staticmethod
     async def update_address_user_data(
-        engine: IEngineRepository, token: str, data_update: UpdateAddressDate
+        engine: IEngineRepository, token: str, data_update: UpdateAddressDate, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для обновления адресных данных пользователя
@@ -640,15 +609,10 @@ class UserService:
         """
         logging.info(msg=f"{UserService.__name__} Обновление данных пользователя")
 
-        # Данные токена
-        jwt_data: dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
-
         async with engine:
             # Обновление данных
             is_updated: bool = await engine.user_repository.update_one(
-                other_id=jwt_data.get("id_user"),
+                other_id=token_data.get("id_user"),
                 data_to_update=data_update.model_dump(),
             )
 

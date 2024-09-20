@@ -21,13 +21,15 @@ from src.api.dep.dependencies import IEngineRepository
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
+auth: Authentication = Authentication()
 
 
 class VacanciesService:
 
+    @auth
     @staticmethod
     async def create_vacancies(
-        engine: IEngineRepository, token: str, vac_data: VacanciesBase
+        engine: IEngineRepository, token: str, vac_data: VacanciesBase, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для создания новой вакансии
@@ -37,16 +39,12 @@ class VacanciesService:
         """
 
         logging.info(msg=f"{VacanciesService.__name__} Создание новой вакансии")
-        # Данные токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -117,10 +115,11 @@ class VacanciesService:
                 )
             logging.critical(msg=f"{VacanciesService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await VacanciesHttpError().http_vacancies_not_found()
-
+    
+    @auth
     @staticmethod
     async def update_vacancies(
-        engine: IEngineRepository, token: str, data_to_update: UpdateVacancies
+        engine: IEngineRepository, token: str, data_to_update: UpdateVacancies, token_data: dict = dict()
     ):
         """
         Метод сервиса для обновления вакансии
@@ -130,16 +129,12 @@ class VacanciesService:
         """
 
         logging.info(msg=f"{VacanciesService.__name__} Обновление вакансии")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -154,11 +149,13 @@ class VacanciesService:
             logging.critical(msg=f"{VacanciesService.__name__} Не удалось обновить вакансию, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def delete_vacancies_by_id(
         engine: IEngineRepository,
         token: str,
         id_vacancies: int,
+        token_data: dict = dict()
     ):
         """
         Метод сервиса для удаления вакансии
@@ -168,16 +165,12 @@ class VacanciesService:
         """
 
         logging.info(msg=f"{VacanciesService.__name__} Удаление вакансии")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
