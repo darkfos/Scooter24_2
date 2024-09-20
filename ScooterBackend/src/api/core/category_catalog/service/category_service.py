@@ -33,7 +33,7 @@ class CategoryService:
     @auth
     @staticmethod
     async def create_category(
-        engine: IEngineRepository, token: str, new_category: CategoryBase, token_data: dict
+        engine: IEngineRepository, token: str, new_category: CategoryBase, token_data: dict = dict()
     ) -> CategoryIsCreated:
         """
         Метод сервиса для создания новой категории товаров
@@ -129,7 +129,7 @@ class CategoryService:
     @auth
     @staticmethod
     async def update_category(
-        engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate, token_data: dict
+        engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate, token_data: dict = dict()
     ) -> CategoryIsUpdated:
         """
         Метод сервиса для обновления категории
@@ -169,7 +169,7 @@ class CategoryService:
     @auth
     @staticmethod
     async def delete_category(
-        engine: IEngineRepository, id_category: int, token: str, token_data: dict
+        engine: IEngineRepository, id_category: int, token: str, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для удаления категории по id

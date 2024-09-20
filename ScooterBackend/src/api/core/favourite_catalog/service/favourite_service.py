@@ -17,14 +17,16 @@ from src.api.dep.dependencies import IEngineRepository
 # Redis
 from src.store.tools import RedisTools
 
-redis: Type[RedisTools] = RedisTools()
+redis: RedisTools = RedisTools()
+auth: Authentication = Authentication()
 
 
 class FavouriteService:
 
+    @auth
     @staticmethod
     async def create_favourite_product(
-        engine: IEngineRepository, token: str, new_product_in_favourite: AddFavourite
+        engine: IEngineRepository, token: str, new_product_in_favourite: AddFavourite, token_data: dict = dict()
     ) -> None:
         """
         Добавление нового товара в избранное
@@ -33,18 +35,13 @@ class FavouriteService:
         :param new_product_in_favourite:
         :return:
         """
-
-        # Получаем данные из токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
         
         logging.info(msg=f"{FavouriteService.__name__} Добавление нового товара в избранное")
         async with engine:
             # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
                 data=Favourite(
-                    id_user=jwt_data.get("id_user"),
+                    id_user=token_data.get("id_user"),
                     id_product=new_product_in_favourite.id_product,
                 )
             )
@@ -54,10 +51,11 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} Не удалось добавить новый товар в избранное")
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
+    @auth
     @redis
     @staticmethod
     async def get_all_favourite_product_by_user_id(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> FavouriteBase:
         """
         Список всех избранных товаров пользователя.
@@ -68,16 +66,12 @@ class FavouriteService:
         """
 
         logging.info(msg=f"{FavouriteService.__name__} Получения списка всех избранных товаров")
-        # Получаем данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Получаем список товаров
             all_favourite_products: Union[List, List[Favourite]] = (
                 await engine.favourite_repository.get_all_data_for_id_user(
-                    id_user=jwt_data.get("id_user")
+                    id_user=token_data.get("id_user")
                 )
             )
 
@@ -98,6 +92,7 @@ class FavouriteService:
                 return ListFavouriteBase(favourites=[*product_data])
             return ListFavouriteBase(favourites=[])
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_fav_product_by_id(
@@ -105,6 +100,7 @@ class FavouriteService:
         token: str,
         id_fav_product: int,
         redis_search_data: str,
+        token_data: dict = dict()
     ) -> FavouriteInformation:
         """
         Метод сервиса для получение полной информации о избранном товаре
@@ -116,16 +112,11 @@ class FavouriteService:
 
         logging.info(msg=f"{FavouriteService.__name__} Получения полной информации о избранном товаре id={id_fav_product}")
 
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
-
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -154,9 +145,10 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} Не удалось получить полную информацию о избранном товара, не был найден пользователь")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def get_all_favourites(
-        engine: IEngineRepository, token: str
+        engine: IEngineRepository, token: str, token_data: dict = dict()
     ) -> Union[List, List[FavouriteSmallData]]:
         """
         Получение всех избранных товаров
@@ -166,16 +158,12 @@ class FavouriteService:
         """
 
         logging.info(msg=f"{FavouriteService.__name__} Получение всех избранных товаров")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -200,9 +188,10 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} не удалось получить список избранных товаров, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def delete_favourite_product(
-        engine: IEngineRepository, token: str, id_favourite: int
+        engine: IEngineRepository, token: str, id_favourite: int, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для удаление товара из списка избранных.
@@ -213,10 +202,6 @@ class FavouriteService:
         """
 
         logging.info(msg=f"{FavouriteService.__name__} Удаление товара из списка избранных id_favourite={id_favourite}")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на пользователя
@@ -227,7 +212,7 @@ class FavouriteService:
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
 
-                if get_favourite_data.id_user == jwt_data.get("id_user"):
+                if get_favourite_data.id_user == token_data.get("id_user"):
                     is_deleted: bool = await engine.favourite_repository.delete_one(
                         other_id=id_favourite
                     )
