@@ -19,13 +19,14 @@ from src.api.dep.dependencies import IEngineRepository
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
-
+auth: Authentication = Authentication()
 
 class OrderService:
 
+    @auth
     @staticmethod
     async def create_new_order(
-        engine: IEngineRepository, token: str, new_order: AddOrder
+        engine: IEngineRepository, token: str, new_order: AddOrder, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для создания нового заказа
@@ -36,17 +37,13 @@ class OrderService:
         """
 
         logging.info(msg=f"{OrderService.__name__} Создание нового заказа")
-        # Получение данных с токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Создание отзыва
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
                     date_buy=new_order.date_create,
-                    id_user=jwt_data.get("id_user"),
+                    id_user=token_data.get("id_user"),
                     id_product=new_order.id_product,
                 )
             )
@@ -56,10 +53,11 @@ class OrderService:
             logging.critical(msg=f"{OrderService.__name__} Не удалось создать новый заказ")
             await OrderHttpError().http_failed_to_create_a_new_order()
 
+    @auth
     @redis
     @staticmethod
     async def get_full_information_by_user_id(
-        engine: IEngineRepository, token: str, redis_search_data: str
+        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
     ) -> Union[List, List[OrderAndUserInformation]]:
         """
         Метод сервиса для получения всей информации об заказах для пользователя
@@ -69,16 +67,12 @@ class OrderService:
         """
 
         logging.info(msg=f"{OrderService.__name__} Получение всей информации о всех заказах")
-        # Получение данных с токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Данные заказов пользователя
             orders_data: Union[None, List[Order]] = (
                 await engine.order_repository.get_full_information(
-                    id_user=jwt_data.get("id_user")
+                    id_user=token_data.get("id_user")
                 )
             )
 
@@ -121,10 +115,11 @@ class OrderService:
 
             return ListOrderAndUserInformation(orders=[])
 
+    @auth
     @redis
     @staticmethod
     async def get_information_about_order_by_id(
-        engine: IEngineRepository, token: str, id_order: int, redis_search_data: str
+        engine: IEngineRepository, token: str, id_order: int, redis_search_data: str, token_data: dict = dict()
     ) -> OrderAndUserInformation:
         """
         Метод сервиса для получения полной информации о заказе по id
@@ -135,10 +130,6 @@ class OrderService:
         """
 
         logging.info(msg=f"{OrderService.__name__} Получение полной информации о заказе id_order={id_order}")
-        # Данные jwt токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Получение данных заказа
@@ -172,9 +163,10 @@ class OrderService:
             logging.critical(msg=f"{OrderService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await OrderHttpError().http_order_not_found()
 
+    @auth
     @staticmethod
     async def delete_order_by_id(
-        engine: IEngineRepository, token: str, id_order: int
+        engine: IEngineRepository, token: str, id_order: int, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для удаления заказа по id
@@ -185,10 +177,6 @@ class OrderService:
         """
 
         logging.info(msg=f"{OrderService.__name__} Удаление заказа по id_order={id_order}")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на то что заказ принадлежит покупателю
@@ -197,7 +185,7 @@ class OrderService:
             )
 
             if order_data:
-                if order_data[0].id_user == jwt_data.get("id_user"):
+                if order_data[0].id_user == token_data.get("id_user"):
 
                     # Удаление заказа
                     is_deleted: bool = await engine.order_repository.delete_one(
