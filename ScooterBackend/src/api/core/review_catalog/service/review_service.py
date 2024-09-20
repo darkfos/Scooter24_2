@@ -18,13 +18,15 @@ from src.api.dep.dependencies import IEngineRepository
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
+auth: Authentication = Authentication()
 
 
 class ReviewService:
 
+    @auth
     @staticmethod
     async def create_review(
-        engine: IEngineRepository, token: str, new_review: ReviewBase
+        engine: IEngineRepository, token: str, new_review: ReviewBase, token_data: dict = dict()
     ) -> ReviewIsCreated:
         """
         Метод сервиса для создания нового отзыва о товаре
@@ -35,10 +37,6 @@ class ReviewService:
         """
 
         logging.info(msg=f"{ReviewService.__name__} Создание нового отзыва о товаре")
-        # Get user id
-        token_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Created new review
@@ -164,9 +162,10 @@ class ReviewService:
             logging.critical(msg=f"{ReviewService.__name__} Не удалось найти отзыв")
             await ReviewHttpError().http_review_not_found()
 
+    @auth
     @staticmethod
     async def delete_review(
-        engine: IEngineRepository, id_review: int, token: str
+        engine: IEngineRepository, id_review: int, token: str, token_data: dict = dict()
     ) -> None:
         """
         Метод сервися для удаления отзыва.
@@ -177,16 +176,12 @@ class ReviewService:
         """
 
         logging.info(msg=f"{ReviewService.__name__} Удаление отзыва по id_review={id_review}")
-        # Getting data
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -202,7 +197,7 @@ class ReviewService:
                     await engine.review_repository.find_one(other_id=id_review)
                 )
                 if review_data:
-                    if review_data[0].id_user == jwt_data.get("id_user"):
+                    if review_data[0].id_user == token_data.get("id_user"):
                         is_review_deleted: bool = (
                             await engine.review_repository.delete_one(
                                 other_id=id_review

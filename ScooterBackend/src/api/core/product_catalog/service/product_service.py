@@ -622,12 +622,14 @@ class ProductService:
 
             return []
 
+    @auth
     @staticmethod
     async def update_product_discount(
         engine: IEngineRepository,
         token: str,
         id_product: int,
         new_discount: UpdateProductDiscount,
+        token_data: dict = dict()
     ) -> None:
         """
         Метод сервися для обновления скидки товара
@@ -639,15 +641,10 @@ class ProductService:
 
         logging.info(msg=f"{ProductService.__name__} Обновление скидки товара")
 
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
-
         async with engine:
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
