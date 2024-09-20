@@ -24,14 +24,16 @@ redis: Type[RedisTools] = RedisTools()
 # Redis
 from src.store.tools import RedisTools
 
-redis: Type[RedisTools] = RedisTools()
+redis: RedisTools = RedisTools()
+auth: Authentication = Authentication()
 
 
 class CategoryService:
 
+    @auth
     @staticmethod
     async def create_category(
-        engine: IEngineRepository, token: str, new_category: CategoryBase
+        engine: IEngineRepository, token: str, new_category: CategoryBase, token_data: dict
     ) -> CategoryIsCreated:
         """
         Метод сервиса для создания новой категории товаров
@@ -42,15 +44,11 @@ class CategoryService:
         """
 
         logging.info(msg=f"{CategoryService.__name__} Создание новой категории товара")
-        # Decode jwt token
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Find user in Admin table
             find_admin = await engine.admin_repository.find_admin_by_email_and_password(
-                email=jwt_data.get("email")
+                email=token_data.get("email")
             )
 
             if find_admin:
@@ -128,9 +126,10 @@ class CategoryService:
             logging.critical(msg=f"{CategoryService.__name__} Не удалось найти категорию по id={id_category}")
             await CategoryHttpError().http_category_not_found()
 
+    @auth
     @staticmethod
     async def update_category(
-        engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate
+        engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate, token_data: dict
     ) -> CategoryIsUpdated:
         """
         Метод сервиса для обновления категории
@@ -141,10 +140,6 @@ class CategoryService:
 
         logging.info(msg=f"{CategoryService.__name__} Обновление названия категории")
         async with engine:
-            # Decode token
-            token_data: Dict[str, str] = await Authentication().decode_jwt_token(
-                token=token, type_token="access"
-            )
 
             # Find admin
             is_admin = await engine.admin_repository.find_admin_by_email_and_password(
@@ -171,9 +166,10 @@ class CategoryService:
             logging.critical(msg=f"{CategoryService.__name__} Не удалось обновить данные по категории")
             await CategoryHttpError().http_category_not_found()
 
+    @auth
     @staticmethod
     async def delete_category(
-        engine: IEngineRepository, id_category: int, token: str
+        engine: IEngineRepository, id_category: int, token: str, token_data: dict
     ) -> None:
         """
         Метод сервиса для удаления категории по id
@@ -184,10 +180,6 @@ class CategoryService:
 
         logging.info(msg=f"{CategoryService.__name__} Удаление категории по id={id_category}")
         async with engine:
-            # Decode token
-            token_data: Dict[str, str] = await Authentication().decode_jwt_token(
-                token=token, type_token="access"
-            )
             is_admin = await engine.admin_repository.find_admin_by_email_and_password(
                 token_data.get("email")
             )

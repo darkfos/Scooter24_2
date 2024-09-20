@@ -30,7 +30,6 @@ class AdminService:
         :return:
         """
         
-        print("AAA")
         logging.info(msg=f"{AdminService.__name__} Создание нового администратора")
         token_data["password"] = CryptographyScooter().hashed_password(
             password=token_data.get("password")
