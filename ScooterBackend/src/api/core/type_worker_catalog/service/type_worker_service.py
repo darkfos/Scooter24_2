@@ -19,13 +19,15 @@ from src.store.tools import RedisTools
 
 
 redis: Type[RedisTools] = RedisTools()
+auth: Authentication = Authentication()
 
 
 class TypeWorkerService:
 
+    @auth
     @staticmethod
     async def create_a_new_type_worker(
-        engine: IEngineRepository, token: str, new_type_worker: TypeWorkerBase
+        engine: IEngineRepository, token: str, new_type_worker: TypeWorkerBase, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для создания нового типа работника
@@ -34,16 +36,12 @@ class TypeWorkerService:
         """
 
         logging.info(msg=f"{TypeWorkerService.__name__} Создание нового типа работника")
-        # Данные токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -106,9 +104,10 @@ class TypeWorkerService:
             logging.critical(msg=f"{TypeWorkerService.__name__} Не удалось получить тип работника, не был найден")
             await TypeWorkerExceptions().http_not_found_type_worker()
 
+    @auth
     @staticmethod
     async def delete_type_worker(
-        engine: IEngineRepository, id_type_worker: int, token: str
+        engine: IEngineRepository, id_type_worker: int, token: str, token_data: dict = dict()
     ) -> None:
         """
         Удаление типа работника
@@ -117,16 +116,12 @@ class TypeWorkerService:
         """
 
         logging.info(msg=f"{TypeWorkerService.__name__} Удаление типа работника")
-        # Данные токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
