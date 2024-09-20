@@ -15,11 +15,15 @@ from src.api.core.history_catalog.schemas.history_buy_dto import *
 from src.api.dep.dependencies import IEngineRepository
 
 
+auth: Authentication = Authentication()
+
+
 class HistoryBuyService:
 
+    @auth
     @staticmethod
     async def create_history(
-        engine: IEngineRepository, token: str, new_history: HistoryBuyBase
+        engine: IEngineRepository, token: str, new_history: HistoryBuyBase, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для создания новой истории
@@ -30,16 +34,12 @@ class HistoryBuyService:
         """
 
         logging.info(msg=f"{HistoryBuyService.__name__} Создание новой истории")
-        # Получение данных токена
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Создание истории
             is_created: bool = await engine.history_buy_repository.add_one(
                 data=HistoryBuy(
-                    id_user=jwt_data.get("id_user"), id_product=new_history.id_product
+                    id_user=token_data.get("id_user"), id_product=new_history.id_product
                 )
             )
 
@@ -48,9 +48,10 @@ class HistoryBuyService:
             logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось создать новую историю")
             await HistoryBuyHttpError().http_failed_to_create_a_new_history()
 
+    @auth
     @staticmethod
     async def get_all_histories_for_user(
-        engine: IEngineRepository, token: str
+        engine: IEngineRepository, token: str, token_data: dict = dict()
     ) -> Union[List, List[HistoryBuyBase]]:
         """
         Метод сервиса для получения всей истории покупок
@@ -60,16 +61,12 @@ class HistoryBuyService:
         """
 
         logging.info(msg=f"{HistoryBuyService.__name__} Получение всей истории покупок")
-        # Получение данных токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Получение всей истории по id пользователя
             all_user_history: Union[List, List[HistoryBuy]] = (
                 await engine.history_buy_repository.find_by_user_id(
-                    id_user=jwt_data.get("id_user")
+                    id_user=token_data.get("id_user")
                 )
             )
 
@@ -79,10 +76,11 @@ class HistoryBuyService:
                     for history in all_user_history
                 ]
             return all_user_history
-
+    
+    @auth
     @staticmethod
     async def get_history_by_id(
-        engine: IEngineRepository, token: str, id_history: int
+        engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()
     ) -> HistoryBuyBase:
         """
         Метод сервиса для получения данных об истории
@@ -93,10 +91,6 @@ class HistoryBuyService:
         """
 
         logging.info(msg=f"{HistoryBuyService.__name__} Получение данных об истории")
-        # Получение данных токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Получение всей истории по id пользователя
@@ -104,16 +98,17 @@ class HistoryBuyService:
                 await engine.history_buy_repository.find_one(other_id=id_history)
             )
             if history_data:
-                if history_data[0].id_user == jwt_data.get("id_user"):
+                if history_data[0].id_user == token_data.get("id_user"):
                     return HistoryBuyBase(id_product=history_data[0].id_product)
                 logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, пользователь не был найден")
                 await UserHttpError().http_user_not_found()
             logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, не была найдена история")
             await HistoryBuyHttpError().http_history_buy_not_found()
 
+    @auth
     @staticmethod
     async def delete_history_by_id(
-        engine: IEngineRepository, token: str, id_history: int
+        engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для удаления истории
@@ -124,15 +119,11 @@ class HistoryBuyService:
         """
 
         logging.info(msg=f"{HistoryBuyService.__name__} Удаление истории id_history={id_history}")
-        # Получение данных токена
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = await engine.history_buy_repository.find_one(
-                other_id=jwt_data.get("id_user")
+                other_id=token_data.get("id_user")
             )
 
             if is_admin:
