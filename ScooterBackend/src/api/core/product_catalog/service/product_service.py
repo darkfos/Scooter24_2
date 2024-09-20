@@ -23,16 +23,19 @@ from src.other.image.image_saver import ImageSaver
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
+auth: Authentication = Authentication()
 
 
 class ProductService:
 
+    @auth
     @staticmethod
     async def create_product(
         engine: IEngineRepository,
         token: str,
         new_product: ProductBase,
         photo_product: UploadFile,
+        token_data: dict = dict()
     ) -> ProductIsCreated:
         """
         Метод для создания нового продукта
@@ -43,16 +46,12 @@ class ProductService:
         """
 
         logging.info(msg=f"{ProductService.__name__} Создание нового продукта")
-        # Getting token data
-        jwt_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(token=token, type_token="access")
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
             if is_admin:
@@ -104,9 +103,10 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось создать новый продукт")
             await ProductHttpError().http_failed_to_create_a_new_product()
 
+    @auth
     @staticmethod
     async def add_new_category(
-        engine: IEngineRepository, id_product: int, id_category: int, admin_data: str
+        engine: IEngineRepository, id_product: int, id_category: int, admin_data: str, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для добавления новой категории для товара
@@ -117,9 +117,6 @@ class ProductService:
         """
 
         logging.info(msg=f"{ProductService.__name__} Добавление новой категории для товара")
-        token_data: dict = await Authentication().decode_jwt_token(
-            token=admin_data, type_token="access"
-        )
 
         async with engine:
             is_admin = await engine.admin_repository.find_admin_by_email_and_password(
@@ -332,10 +329,11 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт")
             await ProductHttpError().http_product_not_found()
 
+    @auth
     @redis
     @staticmethod
     async def get_all_information_about_product(
-        engine: IEngineRepository, token: str, id_product: int, redis_search_data: str
+        engine: IEngineRepository, token: str, id_product: int, redis_search_data: str, token_data: dict = dict()
     ) -> ProductAllInformation:
         """
         Метод сервиса для получения полной информации о продукте
@@ -345,16 +343,12 @@ class ProductService:
         """
 
         logging.info(msg=f"{ProductService.__name__} Получение полной информации о продукте")
-        # Get data from token
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Is admin
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -400,12 +394,14 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def update_information(
         engine: IEngineRepository,
         id_product: int,
         token: str,
         data_to_update: UpdateProduct,
+        token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для обновления информации о продукте
@@ -416,16 +412,11 @@ class ProductService:
         :return:
         """
 
-        # Getting jwt data
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
-
         async with engine:
             # Is admin
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -442,9 +433,10 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось обновить продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def update_photo(
-        engine: IEngineRepository, token: str, photo_data: str, product_id: int
+        engine: IEngineRepository, token: str, photo_data: str, product_id: int, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для обновления фотографии товара
@@ -455,16 +447,12 @@ class ProductService:
         """
 
         logging.info(msg=f"{ProductService.__name__} Обновление фотографии")
-        # Getting data from token
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
@@ -481,9 +469,10 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось обновить фотографию")
             await UserHttpError().http_user_not_found()
 
+    @auth
     @staticmethod
     async def delete_product_by_id(
-        engine: IEngineRepository, token: str, id_product: int
+        engine: IEngineRepository, token: str, id_product: int, token_data: dict = dict()
     ) -> None:
         """
         Метод сервиса для удаления продукта по id
@@ -494,16 +483,12 @@ class ProductService:
         """
 
         logging.info(msg=f"{ProductService.__name__} Удаление продукта по id = {id_product}")
-        # Getting data from token
-        jwt_data: Dict[str, Union[str, int]] = await Authentication().decode_jwt_token(
-            token=token, type_token="access"
-        )
 
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
-                    email=jwt_data.get("email")
+                    email=token_data.get("email")
                 )
             )
 
