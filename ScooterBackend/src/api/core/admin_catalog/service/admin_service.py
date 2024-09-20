@@ -13,11 +13,15 @@ from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.dep.dependencies import IEngineRepository
 
 
-class AdminService:
+auth: Authentication = Authentication()
 
+
+class AdminService:
+    
+    @auth
     @staticmethod
     async def create_admin(
-        engine: IEngineRepository, new_admin: AdminBase, user_data: str
+        engine: IEngineRepository, new_admin: AdminBase, user_data: str, token_data: dict = dict()
     ):
         """
         Создание нового администратора
@@ -25,14 +29,9 @@ class AdminService:
         :param new_admin:
         :return:
         """
-
+        
+        print("AAA")
         logging.info(msg=f"{AdminService.__name__} Создание нового администратора")
-        # Decode token
-        token_data: Coroutine[Any, Any, Dict[str, str] | None] = (
-            await Authentication().decode_jwt_token(
-                token=user_data, type_token="access"
-            )
-        )
         token_data["password"] = CryptographyScooter().hashed_password(
             password=token_data.get("password")
         )

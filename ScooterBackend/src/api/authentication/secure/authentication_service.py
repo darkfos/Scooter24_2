@@ -3,7 +3,7 @@ import jwt, logging
 from datetime import timedelta, datetime
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
-from typing import Dict, Union
+from typing import Dict, Union, Callable
 
 # Local
 from src.settings.engine_settings import Settings
@@ -237,3 +237,10 @@ class Authentication:
 
         logging.critical(msg=f"Сервис Аутентификации - пользователь не прошел проверка на администратора, email={email}")
         await UserHttpError().http_user_not_found()
+
+    def __call__(cls, func: Callable):
+        async def auth_wrapper(*args, **kwargs):
+            res = await cls.decode_jwt_token(token=kwargs["user_data"], type_token="access")
+            return await func(*args, **kwargs, token_data=res)
+        return auth_wrapper
+        
