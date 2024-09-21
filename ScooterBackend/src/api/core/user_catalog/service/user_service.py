@@ -26,6 +26,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 # redis
 from src.store.tools import RedisTools
@@ -77,7 +78,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось создать пользователя")
             await UserHttpError().http_failed_to_create_a_new_user()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_information_about_me(
         engine: IEngineRepository, token: str, token_data: dict = dict()
@@ -108,7 +109,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_user(
@@ -146,7 +147,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_me_and_review(
@@ -180,7 +181,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его отзывах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_me_and_favourite(
@@ -214,7 +215,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его избранных товарах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_me_and_orders(
@@ -255,7 +256,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его заказах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_me_and_history(
@@ -289,7 +290,7 @@ class UserService:
             logging.info(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его истории, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_full_information(
@@ -349,7 +350,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_full_information_other_user(
         engine: IEngineRepository, user_id: int, token: str, token_data: dict = dict()
@@ -433,7 +434,7 @@ class UserService:
 
             return result_find_user
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_user_information(
         engine: IEngineRepository, token: str, to_update: DataToUpdate, token_data: dict = dict()
@@ -459,7 +460,7 @@ class UserService:
         logging.info(msg=f"{UserService.__name__} Не удалось обновить данные о пользователе, пользователь не был найден")
         await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_user_password(
         engine: IEngineRepository, token: str, to_update: DataToUpdateUserPassword, token_data: dict = dict()
@@ -503,7 +504,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_user(engine: IEngineRepository, token: str, token_data: dict = dict()) -> UserIsDeleted:
         """
@@ -524,7 +525,7 @@ class UserService:
             logging.info(msg=f"{UserService.__name__} Не удалось обновить пользователя")
             await UserHttpError().http_failed_to_delete_user()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def send_secret_key_by_update_password(
         engine: IEngineRepository, email: str, token: str, token_data: dict = dict()
@@ -555,7 +556,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось отправить секретный ключ")
             await UserHttpError().http_failed_to_update_user_information()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def check_secret_key(
         engine: IEngineRepository, secret_key: str, token: str, new_password: str, token_data: dict = dict()
@@ -597,7 +598,7 @@ class UserService:
             logging.critical(msg=f"{UserService.__name__} Не удалось обновить пароль пользователя")
             await UserHttpError().http_failed_to_update_user_information()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_address_user_data(
         engine: IEngineRepository, token: str, data_update: UpdateAddressDate, token_data: dict = dict()

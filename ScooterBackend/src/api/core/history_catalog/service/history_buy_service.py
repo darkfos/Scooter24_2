@@ -13,6 +13,7 @@ from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.core.history_catalog.error.http_history_buy_exception import HistoryBuyHttpError
 from src.api.core.history_catalog.schemas.history_buy_dto import *
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 auth: Authentication = Authentication()
@@ -20,7 +21,7 @@ auth: Authentication = Authentication()
 
 class HistoryBuyService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_history(
         engine: IEngineRepository, token: str, new_history: HistoryBuyBase, token_data: dict = dict()
@@ -48,7 +49,7 @@ class HistoryBuyService:
             logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось создать новую историю")
             await HistoryBuyHttpError().http_failed_to_create_a_new_history()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_all_histories_for_user(
         engine: IEngineRepository, token: str, token_data: dict = dict()
@@ -77,7 +78,7 @@ class HistoryBuyService:
                 ]
             return all_user_history
     
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_history_by_id(
         engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()
@@ -105,7 +106,7 @@ class HistoryBuyService:
             logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, не была найдена история")
             await HistoryBuyHttpError().http_history_buy_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_history_by_id(
         engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()

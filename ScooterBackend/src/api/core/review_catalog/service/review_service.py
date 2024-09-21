@@ -13,6 +13,7 @@ from src.api.core.review_catalog.error.http_review_exception import ReviewHttpEr
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 from src.store.tools import RedisTools
@@ -23,7 +24,7 @@ auth: Authentication = Authentication()
 
 class ReviewService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_review(
         engine: IEngineRepository, token: str, new_review: ReviewBase, token_data: dict = dict()
@@ -162,7 +163,7 @@ class ReviewService:
             logging.critical(msg=f"{ReviewService.__name__} Не удалось найти отзыв")
             await ReviewHttpError().http_review_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_review(
         engine: IEngineRepository, id_review: int, token: str, token_data: dict = dict()

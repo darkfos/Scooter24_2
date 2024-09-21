@@ -14,12 +14,7 @@ from src.api.core.category_catalog.error.http_category_exception import Category
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.core.category_catalog.error.http_category_exception import CategoryHttpError
 from src.api.dep.dependencies import IEngineRepository
-
-
-# Redis
-from src.store.tools import RedisTools
-
-redis: Type[RedisTools] = RedisTools()
+from src.other.enums.auth_enum import AuthenticationEnum
 
 # Redis
 from src.store.tools import RedisTools
@@ -30,7 +25,7 @@ auth: Authentication = Authentication()
 
 class CategoryService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_category(
         engine: IEngineRepository, token: str, new_category: CategoryBase, token_data: dict = dict()
@@ -126,7 +121,7 @@ class CategoryService:
             logging.critical(msg=f"{CategoryService.__name__} Не удалось найти категорию по id={id_category}")
             await CategoryHttpError().http_category_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_category(
         engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate, token_data: dict = dict()
@@ -166,7 +161,7 @@ class CategoryService:
             logging.critical(msg=f"{CategoryService.__name__} Не удалось обновить данные по категории")
             await CategoryHttpError().http_category_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_category(
         engine: IEngineRepository, id_category: int, token: str, token_data: dict = dict()

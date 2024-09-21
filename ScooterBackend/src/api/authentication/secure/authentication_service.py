@@ -239,16 +239,16 @@ class Authentication:
         logging.critical(msg=f"Сервис Аутентификации - пользователь не прошел проверка на администратора, email={email}")
         await UserHttpError().http_user_not_found()
 
-    def __call__(cls, worker: AuthenticationEnum):
-        async def auth_wrapper(func: Callable):
+    def __call__(cls, worker: str):
+        def auth_wrapper(func: Callable):
             async def auth_json_wrapper(*args, **kwargs):
                 match worker:
-                    case worker.CREATE_TOKEN.value:
+                    case AuthenticationEnum.CREATE_TOKEN.value:
                         pass
-                    case worker.DECODE_TOKEN.value:
+                    case AuthenticationEnum.DECODE_TOKEN.value:
                         res = await cls.decode_jwt_token(token=kwargs["token"], type_token="access")
                         return await func(*args, **kwargs, token_data=res)
-                    case worker.UPDATE_TOKEN.value:
+                    case AuthenticationEnum.UPDATE_TOKEN.value:
                         pass
             return auth_json_wrapper
         return auth_wrapper

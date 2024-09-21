@@ -13,6 +13,7 @@ from src.api.core.order_catalog.error.http_order_exception import OrderHttpError
 from src.api.core.order_catalog.schemas.order_dto import *
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
@@ -23,7 +24,7 @@ auth: Authentication = Authentication()
 
 class OrderService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_new_order(
         engine: IEngineRepository, token: str, new_order: AddOrder, token_data: dict = dict()
@@ -53,7 +54,7 @@ class OrderService:
             logging.critical(msg=f"{OrderService.__name__} Не удалось создать новый заказ")
             await OrderHttpError().http_failed_to_create_a_new_order()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_full_information_by_user_id(
@@ -115,7 +116,7 @@ class OrderService:
 
             return ListOrderAndUserInformation(orders=[])
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_order_by_id(
@@ -163,7 +164,7 @@ class OrderService:
             logging.critical(msg=f"{OrderService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await OrderHttpError().http_order_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_order_by_id(
         engine: IEngineRepository, token: str, id_order: int, token_data: dict = dict()

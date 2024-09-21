@@ -17,6 +17,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.dep.dependencies import IEngineRepository
 from src.other.image.image_saver import ImageSaver
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
@@ -28,7 +29,7 @@ auth: Authentication = Authentication()
 
 class ProductService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_product(
         engine: IEngineRepository,
@@ -103,7 +104,7 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось создать новый продукт")
             await ProductHttpError().http_failed_to_create_a_new_product()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def add_new_category(
         engine: IEngineRepository, id_product: int, id_category: int, admin_data: str, token_data: dict = dict()
@@ -329,7 +330,7 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт")
             await ProductHttpError().http_product_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_all_information_about_product(
@@ -394,7 +395,7 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось найти продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_information(
         engine: IEngineRepository,
@@ -433,7 +434,7 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось обновить продукт, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_photo(
         engine: IEngineRepository, token: str, photo_data: str, product_id: int, token_data: dict = dict()
@@ -469,7 +470,7 @@ class ProductService:
             logging.critical(msg=f"{ProductService.__name__} Не удалось обновить фотографию")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_product_by_id(
         engine: IEngineRepository, token: str, id_product: int, token_data: dict = dict()
@@ -622,7 +623,7 @@ class ProductService:
 
             return []
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_product_discount(
         engine: IEngineRepository,

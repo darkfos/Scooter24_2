@@ -12,6 +12,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.type_worker_catalog.error.http_type_worker_exceptions import TypeWorkerExceptions
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
@@ -24,7 +25,7 @@ auth: Authentication = Authentication()
 
 class TypeWorkerService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_a_new_type_worker(
         engine: IEngineRepository, token: str, new_type_worker: TypeWorkerBase, token_data: dict = dict()
@@ -104,7 +105,7 @@ class TypeWorkerService:
             logging.critical(msg=f"{TypeWorkerService.__name__} Не удалось получить тип работника, не был найден")
             await TypeWorkerExceptions().http_not_found_type_worker()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_type_worker(
         engine: IEngineRepository, id_type_worker: int, token: str, token_data: dict = dict()

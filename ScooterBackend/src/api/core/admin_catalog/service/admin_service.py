@@ -11,6 +11,7 @@ from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 auth: Authentication = Authentication()
@@ -18,7 +19,7 @@ auth: Authentication = Authentication()
 
 class AdminService:
     
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_admin(
         engine: IEngineRepository, new_admin: AdminBase, token, token_data: dict = dict()

@@ -16,6 +16,7 @@ from src.api.core.vacancy_catalog.schemas.vacancies_dto import (
     VacanciesGeneralData,
 )
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 # Redis
 from src.store.tools import RedisTools
@@ -26,7 +27,7 @@ auth: Authentication = Authentication()
 
 class VacanciesService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_vacancies(
         engine: IEngineRepository, token: str, vac_data: VacanciesBase, token_data: dict = dict()
@@ -116,7 +117,7 @@ class VacanciesService:
             logging.critical(msg=f"{VacanciesService.__name__} Не удалось получить информацию о заказе, заказ не был найден")
             await VacanciesHttpError().http_vacancies_not_found()
     
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_vacancies(
         engine: IEngineRepository, token: str, data_to_update: UpdateVacancies, token_data: dict = dict()
@@ -149,7 +150,7 @@ class VacanciesService:
             logging.critical(msg=f"{VacanciesService.__name__} Не удалось обновить вакансию, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_vacancies_by_id(
         engine: IEngineRepository,

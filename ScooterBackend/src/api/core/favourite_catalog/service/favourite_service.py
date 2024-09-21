@@ -12,6 +12,7 @@ from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.database.models.favourite import Favourite
 from src.api.core.favourite_catalog.schemas.favourite_dto import *
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
@@ -23,7 +24,7 @@ auth: Authentication = Authentication()
 
 class FavouriteService:
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_favourite_product(
         engine: IEngineRepository, token: str, new_product_in_favourite: AddFavourite, token_data: dict = dict()
@@ -51,7 +52,7 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} Не удалось добавить новый товар в избранное")
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_all_favourite_product_by_user_id(
@@ -92,7 +93,7 @@ class FavouriteService:
                 return ListFavouriteBase(favourites=[*product_data])
             return ListFavouriteBase(favourites=[])
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_information_about_fav_product_by_id(
@@ -145,7 +146,7 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} Не удалось получить полную информацию о избранном товара, не был найден пользователь")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_all_favourites(
         engine: IEngineRepository, token: str, token_data: dict = dict()
@@ -188,7 +189,7 @@ class FavouriteService:
             logging.critical(msg=f"{FavouriteService.__name__} не удалось получить список избранных товаров, пользователь не был найден")
             await UserHttpError().http_user_not_found()
 
-    @auth
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_favourite_product(
         engine: IEngineRepository, token: str, id_favourite: int, token_data: dict = dict()
