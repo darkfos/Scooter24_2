@@ -36,5 +36,5 @@ async def create_admin(
     """
 
     return await AdminService.create_admin(
-        engine=session, new_admin=new_admin, user_data=user_data
+        engine=session, new_admin=new_admin, token=user_data
     )

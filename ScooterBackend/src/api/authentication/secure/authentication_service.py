@@ -240,7 +240,7 @@ class Authentication:
 
     def __call__(cls, func: Callable):
         async def auth_wrapper(*args, **kwargs):
-            res = await cls.decode_jwt_token(token=kwargs["user_data"], type_token="access")
+            res = await cls.decode_jwt_token(token=kwargs["token"], type_token="access")
             return await func(*args, **kwargs, token_data=res)
         return auth_wrapper
         

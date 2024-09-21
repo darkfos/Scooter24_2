@@ -21,7 +21,7 @@ class AdminService:
     @auth
     @staticmethod
     async def create_admin(
-        engine: IEngineRepository, new_admin: AdminBase, user_data: str, token_data: dict = dict()
+        engine: IEngineRepository, new_admin: AdminBase, token, token_data: dict = dict()
     ):
         """
         Создание нового администратора
