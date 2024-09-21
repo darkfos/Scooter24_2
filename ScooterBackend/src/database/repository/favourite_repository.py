@@ -44,7 +44,7 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name} Осуществлён процесс получения списка избранных товаров по id_user=%s" % id_user)
+        logging.info(msg=f"{self.__class__.__name__} Осуществлён процесс получения списка избранных товаров по id_user=%s" % id_user)
 
         stmt = (
             select(Favourite)
@@ -69,7 +69,7 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name} Осуществлён процесс получения полной информации о избранном товаре по id = %s" % id_fav_product)
+        logging.info(msg=f"{self.__class__.__name__} Осуществлён процесс получения полной информации о избранном товаре по id = %s" % id_fav_product)
         stmt = (
             select(Favourite)
             .where(Favourite.id == id_fav_product)
