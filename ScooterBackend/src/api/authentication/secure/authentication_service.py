@@ -147,7 +147,7 @@ class Authentication:
             logging.exception(msg=f"Сервис Аутентификации - не удалось декодировать токен, ошибка={er}")
             await GeneralExceptions().http_auth_error()
 
-    async def update_token(self, refresh_token: str) -> str:
+    async def update_token(self, refresh_token: str) -> dict:
         """
         Обновляет токен
         :param refresh_token:
@@ -244,12 +244,14 @@ class Authentication:
             async def auth_json_wrapper(*args, **kwargs):
                 match worker:
                     case AuthenticationEnum.CREATE_TOKEN.value:
-                        pass
+                        res = await cls.create_tokens(engine=kwargs["session"], token_data=kwargs["token_data"])
+                        return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.DECODE_TOKEN.value:
                         res = await cls.decode_jwt_token(token=kwargs["token"], type_token="access")
                         return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.UPDATE_TOKEN.value:
-                        pass
+                        res = await cls.update_token(refresh_token=kwargs["refresh_token"])
+                        return await func(*args, **kwargs, new_token=res)
             return auth_json_wrapper
         return auth_wrapper
         
