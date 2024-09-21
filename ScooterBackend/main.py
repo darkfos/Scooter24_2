@@ -6,10 +6,11 @@ import uvicorn
 import logging
 
 
-if __name__ == "__main__":
+# Logging
+logging.basicConfig(level=logging.INFO, filename="scooter24-log.log", filemode="w")
 
-    # Logging
-    logging.basicConfig(level=logging.INFO, filename="scooter24-log.log", filemode="w")
+
+if __name__ == "__main__":
 
     scooter24: Type[ScooterBackendApplication] = ScooterBackendApplication()
     app: Type[FastAPI] = scooter24.scooter24_app
@@ -23,5 +24,4 @@ if __name__ == "__main__":
 
     # Start project
     logging.info(msg="Start Project")
-
     uvicorn.run(app=app)

@@ -170,13 +170,14 @@ class UserService:
             )
 
             if user_data:
+                print(user_data)
                 return UserReviewData(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
                     surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
-                    reviews=user_data.reviews,
+                    reviews=[review.read_model() for review in user_data.reviews],
                 )
             logging.critical(msg=f"{UserService.__name__} Не удалось получить информацию о пользователе и его отзывах, пользователь не был найден")
             await UserHttpError().http_user_not_found()
