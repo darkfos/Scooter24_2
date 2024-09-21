@@ -1,7 +1,6 @@
 # Other libraries
 from typing import Union, Type
 from typing import Union, Any, Coroutine, Dict, Type
-import logging
 
 # Local
 from src.api.core.user_catalog.schemas.user_dto import (
@@ -27,17 +26,14 @@ from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
-
-# redis
-from src.store.tools import RedisTools
-
-redis: Type[RedisTools] = RedisTools()
+import logging as logger
 
 # Redis
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class UserService:
@@ -304,7 +300,7 @@ class UserService:
         :return:
         """
 
-        logging.info(msg=f"{UserService.__name__} Получение полной информации о пользователе")
+        logging.info(msg=f"Получение полной информации о пользователе")
         # Getting user id
         user_id: int = token_data.get("id_user")
 

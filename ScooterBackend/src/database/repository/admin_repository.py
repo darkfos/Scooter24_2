@@ -1,6 +1,6 @@
 # System
 from typing import Union, Type
-import logging
+import logging as logger
 
 # Other libraries
 from sqlalchemy import select
@@ -9,6 +9,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 # Local
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.admin import Admin
+
+
+logging = logger.getLogger(__name__)
 
 
 class AdminRepository(GeneralSQLRepository):

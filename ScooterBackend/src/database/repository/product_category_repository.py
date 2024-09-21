@@ -4,7 +4,10 @@ from src.database.repository.product_repository import ProductRepository
 from src.database.repository.category_repository import CategoryRepository
 from src.database.models.product_category import ProductCategory
 from typing import Type
-import logging
+import logging as logger
+
+
+logging = logger.getLogger(__name__)
 
 
 class ProductCategoryRepository(GeneralSQLRepository):

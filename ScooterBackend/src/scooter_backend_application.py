@@ -1,4 +1,5 @@
 # Local
+import logging.config
 from src.settings.api_settings.api_settings import APISettings
 
 # ROUTES
@@ -23,7 +24,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from typing import Type, List
+from typing import Type, List, Final
 
 
 class ScooterBackendApplication:

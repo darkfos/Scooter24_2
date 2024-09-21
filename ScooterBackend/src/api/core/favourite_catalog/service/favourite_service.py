@@ -1,6 +1,6 @@
 # System
 from typing import List, Dict, Union, Coroutine, Any, Type
-import logging
+import logging as logger
 
 # Other libraries
 ...
@@ -20,6 +20,7 @@ from src.store.tools import RedisTools
 
 redis: RedisTools = RedisTools()
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class FavouriteService:

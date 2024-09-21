@@ -1,6 +1,6 @@
 # System
 from typing import Union, Coroutine, Any, Dict
-import logging
+import logging as logger
 
 # Other libraries
 
@@ -15,6 +15,7 @@ from src.other.enums.auth_enum import AuthenticationEnum
 
 
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class AdminService:

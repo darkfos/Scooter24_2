@@ -1,6 +1,6 @@
 # System
 from typing import Union, List
-import logging
+import logging as logger
 
 
 # Other libraries
@@ -9,6 +9,9 @@ from random import choice, randint
 
 # Local
 from src.settings.engine_settings import Settings
+
+
+logging = logger.getLogger(__name__)
 
 
 class SecretKey:

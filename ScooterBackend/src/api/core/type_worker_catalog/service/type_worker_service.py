@@ -1,6 +1,6 @@
 # System
 from typing import List, Union, Dict, Coroutine, Any, Type
-import logging
+import logging as logger
 
 # Other libraries
 ...
@@ -21,6 +21,7 @@ from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class TypeWorkerService:

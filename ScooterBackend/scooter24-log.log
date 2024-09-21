@@ -1,1 +1,42 @@
 INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - создание токена
+INFO:src.database.repository.user_repository:UserRepository Поиск пользователя по почте=darkfos82@gmail.com
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" 
+WHERE "User".email_user = $1::VARCHAR
+INFO:sqlalchemy.engine.Engine:[generated in 0.00026s] ('darkfos82@gmail.com',)
+INFO:src.database.repository.admin_repository:AdminRepository Запрос на получение данных по почте и паролю email=darkfos82@gmail.com; password=chaiki45
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+INFO:sqlalchemy.engine.Engine:[generated in 0.00027s] ('darkfos82@gmail.com',)
+ERROR:src.database.repository.admin_repository:AdminRepository не удалось получить данные администратора по почте и паролю email=darkfos82@gmail.com; password=chaiki45
+INFO:src.api.authentication.hash_service.hashing:Верификация пользователя
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.core.user_catalog.service.user_service:Получение полной информации о пользователе
+INFO:src.database.repository.user_repository:UserRepository Поиск пользователя и получение полной информации о пользователе id_user=1
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id, "Favourite_1".id_user, "Favourite_1".id_product, "Favourite_1".id AS id_1, "Order_1".date_buy, "Order_1".id_user AS id_user_1, "Order_1".id_product AS id_product_1, "Order_1".id AS id_2, "Historybuy_1".id_user AS id_user_2, "Historybuy_1".id_product AS id_product_2, "Historybuy_1".id AS id_3, "Review_1".text_review, "Review_1".estimation_review, "Review_1".id_user AS id_user_3, "Review_1".id_product AS id_product_3, "Review_1".id AS id_4 
+FROM "User" LEFT OUTER JOIN "Favourite" AS "Favourite_1" ON "User".id = "Favourite_1".id_user LEFT OUTER JOIN "Order" AS "Order_1" ON "User".id = "Order_1".id_user LEFT OUTER JOIN "Historybuy" AS "Historybuy_1" ON "User".id = "Historybuy_1".id_user LEFT OUTER JOIN "Review" AS "Review_1" ON "User".id = "Review_1".id_user 
+WHERE "User".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00048s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Redis данные были сохранены в хранилище
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.core.user_catalog.service.user_service:UserService Получение информации о пользователе и его избранных товарах
+INFO:src.database.repository.user_repository:UserRepository Получение информации о пользователе и о всех его товарах в списке избранное id_user=1
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id, "Favourite_1".id_user, "Favourite_1".id_product, "Favourite_1".id AS id_1 
+FROM "User" LEFT OUTER JOIN "Favourite" AS "Favourite_1" ON "User".id = "Favourite_1".id_user 
+WHERE "User".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00024s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Redis данные были сохранены в хранилище

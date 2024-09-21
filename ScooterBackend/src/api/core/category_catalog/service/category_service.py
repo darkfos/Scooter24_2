@@ -1,5 +1,6 @@
 # System
-import datetime, logging
+import datetime
+import logging as logger
 from typing import List, Union, Dict, Type
 from typing import List, Union, Dict, Coroutine, Any, Type
 
@@ -21,6 +22,7 @@ from src.store.tools import RedisTools
 
 redis: RedisTools = RedisTools()
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class CategoryService:

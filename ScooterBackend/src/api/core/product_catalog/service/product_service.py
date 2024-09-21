@@ -1,5 +1,6 @@
 # System
-import datetime, logging
+import datetime
+import logging as logger
 from typing import Union, Dict, List, Type, Coroutine, Any
 from random import choice
 
@@ -25,6 +26,7 @@ from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class ProductService:

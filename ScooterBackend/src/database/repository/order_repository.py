@@ -1,15 +1,18 @@
 # System
 from typing import List, Union, Type
-import logging
+import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete, Result
+from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
 # Local
 from src.database.models.order import Order
 from src.database.repository.general_repository import GeneralSQLRepository
+
+
+logging = logger.getLogger(__name__)
 
 
 class OrderRepository(GeneralSQLRepository):

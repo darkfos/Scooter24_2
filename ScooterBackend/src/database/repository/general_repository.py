@@ -2,10 +2,13 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
 from typing import Type
-import logging
+import logging as logger
 
 # Local
 ...
+
+
+logging = logger.getLogger(__name__)
 
 
 class GeneralSQLRepository:

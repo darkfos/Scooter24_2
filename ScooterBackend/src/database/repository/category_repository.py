@@ -1,6 +1,6 @@
 # System
 from typing import Union, List, Type
-import logging
+import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,6 +11,9 @@ from sqlalchemy import select, update, delete
 from src.database.models.category import Category
 from src.database.db_worker import db_work
 from src.database.repository.general_repository import GeneralSQLRepository
+
+
+logging = logger.getLogger(__name__)
 
 
 class CategoryRepository(GeneralSQLRepository):

@@ -1,6 +1,6 @@
 # System
 from typing import List, Union, Dict, Coroutine, Any
-import logging
+import logging as logger
 
 
 # Other libraries
@@ -17,6 +17,7 @@ from src.other.enums.auth_enum import AuthenticationEnum
 
 
 auth: Authentication = Authentication()
+logging = logger.getLogger(__name__)
 
 
 class HistoryBuyService:

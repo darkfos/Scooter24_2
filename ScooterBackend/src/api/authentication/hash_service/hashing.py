@@ -1,9 +1,12 @@
 # Other libraries
 from passlib.context import CryptContext
-import logging
+import logging as logger
 
 # Local
 ...
+
+
+logging = logger.getLogger(__name__)
 
 
 class CryptographyScooter:

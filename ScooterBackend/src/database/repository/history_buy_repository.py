@@ -1,6 +1,6 @@
 # System
 from typing import Union, List, Type
-import logging
+import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,6 +9,9 @@ from sqlalchemy import select, update, delete, Result
 # Local
 from src.database.models.history_buy import HistoryBuy
 from src.database.repository.general_repository import GeneralSQLRepository
+
+
+logging = logger.getLogger(__name__)
 
 
 class HistoryBuyRepository(GeneralSQLRepository):

@@ -1,13 +1,13 @@
+import logging.config
 from src.scooter_backend_application import ScooterBackendApplication
 from fastapi.responses import RedirectResponse
 from fastapi import status, FastAPI
 from typing import Type
 import uvicorn
-import logging
+from logger import set_logger
 
 
-# Logging
-logging.basicConfig(level=logging.INFO, filename="scooter24-log.log", filemode="w")
+set_logger()
 
 
 if __name__ == "__main__":

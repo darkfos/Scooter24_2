@@ -1,6 +1,6 @@
 # System
 from typing import List, Union, Type
-import logging
+import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,6 +12,9 @@ from src.database.models.product import Product
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
 from src.database.models.product_category import ProductCategory
+
+
+logging = logger.getLogger(__name__)
 
 
 class ProductRepository(GeneralSQLRepository):

@@ -1,5 +1,6 @@
 # Other libraries
-import jwt, logging
+import jwt
+import logging as logger
 from datetime import timedelta, datetime
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
@@ -16,6 +17,9 @@ from src.database.models.user import User
 from src.database.models.admin import Admin
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
+
+
+logging = logger.getLogger(__name__)
 
 
 class Authentication:
