@@ -30,18 +30,18 @@ from typing import Type, List, Final
 class ScooterBackendApplication:
 
     def __init__(self) -> None:
-        self.scooter24_app: Type[FastAPI] = FastAPI(
+        self.scooter24_app: FastAPI = FastAPI(
             title="Scooter24 API",
             description="Программный интерфейс для сайта по продаже мото-деталей",
             # lifespan=connection_db
         )
 
         # Static's
-        self.statics: Type[StaticFiles] = StaticFiles(directory="src/static")
+        self.statics: StaticFiles = StaticFiles(directory="src/static")
         self.scooter24_app.mount(path="/static", app=self.statics, name="static")
 
         # Admjn panel
-        self.admin: Type[AdminPanel] = AdminPanel(app=self.scooter24_app)
+        self.admin: AdminPanel = AdminPanel(app=self.scooter24_app)
         # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
