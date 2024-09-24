@@ -7,7 +7,7 @@ class VacanciesModelView(ModelView, model=Vacancies):
 
     # Metadata
     name: str = "Вакансии"
-    name_plural: str = "Добавить вакансию"
+    name_plural: str = "Вакансия"
     icon: str = "fa fa-user-plus"
     category: str = "Пользователь"
 

@@ -12,7 +12,7 @@ class ProductModelView(ModelView, model=Product):
 
     # Metadata
     name: str = "Товары"
-    name_plural: str = "Добавить товар"
+    name_plural: str = "Товар"
     icon: str = "fa fa-motorcycle"
     category: str = "Товар"
 

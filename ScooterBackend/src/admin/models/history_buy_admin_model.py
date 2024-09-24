@@ -7,7 +7,7 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
 
     # Metadata
     name: str = "История покупок"
-    name_plural: str = "Добавить историю"
+    name_plural: str = "История"
     icon: str = "fa fa-archive"
     category: str = "Пользователь"
 

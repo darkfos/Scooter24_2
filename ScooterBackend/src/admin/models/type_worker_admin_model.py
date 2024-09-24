@@ -7,7 +7,7 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
 
     # Metadata
     name: str = "Тип работника"
-    name_plural: str = "Добавить тип работника"
+    name_plural: str = "Тип работника"
     icon: str = "fa fa-users"
     category: str = "Пользователь"
 

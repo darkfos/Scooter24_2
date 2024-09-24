@@ -4,6 +4,7 @@ import logging
 
 # Other libraries
 from fastapi import APIRouter, status, Depends
+from fastapi.responses import FileResponse
 
 # Local
 from src.api.core.category_catalog.schemas.category_dto import *
@@ -50,6 +51,23 @@ async def create_new_category(
     return await CategoryService.create_category(
         engine=session, token=admin_data, new_category=new_category
     )
+
+
+@category_router.get(
+    path="/get_icon_category/{id_category}",
+    description="""
+    ### Endpoint - Получение иконки категории.
+    Метод для получения иконки категории по идентификатору.
+    """,
+    summary="Получение иконки категории",
+    status_code=status.HTTP_200_OK,
+    response_class=FileResponse
+)
+async def get_icon_category(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_category: int
+    ):
+    return await CategoryService.get_icon_category(session, id_category)
 
 
 @category_router.get(

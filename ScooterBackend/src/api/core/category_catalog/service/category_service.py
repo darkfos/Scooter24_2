@@ -1,11 +1,11 @@
 # System
-import datetime
 import logging as logger
 from typing import List, Union, Dict, Type
 from typing import List, Union, Dict, Coroutine, Any, Type
 
 # Other libraries
-...
+from fastapi.responses import FileResponse
+from fastapi import status
 
 # Local
 from src.database.repository.category_repository import Category
@@ -58,6 +58,26 @@ class CategoryService:
 
             logging.critical(msg=f"{CategoryService.__name__} Не удалось создать новую категорию товара")
             await UserHttpError().http_user_not_found()
+
+    @staticmethod
+    async def get_icon_category(
+        engine: IEngineRepository,
+        id_category: int
+    ) -> FileResponse:
+        
+        logger.info(msg=f"{CategoryService.__name__} Получение иконки категории")
+        
+        async with engine:
+            category_data = await engine.category_repository.find_one(other_id=id_category)
+            if category_data:
+                return FileResponse(
+                    path="src/static/images/{}".format(category_data[0].icon_category),
+                    filename="logo_category",
+                    media_type="image/jpeg",
+                    status_code=status.HTTP_200_OK
+                )
+            
+            await CategoryHttpError().http_not_found_a_icon()
 
     @redis
     @staticmethod

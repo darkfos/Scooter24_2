@@ -7,7 +7,7 @@ class UserModelView(ModelView, model=User):
 
     # Metadata
     name: str = "Пользователь"
-    name_plural: str = "Создать пользователя"
+    name_plural: str = "Пользователь"
     icon: str = "fa fa-user-circle"
     category: str = "Пользователь"
 

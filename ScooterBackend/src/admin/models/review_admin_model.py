@@ -7,7 +7,7 @@ class ReviewModelView(ModelView, model=Review):
 
     # Metadata
     name: str = "Отзывы"
-    name_plural: str = "Добавить отзыв"
+    name_plural: str = "Отзыв"
     icon: str = "fa fa-comment"
     category: str = "Товар"
 

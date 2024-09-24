@@ -53,3 +53,14 @@ class CategoryHttpError(APIError):
             code=status.HTTP_400_BAD_REQUEST,
             detail_inf="Не удалось удалить категорию",
         )
+
+    async def http_not_found_a_icon(self):
+        """
+        Ошибка связанная с отсутствием иконки категории
+        :return:
+        """
+
+        await self.api_error(
+            code=status.HTTP_404_NOT_FOUND,
+            detail_inf="Не удалось найти иконку категории"
+        )

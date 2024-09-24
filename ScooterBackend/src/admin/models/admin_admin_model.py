@@ -7,7 +7,7 @@ class AdminModelView(ModelView, model=Admin):
 
     # Metadata
     name: str = "Администратор"
-    name_plural: str = "Создать администратора"
+    name_plural: str = "Администратор"
     icon: str = "fa fa-user-secret"
     category: str = "Пользователь"
 

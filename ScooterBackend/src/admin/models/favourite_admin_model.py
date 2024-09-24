@@ -7,7 +7,7 @@ class FavouriteModelView(ModelView, model=Favourite):
 
     # Metadata
     name: str = "Избранные товары"
-    name_plural: str = "Добавить избранное"
+    name_plural: str = "Избранное"
     icon: str = "fa fa-bookmark"
     category: str = "Пользователь"
 

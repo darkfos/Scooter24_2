@@ -220,7 +220,7 @@ async def get_image_product(photo_product_name: str) -> FileResponse:
     logger.info(msg="Product-Router вызов метода получения картинки товара (get_image_product)")
 
     return FileResponse(
-        path=f"src/static/{photo_product_name}",
+        path=f"src/static/images/{photo_product_name}",
         filename="product_avatar.png",
         media_type="image/jpeg",
         status_code=status.HTTP_200_OK,

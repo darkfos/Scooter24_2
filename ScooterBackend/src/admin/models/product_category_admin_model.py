@@ -7,7 +7,7 @@ class ProductCategoryModelView(ModelView, model=ProductCategory):
 
     # Metadata
     name: str = "Категории продукта"
-    name_plural: str = "Добавление категории к товару"
+    name_plural: str = "Категории товара"
     icon: str = "fa fa-puzzle-piece"
     category: str = "Товар"
 

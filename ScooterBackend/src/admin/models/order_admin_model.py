@@ -7,7 +7,7 @@ class OrderModelView(ModelView, model=Order):
 
     # Metadata
     name: str = "Заказы"
-    name_plural: str = "Добавить заказ"
+    name_plural: str = "Заказ"
     icon: str = "fa fa-shopping-cart"
     category: str = "Товар"
 
