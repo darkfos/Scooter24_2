@@ -1,5 +1,6 @@
 # System
-from typing import Annotated
+from typing import Annotated, Type
+import logging
 
 
 # Other libraries
@@ -18,6 +19,7 @@ auth: Authentication = Authentication()
 favourite_router: APIRouter = APIRouter(
     prefix="/favourite", tags=["Favourite - Избранные товары"]
 )
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @favourite_router.post(
@@ -43,6 +45,8 @@ async def create_a_new_favourite(
     :param new_favourite:
     :return:
     """
+
+    logger.info(msg="Favourite-Router вызов метода создания нового товара в списке избранных (create_a_new_favourite_product)")
 
     return await FavouriteService.create_favourite_product(
         engine=session, token=user_data, new_product_in_favourite=new_favourite
@@ -71,6 +75,8 @@ async def get_all_favourites_products_by_user_id(
     :param id_user:
     :return:
     """
+
+    logger.info(msg="Favourite-Router вызов метода получения списка всех избранных товаров по идентификатору пользователя (get_all_favourites_by_user_id)")
 
     return await FavouriteService.get_all_favourite_product_by_user_id(
         engine=session,
@@ -104,6 +110,8 @@ async def get_full_information_about_favourite_product_by_id(
     :return:
     """
 
+    logger.info(msg="Favourite-Router вызов метода получения полной информации о избранном товаре по id (get_full_information_about_favourite_product_by_id)")
+
     return await FavouriteService.get_information_about_fav_product_by_id(
         engine=session,
         token=admin_data,
@@ -135,6 +143,8 @@ async def get_all_favourites_products(
     :return:
     """
 
+    logger.info(msg="Favourite-Router вызов метода получения всех избранных товаров (get_all_favourites_products)")
+
     return await FavouriteService.get_all_favourites(engine=session, token=admin_data)
 
 
@@ -161,6 +171,8 @@ async def delete_favourite_product(
     :param id_favourite:
     :return:
     """
+
+    logger.info(msg="Favourite-Router вызов метода удаления товара из списка избранных по id (delete_favourite_product)")
 
     return await FavouriteService.delete_favourite_product(
         engine=session, token=user_data, id_favourite=id_favourite

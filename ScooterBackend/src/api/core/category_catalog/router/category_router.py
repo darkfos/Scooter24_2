@@ -1,5 +1,6 @@
 # System
-from typing import Annotated
+from typing import Annotated, Type
+import logging
 
 # Other libraries
 from fastapi import APIRouter, status, Depends
@@ -16,6 +17,7 @@ category_router = APIRouter(
 )
 
 auth: Authentication = Authentication()
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @category_router.post(
@@ -43,6 +45,8 @@ async def create_new_category(
     :return:
     """
 
+    logger.info(msg="Category-Router вызов метода создания новой категории (create_new_category)")
+
     return await CategoryService.create_category(
         engine=session, token=admin_data, new_category=new_category
     )
@@ -66,6 +70,8 @@ async def find_category_by_name(
     :param session:
     :return:
     """
+
+    logger.info(msg="Category-Router вызов метода получения категории по названию (find_category_by_name)")
 
     return await CategoryService.find_category_by_name(
         engine=session,
@@ -93,6 +99,8 @@ async def get_all_categories(
     :return:
     """
 
+    logger.info(msg="Category-Router вызов метода получения всех категорий (get_all_category)")
+
     return await CategoryService.find_all_categories(
         engine=session, redis_search_data="all_categories"
     )
@@ -116,6 +124,8 @@ async def find_category_by_id(
     :param id_category:
     :return:
     """
+
+    logger.info(msg="Category-Router вызов метода поиска категории по id (find_category_by_id)")
 
     return await CategoryService.find_by_id(
         engine=session,
@@ -148,6 +158,8 @@ async def update_category_name(
     :return:
     """
 
+    logger.info(msg="Category-Router вызов метода обновления названия категории (update_category_name)")
+
     return await CategoryService.update_category(
         engine=session, token=admin_data, data_to_update=to_update
     )
@@ -176,6 +188,8 @@ async def delete_category(
     :param id_category:
     :return:
     """
+
+    logger.info(msg="Category-Router вызов метода удаления категории (delete_category)")
 
     await CategoryService.delete_category(
         engine=session, id_category=id_category, token=admin_data

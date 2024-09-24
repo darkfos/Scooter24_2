@@ -2,9 +2,8 @@
 from fastapi import APIRouter, Depends, status, BackgroundTasks
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import EmailStr
 from typing import Annotated
+import logging
 
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
@@ -24,6 +23,7 @@ auth_router: APIRouter = APIRouter(
     prefix="/auth", tags=["Auth - Система аутентификации, авторизации, регистрации"]
 )
 authentication_app: Authentication = Authentication()
+logger = logging.getLogger(__name__)
 
 
 @auth_router.post(
@@ -50,6 +50,8 @@ async def login_user(
     :param session:
     :return:
     """
+
+    logger.info(msg="Auth-Router вызов метода авторизации пользователя (login_user)")
 
     tokens = await authentication_app.create_tokens(
         token_data=CreateToken(email=data_login.username, password=data_login.password),
@@ -88,6 +90,8 @@ async def registration_user(
     :return:
     """
 
+    logger.info(msg="Auth-Router вызов метода регистрации пользователя (registration_user)")
+
     return await UserService.create_a_new_user(engine=session, new_user=new_user)
 
 
@@ -109,6 +113,8 @@ async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
     :param refresh_token:
     :return:
     """
+
+    logger.info(msg="Auth-Router вызов метода обновления токена (update_by_refresh_token)")
 
     data_tokens: str = await authentication_app.update_token(
         refresh_token=refresh_token.refresh_token
@@ -135,6 +141,8 @@ async def create_and_send_secret_key(
     Обновление пароля пользователя
     :user_email:
     """
+
+    logger.info(msg="Auth-Router вызов метода создания секретного ключа (create_and_send_secret_key)")
 
     token_data: dict = await authentication_app.decode_jwt_token(
         token=user_data, type_token="access"
@@ -166,6 +174,8 @@ async def update_password_with_email(
     """
     Обновление пароля пользователя
     """
+
+    logger.info(msg="Auth-Router вызов метода обновления пароля по секретному ключу (update_password_with_email)")
 
     return await UserService.check_secret_key(
         engine=session,

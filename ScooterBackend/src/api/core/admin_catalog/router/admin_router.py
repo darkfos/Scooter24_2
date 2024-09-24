@@ -1,5 +1,6 @@
 # System
 from typing import Annotated
+import logging
 
 # Other libraries
 from fastapi import APIRouter, status, Depends
@@ -13,6 +14,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 admin_router: APIRouter = APIRouter(
     prefix="/admin", tags=["AdminPanel - Панель администратора"]
 )
+logger = logging.getLogger(__name__)
 
 
 @admin_router.post(
@@ -34,7 +36,8 @@ async def create_admin(
     Создание нового администратора
     :return:
     """
-
+    
+    logger.info(msg="ADMIN-ROUTER вызов метода создания администратора (create_admin)")
     return await AdminService.create_admin(
         engine=session, new_admin=new_admin, token=user_data
     )

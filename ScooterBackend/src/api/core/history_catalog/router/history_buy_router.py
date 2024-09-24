@@ -1,5 +1,6 @@
 # System
-from typing import Annotated
+from typing import Annotated, Type
+import logging
 
 # Other libraries
 from fastapi import Depends, status, APIRouter
@@ -17,6 +18,7 @@ auth: Authentication = Authentication()
 history_buy_router: APIRouter = APIRouter(
     prefix="/history_buy", tags=["History buy - Истории покупок товаров"]
 )
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @history_buy_router.post(
@@ -42,6 +44,8 @@ async def create_new_history(
     :param new_history:
     :return:
     """
+
+    logger.info(msg="History-Router вызов метода создания новой истории покупки (create_new_history)")
 
     return await HistoryBuyService.create_history(
         engine=session,
@@ -72,6 +76,8 @@ async def get_all_histories_for_user(
     :return:
     """
 
+    logger.info(msg="Favourite-Router вызов метода получения всей истории покупок пользователя (get_all_histories_for_user)")
+    
     return await HistoryBuyService.get_all_histories_for_user(
         engine=session, token=user_data
     )
@@ -99,6 +105,8 @@ async def get_data_about_history_by_id(
     :param user_data:
     :return:
     """
+
+    logger.info(msg="Favourite-Router вызов метода получение данных об истории (get_history_by_id)")
 
     return await HistoryBuyService.get_history_by_id(
         engine=session, token=user_data, id_history=id_history
@@ -130,6 +138,8 @@ async def delete_history_by_id(
     :param id_history:
     :return:
     """
+
+    logger.info(msg="Favourite-Router вызов метода удаления истории по id (delete_history_by_id)")
 
     return await HistoryBuyService.delete_history_by_id(
         engine=session, token=admin_data, id_history=id_history

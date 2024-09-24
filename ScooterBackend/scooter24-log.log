@@ -40,3 +40,259 @@ WHERE "User".id = $1::INTEGER
 INFO:sqlalchemy.engine.Engine:[generated in 0.00024s] (1,)
 INFO:sqlalchemy.engine.Engine:ROLLBACK
 INFO:root:Redis данные были сохранены в хранилище
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - проверка прав пользователя (на администратора), email=darkfos@gmail.com
+INFO:src.api.authentication.hash_service.hashing:Хеширование пароля
+INFO:src.database.repository.admin_repository:AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com; password=$2b$12$Qg9wd3exgndHXMwGSSgLzOHOCj1.23q198AeznBq5g/JuI0aFGk0.
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+INFO:sqlalchemy.engine.Engine:[generated in 0.00038s] ('darkfos@gmail.com',)
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Admin".id) AS count_1 
+FROM "Admin"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00025s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" ORDER BY "Admin".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00023s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] (6,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("User".id) AS count_1 
+FROM "User"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" ORDER BY "User".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00056s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" 
+WHERE "User".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00070s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_user AS "Favourite_id_user", "Favourite".id_product AS "Favourite_id_product", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_user IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00046s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_user AS "Order_id_user", "Order".date_buy AS "Order_date_buy", "Order".id_product AS "Order_id_product", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_user IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00051s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Historybuy".id_user AS "Historybuy_id_user", "Historybuy".id_product AS "Historybuy_id_product", "Historybuy".id AS "Historybuy_id" 
+FROM "Historybuy" 
+WHERE "Historybuy".id_user IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00178s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_user AS "Review_id_user", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_product AS "Review_id_product", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_user IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00097s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Favourite".id) AS count_1 
+FROM "Favourite"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00019s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_user, "Favourite".id_product, "Favourite".id 
+FROM "Favourite" ORDER BY "Favourite".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00086s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00016s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00027s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Order".id) AS count_1 
+FROM "Order"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00027s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".date_buy, "Order".id_user, "Order".id_product, "Order".id 
+FROM "Order" ORDER BY "Order".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00038s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id AS "Product_id", "Product".title_product AS "Product_title_product", "Product".price_product AS "Product_price_product", "Product".quantity_product AS "Product_quantity_product", "Product".explanation_product AS "Product_explanation_product", "Product".article_product AS "Product_article_product", "Product".tags AS "Product_tags", "Product".other_data AS "Product_other_data", "Product".photo_product AS "Product_photo_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount" 
+FROM "Product" 
+WHERE "Product".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00352s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "User".id AS "User_id", "User".email_user AS "User_email_user", "User".password_user AS "User_password_user", "User".secret_update_key AS "User_secret_update_key", "User".name_user AS "User_name_user", "User".surname_user AS "User_surname_user", "User".main_name_user AS "User_main_name_user", "User".date_registration AS "User_date_registration", "User".date_update AS "User_date_update", "User".name_user_address AS "User_name_user_address", "User".surname_user_address AS "User_surname_user_address", "User".name_company_address AS "User_name_company_address", "User".country_address AS "User_country_address", "User".address_street AS "User_address_street", "User".address_rl_et_home AS "User_address_rl_et_home", "User".address_locality AS "User_address_locality", "User".address_area AS "User_address_area", "User".address_index AS "User_address_index", "User".address_phone_number AS "User_address_phone_number" 
+FROM "User" 
+WHERE "User".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00117s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Review".id) AS count_1 
+FROM "Review"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00011s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00016s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".title_product, "Product".price_product, "Product".quantity_product, "Product".explanation_product, "Product".article_product, "Product".tags, "Product".other_data, "Product".photo_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00024s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".title_product, "Product".price_product, "Product".quantity_product, "Product".explanation_product, "Product".article_product, "Product".tags, "Product".other_data, "Product".photo_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" 
+WHERE "Product".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00037s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Productcategory".id_product AS "Productcategory_id_product", "Productcategory".id_category AS "Productcategory_id_category", "Productcategory".id AS "Productcategory_id" 
+FROM "Productcategory" 
+WHERE "Productcategory".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00053s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00053s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_product AS "Order_id_product", "Order".date_buy AS "Order_date_buy", "Order".id_user AS "Order_id_user", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00051s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00060s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".title_product, "Product".price_product, "Product".quantity_product, "Product".explanation_product, "Product".article_product, "Product".tags, "Product".other_data, "Product".photo_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" 
+WHERE "Product".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 32.46s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Productcategory".id_product AS "Productcategory_id_product", "Productcategory".id_category AS "Productcategory_id_category", "Productcategory".id AS "Productcategory_id" 
+FROM "Productcategory" 
+WHERE "Productcategory".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.45s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.45s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_product AS "Order_id_product", "Order".date_buy AS "Order_date_buy", "Order".id_user AS "Order_id_user", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.45s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.44s ago] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".title_product, "Product".price_product, "Product".quantity_product, "Product".explanation_product, "Product".article_product, "Product".tags, "Product".other_data, "Product".photo_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" 
+WHERE "Product".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 38.76s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Productcategory".id_product AS "Productcategory_id_product", "Productcategory".id_category AS "Productcategory_id_category", "Productcategory".id AS "Productcategory_id" 
+FROM "Productcategory" 
+WHERE "Productcategory".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 38.76s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 38.76s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_product AS "Order_id_product", "Order".date_buy AS "Order_date_buy", "Order".id_user AS "Order_id_user", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 38.76s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 38.76s ago] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".title_product, "Product".price_product, "Product".quantity_product, "Product".explanation_product, "Product".article_product, "Product".tags, "Product".other_data, "Product".photo_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" 
+WHERE "Product".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 45.83s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Productcategory".id_product AS "Productcategory_id_product", "Productcategory".id_category AS "Productcategory_id_category", "Productcategory".id AS "Productcategory_id" 
+FROM "Productcategory" 
+WHERE "Productcategory".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 45.83s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 45.83s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_product AS "Order_id_product", "Order".date_buy AS "Order_date_buy", "Order".id_user AS "Order_id_user", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 45.82s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 45.82s ago] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:asyncio:Fatal error on SSL protocol
+protocol: <uvloop.loop.SSLProtocol object at 0x78f5c17f10c0>
+transport: <TCPTransport closed=True reading=False 0x3e9acb0>
+Traceback (most recent call last):
+  File "uvloop/sslproto.pyx", line 669, in uvloop.loop.SSLProtocol._write_appdata
+  File "uvloop/sslproto.pyx", line 699, in uvloop.loop.SSLProtocol._process_outgoing
+  File "uvloop/handles/stream.pyx", line 674, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <TCPTransport closed=True reading=False 0x3e9acb0>; the handler is closed
+ERROR:sqlalchemy.pool.impl.AsyncAdaptedQueuePool:The garbage collector is trying to clean up non-checked-in connection <AdaptedConnection <asyncpg.connection.Connection object at 0x78f5c14f17c0>>, which will be terminated.  Please ensure that SQLAlchemy pooled connections are returned to the pool explicitly, either by calling ``close()`` or by using appropriate context managers to manage their lifecycle.
