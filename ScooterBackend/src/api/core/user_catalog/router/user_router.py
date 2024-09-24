@@ -1,5 +1,6 @@
 # System
-from typing import Annotated
+from typing import Annotated, Type
+import logging
 
 # Other libraries
 from fastapi import APIRouter, status, Depends
@@ -22,8 +23,8 @@ from src.api.core.user_catalog.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 user_router: APIRouter = APIRouter(prefix="/user", tags=["User - Работа пользователя"])
-
 auth: Authentication = Authentication()
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @user_router.get(
@@ -48,6 +49,8 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
+
+    logger.info(msg="User-Router вызов метод получения краткой информации о пользователе (information_about_user)")
 
     information_about_user = await UserService.get_information_about_me(
         engine=session, token=user_data
@@ -82,6 +85,8 @@ async def get_full_information_about_user(
     :return:
     """
 
+    logger.info(msg="User-Router вызов метод получения полной информации о пользователе (full_information_about_user)")
+
     return await UserService.get_full_information(
         engine=session,
         token=user_data,
@@ -110,6 +115,8 @@ async def get_user_data_and_all_reviews(
     :param user_data:
     :return:
     """
+
+    logger.info(msg="User-Router вызов метод получения всех отзывов пользователя (user_reviews)")
 
     return await UserService.get_information_about_me_and_review(
         engine=session,
@@ -140,6 +147,8 @@ async def get_user_data_and_all_favourites_product(
     :return:
     """
 
+    logger.info(msg="User-Router вызов метод получения всех избранных товаров пользователя (user_favourites)")
+
     return await UserService.get_information_about_me_and_favourite(
         engine=session,
         token=user_data,
@@ -169,6 +178,8 @@ async def get_user_data_and_all_orders(
     :return:
     """
 
+    logger.info(msg="User-Router вызов метод получения всех заказов пользователя (get_user_data_and_all_orders)")
+
     return await UserService.get_information_about_me_and_orders(
         engine=session,
         token=user_data,
@@ -197,6 +208,8 @@ async def get_user_data_and_history(
     :param user_data:
     :return:
     """
+
+    logger.info(msg="User-Router вызов метод получения всей истории пользователя (user_history)")
 
     return await UserService.get_information_about_me_and_history(
         engine=session,
@@ -230,6 +243,8 @@ async def get_information_about_other_users(
     :param admin_password:
     :return:
     """
+
+    logger.info(msg="User-Router вызов метод получения краткой информации о другом пользователе по id (get_information_about_other_users)")
 
     return await UserService.get_information_about_user(
         engine=session,
@@ -265,6 +280,8 @@ async def get_all_information_about_other_users(
     :return:
     """
 
+    logger.info(msg="User-Router вызов метод получение полной информации о пользователе по id (other_user_all_data)")
+
     return await UserService.get_full_information_other_user(
         engine=session,
         token=admin_data,
@@ -293,6 +310,8 @@ async def update_user_information(
     :return:
     """
 
+    logger.info(msg="User-Router вызов метод обновления информации о пользователе (update_user_information)")
+
     return await UserService.update_user_information(
         engine=session, token=user_data, to_update=data_to_update
     )
@@ -318,6 +337,8 @@ async def update_address_data(
     ENDPOINT - Обновление адресных данных пользователя
     """
 
+    logger.info(msg="User-Router вызов метод обновления адресных данных пользователя (update_user_address_data)")
+
     return await UserService.update_address_user_data(
         engine=session, token=user_data, data_update=data_to_update
     )
@@ -341,5 +362,7 @@ async def delete_user(
     """
     Удаление всех данных о пользователе
     """
+
+    logger.info(msg="User-Router вызов метод удаления пользователя по id (delete_user)")
 
     return await UserService.delete_user(engine=session, token=user_data)

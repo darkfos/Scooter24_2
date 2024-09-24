@@ -1,5 +1,6 @@
 # System
-from typing import Annotated, List, Union
+from typing import Annotated, Type
+import logging
 
 
 # Other libraries
@@ -17,6 +18,7 @@ auth: Authentication = Authentication()
 type_worker_router: APIRouter = APIRouter(
     prefix="/type_worker", tags=["TypeWorker - Тип работников"]
 )
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @type_worker_router.post(
@@ -43,6 +45,8 @@ async def create_new_type_worker(
     :new_type_worker:
     """
 
+    logger.info(msg="TypeWorker-Router вызов метода создания типа рабочего (create_new_type_worker)")
+
     return await TypeWorkerService.create_a_new_type_worker(
         engine=session, token=admin_data, new_type_worker=new_type_worker
     )
@@ -62,6 +66,8 @@ async def get_all_types_workers(
     ENDPOINT - Получение всех типов работников.
     """
 
+    logger.info(msg="TypeWorker-Router вызов метода получения всех типов рабочих (get_all_types_workers)")
+
     return await TypeWorkerService.get_all_types(
         engine=session, redis_search_data="get_all_types_workers"
     )
@@ -79,6 +85,9 @@ async def get_type_worker_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_type_worker: int,
 ) -> TypeWorkerBase:
+    
+    logger.info(msg="TypeWorker-Router вызов метода получение типов работников по id (get_type_worker_by_id)")
+
     return await TypeWorkerService.get_type_worker_by_id(
         engine=session,
         id_type_worker=id_type_worker,
@@ -105,6 +114,8 @@ async def delete_type_worker(
     """
     ENDPOINT - Удаление типа работника
     """
+
+    logger.info(msg="TypeWorker-Router вызов метода удаление типа рабочего (delete_type_worker)")
 
     return await TypeWorkerService.delete_type_worker(
         engine=session, id_type_worker=id_type, token=admin_data

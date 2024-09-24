@@ -1,5 +1,6 @@
 # System
-from typing import Annotated, List
+from typing import Annotated, List, Type
+import logging
 
 # Other libraries
 from fastapi import Depends, status, APIRouter
@@ -16,6 +17,7 @@ review_router: APIRouter = APIRouter(
 )
 
 auth: Authentication = Authentication()
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @review_router.post(
@@ -42,6 +44,8 @@ async def create_review(
     :return:
     """
 
+    logger.info(msg="Review-Router вызов метода создания отзыва (create_review)")
+
     return await ReviewService.create_review(
         engine=session, token=user_data, new_review=new_review
     )
@@ -66,6 +70,8 @@ async def get_all_reviews_by_id_product(
     :param id_product:
     :return:
     """
+
+    logger.info(msg="Review-Router вызов метода получения всех отзывов по id продукта (get_all_reviews_by_id_product)")
 
     return await ReviewService.get_all_reviews_by_id_product(
         engine=session,
@@ -93,6 +99,8 @@ async def get_all_reviews(
     :return:
     """
 
+    logger.info(msg="Review-Router вызов метода получение всех отзывов (get_all_reviews)")
+
     return await ReviewService.get_all_reviews(engine=session)
 
 
@@ -116,6 +124,8 @@ async def get_review_data_by_id(
     :param review_id:
     :return:
     """
+
+    logger.info(msg="Review-Router вызов метода получения отзыва по id (get_review_data_by_id)")
 
     return await ReviewService.get_review_by_id(
         engine=session,
@@ -148,6 +158,8 @@ async def delete_review_by_id(
     :param id_review:
     :return:
     """
+
+    logger.info(msg="Review-Router вызов метода удаления отзыва по id (delete_review_by_id)")
 
     return await ReviewService.delete_review(
         engine=session, token=admin_data, id_review=id_review

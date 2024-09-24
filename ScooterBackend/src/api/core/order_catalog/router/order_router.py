@@ -1,5 +1,6 @@
 # System
-from typing import Annotated
+from typing import Annotated, Type
+import logging
 
 # Other libraries
 from fastapi import Depends, status, APIRouter
@@ -15,6 +16,7 @@ auth: Authentication = Authentication()
 order_router: APIRouter = APIRouter(
     prefix="/order", tags=["Order - Заказы пользователей"]
 )
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @order_router.post(
@@ -40,6 +42,8 @@ async def create_a_new_order(
     :param new_order:
     :return:
     """
+
+    logger.info(msg="Order-Router вызов метода создания заказа (create_order)")
 
     return await OrderService.create_new_order(
         engine=session, token=user_data, new_order=new_order
@@ -67,6 +71,8 @@ async def get_orders_by_id_user(
     :param id_user:
     :return:
     """
+
+    logger.info(msg="Order-Router вызов метода получения заказов по id пользователя (get_orders_by_id_user)")
 
     return await OrderService.get_full_information_by_user_id(
         engine=session,
@@ -97,6 +103,8 @@ async def get_information_about_order_by_id(
     :param id_order:
     :return:
     """
+
+    logger.info(msg="Order-Router вызов метода получения информации о заказе по id заказа (get_information_about_order_by_id)")
 
     return await OrderService.get_information_about_order_by_id(
         engine=session,
@@ -130,6 +138,8 @@ async def delete_order_by_id(
     :param id_order:
     :return:
     """
+
+    logger.info(msg="Order-Router вызов метода удаления заказа по id (delete_order_by_id)")
 
     return await OrderService.delete_order_by_id(
         engine=session, token=user_data, id_order=id_order

@@ -1,5 +1,6 @@
 # System
 from typing import Annotated, List, Type
+import logging
 
 # Other libraries
 from fastapi import APIRouter, status, Depends, UploadFile
@@ -19,6 +20,7 @@ product_router: APIRouter = APIRouter(
 )
 
 auth: Type[Authentication] = Authentication()
+logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @product_router.post(
@@ -57,6 +59,8 @@ async def create_product(
     :return:
     """
 
+    logger.info(msg="Product-Router вызов метода создания продукта (create_product)")
+
     return await ProductService.create_product(
         engine=session,
         token=admin_data,
@@ -94,6 +98,8 @@ async def add_new_category_to_product(
     id_category: int,
 ) -> None:
 
+    logger.info(msg="Product-Router вызов метода добавления новой категории к товару (add_new_category)")
+
     return await ProductService.add_new_category(
         admin_data=user_data,
         engine=session,
@@ -120,6 +126,8 @@ async def get_all_products(
     :param session:
     :return:
     """
+
+    logger.info(msg="Product-Router вызов метода получения всех продуктов (get_all_products)")
 
     return await ProductService.get_all_products(
         engine=session, redis_search_data="all_products"
@@ -149,6 +157,8 @@ async def get_products_by_filters(
     :param min_price:
     :param max_price:
     """
+
+    logger.info(msg=f"Product-Router вызов метода получения продукта по фильтрам id_category={id_category}; min_price={min_price}; max_price={max_price}; desc={desc_or_not} (get_products_by_filters)")
 
     return await ProductService.get_products_by_sorted(
         engine=session,
@@ -182,6 +192,8 @@ async def get_products_by_category_or_id(
     :return:
     """
 
+    logger.info(msg="Product-Router вызов метода получения продуктов по категории или по id (get_products_by_category_or_id)")
+
     return await ProductService.get_products_by_category(
         engine=session,
         category_data=category_data,
@@ -204,6 +216,8 @@ async def get_image_product(photo_product_name: str) -> FileResponse:
     ### Endpoint - Получение картинки продукта по названию.
     Данный метод позволяет получить картинку продукта по названию
     """
+
+    logger.info(msg="Product-Router вызов метода получения картинки товара (get_image_product)")
 
     return FileResponse(
         path=f"src/static/{photo_product_name}",
@@ -230,6 +244,8 @@ async def product_is_created(
     :param product_name:
     :return:
     """
+
+    logger.info(msg="Product-Router вызов метода проверка существования продукта (product_is_exists)")
 
     return await ProductService.product_is_created(
         engine=session, product_name=product_name
@@ -258,6 +274,8 @@ async def get_all_information_about_product(
     :return:
     """
 
+    logger.info(msg="Product-Router вызов метода получения полной информации о продукте (get_all_information_about_product)")
+
     return await ProductService.get_all_information_about_product(
         engine=session,
         token=admin_data,
@@ -284,6 +302,8 @@ async def recommended_products(
     :session:
     """
 
+    logger.info(msg="Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)")
+
     return await ProductService.get_recommended_products(
         engine=session, redis_search_data="recommended_products"
     )
@@ -306,6 +326,8 @@ async def get_new_products(
     ENDPOINT - Получение новых товаров в количестве <8.
     :session:
     """
+
+    logger.info(msg="Product-Router вызов метода получения новых продуктов (new_products)")
 
     return await ProductService.get_new_products(
         engine=session, redis_search_data="new_products"
@@ -335,6 +357,8 @@ async def update_information_about_product(
     :param id_product:
     :return:
     """
+
+    logger.info(msg="Product-Router вызов метода обновления информации о продукте (update_product_data)")
 
     return await ProductService.update_information(
         engine=session,
@@ -370,6 +394,8 @@ async def update_photo_product(
     :return:
     """
 
+    logger.info(msg="Product-Router вызов метода обновления фотографии продукта (update_photo_product)")
+
     return await ProductService.update_photo(
         engine=session, photo_data=new_photo, token=admin_data, product_id=product_id
     )
@@ -398,6 +424,8 @@ async def update_product_discount(
     :admin_data:
     :data_to_update:
     """
+
+    logger.info(msg="Product-Router вызов метода обновления скидки товара (update_product_discount)")
 
     return await ProductService.update_product_discount(
         engine=session,
@@ -431,6 +459,8 @@ async def delete_product_by_id(
     :param id_product:
     :return:
     """
+
+    logger.info(msg="Product-Router вызов метода удаления продукта по id (delete_product_by_id)")
 
     return await ProductService.delete_product_by_id(
         engine=session, id_product=id_product, token=admin_data
