@@ -3,7 +3,7 @@ from typing import List, Dict
 
 # Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, Text
 
 # Local
 from src.database.mainbase import MainBase
@@ -18,6 +18,9 @@ class Category(MainBase):
     )
     category_data: Mapped["ProductCategory"] = relationship(
         "ProductCategory", back_populates="category_information", uselist=False
+    )
+    icon_category: Mapped[str] = mapped_column(
+        type_=Text, nullable=True, index=False
     )
 
     def read_model(self) -> Dict[str, str]:
