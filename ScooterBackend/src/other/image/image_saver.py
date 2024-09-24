@@ -8,7 +8,7 @@ import logging
 
 class ImageSaver:
     def __init__(self) -> None:
-        self.init_url: str = "src/static/images"
+        self.init_url: str = "src/static/images/"
         self.filename: str = ""
 
     async def generate_filename(self, id_: int, filename: str) -> None:
@@ -30,6 +30,7 @@ class ImageSaver:
                 logging.info(
                     msg="Image Saver (Admin Panel) сохранение фотографии в директории"
                 )
+
                 with open(
                     file=self.init_url + self.filename, mode="wb"
                 ) as file_catalog:

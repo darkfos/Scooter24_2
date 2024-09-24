@@ -18,6 +18,8 @@ class EmailTransfer:
         self.__email_from: str = self.__email_data.email
         self.__password: str = self.__email_data.password
 
+
+    def _connect(self) -> None:
         self.smtp_server = smtp.SMTP("smtp.gmail.com", 587)
         self.smtp_server.starttls()
         self.smtp_server.login(self.__email_from, self.__password)
@@ -35,6 +37,9 @@ class EmailTransfer:
         :title_message:
         """
 
+        #Connect
+        self._connect()
+        
         new_message = MIMEMultipart()
         new_message["From"] = self.__email_from
         new_message["To"] = whom_email

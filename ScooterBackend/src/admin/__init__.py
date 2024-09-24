@@ -24,5 +24,5 @@ all_models: List = [
     HistoryBuyModelView,
     ProductModelView,
     TypeWorkerModelView,
-    VacanciesModelView,
+    VacanciesModelView
 ]

@@ -25,6 +25,8 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     can_export: bool = True
     can_view_details: bool = True
 
+    form_excluded_columns: list = [TypeWorker.vacancies]
+
     # Form's for FK
     form_ajax_refs: dict = {
         "vacancies": {

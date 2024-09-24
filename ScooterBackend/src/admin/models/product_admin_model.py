@@ -2,7 +2,8 @@ from fastapi import Request
 from sqladmin import ModelView
 from sqladmin.exceptions import SQLAdminException
 import wtforms
-from typing import List, Any
+from typing import Coroutine, List, Any, Tuple
+import jinja2
 from src.database.models.product import Product
 from src.other.image.image_saver import ImageSaver
 from src.admin.admin_models_exceptions import NoCreateModelException
@@ -86,12 +87,12 @@ class ProductModelView(ModelView, model=Product):
     }
 
     # Photo check
-    form_overrides = dict(photo_product=wtforms.FileField)
+    form_overrides = dict(photo_product=wtforms.FileField)  
 
     async def on_model_change(
         self, data: dict, model: Any, is_created: bool, request: Request
     ) -> None:
-
+                
         # Check file
         if "image" in str(data.get("photo_product").headers["content-type"]):
 
@@ -112,3 +113,16 @@ class ProductModelView(ModelView, model=Product):
         image_service.filename = model.photo_product
         await image_service.remove_file()
         return
+
+    async def get_detail_value(self, obj: Any, prop: str) -> Coroutine[Any, Any, Tuple[Any, Any]]:
+
+        if prop == "photo_product":
+            prev_obj_photo_data = obj.photo_product
+            formatted_value: dict[str, str] = {
+                "type": "image",
+                "src": f"/static/images/{prev_obj_photo_data}",
+                "alt": "Фотография продукта",
+                "style": "width: 400px; height: auto"
+            }
+            return prev_obj_photo_data, formatted_value
+        return await super().get_detail_value(obj, prop)
