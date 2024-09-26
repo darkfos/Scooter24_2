@@ -15,10 +15,12 @@ class CategoryModelView(ModelView, model=Category):
     icon: str = "fa fa-tags"
     category: str = "Товар"
 
-    column_list: List[Any] = [Category.id, Category.name_category, Category.icon_category]
+    column_list: List[Any] = [Category.id, Category.name_category, Category.icon_category, Category.sub_category_data, Category.product_data]
     column_labels: dict = {
         Category.id: "Идентификатор категории",
         Category.name_category: "Название категории",
+        Category.sub_category_data: "Подкатегории",
+        Category.product_data: "Продукты"
     }
 
     can_create: bool = True

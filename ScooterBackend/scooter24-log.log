@@ -3835,3 +3835,1990 @@ FROM "Category"
 WHERE "Category".id = $1::INTEGER
 INFO:sqlalchemy.engine.Engine:[generated in 0.00049s] (1,)
 INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - проверка прав пользователя (на администратора), email=darkfos@gmail.com
+INFO:src.api.authentication.hash_service.hashing:Хеширование пароля
+INFO:src.database.repository.admin_repository:AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com; password=$2b$12$Np9oAYrJU5h0zjgjfxRE/Oabymo4NgyMYKtnUSpmkqTSY7GR/vHY.
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] ('darkfos@gmail.com',)
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Review".id) AS count_1 
+FROM "Review"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00034s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00037s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00013s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00034s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00050s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00029s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00022s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 0.004218s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00045s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00041s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00015s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 14.58s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 4.966s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 19.55s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:sqladmin.application:Не удалось создать, изменить запись
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/application.py", line 535, in create
+    obj = await model_view.insert_model(request, form_data_dict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/models.py", line 1003, in insert_model
+    return await Query(self).insert(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 226, in insert
+    return await self._insert_async(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 211, in _insert_async
+    await self.model_view.on_model_change(data, obj, True, request)
+  File "/home/rias/Рабочий стол/ScooterProject/Scooter24_2/ScooterBackend/src/admin/models/category_admin_model.py", line 49, in on_model_change
+    raise SQLAdminException("Не удалось создать, изменить запись")
+sqladmin.exceptions.SQLAdminException: Не удалось создать, изменить запись
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 12.46s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 27.04s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.hash_service.hashing:Хеширование изображения
+INFO:root:Image Saver (Admin Panel) сохранение фотографии в директории
+ERROR:root:Image Saver Не удалось сохранить файл
+Traceback (most recent call last):
+  File "/home/rias/Рабочий стол/ScooterProject/Scooter24_2/ScooterBackend/src/other/image/image_saver.py", line 34, in save_file
+    with open(
+         ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'src/static/images/$2OCHrB6b/CN__3418816.jpg'
+ERROR:sqladmin.application:Не удалось создать, изменить запись
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/application.py", line 535, in create
+    obj = await model_view.insert_model(request, form_data_dict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/models.py", line 1003, in insert_model
+    return await Query(self).insert(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 226, in insert
+    return await self._insert_async(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 211, in _insert_async
+    await self.model_view.on_model_change(data, obj, True, request)
+  File "/home/rias/Рабочий стол/ScooterProject/Scooter24_2/ScooterBackend/src/admin/models/category_admin_model.py", line 49, in on_model_change
+    raise SQLAdminException("Не удалось создать, изменить запись")
+sqladmin.exceptions.SQLAdminException: Не удалось создать, изменить запись
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 19.88s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 34.46s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.hash_service.hashing:Хеширование изображения
+INFO:root:Image Saver (Admin Panel) сохранение фотографии в директории
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Category" (name_category, icon_category) VALUES ($1::VARCHAR, $2::VARCHAR) RETURNING "Category".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00032s] ('Запчасть', '$2BwQX8FEBuF__dbeaver.png')
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 21.82s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 21.81s ago] (10, 0)
+ERROR:sqlalchemy.pool.impl.AsyncAdaptedQueuePool:The garbage collector is trying to clean up non-checked-in connection <AdaptedConnection <asyncpg.connection.Connection object at 0x7b694690e3f0>>, which will be terminated.  Please ensure that SQLAlchemy pooled connections are returned to the pool explicitly, either by calling ``close()`` or by using appropriate context managers to manage their lifecycle.
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00083s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00077s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" 
+WHERE "Category".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00031s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 3.909s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 3.907s ago] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 44.75s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 44.75s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 43.31s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 43.31s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 43.31s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 60.3s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 60.31s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 59.06s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 59.06s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 59.06s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 72.4s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 72.4s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 72.41s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Subcategory" (name, level, id_category, id_sub_category) VALUES ($1::VARCHAR, $2::INTEGER, $3::INTEGER, $4::INTEGER) RETURNING "Subcategory".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00050s] ('Двигатель', 1, 1, None)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:sqladmin.application:(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_sub_category" of relation "Subcategory" violates not-null constraint
+DETAIL:  Failing row contains (Двигатель, 1, 1, null, 1).
+[SQL: INSERT INTO "Subcategory" (name, level, id_category, id_sub_category) VALUES ($1::VARCHAR, $2::INTEGER, $3::INTEGER, $4::INTEGER) RETURNING "Subcategory".id]
+[parameters: ('Двигатель', 1, 1, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 538, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 176, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 241, in __bind_execute
+    data, status, _ = await self.__do_execute(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 230, in __do_execute
+    return await executor(protocol)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 207, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id_sub_category" of relation "Subcategory" violates not-null constraint
+DETAIL:  Failing row contains (Двигатель, 1, 1, null, 1).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_sub_category" of relation "Subcategory" violates not-null constraint
+DETAIL:  Failing row contains (Двигатель, 1, 1, null, 1).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/application.py", line 535, in create
+    obj = await model_view.insert_model(request, form_data_dict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/models.py", line 1003, in insert_model
+    return await Query(self).insert(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 226, in insert
+    return await self._insert_async(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 214, in _insert_async
+    await session.commit()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/ext/asyncio/session.py", line 1009, in commit
+    await greenlet_spawn(self.sync_session.commit)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4487, in _flush
+    with util.safe_reraise():
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_sub_category" of relation "Subcategory" violates not-null constraint
+DETAIL:  Failing row contains (Двигатель, 1, 1, null, 1).
+[SQL: INSERT INTO "Subcategory" (name, level, id_category, id_sub_category) VALUES ($1::VARCHAR, $2::INTEGER, $3::INTEGER, $4::INTEGER) RETURNING "Subcategory".id]
+[parameters: ('Двигатель', 1, 1, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00042s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00041s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 0.01049s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Subcategory" (name, level, id_category, id_sub_category) VALUES ($1::VARCHAR, $2::INTEGER, $3::INTEGER, $4::INTEGER) RETURNING "Subcategory".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00029s] ('Двигатель', 1, 1, None)
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00076s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00060s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00057s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00040s] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE "Subcategory".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00027s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00032s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00042s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00039s] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00018s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00035s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00042s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00089s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" 
+WHERE "Category".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00054s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 20.23s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 20.22s ago] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 40.95s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 40.94s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 40.94s ago] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 40.93s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 40.93s ago] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE "Subcategory".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 63.37s ago] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 63.37s ago] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 63.37s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 63.37s ago] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00057s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00054s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 75.32s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00104s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.006725s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 102.7s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 27.37s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 27.37s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.hash_service.hashing:Хеширование изображения
+INFO:root:Image Saver (Admin Panel) сохранение фотографии в директории
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00028s] ('kdaskd;sakld;', 'TOP#!', None, 0.0, None, None, None, 'DESCRIPTION ON PRODUCT', None, None, '$2M4lfUaT6Rd__Волчий Дождь.jpeg', 909, Decimal('1000'), 0.0, datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:sqladmin.application:(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "brand" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (kdaskd;sakld;, TOP#!, null, 0, null, null, null, DESCRIPTION ON PRODUCT, null, null, $2M4lfUaT6Rd__Волчий Дождь.jpeg, 909, 1000, 0, 2024-09-26, 2024-09-26, 0, 1).
+[SQL: INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id]
+[parameters: ('kdaskd;sakld;', 'TOP#!', None, 0.0, None, None, None, 'DESCRIPTION ON PRODUCT', None, None, '$2M4lfUaT6Rd__Волчий Дождь.jpeg', 909, Decimal('1000'), 0.0, datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 538, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 176, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 241, in __bind_execute
+    data, status, _ = await self.__do_execute(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 230, in __do_execute
+    return await executor(protocol)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 207, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "brand" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (kdaskd;sakld;, TOP#!, null, 0, null, null, null, DESCRIPTION ON PRODUCT, null, null, $2M4lfUaT6Rd__Волчий Дождь.jpeg, 909, 1000, 0, 2024-09-26, 2024-09-26, 0, 1).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "brand" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (kdaskd;sakld;, TOP#!, null, 0, null, null, null, DESCRIPTION ON PRODUCT, null, null, $2M4lfUaT6Rd__Волчий Дождь.jpeg, 909, 1000, 0, 2024-09-26, 2024-09-26, 0, 1).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/application.py", line 535, in create
+    obj = await model_view.insert_model(request, form_data_dict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/models.py", line 1003, in insert_model
+    return await Query(self).insert(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 226, in insert
+    return await self._insert_async(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 214, in _insert_async
+    await session.commit()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/ext/asyncio/session.py", line 1009, in commit
+    await greenlet_spawn(self.sync_session.commit)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4487, in _flush
+    with util.safe_reraise():
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "brand" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (kdaskd;sakld;, TOP#!, null, 0, null, null, null, DESCRIPTION ON PRODUCT, null, null, $2M4lfUaT6Rd__Волчий Дождь.jpeg, 909, 1000, 0, 2024-09-26, 2024-09-26, 0, 1).
+[SQL: INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id]
+[parameters: ('kdaskd;sakld;', 'TOP#!', None, 0.0, None, None, None, 'DESCRIPTION ON PRODUCT', None, None, '$2M4lfUaT6Rd__Волчий Дождь.jpeg', 909, Decimal('1000'), 0.0, datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Review".id) AS count_1 
+FROM "Review"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00031s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00020s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00020s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00022s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00010s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00011s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.002459s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("User".id) AS count_1 
+FROM "User"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00018s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" ORDER BY "User".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00034s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 49.84s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 49.84s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00039s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00038s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00017s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00045s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.006388s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 83.35s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 83.33s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 67.22s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 67.22s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 67.23s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00065s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00078s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.005649s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 0.9446s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.9386s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.9407s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00061s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00126s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Review".id) AS count_1 
+FROM "Review"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00023s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00020s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Order".id) AS count_1 
+FROM "Order"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00056s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".date_buy, "Order".id_user, "Order".id_product, "Order".id 
+FROM "Order" ORDER BY "Order".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00040s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00034s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00024s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Review".id) AS count_1 
+FROM "Review"
+INFO:sqlalchemy.engine.Engine:[cached since 2.768s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 2.766s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 6.382s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 6.362s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 13.42s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 13.41s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 13.42s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - проверка прав пользователя (на администратора), email=darkfos@gmail.com
+INFO:src.api.authentication.hash_service.hashing:Хеширование пароля
+INFO:src.database.repository.admin_repository:AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com; password=$2b$12$8ZFBD6fLmE0nigOnyY/PJe40n0EiXGSrQMYOnCBLF4cbjxm7ZbpLS
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+INFO:sqlalchemy.engine.Engine:[generated in 0.00032s] ('darkfos@gmail.com',)
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 121s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 121s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 130.7s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 130.7s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 130.7s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 144s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 144s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:asyncio:Fatal error on SSL protocol
+protocol: <uvloop.loop.SSLProtocol object at 0x75685d20c720>
+transport: <TCPTransport closed=True reading=False 0x3bba6c0>
+Traceback (most recent call last):
+  File "uvloop/sslproto.pyx", line 669, in uvloop.loop.SSLProtocol._write_appdata
+  File "uvloop/sslproto.pyx", line 699, in uvloop.loop.SSLProtocol._process_outgoing
+  File "uvloop/handles/stream.pyx", line 674, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive
+RuntimeError: unable to perform operation on <TCPTransport closed=True reading=False 0x3bba6c0>; the handler is closed
+ERROR:sqlalchemy.pool.impl.AsyncAdaptedQueuePool:The garbage collector is trying to clean up non-checked-in connection <AdaptedConnection <asyncpg.connection.Connection object at 0x75685ce5e210>>, which will be terminated.  Please ensure that SQLAlchemy pooled connections are returned to the pool explicitly, either by calling ``close()`` or by using appropriate context managers to manage their lifecycle.
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00061s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00046s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00028s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.004469s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00033s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00073s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00016s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00014s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.00532s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00033s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00019s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.004147s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:root:Start Project
+INFO:root:Start Project
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00032s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00046s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.007188s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00066s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00047s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.005208s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 7.112s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 7.111s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 7.115s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.hash_service.hashing:Хеширование изображения
+INFO:root:Image Saver (Admin Panel) сохранение фотографии в директории
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00032s] ('lkfkdskfksd', 'Title1', 'brand', 0.0, None, None, None, 'dddd', 'Marka', 'Da', '$2EHuSLOAdoQ__Волчий Дождь.jpeg', 999, 0, Decimal('5'), datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+ERROR:sqladmin.application:(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_category" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (lkfkdskfksd, Title1, brand, 0, null, null, null, dddd, Marka, Da, $2EHuSLOAdoQ__Волчий Дождь.jpeg, 999, 0, 5, 2024-09-26, 2024-09-26, 0, 2).
+[SQL: INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id]
+[parameters: ('lkfkdskfksd', 'Title1', 'brand', 0.0, None, None, None, 'dddd', 'Marka', 'Da', '$2EHuSLOAdoQ__Волчий Дождь.jpeg', 999, 0, Decimal('5'), datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 538, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 176, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 241, in __bind_execute
+    data, status, _ = await self.__do_execute(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/asyncpg/prepared_stmt.py", line 230, in __do_execute
+    return await executor(protocol)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg/protocol/protocol.pyx", line 207, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id_category" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (lkfkdskfksd, Title1, brand, 0, null, null, null, dddd, Marka, Da, $2EHuSLOAdoQ__Волчий Дождь.jpeg, 999, 0, 5, 2024-09-26, 2024-09-26, 0, 2).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_category" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (lkfkdskfksd, Title1, brand, 0, null, null, null, dddd, Marka, Da, $2EHuSLOAdoQ__Волчий Дождь.jpeg, 999, 0, 5, 2024-09-26, 2024-09-26, 0, 2).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/application.py", line 535, in create
+    obj = await model_view.insert_model(request, form_data_dict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/models.py", line 1003, in insert_model
+    return await Query(self).insert(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 226, in insert
+    return await self._insert_async(data, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqladmin/_queries.py", line 214, in _insert_async
+    await session.commit()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/ext/asyncio/session.py", line 1009, in commit
+    await greenlet_spawn(self.sync_session.commit)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4487, in _flush
+    with util.safe_reraise():
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 572, in execute
+    self._adapt_connection.await_(
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 550, in _prepare_and_execute
+    self._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 501, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+  File "/home/rias/.cache/pypoetry/virtualenvs/scooter24-e5Akrdmr-py3.12/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 784, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id_category" of relation "Product" violates not-null constraint
+DETAIL:  Failing row contains (lkfkdskfksd, Title1, brand, 0, null, null, null, dddd, Marka, Da, $2EHuSLOAdoQ__Волчий Дождь.jpeg, 999, 0, 5, 2024-09-26, 2024-09-26, 0, 2).
+[SQL: INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id]
+[parameters: ('lkfkdskfksd', 'Title1', 'brand', 0.0, None, None, None, 'dddd', 'Marka', 'Da', '$2EHuSLOAdoQ__Волчий Дождь.jpeg', 999, 0, Decimal('5'), datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Category".id) AS count_1 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00017s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" ORDER BY "Category".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00037s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00060s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_category AS "Product_id_category", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_category IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00056s] (1,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00051s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00043s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 87.19s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 87.19s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 87.19s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Historybuy".id) AS count_1 
+FROM "Historybuy"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00031s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Historybuy".id_user, "Historybuy".id_product, "Historybuy".id 
+FROM "Historybuy" ORDER BY "Historybuy".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00045s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00022s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00041s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00020s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.005642s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00029s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00028s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 0.004689s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00041s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00061s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00043s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00045s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00056s] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00017s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00017s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 0.007403s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 10.99s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 10.98s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 10.97s ago] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 10.97s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 10.97s ago] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00030s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00049s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00091s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00062s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00054s] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00012s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00025s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" 
+WHERE CAST("Category".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Category".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00025s] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 1.29s ago] ('%2%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 12.18s ago] ('%3%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 13.11s ago] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 14.53s ago] ('%12%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 15.24s ago] ('%12\\%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 15.5s ago] ('%12\\\\%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 15.78s ago] ('%12\\%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 15.95s ago] ('%12%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 16.13s ago] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 16.5s ago] ('%2%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[cached since 32.55s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 32.54s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.54s ago] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.53s ago] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[cached since 32.52s ago] (2,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00021s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00022s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 0.003905s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:Start Project
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] ()
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00033s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00035s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 0.005952s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00031s] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 1.651s ago] ('%2%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category"
+INFO:sqlalchemy.engine.Engine:[cached since 25.43s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 25.42s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 25.42s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE "Subcategory".id = $1::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00059s] (2,)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Subcategory" (name, level, id_category, id_sub_category) VALUES ($1::VARCHAR, $2::INTEGER, $3::INTEGER, $4::INTEGER) RETURNING "Subcategory".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] ('Поршневая система', 2, None, None)
+INFO:sqlalchemy.engine.Engine:UPDATE "Subcategory" SET id_sub_category=$1::INTEGER WHERE "Subcategory".id = $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00067s] (3, 2)
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Subcategory".id) AS count_1 
+FROM "Subcategory"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00028s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" ORDER BY "Subcategory".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00039s] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_second_level IN ($1::INTEGER, $2::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00061s] (2, 3)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00074s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id_sub_category AS "Subcategory_id_sub_category", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".id AS "Subcategory_id" 
+FROM "Subcategory" 
+WHERE "Subcategory".id_sub_category IN ($1::INTEGER, $2::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00058s] (2, 3)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".id_subcategory_thirst_level AS "Product_id_subcategory_thirst_level", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".id_category AS "Product_id_category", "Product".id_subcategory_second_level AS "Product_id_subcategory_second_level", "Product".explanation_product AS "Product_explanation_product", "Product".brand_mark AS "Product_brand_mark", "Product".model AS "Product_model", "Product".photo_product AS "Product_photo_product", "Product".quantity_product AS "Product_quantity_product", "Product".price_product AS "Product_price_product", "Product".price_with_discount AS "Product_price_with_discount", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".id_subcategory_thirst_level IN ($1::INTEGER, $2::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00063s] (2, 3)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[generated in 0.00062s] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00035s] (10, 0)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".name_category, "Category".icon_category, "Category".id 
+FROM "Category" 
+WHERE CAST("Category".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Category".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[generated in 0.00046s] ('%1%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 85.84s ago] ('%2%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".name, "Subcategory".level, "Subcategory".id_category, "Subcategory".id_sub_category, "Subcategory".id 
+FROM "Subcategory" 
+WHERE CAST("Subcategory".id AS VARCHAR) ILIKE $1::VARCHAR ORDER BY "Subcategory".id 
+ LIMIT $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 90.3s ago] ('%3%', 10)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:src.api.authentication.hash_service.hashing:Хеширование изображения
+INFO:root:Image Saver (Admin Panel) сохранение фотографии в директории
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO "Product" (article_product, title_product, brand, weight_product, id_category, id_subcategory_thirst_level, id_subcategory_second_level, explanation_product, brand_mark, model, photo_product, quantity_product, price_product, price_with_discount, date_create_product, date_update_information, product_discount) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::FLOAT, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR, $12::INTEGER, $13::FLOAT, $14::FLOAT, $15::DATE, $16::DATE, $17::INTEGER) RETURNING "Product".id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00043s] ('ыфвфывфыв', 'Заголовок продукта', 'вфывфыв', Decimal('3'), 1, 2, 3, 'Пояснение', 'вфывфыв', 'вфывфыв', '$2XibCdjSouV__blood.jpg', 33, Decimal('33'), Decimal('33'), datetime.date(2024, 9, 26), datetime.date(2024, 9, 26), 0)
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - обновление токена
+INFO:src.api.authentication.secure.authentication_service:Сервис Аутентификации - декодирование токена
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT count("Product".id) AS count_1 
+FROM "Product"
+INFO:sqlalchemy.engine.Engine:[cached since 44.29s ago] ()
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".id_category, "Product".id_subcategory_thirst_level, "Product".id_subcategory_second_level, "Product".explanation_product, "Product".brand_mark, "Product".model, "Product".photo_product, "Product".quantity_product, "Product".price_product, "Product".price_with_discount, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+INFO:sqlalchemy.engine.Engine:[cached since 44.29s ago] (10, 0)
+INFO:sqlalchemy.engine.Engine:SELECT "Category".id AS "Category_id", "Category".name_category AS "Category_name_category", "Category".icon_category AS "Category_icon_category" 
+FROM "Category" 
+WHERE "Category".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00063s] (1,)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id AS "Subcategory_id", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".id_sub_category AS "Subcategory_id_sub_category" 
+FROM "Subcategory" 
+WHERE "Subcategory".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00071s] (2,)
+INFO:sqlalchemy.engine.Engine:SELECT "Subcategory".id AS "Subcategory_id", "Subcategory".name AS "Subcategory_name", "Subcategory".level AS "Subcategory_level", "Subcategory".id_category AS "Subcategory_id_category", "Subcategory".id_sub_category AS "Subcategory_id_sub_category" 
+FROM "Subcategory" 
+WHERE "Subcategory".id IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00043s] (3,)
+INFO:sqlalchemy.engine.Engine:SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00074s] (3,)
+INFO:sqlalchemy.engine.Engine:SELECT "Order".id_product AS "Order_id_product", "Order".date_buy AS "Order_date_buy", "Order".id_user AS "Order_id_user", "Order".id AS "Order_id" 
+FROM "Order" 
+WHERE "Order".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00065s] (3,)
+INFO:sqlalchemy.engine.Engine:SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00059s] (3,)
+INFO:sqlalchemy.engine.Engine:ROLLBACK

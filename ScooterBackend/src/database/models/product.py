@@ -101,9 +101,9 @@ class Product(MainBase):
     # Категория
     category_data: Mapped["Category"] = relationship("Category", back_populates="product_data", uselist=False)
     # Подкатегория
-    sub_category_data: Mapped["Subcategory"] = relationship("Subcategory", foreign_keys=[id_subcategory_thirst_level], back_populates="product_data_1", uselist=False)
+    sub_category_datas: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_thirst_level], back_populates="product_data_1", uselist=False)
     # Подкатегория ур.2
-    sub_l2_category_data: Mapped["Subcategory"] = relationship("Subcategory", foreign_keys=[id_subcategory_second_level], back_populates="product_data_2", uselist=False)
+    sub_l2_category_data: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_second_level], back_populates="product_data_2", uselist=False)
 
     def read_model(self) -> Dict[str, str]:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}

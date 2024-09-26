@@ -8,13 +8,14 @@ class SubCategory(MainBase):
 
     name: Mapped[str] = mapped_column(type_=String(length=225), nullable=False)
     level: Mapped[int] = mapped_column(type_=Integer)
-    id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer)
-    id_sub_category: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer)
+    id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer, nullable=True)
+    id_sub_category: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer, nullable=True)
 
     #relation's
+    subcategory_data: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_sub_category])
     category_data: Mapped["Category"] = relationship("Category", back_populates="sub_category_data", uselist=False)
-    product_data_1: Mapped[List["Product"]] = relationship("Product", back_populates="sub_category_data", uselist=True)
-    product_data_2: Mapped[List["Product"]] = relationship("Product", back_populates="sub_l2_category_data", uselist=True)
+    product_data_1: Mapped[List["Product"]] = relationship("Product", back_populates="sub_category_datas", foreign_keys="[Product.id_subcategory_thirst_level]", uselist=True)
+    product_data_2: Mapped[List["Product"]] = relationship("Product", back_populates="sub_l2_category_data", foreign_keys="[Product.id_subcategory_second_level]", uselist=True)
 
     def __str__(self) -> str:
         return str({
