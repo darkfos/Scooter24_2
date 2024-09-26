@@ -11,7 +11,6 @@ from sqlalchemy.orm import joinedload
 from src.database.models.product import Product
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
-from src.database.models.product_category import ProductCategory
 
 
 logging = logger.getLogger(__name__)
@@ -53,8 +52,7 @@ class ProductRepository(GeneralSQLRepository):
         if isinstance(how_to_find, int):
             stmt = (
                 select(Product)
-                .join(ProductCategory)
-                .where(ProductCategory.id_category == how_to_find)
+                .where(Product.id_category == how_to_find)
             )
             all_products = (await self.async_session.execute(stmt)).fetchall()
             return all_products
@@ -121,9 +119,7 @@ class ProductRepository(GeneralSQLRepository):
         stmt = select(Product).options(joinedload(Product.product_all_categories))
 
         if id_categories:
-            stmt = stmt.join(ProductCategory).filter(
-                ProductCategory.id_category == id_categories
-            )
+            stmt = stmt.where(Product.id_category == id_categories)
 
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)

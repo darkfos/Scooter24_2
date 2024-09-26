@@ -11,12 +11,10 @@ from src.admin.models.review_admin_model import ReviewModelView
 from src.admin.models.type_worker_admin_model import TypeWorkerModelView
 from src.admin.models.user_admin_model import UserModelView
 from src.admin.models.vacancies_admin_model import VacanciesModelView
-from src.admin.models.product_category_admin_model import ProductCategoryModelView
 
 all_models: List = [
     AdminModelView,
     UserModelView,
-    ProductCategoryModelView,
     CategoryModelView,
     FavouriteModelView,
     OrderModelView,

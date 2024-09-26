@@ -19,9 +19,6 @@ from src.database.repository.favourite_repository import FavouriteRepository
 from src.database.repository.history_buy_repository import HistoryBuyRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
-from src.database.repository.product_category_repository import (
-    ProductCategoryRepository,
-)
 from src.database.db_worker import db_work
 
 
@@ -37,7 +34,6 @@ class IEngineRepository(ABC):
     history_buy_repository: Type[HistoryBuyRepository]
     order_repository: Type[OrderRepository]
     review_repository: Type[ReviewRepository]
-    product_category_repository: Type[ProductCategoryRepository]
 
     @abstractmethod
     def __init__(self):
@@ -74,9 +70,6 @@ class EngineRepository(IEngineRepository):
         self.product_repository = ProductRepository(session=self.session)
         self.type_worker_repository = TypeWorkerRepository(session=self.session)
         self.history_buy_repository = HistoryBuyRepository(session=self.session)
-        self.product_category_repository = ProductCategoryRepository(
-            session=self.session
-        )
 
     async def __aexit__(self, *args):
         """
