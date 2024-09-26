@@ -37,10 +37,10 @@ class Product(MainBase):
     id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer)
 
     # Подкатегория 1ур
-    id_subcategory_thirst_level: Mapped[int] = mapped_column(ForeignKey("SubCategory.id"), type_=Integer)
+    id_subcategory_thirst_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer)
 
     # Подкатегория 2ур
-    id_subcategory_second_level: Mapped[int] = mapped_column(ForeignKey("SubCategory.id"), type_=Integer)
+    id_subcategory_second_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer)
 
     # Пояснение продукта
     explanation_product: Mapped[str] = mapped_column(
@@ -88,7 +88,7 @@ class Product(MainBase):
         type_=Integer, nullable=True, default=0
     )
 
-    # Связи к таблицам
+    # Relation's
     reviews: Mapped[List["Review"]] = relationship(
         "Review", back_populates="product", uselist=True
     )  # Отзывы
@@ -98,6 +98,12 @@ class Product(MainBase):
     product_info_for_fav: Mapped[List["Favourite"]] = relationship(
         "Favourite", back_populates="product_info", uselist=True
     )  # Избр.
+    # Категория
+    category_data: Mapped["Category"] = relationship("Category", back_populates="product_data", uselist=False)
+    # Подкатегория
+    sub_category_data: Mapped["Subcategory"] = relationship("Subcategory", foreign_keys=[id_subcategory_thirst_level], back_populates="product_data_1", uselist=False)
+    # Подкатегория ур.2
+    sub_l2_category_data: Mapped["Subcategory"] = relationship("Subcategory", foreign_keys=[id_subcategory_second_level], back_populates="product_data_2", uselist=False)
 
     def read_model(self) -> Dict[str, str]:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}

@@ -26,6 +26,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 
 # Tables
+from src.database.models.subcategory import SubCategory
 from src.database.models.user import User
 from src.database.models.order import Order
 from src.database.models.product import Product
@@ -36,7 +37,6 @@ from src.database.models.category import Category
 from src.database.models.admin import Admin
 from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
-from src.database.models.product_category import ProductCategory
 
 # Database for migrations
 from src.database.mainbase import MainBase
