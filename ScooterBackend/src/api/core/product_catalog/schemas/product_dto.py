@@ -11,19 +11,25 @@ from pydantic import BaseModel, Field
 
 class ProductBase(BaseModel):
 
-    title_product: Annotated[str, Field(max_length=500)]
-    price_product: Annotated[float, Field(gt=-1)]
-    quantity_product: Annotated[int, Field(gt=-1)]
-    explanation_product: Annotated[str, Field(max_length=780)]
     article_product: Annotated[str, Field(max_length=300)]
-    tags: Annotated[str, Field(min_length=0)]
-    other_data: Annotated[str, Field(min_length=0)]
+    title_product: Annotated[str, Field(max_length=500)]
+    brand: Annotated[str, Field(max_length=150)]
+    weight_product: Annotated[float, Field(ge=0)]
+    id_category: Annotated[Union[None, int], Field(default=None)]
+    id_subcategory_thirst_level: Annotated[Union[None, int], Field(default=None)]
+    id_subcategory_second_level: Annotated[Union[None, int], Field(default=None)]
+    explanation_product: Annotated[str, Field()]
+    brand_mark: Annotated[str, Field(max_length=150)]
+    model: Annotated[str, Field(max_length=300)]
     photo_product: Annotated[str, Field()] = None
+    quantity_product: Annotated[int, Field(gt=-1)]
+    price_product: Annotated[float, Field(gt=-1)]
+    price_with_discount: Annotated[float, Field()]
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]
-    price_discount: Annotated[int, Field(lt=100)]
+    product_discount: Annotated[int, Field(lt=100)]
 
 
 class ListProductBase(BaseModel):

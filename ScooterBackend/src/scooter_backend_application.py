@@ -41,6 +41,7 @@ class ScooterBackendApplication:
 
         # Admjn panel
         self.admin: AdminPanel = AdminPanel(app=self.scooter24_app)
+
         # Initialize model's view
         self.admin.initialize_models_view(models=[])
 

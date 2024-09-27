@@ -3,7 +3,7 @@ from typing import Annotated
 import logging
 
 # Other libraries
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, status, Depends, Request
 
 # Local
 from src.api.core.admin_catalog.schemas.admin_dto import AdminBase, AdminIsCreated
@@ -41,3 +41,14 @@ async def create_admin(
     return await AdminService.create_admin(
         engine=session, new_admin=new_admin, token=user_data
     )
+
+
+@admin_router.get(
+    path="/load_data/{model}",
+    description="""
+    ENDPOINT - Загрузка csv, .xlsx данных в админ панели
+    """,
+    status_code=status.HTTP_200_OK
+)
+async def load_data_in_model(request: Request, model: str):
+    print(request, model)

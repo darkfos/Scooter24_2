@@ -30,7 +30,7 @@ class CategoryRepository(GeneralSQLRepository):
         """
 
         #Logging
-        logging.info(msg=f"{self.__class__.__name} Осуществлен поиск категории по названию category_name={category_name}, type_find={type_find}")
+        logging.info(msg=f"{self.__class__.__name__} Осуществлен поиск категории по названию category_name={category_name}, type_find={type_find}")
 
         stmt = select(Category).where(Category.name_category == category_name)
         res_to_find = (await self.async_session.execute(stmt)).one_or_none()
@@ -38,7 +38,7 @@ class CategoryRepository(GeneralSQLRepository):
         if type_find:
             return res_to_find[0]
         
-        logging.critical(msg=f"{self.__class__.__name} Не удалось найти категорию по названию category_name={category_name}, type_find={type_find}")
+        logging.critical(msg=f"{self.__class__.__name__} Не удалось найти категорию по названию category_name={category_name}, type_find={type_find}")
         return False
 
     async def del_more(self, session: AsyncSession, id_categories: List[int]) -> bool:
@@ -49,7 +49,7 @@ class CategoryRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name} Осуществление операции удаления категории по id_categories={id_categories}")
+        logging.info(msg=f"{self.__class__.__name__} Осуществление операции удаления категории по id_categories={id_categories}")
         for id_cat in id_categories:
             delete_category = delete(Category).where(Category.id == id_cat)
             await session.execute((delete_category))

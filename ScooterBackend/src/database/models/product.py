@@ -34,13 +34,13 @@ class Product(MainBase):
     weight_product: Mapped[float] = mapped_column(type_=Double, nullable=True, default=0.0)
 
     # Категория
-    id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer)
+    id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer, nullable=True)
 
     # Подкатегория 1ур
-    id_subcategory_thirst_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer)
+    id_subcategory_thirst_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer, nullable=True)
 
     # Подкатегория 2ур
-    id_subcategory_second_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer)
+    id_subcategory_second_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer, nullable=True)
 
     # Пояснение продукта
     explanation_product: Mapped[str] = mapped_column(
