@@ -1,0 +1,12 @@
+/* custom.css */
+.navbar-brand img {
+    width: 70px;  /* Установите нужную ширину */
+    height: auto;  /* Высота будет автоматически подстраиваться */
+}
+
+
+/* Загрузка данных из excel в таблицу */
+.csv_block_form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

@@ -21,15 +21,15 @@
           </ul>
         </div>
         {% elif model_view.export_types | length == 1 %}
-        <div class="ms-3 d-inline-block">
           {% if model_view.name in ('Товары', 'Категории') %}
-            <div class="csv-block">
+            <div class="ms-3 d-inline-block">
               <form action="{{ url_for('admin:load_data', model=model_view.name) }}" method="post" enctype="multipart/form-data">
                 <input type="file" name="csv_file" accept=".csv">
-                <button type="submit" class="btn btn-secondary">Загрузить данные</button>
-              </form>  
+                <button type="submit" class="btn btn-warning">Загрузить данные</button>
+              </form>
             </div>
           {% endif %}
+        <div class="ms-3 d-inline-block">
           <a href="{{ url_for('admin:export', identity=model_view.identity, export_type=model_view.export_types[0]) }}"
             class="btn btn-secondary">
             Выгрузить

@@ -36,7 +36,7 @@ class ScooterBackendApplication:
         )
 
         # Static's
-        self.statics: StaticFiles = StaticFiles(directory="src/static")
+        self.statics: StaticFiles = StaticFiles(directory="src/statics")
         self.scooter24_app.mount(path="/static", app=self.statics, name="static")
 
         # Admjn panel

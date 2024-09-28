@@ -36,6 +36,7 @@ class AdminPanel:
             )
         )
 
+        self.statics_scooter24 = StaticFiles(directory="src/statics")
         self.admin_panel: Type[Admin] = Admin(
             # Set settings
             engine=db_work.db_engine,
@@ -51,6 +52,9 @@ class AdminPanel:
         #Add router
         self.starlette_data.routes.append(
             Route(path="/load_data/{model}", endpoint=self.load_data, name="load_data", methods=["POST", "GET"])
+        )
+        self.starlette_data.routes.append(
+            Mount(path="/static_sc24", app=self.statics_scooter24, name="static_sc24")
         )
 
         # initialize
@@ -81,7 +85,6 @@ class AdminPanel:
                 for index, row in df.iterrows():
 
                     category_data = id_subcat_1 = id_subcat_2 = None
-                    print(row["Категория"], row["Подкатегория второго уровня"], row["Подкатегория первого уровня"])
 
                     if str(row["Категория"]) not in (None, "nan"):
                         category_data: Category = await session.category_repository.find_by_name(category_name=row["Категория"])
