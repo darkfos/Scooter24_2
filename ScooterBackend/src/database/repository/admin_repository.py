@@ -34,11 +34,10 @@ class AdminRepository(GeneralSQLRepository):
             msg=f"{self.__class__.__name__} Запрос на получение данных по почте и паролю email={email}; password={password}"
         )
 
-        stmt = select(Admin).where(
-            Admin.email_admin == email
-            if not password
-            else Admin.email_admin == email and Admin.password_user == password
-        )
+        if email and password:
+            stmt = select(Admin).where(Admin.email_admin == email and Admin.password_user == password)
+        else:    
+            stmt = select(Admin).where(Admin.email_admin == email)
         res_find_admin: Union[Admin, None] = (
             await self.async_session.execute(stmt)
         ).one_or_none()

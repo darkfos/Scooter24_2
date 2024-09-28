@@ -14,7 +14,7 @@ class ProductModelView(ModelView, model=Product):
     name: str = "Товары"
     name_plural: str = "Товар"
     icon: str = "fa fa-motorcycle"
-    category: str = "Товар"
+    category: str = "Продукт"
 
     column_list: list = [Product.id, Product.id_category, Product.id_subcategory_thirst_level, Product.id_subcategory_second_level, Product.brand,
                          Product.brand_mark, Product.model, Product.title_product, Product.article_product, Product.explanation_product,

@@ -9,7 +9,7 @@ class ReviewModelView(ModelView, model=Review):
     name: str = "Отзывы"
     name_plural: str = "Отзыв"
     icon: str = "fa fa-comment"
-    category: str = "Товар"
+    category: str = "Данные пользователей"
 
     column_list: List[Any] = [
         Review.id,

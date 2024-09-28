@@ -9,7 +9,7 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
     name: str = "Тип работника"
     name_plural: str = "Тип работника"
     icon: str = "fa fa-users"
-    category: str = "Пользователь"
+    category: str = "Работа"
 
     column_list: List[Any] = [TypeWorker.id, TypeWorker.name_type, TypeWorker.vacancies]
     column_labels: dict = {

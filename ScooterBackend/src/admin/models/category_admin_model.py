@@ -13,7 +13,7 @@ class CategoryModelView(ModelView, model=Category):
     name: str = "Категории"
     name_plural: str = "Категории"
     icon: str = "fa fa-tags"
-    category: str = "Товар"
+    category: str = "Продукт"
 
     column_list: List[Any] = [Category.id, Category.name_category, Category.icon_category, Category.sub_category_data, Category.product_data]
     column_labels: dict = {

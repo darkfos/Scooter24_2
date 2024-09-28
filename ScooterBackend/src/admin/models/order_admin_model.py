@@ -9,7 +9,7 @@ class OrderModelView(ModelView, model=Order):
     name: str = "Заказы"
     name_plural: str = "Заказ"
     icon: str = "fa fa-shopping-cart"
-    category: str = "Товар"
+    category: str = "Данные пользователей"
 
     column_list: List[Any] = [
         Order.id,

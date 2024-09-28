@@ -9,7 +9,7 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
     name: str = "История покупок"
     name_plural: str = "История"
     icon: str = "fa fa-archive"
-    category: str = "Пользователь"
+    category: str = "Данные пользователей"
 
     column_list: List[Any] = [
         HistoryBuy.id,

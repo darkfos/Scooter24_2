@@ -26,14 +26,17 @@ class AdminPanelAuthentication(AuthenticationBackend):
             session=await db_work.get_session(), email=username, password=password
         )
 
-        request.session.update(
-            {
-                "access_token": jwt_admin_data.token,
-                "refresh_token": jwt_admin_data.refresh_token,
-                "token_type": jwt_admin_data.token_type,
-            }
-        )
-        return True
+
+        if jwt_admin_data:
+            request.session.update(
+                {
+                    "access_token": jwt_admin_data.token,
+                    "refresh_token": jwt_admin_data.refresh_token,
+                    "token_type": jwt_admin_data.token_type,
+                }
+            )
+            return True
+        return False
 
     async def authenticate(self, request: Type[Request]) -> Union[Type[Response], bool]:
         tokens: tuple = request.session.get("token"), request.session.get(

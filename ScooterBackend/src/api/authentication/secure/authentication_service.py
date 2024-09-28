@@ -188,55 +188,53 @@ class Authentication:
         """
 
         logging.info(msg=f"Сервис Аутентификации - проверка прав пользователя (на администратора), email={email}")
-        hash_password: str = CryptographyScooter().hashed_password(password=password)
         is_admin: Union[Admin, None] = await AdminRepository(
             session=session
-        ).find_admin_by_email_and_password(email=email, password=hash_password)
+        ).find_admin_by_email_and_password(email=email, password=password)
 
         if is_admin:
-
-            token_access_data: Dict[Union[str, int], Union[str, int]] = {
-                "email": email,
-                "password": hash_password,
-                "id_admin": is_admin.id,
-            }
-            token_refresh_data: Dict[Union[str, int], Union[str, int]] = {
-                "email": email,
-                "password": hash_password,
-                "is_admin": is_admin.id,
-            }
-
-            token_access_data.update(
-                {
-                    "exp": (
-                        datetime.now()
-                        + timedelta(minutes=Settings.auth_settings.time_work_secret_key)
-                    )
+            
+            if CryptographyScooter().verify_password(password=password, hashed_password=is_admin.password_user):
+                token_access_data: Dict[Union[str, int], Union[str, int]] = {
+                    "email": email,
+                    "id_admin": is_admin.id,
                 }
-            )
-            token_refresh_data.update(
-                {
-                    "exp": (
-                        datetime.now()
-                        + timedelta(
-                            days=Settings.auth_settings.time_work_refresh_secret_key
+                token_refresh_data: Dict[Union[str, int], Union[str, int]] = {
+                    "email": email,
+                    "is_admin": is_admin.id,
+                }
+
+                token_access_data.update(
+                    {
+                        "exp": (
+                            datetime.now()
+                            + timedelta(minutes=Settings.auth_settings.time_work_secret_key)
                         )
-                    )
-                }
-            )
+                    }
+                )
+                token_refresh_data.update(
+                    {
+                        "exp": (
+                            datetime.now()
+                            + timedelta(
+                                days=Settings.auth_settings.time_work_refresh_secret_key
+                            )
+                        )
+                    }
+                )
 
-            return Tokens(
-                token=jwt.encode(
-                    token_access_data,
-                    key=Settings.auth_settings.jwt_secret_key,
-                    algorithm=Settings.auth_settings.algorithm,
-                ),
-                refresh_token=jwt.encode(
-                    token_refresh_data,
-                    key=Settings.auth_settings.jwt_secret_refresh_key,
-                    algorithm=Settings.auth_settings.algorithm,
-                ),
-            )
+                return Tokens(
+                    token=jwt.encode(
+                        token_access_data,
+                        key=Settings.auth_settings.jwt_secret_key,
+                        algorithm=Settings.auth_settings.algorithm,
+                    ),
+                    refresh_token=jwt.encode(
+                        token_refresh_data,
+                        key=Settings.auth_settings.jwt_secret_refresh_key,
+                        algorithm=Settings.auth_settings.algorithm,
+                    ),
+                )
 
         session.close()
 

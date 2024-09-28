@@ -9,7 +9,7 @@ class VacanciesModelView(ModelView, model=Vacancies):
     name: str = "Вакансии"
     name_plural: str = "Вакансия"
     icon: str = "fa fa-user-plus"
-    category: str = "Пользователь"
+    category: str = "Работа"
 
     column_list: List[Any] = [
         Vacancies.id,

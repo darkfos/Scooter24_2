@@ -9,7 +9,7 @@ class FavouriteModelView(ModelView, model=Favourite):
     name: str = "Избранные товары"
     name_plural: str = "Избранное"
     icon: str = "fa fa-bookmark"
-    category: str = "Пользователь"
+    category: str = "Данные пользователей"
 
     column_list: List[Any] = [
         Favourite.id,
