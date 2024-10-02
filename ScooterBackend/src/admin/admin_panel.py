@@ -189,7 +189,6 @@ class AdminPanel:
             session: EngineRepository = session
             try:
                 for index, row in file.itertuples():
-                    print(row, "DSDSD")
                     name_category, image = row.split(",")
                     res_to_add = await session.category_repository.add_one(
                         Category(
