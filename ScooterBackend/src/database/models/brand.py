@@ -12,6 +12,9 @@ class Brand(MainBase):
     # Название бренда
     name_brand: Mapped[str] = mapped_column(type_=String(length=100), nullable=False, unique=True)
 
+    # Связи
+    product_data: Mapped["Product"] = relationship("Product", back_populates="brand_data", uselist=False)
+
     def __str__(self) -> str:
         return str({
             k: v

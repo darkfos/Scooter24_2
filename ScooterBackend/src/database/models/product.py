@@ -28,7 +28,13 @@ class Product(MainBase):
     )
 
     # Бренд товара
-    brand: Mapped[str] = mapped_column(type_=String(length=150), nullable=False)
+    brand: Mapped[int] = mapped_column(ForeignKey("Brand.id"), type_=Integer, nullable=True)
+
+    # Марка
+    brand_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id"), type_=Integer, nullable=True)
+
+    # Модель
+    model: Mapped[int] = mapped_column(ForeignKey("Model.id"), type_=Integer, nullable=True)
     
     # Объемный вес продукта
     weight_product: Mapped[float] = mapped_column(type_=Double, nullable=True, default=0.0)
@@ -46,12 +52,6 @@ class Product(MainBase):
     explanation_product: Mapped[str] = mapped_column(
         type_=Text, nullable=True, default="Пояснение"
     )
-
-    # Марка
-    brand_mark: Mapped[str] = mapped_column(type_=String(length=150), nullable=True)
-
-    # Модель
-    model: Mapped[str] = mapped_column(type_=String(length=300), nullable=True)
 
     # Фотография продукта
     photo_product: Mapped[str] = mapped_column(
@@ -89,21 +89,38 @@ class Product(MainBase):
     )
 
     # Relation's
+    # Отзывы
     reviews: Mapped[List["Review"]] = relationship(
         "Review", back_populates="product", uselist=True
-    )  # Отзывы
+    )
+
+    # Заказы
     order: Mapped[List["Order"]] = relationship(
         "Order", back_populates="product_info", uselist=True
-    )  # Заказы
+    )
+
+    # Избранные
     product_info_for_fav: Mapped[List["Favourite"]] = relationship(
         "Favourite", back_populates="product_info", uselist=True
-    )  # Избр.
+    )
+
     # Категория
     category_data: Mapped["Category"] = relationship("Category", back_populates="product_data", uselist=False)
+
     # Подкатегория
     sub_category_datas: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_thirst_level], back_populates="product_data_1", uselist=False)
+
     # Подкатегория ур.2
     sub_l2_category_data: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_second_level], back_populates="product_data_2", uselist=False)
+    
+    # Бренд
+    brand_data: Mapped["Brand"] = relationship("Brand", back_populates="product_data", uselist=False)
+
+    # Марка
+    mark_data: Mapped["Mark"] = relationship("Mark", back_populates="product_data", uselist=False)
+
+    # Модель
+    model_data: Mapped["Model"] = relationship("Model", back_populates="product_data", uselist=False)
 
     def read_model(self) -> Dict[str, str]:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}

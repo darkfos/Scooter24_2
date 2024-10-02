@@ -1,5 +1,5 @@
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database.mainbase import MainBase
 
 
@@ -10,6 +10,9 @@ class Model(MainBase):
 
     # Название модели
     name_model: Mapped[str] = mapped_column(type_=String(length=100), unique=True, nullable=False)
+
+    # Связи
+    product_data: Mapped["Product"] = relationship("Product", back_populates="model_data", uselist=False)
 
     def __str__(self) -> str:
         return str({
