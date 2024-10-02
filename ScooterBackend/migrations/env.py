@@ -37,6 +37,9 @@ from src.database.models.category import Category
 from src.database.models.admin import Admin
 from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
+from src.database.models.brand import Brand
+from src.database.models.marks import Mark
+from src.database.models.model import Model
 
 # Database for migrations
 from src.database.mainbase import MainBase
