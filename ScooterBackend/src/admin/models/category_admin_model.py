@@ -51,9 +51,10 @@ class CategoryModelView(ModelView, model=Category):
     async def on_model_delete(self, model: Any, request: Request) -> None:
         
         img_saver: ImageSaver = ImageSaver()
-        img_saver.filename = model["icon_category"]
-        await img_saver.remove_file()
-        return
+        img_saver.filename = model.icon_category
+        if img_saver.filename:
+            await img_saver.remove_file()
+            return
     
     async def get_detail_value(self, obj: Any, prop: str) -> Coroutine[Any, Any, Tuple[Any, Any]]:
 

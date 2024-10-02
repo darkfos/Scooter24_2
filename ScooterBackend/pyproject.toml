@@ -1,6 +1,5 @@
 [tool.poetry]
 name = "scooter24"
-start = "app:main"
 version = "0.1.0"
 description = ""
 authors = ["darkfos82 <darkfos82@gmail.com>"]
