@@ -20,6 +20,10 @@ from src.database.repository.history_buy_repository import HistoryBuyRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
 from src.database.repository.subcategory_repository import SubCategoryRepository
+from src.database.repository.sub_sub_categiry_repository import SubSubCategoryRepository
+from src.database.repository.brand_repository import BrandRepository
+from src.database.repository.model_repository import ModelRepository
+from src.database.repository.mark_repository import MarkRepository
 from src.database.db_worker import db_work
 
 
@@ -36,6 +40,10 @@ class IEngineRepository(ABC):
     order_repository: Type[OrderRepository]
     review_repository: Type[ReviewRepository]
     subcategory_repository: Type[SubCategoryRepository]
+    sub_subcategory_repository: Type[SubSubCategoryRepository]
+    brand_repository: Type[BrandRepository]
+    model_repository: Type[ModelRepository]
+    mark_repository: Type[MarkRepository]
 
     @abstractmethod
     def __init__(self):
@@ -62,17 +70,24 @@ class EngineRepository(IEngineRepository):
 
         self.session = await db_work.get_session()
 
-        self.user_repository = UserRepository(session=self.session)
-        self.admin_repository = AdminRepository(session=self.session)
-        self.category_repository = CategoryRepository(session=self.session)
-        self.review_repository = ReviewRepository(session=self.session)
-        self.order_repository = OrderRepository(session=self.session)
-        self.favourite_repository = FavouriteRepository(session=self.session)
-        self.vacancies_repository = VacanciesRepository(session=self.session)
-        self.product_repository = ProductRepository(session=self.session)
-        self.type_worker_repository = TypeWorkerRepository(session=self.session)
-        self.history_buy_repository = HistoryBuyRepository(session=self.session)
-        self.subcategory_repository = SubCategoryRepository(session=self.session)
+        try:
+            self.user_repository = UserRepository(session=self.session)
+            self.admin_repository = AdminRepository(session=self.session)
+            self.category_repository = CategoryRepository(session=self.session)
+            self.review_repository = ReviewRepository(session=self.session)
+            self.order_repository = OrderRepository(session=self.session)
+            self.favourite_repository = FavouriteRepository(session=self.session)
+            self.vacancies_repository = VacanciesRepository(session=self.session)
+            self.product_repository = ProductRepository(session=self.session)
+            self.type_worker_repository = TypeWorkerRepository(session=self.session)
+            self.history_buy_repository = HistoryBuyRepository(session=self.session)
+            self.subcategory_repository = SubCategoryRepository(session=self.session)
+            self.sub_subcategory_repository = SubSubCategoryRepository(session=self.session)
+            self.brand_repository = BrandRepository(session=self.session)
+            self.model_repository = ModelRepository(session=self.session)
+            self.mark_repository = MarkRepository(session=self.session)
+        except Exception as ex: # Ловим все ошибка ACID (транзакций)
+            self.session.rollback()
 
     async def __aexit__(self, *args):
         """
