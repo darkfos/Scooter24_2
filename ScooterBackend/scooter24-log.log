@@ -719,3 +719,140 @@ FROM "Mark"
 WHERE "Mark".id = $1::INTEGER
 2024-10-04 21:46:17 - sqlalchemy.engine.Engine - INFO - [cached since 9.172s ago] (3,)
 2024-10-04 21:46:17 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 21:48:18 - root - INFO - Start Project
+2024-10-04 21:48:38 - src.api.core.auth_catalog.router.authentication_router - INFO - Auth-Router вызов метода регистрации пользователя (registration_user)
+2024-10-04 21:48:38 - src.api.core.user_catalog.service.user_service - INFO - UserService Создание пользователя
+2024-10-04 21:48:38 - src.api.authentication.hash_service.hashing - INFO - Хеширование пароля
+2024-10-04 21:48:38 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Добавление записи, data={'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7e8a6acb4710>, 'email_user': 'darkfos@gmail.com', 'password_user': '$2b$12$tWTNnPX/heIm4mDRqJfX4.4toDQzn5vJvhR6m/MhP8Ij2ElIVD3Oi', 'name_user': 'string', 'surname_user': 'string', 'main_name_user': 'string', 'date_registration': datetime.date(2024, 10, 4), 'date_update': datetime.date(2024, 10, 4)}
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - INSERT INTO "User" (email_user, password_user, secret_update_key, name_user, surname_user, main_name_user, date_registration, date_update) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::DATE, $8::DATE) RETURNING "User".id
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] ('darkfos@gmail.com', '$2b$12$tWTNnPX/heIm4mDRqJfX4.4toDQzn5vJvhR6m/MhP8Ij2ElIVD3Oi', '', 'string', 'string', 'string', datetime.date(2024, 10, 4), datetime.date(2024, 10, 4))
+2024-10-04 21:48:38 - sqlalchemy.engine.Engine - INFO - COMMIT
+2024-10-04 21:48:52 - src.api.core.auth_catalog.router.authentication_router - INFO - Auth-Router вызов метода авторизации пользователя (login_user)
+2024-10-04 21:48:52 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - создание токена
+2024-10-04 21:48:52 - src.database.repository.user_repository - INFO - UserRepository Поиск пользователя по почте=darkfos@gmail.com
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" 
+WHERE "User".email_user = $1::VARCHAR
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - [generated in 0.00019s] ('darkfos@gmail.com',)
+2024-10-04 21:48:52 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - [generated in 0.00016s] ('darkfos@gmail.com',)
+2024-10-04 21:48:52 - src.api.authentication.hash_service.hashing - INFO - Верификация пользователя
+2024-10-04 21:48:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 21:49:19 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - декодирование токена
+2024-10-04 21:49:19 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - [cached since 27.22s ago] ('darkfos@gmail.com',)
+2024-10-04 21:49:19 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Добавление записи, data={'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7e8a6a3f9eb0>, 'name_mark': 'Mitsubisi'}
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - INSERT INTO "Mark" (name_mark) VALUES ($1::VARCHAR) RETURNING "Mark".id
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] ('Mitsubisi',)
+2024-10-04 21:49:19 - sqlalchemy.engine.Engine - INFO - COMMIT
+2024-10-04 22:42:54 - root - INFO - Start Project
+2024-10-04 22:44:07 - src.api.core.auth_catalog.router.authentication_router - INFO - Auth-Router вызов метода авторизации пользователя (login_user)
+2024-10-04 22:44:07 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - создание токена
+2024-10-04 22:44:07 - src.database.repository.user_repository - INFO - UserRepository Поиск пользователя по почте=darkfos@gmail.com
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" 
+WHERE "User".email_user = $1::VARCHAR
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] ('darkfos@gmail.com',)
+2024-10-04 22:44:07 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] ('darkfos@gmail.com',)
+2024-10-04 22:44:07 - src.api.authentication.hash_service.hashing - INFO - Верификация пользователя
+2024-10-04 22:44:07 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:44:37 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2024-10-04 22:44:37 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:44:37 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand"
+2024-10-04 22:44:37 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] ()
+2024-10-04 22:44:37 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:44:37 - root - INFO - Redis данные были сохранены в хранилище
+2024-10-04 22:45:10 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - декодирование токена
+2024-10-04 22:45:10 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] ('darkfos@gmail.com',)
+2024-10-04 22:45:10 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Добавление записи, data={'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x73d8441217f0>, 'name_brand': 'S24'}
+2024-10-04 22:45:10 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:45:45 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - декодирование токена
+2024-10-04 22:45:45 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - [generated in 0.00019s] ('darkfos@gmail.com',)
+2024-10-04 22:45:45 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Добавление записи, data={'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7cf9a92317f0>, 'name_brand': 'S24'}
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - INSERT INTO "Brand" (name_brand) VALUES ($1::VARCHAR) RETURNING "Brand".id
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - [generated in 0.00047s] ('S24',)
+2024-10-04 22:45:45 - sqlalchemy.engine.Engine - INFO - COMMIT
+2024-10-04 22:45:57 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2024-10-04 22:45:57 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:45:57 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand"
+2024-10-04 22:45:57 - sqlalchemy.engine.Engine - INFO - [generated in 0.00012s] ()
+2024-10-04 22:45:57 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:45:57 - root - INFO - Redis данные были сохранены в хранилище
+2024-10-04 22:46:06 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение записи по ключу = 4
+2024-10-04 22:46:06 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:46:06 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2024-10-04 22:46:06 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] (4,)
+2024-10-04 22:46:06 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:46:12 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение записи по ключу = 1
+2024-10-04 22:46:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:46:12 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2024-10-04 22:46:12 - sqlalchemy.engine.Engine - INFO - [cached since 6.134s ago] (1,)
+2024-10-04 22:46:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:46:34 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение записи по ключу = 1
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] (1,)
+2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-04 22:46:34 - root - INFO - Redis данные были сохранены в хранилище

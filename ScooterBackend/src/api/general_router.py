@@ -20,6 +20,7 @@ from src.api.core.type_worker_catalog.router.type_worker_router import type_work
 from src.api.core.user_catalog.router.user_router import user_router
 from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router
 from src.api.core.mark_catalog.router.mark_router import mark_router
+from src.api.core.brand_catalog.router.brand_router import brand_router
 
 
 class GeneralRouter:
@@ -38,6 +39,7 @@ class GeneralRouter:
             product_router,
             category_router,
             mark_router,
+            brand_router,
             user_router,
             auth_router,
             type_worker_router,
