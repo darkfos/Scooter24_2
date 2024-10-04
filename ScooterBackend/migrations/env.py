@@ -40,6 +40,8 @@ from src.database.models.vacancies import Vacancies
 from src.database.models.brand import Brand
 from src.database.models.marks import Mark
 from src.database.models.model import Model
+from src.database.models.subcategory import SubCategory
+from src.database.models.sub_sub_category import SubSubCategory
 
 # Database for migrations
 from src.database.mainbase import MainBase

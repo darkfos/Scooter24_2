@@ -21,8 +21,7 @@ class Category(MainBase):
     )
 
     #relation's
-    sub_category_data: Mapped[List["SubCategory"]] = relationship("SubCategory", back_populates="category_data", uselist=True)
-    product_data: Mapped[List["Product"]] = relationship("Product", back_populates="category_data", uselist=True)
+    subcategory_data: Mapped[List["SubCategory"]] = relationship("SubCategory", back_populates="category_data", uselist=True)
 
     def read_model(self) -> Dict[str, str]:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}

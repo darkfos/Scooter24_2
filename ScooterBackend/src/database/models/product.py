@@ -39,14 +39,8 @@ class Product(MainBase):
     # Объемный вес продукта
     weight_product: Mapped[float] = mapped_column(type_=Double, nullable=True, default=0.0)
 
-    # Категория
-    id_category: Mapped[int] = mapped_column(ForeignKey("Category.id"), type_=Integer, nullable=True)
-
-    # Подкатегория 1ур
-    id_subcategory_thirst_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer, nullable=True)
-
-    # Подкатегория 2ур
-    id_subcategory_second_level: Mapped[int] = mapped_column(ForeignKey("Subcategory.id"), type_=Integer, nullable=True)
+    # Подкатегория
+    id_s_sub_category: Mapped[int] = mapped_column(ForeignKey("Subsubcategory.id"), type_=Integer, nullable=False)
 
     # Пояснение продукта
     explanation_product: Mapped[str] = mapped_column(
@@ -104,15 +98,9 @@ class Product(MainBase):
         "Favourite", back_populates="product_info", uselist=True
     )
 
-    # Категория
-    category_data: Mapped["Category"] = relationship("Category", back_populates="product_data", uselist=False)
-
     # Подкатегория
-    sub_category_datas: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_thirst_level], back_populates="product_data_1", uselist=False)
+    sub_sub_category_data: Mapped["SubSubCategory"] = relationship("SubSubCategory", back_populates="product_data", uselist=False)
 
-    # Подкатегория ур.2
-    sub_l2_category_data: Mapped["SubCategory"] = relationship("SubCategory", foreign_keys=[id_subcategory_second_level], back_populates="product_data_2", uselist=False)
-    
     # Бренд
     brand_data: Mapped["Brand"] = relationship("Brand", back_populates="product_data", uselist=False)
 
