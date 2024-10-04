@@ -16,17 +16,15 @@ class ProductModelView(ModelView, model=Product):
     icon: str = "fa fa-motorcycle"
     category: str = "Продукт"
 
-    column_list: list = [Product.id, Product.id_category, Product.id_subcategory_thirst_level, Product.id_subcategory_second_level, Product.brand,
+    column_list: list = [Product.id, Product.id_s_sub_category, Product.brand,
                          Product.brand_mark, Product.model, Product.title_product, Product.article_product, Product.explanation_product,
                          Product.weight_product, Product.quantity_product, Product.price_product, Product.price_with_discount, Product.date_create_product,
-                         Product.date_update_information, Product.photo_product, Product.category_data, Product.sub_category_datas, Product.sub_l2_category_data,
+                         Product.date_update_information, Product.photo_product, Product.sub_sub_category_data,
                          Product.order, Product.reviews, Product.product_info_for_fav]
 
     column_labels: dict = {
         Product.id: "Идентификатор продукта",
-        Product.id_category: "Категория",
-        Product.id_subcategory_thirst_level: "Подкатегория 1ур",
-        Product.id_subcategory_second_level: "Подкатегория 2ур",
+        Product.id_s_sub_category: "Идентификатор подкатегории",
         Product.brand: "Бренд",
         Product.brand_mark: "Марка",
         Product.model: "Модель",
@@ -41,9 +39,7 @@ class ProductModelView(ModelView, model=Product):
         Product.date_create_product: "Дата создания",
         Product.date_update_information: "Дата обновления",
         Product.photo_product: "Фотография",
-        Product.category_data: "Категория",
-        Product.sub_category_datas: "Подкатегория 1 уровня",
-        Product.sub_l2_category_data: "Подкатегория 2 уровня"
+        Product.sub_sub_category_data: "Данные подкатегории"
     }
 
     # Operation's
@@ -95,9 +91,8 @@ class ProductModelView(ModelView, model=Product):
             "order_by": ("id"),
         },
         "product_info_for_fav": {"fields": ("id",), "order_by": ("id")},
-        "category_data": {"fields": ("id", ), "order_by": ("id")},
-        "sub_category_datas": {"fields": ("id", ), "order_by": ("id")},
-        "sub_l2_category_data": {"fields": ("id", ), "order_by": ("id")}
+        "sub_sub_category_data": {"fields": ("id", ), "order_by": ("id")}
+
     }
 
     # Photo check

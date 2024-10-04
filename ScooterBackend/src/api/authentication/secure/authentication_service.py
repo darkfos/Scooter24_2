@@ -236,7 +236,7 @@ class Authentication:
                     ),
                 )
 
-        session.close()
+        await session.close()
 
         logging.critical(msg=f"Сервис Аутентификации - пользователь не прошел проверка на администратора, email={email}")
         await UserHttpError().http_user_not_found()
@@ -249,6 +249,7 @@ class Authentication:
                         res = await cls.create_tokens(engine=kwargs["session"], token_data=kwargs["token_data"])
                         return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.DECODE_TOKEN.value:
+                        print(kwargs, args)
                         res = await cls.decode_jwt_token(token=kwargs["token"], type_token="access")
                         return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.UPDATE_TOKEN.value:

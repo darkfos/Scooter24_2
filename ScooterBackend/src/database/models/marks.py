@@ -28,4 +28,5 @@ class Mark(MainBase):
         return {
             k:v
             for k, v in self.__dict__.items()
+            if not k.startswith("_")
         }

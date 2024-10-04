@@ -19,6 +19,7 @@ from src.api.core.review_catalog.router.review_router import review_router
 from src.api.core.type_worker_catalog.router.type_worker_router import type_worker_router
 from src.api.core.user_catalog.router.user_router import user_router
 from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router
+from src.api.core.mark_catalog.router.mark_router import mark_router
 
 
 class GeneralRouter:
@@ -36,6 +37,7 @@ class GeneralRouter:
         routers: List[APIRouter] = [
             product_router,
             category_router,
+            mark_router,
             user_router,
             auth_router,
             type_worker_router,

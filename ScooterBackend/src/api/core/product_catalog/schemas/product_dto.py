@@ -4,6 +4,7 @@ from typing import List, Union, Annotated
 
 # Other libraries
 from pydantic import BaseModel, Field
+from fastapi import UploadFile
 
 # Local
 ...
@@ -13,23 +14,25 @@ class ProductBase(BaseModel):
 
     article_product: Annotated[str, Field(max_length=300)]
     title_product: Annotated[str, Field(max_length=500)]
-    brand: Annotated[str, Field(max_length=150)]
+    brand: int
+    brand_mark: int
+    model: int
+    id_s_sub_category: int
     weight_product: Annotated[float, Field(ge=0)]
-    id_category: Annotated[Union[None, int], Field(default=None)]
-    id_subcategory_thirst_level: Annotated[Union[None, int], Field(default=None)]
-    id_subcategory_second_level: Annotated[Union[None, int], Field(default=None)]
     explanation_product: Annotated[str, Field()]
-    brand_mark: Annotated[str, Field(max_length=150)]
-    model: Annotated[str, Field(max_length=300)]
-    photo_product: Annotated[str, Field()] = None
     quantity_product: Annotated[int, Field(gt=-1)]
     price_product: Annotated[float, Field(gt=-1)]
     price_with_discount: Annotated[float, Field()]
+    photo_product: Annotated[UploadFile, Field()] = None
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
+
+    @classmethod
+    def change_product_discount(cls) -> None:
+        cls.product_discount = (cls.price_product - cls.price_with_discount) // cls.price_product
 
 
 class ListProductBase(BaseModel):

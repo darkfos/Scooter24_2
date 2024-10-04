@@ -69,7 +69,6 @@ class EngineRepository(IEngineRepository):
         """
 
         self.session = await db_work.get_session()
-
         try:
             self.user_repository = UserRepository(session=self.session)
             self.admin_repository = AdminRepository(session=self.session)
@@ -86,7 +85,9 @@ class EngineRepository(IEngineRepository):
             self.brand_repository = BrandRepository(session=self.session)
             self.model_repository = ModelRepository(session=self.session)
             self.mark_repository = MarkRepository(session=self.session)
+
         except Exception as ex: # Ловим все ошибка ACID (транзакций)
+            print("Ошибка транзакции???")
             self.session.rollback()
 
     async def __aexit__(self, *args):

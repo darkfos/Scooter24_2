@@ -14,6 +14,7 @@ from src.api.core.favourite_catalog.router.favourite_router import favourite_rou
 from src.api.core.history_catalog.router.history_buy_router import history_buy_router as history_buy_router
 from src.api.core.type_worker_catalog.router.type_worker_router import type_worker_router as type_worker_router
 from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router as vacancies_router
+from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
@@ -54,6 +55,7 @@ class ScooterBackendApplication:
         routers_list: List[APIRouter] = [
             auth_router,
             user_router,
+            mark_router,
             admin_router,
             product_router,
             favourite_router,

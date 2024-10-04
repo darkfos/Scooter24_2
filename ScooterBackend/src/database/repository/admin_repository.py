@@ -31,7 +31,7 @@ class AdminRepository(GeneralSQLRepository):
 
         # Logging
         logging.info(
-            msg=f"{self.__class__.__name__} Запрос на получение данных по почте и паролю email={email}; password={password}"
+            msg=f"{self.__class__.__name__} Запрос на получение данных по почте и паролю email={email};"
         )
 
         if email and password:
@@ -47,6 +47,6 @@ class AdminRepository(GeneralSQLRepository):
 
         # Logging
         logging.error(
-            msg=f"{self.__class__.__name__} не удалось получить данные администратора по почте и паролю email={email}; password={password}"
+            msg=f"{self.__class__.__name__} не удалось получить данные администратора по почте и паролю email={email};"
         )
         return None

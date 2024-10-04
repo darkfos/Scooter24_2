@@ -35,7 +35,6 @@ class GeneralSQLRepository:
                 logging.exception(msg=f"{self.model.__class__.__name__} Не удалось добавить новую запись")
                 raise Exception
         except Exception as ex:
-            print(ex)
             await self.async_session.rollback()
             return False
 

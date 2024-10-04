@@ -57,19 +57,22 @@ class ProductService:
                     email=token_data.get("email")
                 )
             )
+            print(is_admin)
             if is_admin:
                 product = Product(
                     title_product=new_product.title_product,
                     price_product=new_product.price_product,
-                    quantity_product=new_product.quantity_product,
-                    explanation_product=new_product.explanation_product,
                     article_product=new_product.article_product,
-                    tags=new_product.tags,
-                    other_data=new_product.other_data,
-                    photo_product=new_product.photo_product,
+                    brand=new_product.brand,
+                    brand_mark=new_product.brand_mark,
+                    model=new_product.model,
                     date_create_product=new_product.date_create_product,
                     date_update_information=new_product.date_update_information,
-                    product_discount=new_product.price_discount,
+                    id_s_sub_category=new_product.id_s_sub_category,
+                    photo_product="None",
+                    product_discount=new_product.product_discount,
+                    price_with_discount=new_product.price_with_discount,
+                    quantity_product=new_product.quantity_product,
                 )
                 # Create product
                 product_is_created: bool = await engine.product_repository.add_one(
