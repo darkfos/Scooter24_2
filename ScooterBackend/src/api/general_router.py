@@ -22,6 +22,7 @@ from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_route
 from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.core.brand_catalog.router.brand_router import brand_router
 from src.api.core.product_models_catalog.router.product_models_router import product_models_router
+from src.api.core.model_catalog.router.model_router import model_router
 
 
 class GeneralRouter:
@@ -41,6 +42,7 @@ class GeneralRouter:
             category_router,
             mark_router,
             brand_router,
+            model_router,
             user_router,
             auth_router,
             type_worker_router,
