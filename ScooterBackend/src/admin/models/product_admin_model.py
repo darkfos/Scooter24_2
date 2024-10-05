@@ -17,7 +17,7 @@ class ProductModelView(ModelView, model=Product):
     category: str = "Продукт"
 
     column_list: list = [Product.id, Product.id_s_sub_category, Product.brand,
-                         Product.brand_mark, Product.model, Product.title_product, Product.article_product, Product.explanation_product,
+                         Product.brand_mark, Product.product_models_data, Product.title_product, Product.article_product, Product.explanation_product,
                          Product.weight_product, Product.quantity_product, Product.price_product, Product.price_with_discount, Product.date_create_product,
                          Product.date_update_information, Product.photo_product, Product.sub_sub_category_data,
                          Product.order, Product.reviews, Product.product_info_for_fav]
@@ -27,7 +27,7 @@ class ProductModelView(ModelView, model=Product):
         Product.id_s_sub_category: "Идентификатор подкатегории",
         Product.brand: "Бренд",
         Product.brand_mark: "Марка",
-        Product.model: "Модель",
+        Product.product_models_data: "Модели",
         Product.title_product: "Заголовок",
         Product.article_product: "Артикл",
         Product.explanation_product: "Описание",
@@ -66,7 +66,7 @@ class ProductModelView(ModelView, model=Product):
         "photo_product",
         "brand",
         "brand_mark",
-        "model",
+        "product_models_data",
         "category_data",
         "sub_category_datas",
         "sub_l2_category_data"
@@ -91,8 +91,8 @@ class ProductModelView(ModelView, model=Product):
             "order_by": ("id"),
         },
         "product_info_for_fav": {"fields": ("id",), "order_by": ("id")},
-        "sub_sub_category_data": {"fields": ("id", ), "order_by": ("id")}
-
+        "sub_sub_category_data": {"fields": ("id", ), "order_by": ("id")},
+        "product_models_data": {"fields": ("id", ), "order_by": ("id")}
     }
 
     # Photo check

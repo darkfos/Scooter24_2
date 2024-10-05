@@ -10,8 +10,8 @@ class ProductModels(MainBase):
     id_model: Mapped[int] = mapped_column(ForeignKey("Model.id"), type_=Integer, nullable=False)
 
     # Связи
-    product_data: Mapped[List["Product"]] = relationship("Product", back_populates="product_models_data", uselist=False)
-    model_data: Mapped[List["Model"]] = relationship("Model", back_populates="product_models_data", uselist=False)
+    product_data: Mapped["Product"] = relationship("Product", back_populates="product_models_data", uselist=False)
+    model_data: Mapped["Model"] = relationship("Model", back_populates="product_models_data", uselist=False)
 
 
     def __str__(self) -> str:

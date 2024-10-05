@@ -2,10 +2,12 @@ from redis import Redis
 from typing import Any, Type, Final, Dict, Callable
 import json, logging
 
+# Settings
+from src.settings.engine_settings import Settings
 
 class RedisTools:
 
-    __REDIS_CONNECTION: Final[Redis] = Redis(host="localhost", port=6379, db=0)
+    __REDIS_CONNECTION: Final[Redis] = Redis(host=Settings.redis_settings.REDIS_HOST, port=Settings.redis_settings.REDIS_PORT, db=0)
 
     @classmethod
     async def set_key_and_value(cls, key: str, value: Dict):

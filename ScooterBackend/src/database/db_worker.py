@@ -23,6 +23,7 @@ from src.database.models.admin import Admin
 from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
 from src.database.models.subcategory import SubCategory
+from src.database.models.product_models import ProductModels
 
 from src.settings.engine_settings import Settings
 from src.database.mainbase import MainBase

@@ -856,3 +856,59 @@ WHERE "Brand".id = $1::INTEGER
 2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] (1,)
 2024-10-04 22:46:34 - sqlalchemy.engine.Engine - INFO - ROLLBACK
 2024-10-04 22:46:34 - root - INFO - Redis данные были сохранены в хранилище
+2024-10-05 12:10:36 - root - INFO - Start Project
+2024-10-05 12:11:02 - src.api.core.auth_catalog.router.authentication_router - INFO - Auth-Router вызов метода авторизации пользователя (login_user)
+2024-10-05 12:11:02 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - создание токена
+2024-10-05 12:11:02 - src.database.repository.user_repository - INFO - UserRepository Поиск пользователя по почте=darkfos@gmail.com
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - SELECT "User".email_user, "User".password_user, "User".secret_update_key, "User".name_user, "User".surname_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".name_user_address, "User".surname_user_address, "User".name_company_address, "User".country_address, "User".address_street, "User".address_rl_et_home, "User".address_locality, "User".address_area, "User".address_index, "User".address_phone_number, "User".id 
+FROM "User" 
+WHERE "User".email_user = $1::VARCHAR
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] ('darkfos@gmail.com',)
+2024-10-05 12:11:02 - src.database.repository.admin_repository - INFO - AdminRepository Запрос на получение данных по почте и паролю email=darkfos@gmail.com;
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - SELECT "Admin".email_admin, "Admin".password_user, "Admin".date_create, "Admin".date_update, "Admin".id 
+FROM "Admin" 
+WHERE "Admin".email_admin = $1::VARCHAR
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] ('darkfos@gmail.com',)
+2024-10-05 12:11:02 - src.api.authentication.hash_service.hashing - INFO - Верификация пользователя
+2024-10-05 12:11:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-05 12:11:15 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2024-10-05 12:11:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-05 12:11:15 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand"
+2024-10-05 12:11:15 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] ()
+2024-10-05 12:11:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-05 12:11:15 - root - INFO - Redis данные были сохранены в хранилище
+2024-10-05 12:11:17 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:19 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:20 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:25 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:26 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:32 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:33 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:33 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:34 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:34 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:34 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:35 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2024-10-05 12:11:35 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2024-10-05 12:11:35 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".id 
+FROM "Brand"
+2024-10-05 12:11:35 - sqlalchemy.engine.Engine - INFO - [cached since 20.38s ago] ()
+2024-10-05 12:11:35 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2024-10-05 12:11:35 - root - INFO - Redis данные были сохранены в хранилище
+2024-10-05 12:11:36 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:37 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:37 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:38 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:38 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:39 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:39 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:40 - root - INFO - Redis получение данных по ключу get_all_brands
+2024-10-05 12:11:41 - root - INFO - Redis получение данных по ключу get_all_brands
