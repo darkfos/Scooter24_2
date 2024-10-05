@@ -32,9 +32,6 @@ class Product(MainBase):
 
     # Марка
     brand_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id"), type_=Integer, nullable=True)
-
-    # Модель
-    model: Mapped[int] = mapped_column(ForeignKey("Model.id"), type_=Integer, nullable=True)
     
     # Объемный вес продукта
     weight_product: Mapped[float] = mapped_column(type_=Double, nullable=True, default=0.0)
@@ -107,8 +104,8 @@ class Product(MainBase):
     # Марка
     mark_data: Mapped["Mark"] = relationship("Mark", back_populates="product_data", uselist=False)
 
-    # Модель
-    model_data: Mapped["Model"] = relationship("Model", back_populates="product_data", uselist=False)
+    # Модели продукта
+    product_models_data: Mapped[List["ProductModels"]] = relationship("ProductModels", back_populates="product_data", uselist=True)
 
     def read_model(self) -> Dict[str, str]:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
