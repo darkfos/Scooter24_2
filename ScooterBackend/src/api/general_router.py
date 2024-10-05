@@ -23,6 +23,7 @@ from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.core.brand_catalog.router.brand_router import brand_router
 from src.api.core.product_models_catalog.router.product_models_router import product_models_router
 from src.api.core.model_catalog.router.model_router import model_router
+from src.api.core.subcategory_catalog.router.subcategory_router import subcategory_router
 
 
 class GeneralRouter:
@@ -40,6 +41,7 @@ class GeneralRouter:
         routers: List[APIRouter] = [
             product_router,
             category_router,
+            subcategory_router,
             mark_router,
             brand_router,
             model_router,

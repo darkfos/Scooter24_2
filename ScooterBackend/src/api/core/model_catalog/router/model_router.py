@@ -59,7 +59,7 @@ async def get_model_by_id(
 async def get_all_models(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
 ) -> AllModelBase:
-    return await ModelService.get_all_models(engine=engine)
+    return await ModelService.get_all_models(engine=engine, redis_search_data="all_models")
 
 
 @model_router.delete(

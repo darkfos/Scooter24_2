@@ -18,6 +18,7 @@ from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.core.brand_catalog.router.brand_router import brand_router
 from src.api.core.model_catalog.router.model_router import model_router
 from src.api.core.product_models_catalog.router.product_models_router import product_models_router as pr_m_router
+from src.api.core.subcategory_catalog.router.subcategory_router import subcategory_router
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
@@ -65,6 +66,7 @@ class ScooterBackendApplication:
             product_router,
             favourite_router,
             category_router,
+            subcategory_router,
             vacancies_router,
             type_worker_router,
             api_v1_router.get_api_v1,

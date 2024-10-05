@@ -48,7 +48,7 @@ class ModelService:
     
     @redis
     @staticmethod
-    async def get_all_models(engine: IEngineRepository) -> AllModelBase:
+    async def get_all_models(engine: IEngineRepository, redis_search_data: str = "") -> AllModelBase:
         """
         Метод сервиса ModelService - получение всех моделей
         """
