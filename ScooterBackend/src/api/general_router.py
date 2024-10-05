@@ -21,6 +21,7 @@ from src.api.core.user_catalog.router.user_router import user_router
 from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router
 from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.core.brand_catalog.router.brand_router import brand_router
+from src.api.core.product_models_catalog.router.product_models_router import product_models_router
 
 
 class GeneralRouter:
@@ -50,6 +51,7 @@ class GeneralRouter:
             review_router,
             admin_router,
             history_buy_router,
+            product_models_router
         ]
 
         if new_router:

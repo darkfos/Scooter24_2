@@ -24,6 +24,7 @@ from src.database.repository.sub_sub_categiry_repository import SubSubCategoryRe
 from src.database.repository.brand_repository import BrandRepository
 from src.database.repository.model_repository import ModelRepository
 from src.database.repository.mark_repository import MarkRepository
+from src.database.repository.product_models_repository import ProductModelsRepository
 from src.database.db_worker import db_work
 
 
@@ -44,6 +45,7 @@ class IEngineRepository(ABC):
     brand_repository: Type[BrandRepository]
     model_repository: Type[ModelRepository]
     mark_repository: Type[MarkRepository]
+    product_models_repository: Type[ProductModelsRepository]
 
     @abstractmethod
     def __init__(self):
@@ -85,9 +87,9 @@ class EngineRepository(IEngineRepository):
             self.brand_repository = BrandRepository(session=self.session)
             self.model_repository = ModelRepository(session=self.session)
             self.mark_repository = MarkRepository(session=self.session)
+            self.product_models_repository = ProductModelsRepository(session=self.session)
 
         except Exception as ex: # Ловим все ошибка ACID (транзакций)
-            print("Ошибка транзакции???")
             self.session.rollback()
 
     async def __aexit__(self, *args):
