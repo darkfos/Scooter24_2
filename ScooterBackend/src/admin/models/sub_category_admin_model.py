@@ -6,8 +6,8 @@ from typing import Any, List
 class SubCategoryModelView(ModelView, model=SubCategory):
 
     # Metadata
-    name: str = "Подкатегории товаров"
-    name_plural: str = "Подкатегории"
+    name: str = "Подкатегория товаров, 1 ур."
+    name_plural: str = "Подкатегории 1 ур."
     icon: str = "fa fa-bookmark"
     category: str = "Продукт"
 

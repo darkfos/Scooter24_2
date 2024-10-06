@@ -12,6 +12,11 @@ from src.admin.models.type_worker_admin_model import TypeWorkerModelView
 from src.admin.models.user_admin_model import UserModelView
 from src.admin.models.vacancies_admin_model import VacanciesModelView
 from src.admin.models.sub_category_admin_model import SubCategoryModelView
+from src.admin.models.sub_sub_category_admin_model import SSCategoryModelView
+from src.admin.models.brand_admin_model import BrandModelView
+from src.admin.models.mark_admin_model import MarkModelView
+from src.admin.models.model_admin_model import ModelModelView
+from src.admin.models.product_model_admin_model import ProductModelsModelView
 
 all_models: List = [
     AdminModelView,
@@ -24,5 +29,10 @@ all_models: List = [
     ProductModelView,
     TypeWorkerModelView,
     VacanciesModelView,
-    SubCategoryModelView
+    SubCategoryModelView,
+    BrandModelView,
+    MarkModelView,
+    ModelModelView,
+    ProductModelsModelView,
+    SSCategoryModelView
 ]

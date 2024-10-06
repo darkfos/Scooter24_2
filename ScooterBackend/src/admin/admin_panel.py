@@ -24,8 +24,6 @@ from src.database.models.product import Product
 from src.database.models.category import Category
 from src.database.models.subcategory import SubCategory
 import pandas
-from pandas import DataFrame, Series
-from sqladmin.exceptions import SQLAdminException
 
 
 class AdminPanel:
@@ -73,6 +71,7 @@ class AdminPanel:
         request.session["warning_message"] = ""
         return await self.templates.TemplateResponse(request, "sqladmin/index.html")
 
+    @override
     @login_required
     async def load_data(self, request: Request):
 
