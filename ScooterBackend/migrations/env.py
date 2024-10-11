@@ -43,6 +43,7 @@ from src.database.models.model import Model
 from src.database.models.subcategory import SubCategory
 from src.database.models.sub_sub_category import SubSubCategory
 from src.database.models.product_models import ProductModels
+from src.database.models.user_type import UserType
 
 # Database for migrations
 from src.database.mainbase import MainBase

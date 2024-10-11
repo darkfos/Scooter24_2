@@ -13,6 +13,9 @@ from src.database.mainbase import MainBase
 class User(MainBase):
     # Таблица пользователь
 
+    # Тип пользователя
+    id_type_user: Mapped[int] = mapped_column(ForeignKey("Usertype.id"), type_=Integer, nullable=False)
+
     # Почта пользователя
     email_user: Mapped[str] = mapped_column(
         type_=Text, nullable=False, unique=True, index=True
@@ -75,7 +78,7 @@ class User(MainBase):
     # Заказы
     orders_user: Mapped[List["Order"]] = relationship(
         "Order", back_populates="ord_user", uselist=True
-    )  # Заказы
+    )
     # История покупок
     history_buy_user: Mapped[List["HistoryBuy"]] = relationship(
         "HistoryBuy", back_populates="hst_user", uselist=True
@@ -83,6 +86,11 @@ class User(MainBase):
     # Отзывы
     reviews: Mapped[List["Review"]] = relationship(
         "Review", back_populates="user", uselist=True
+    )
+
+    # Тип пользователя
+    type_user_data: Mapped["UserType"] = relationship(
+        "UserType", back_populates="user_data", uselist=False
     )
 
     def read_model(self) -> Dict[str, str]:

@@ -24,6 +24,7 @@ from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
 from src.database.models.subcategory import SubCategory
 from src.database.models.product_models import ProductModels
+from src.database.models.user_type import UserType
 
 from src.settings.engine_settings import Settings
 from src.database.mainbase import MainBase
@@ -36,7 +37,6 @@ class DatabaseEngine:
     def __new__(cls, *args, **kwargs) -> None:
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
-            return cls.__instance
         return cls.__instance
 
     def __init__(self):
