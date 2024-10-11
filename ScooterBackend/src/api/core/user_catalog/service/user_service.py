@@ -59,6 +59,7 @@ class UserService:
             # Create a new user
             res_to_add_new_user: bool = await engine.user_repository.add_one(
                 User(
+                    id_type_user = new_user.id_user_type,
                     email_user=new_user.email_user,
                     password_user=hashed_password,
                     name_user=new_user.name_user,
