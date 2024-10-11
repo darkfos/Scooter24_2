@@ -34,7 +34,6 @@ from src.database.models.history_buy import HistoryBuy
 from src.database.models.review import Review
 from src.database.models.favourite import Favourite
 from src.database.models.category import Category
-from src.database.models.admin import Admin
 from src.database.models.type_worker import TypeWorker
 from src.database.models.vacancies import Vacancies
 from src.database.models.brand import Brand

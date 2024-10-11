@@ -1,7 +1,6 @@
 from typing import List
 
 # Model's
-from src.admin.models.admin_admin_model import AdminModelView
 from src.admin.models.category_admin_model import CategoryModelView
 from src.admin.models.favourite_admin_model import FavouriteModelView
 from src.admin.models.history_buy_admin_model import HistoryBuyModelView
@@ -19,7 +18,6 @@ from src.admin.models.model_admin_model import ModelModelView
 from src.admin.models.product_model_admin_model import ProductModelsModelView
 
 all_models: List = [
-    AdminModelView,
     UserModelView,
     CategoryModelView,
     FavouriteModelView,
