@@ -6,15 +6,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
 
+from src.database.repository.user_repository import UserRepository
 # Local
 from src.settings.engine_settings import Settings
 from src.api.core.auth_catalog.schemas.auth_dto import CreateToken, Tokens, AccessToken
 from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.errors.general_exceptions import GeneralExceptions
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
-from src.database.repository.admin_repository import AdminRepository
 from src.database.models.user import User
-from src.database.models.admin import Admin
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 
@@ -46,38 +45,20 @@ class Authentication:
                     email=token_data.email
                 )
             )
-            res_to_find_admin: Union[bool, Admin] = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.email, password=token_data.password
-                )
-            )
 
-            if res_to_find_user or res_to_find_admin:
+            if res_to_find_user:
 
                 # verify password
                 check_password = CryptographyScooter().verify_password(
                     password=token_data.password,
-                    hashed_password=(
-                        res_to_find_user.password_user
-                        if res_to_find_user
-                        else res_to_find_admin.password_user
-                    ),
+                    hashed_password=res_to_find_user.password_user
                 )
 
                 if check_password:
 
                     data_for_token: Dict[str, str] = {
-                        "email": token_data.email,
-                        "password": (
-                            res_to_find_user.password_user
-                            if res_to_find_user
-                            else res_to_find_admin.password_user
-                        ),
-                        "id_user": (
-                            res_to_find_user.id
-                            if res_to_find_user
-                            else res_to_find_admin.id
-                        ),
+                        "is_admin": True if res_to_find_user.id_type_user == 1 else False,
+                        "sub": res_to_find_user.id
                     }
 
                     data_for_refresh_token: Dict[str, str] = data_for_token.copy()
@@ -188,20 +169,20 @@ class Authentication:
         """
 
         logging.info(msg=f"Сервис Аутентификации - проверка прав пользователя (на администратора), email={email}")
-        is_admin: Union[Admin, None] = await AdminRepository(
-            session=session
-        ).find_admin_by_email_and_password(email=email, password=password)
+        is_admin: Union[User, None] = await UserRepository.find_user_by_email_and_password(
+            email=email
+        )
 
         if is_admin:
             
             if CryptographyScooter().verify_password(password=password, hashed_password=is_admin.password_user):
                 token_access_data: Dict[Union[str, int], Union[str, int]] = {
-                    "email": email,
-                    "id_admin": is_admin.id,
+                    "sub": is_admin.id,
+                    "is_admin": True
                 }
                 token_refresh_data: Dict[Union[str, int], Union[str, int]] = {
-                    "email": email,
-                    "is_admin": is_admin.id,
+                    "sub": is_admin.id,
+                    "is_admin": True
                 }
 
                 token_access_data.update(

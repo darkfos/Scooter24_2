@@ -6,7 +6,6 @@ from src.settings.api_settings.api_settings import APISettings
 from src.api.core.user_catalog.router.user_router import user_router as user_router
 from src.api.core.auth_catalog.router.authentication_router import auth_router as auth_router
 from src.api.core.category_catalog.router.category_router import category_router as category_router
-from src.api.core.admin_catalog.router.admin_router import admin_router as admin_router
 from src.api.core.review_catalog.router.review_router import review_router as review_router
 from src.api.core.product_catalog.router.product_router import product_router as product_router
 from src.api.core.order_catalog.router.order_router import order_router as order_router
@@ -62,7 +61,6 @@ class ScooterBackendApplication:
             mark_router,
             brand_router,
             model_router,
-            admin_router,
             product_router,
             favourite_router,
             category_router,

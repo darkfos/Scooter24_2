@@ -8,7 +8,6 @@ from fastapi import APIRouter
 
 
 # Local
-from src.api.core.admin_catalog.router.admin_router import admin_router
 from src.api.core.auth_catalog.router.authentication_router import auth_router
 from src.api.core.category_catalog.router.category_router import category_router
 from src.api.core.favourite_catalog.router.favourite_router import favourite_router
@@ -53,7 +52,6 @@ class GeneralRouter:
             order_router,
             favourite_router,
             review_router,
-            admin_router,
             history_buy_router,
             product_models_router
         ]
