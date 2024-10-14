@@ -12,7 +12,7 @@ class UserTypeService:
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
-    async def create_user_type(engine: IEngineRepository, token_data: dict, new_user_type: NewUserType) -> None:
+    async def create_user_type(engine: IEngineRepository, token: str, new_user_type: NewUserType, token_data: dict = {}) -> None:
         """
         Метод сервиса UserTypeService - создание новой роли пользователя
         """

@@ -3,7 +3,7 @@ from datetime import date
 from typing import List, Dict
 
 # Other
-from sqlalchemy import Integer, Text, String, ForeignKey, Date
+from sqlalchemy import Integer, Text, String, ForeignKey, Date, Boolean
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -16,6 +16,9 @@ class User(MainBase):
     # Тип пользователя
     id_type_user: Mapped[int] = mapped_column(ForeignKey("Usertype.id"), type_=Integer, nullable=False)
 
+    # Активированный аккаунт
+    is_active: Mapped[bool] = mapped_column(type_=Boolean, nullable=False, default=False)
+
     # Почта пользователя
     email_user: Mapped[str] = mapped_column(
         type_=Text, nullable=False, unique=True, index=True
@@ -26,6 +29,11 @@ class User(MainBase):
 
     # Ключ обновление пароля пользователя
     secret_update_key: Mapped[str] = mapped_column(
+        type_=String(80), nullable=True, default=""
+    )
+
+    # Ключ для регистрации пользователя
+    secret_create_key: Mapped[str] = mapped_column(
         type_=String(80), nullable=True, default=""
     )
 

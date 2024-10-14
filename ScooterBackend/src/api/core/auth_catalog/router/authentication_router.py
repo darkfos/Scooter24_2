@@ -1,9 +1,11 @@
 # Other libraries
-from fastapi import APIRouter, Depends, status, BackgroundTasks
+from fastapi import APIRouter, Depends, status, BackgroundTasks, Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
+
+from urllib3 import request
 
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
@@ -16,6 +18,7 @@ from src.api.core.auth_catalog.schemas.auth_dto import (
 from src.api.core.user_catalog.schemas.user_dto import AddUser
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_catalog.service.user_service import UserService
+from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 
 
@@ -78,12 +81,12 @@ async def login_user(
     Для успешной регистрации необходима почта и пароль.
     """,
     summary="Регистрация",
-    response_model=RegistrationUser,
     status_code=status.HTTP_201_CREATED,
 )
 async def registration_user(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], new_user: AddUser
-) -> RegistrationUser:
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)], new_user: AddUser,
+    back_task: BackgroundTasks
+):
     """
     Создание нового пользователя
     :param session:
@@ -93,7 +96,7 @@ async def registration_user(
 
     logger.info(msg="Auth-Router вызов метода регистрации пользователя (registration_user)")
 
-    return await UserService.create_a_new_user(engine=session, new_user=new_user)
+    back_task.add_task(EmailService.send_secret_key_for_register, engine, new_user)
 
 
 @auth_router.post(
@@ -184,3 +187,20 @@ async def update_password_with_email(
         token=user_data,
         new_password=new_password,
     )
+
+
+@auth_router.get(
+    path="/access_create_account",
+    response_model=None,
+    status_code=status.HTTP_201_CREATED,
+    description="""
+    ### ENDPOINT - Подтверждение регистрации пользователя
+    """,
+    summary="Подтверждение регистрации пользователя"
+)
+async def access_user(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    secret_key: str,
+    email: str
+) -> None:
+    await EmailService.access_user_account(engine=engine, user_email=email, secret_key=secret_key)

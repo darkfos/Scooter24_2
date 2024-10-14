@@ -27,7 +27,7 @@ async def create_new_user_type(
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     new_user_type: NewUserType
 ) -> None:
-    await UserTypeService.create_user_type(engine=engine, token_data=admin_data, new_user_type=new_user_type)
+    await UserTypeService.create_user_type(engine=engine, token=admin_data, new_user_type=new_user_type)
 
 
 @user_type_router.get(

@@ -19,12 +19,12 @@ class EmailTransfer:
         self.__password: str = self.__email_data.password
 
 
-    def _connect(self) -> None:
+    async def _connect(self) -> None:
         self.smtp_server = smtp.SMTP("smtp.gmail.com", 587)
         self.smtp_server.starttls()
         self.smtp_server.login(self.__email_from, self.__password)
 
-    def send_message(
+    async def send_message(
         self,
         text_to_message: str,
         whom_email: str,
@@ -38,7 +38,7 @@ class EmailTransfer:
         """
 
         #Connect
-        self._connect()
+        await self._connect()
         
         new_message = MIMEMultipart()
         new_message["From"] = self.__email_from

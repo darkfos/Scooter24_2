@@ -60,6 +60,7 @@ class UserService:
             # Create a new user
             res_to_add_new_user: bool = await engine.user_repository.add_one(
                 User(
+                    is_active=False,
                     id_type_user = UserTypeEnum.USER.value,
                     email_user=new_user.email_user,
                     password_user=hashed_password,
@@ -523,37 +524,6 @@ class UserService:
                 return UserIsDeleted(is_deleted=res_del)
             logging.info(msg=f"{UserService.__name__} Не удалось обновить пользователя")
             await UserHttpError().http_failed_to_delete_user()
-
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @staticmethod
-    async def send_secret_key_by_update_password(
-        engine: IEngineRepository, email: str, token: str, token_data: dict = dict()
-    ) -> None:
-        """
-        Отправка секретного ключа для обновления пароля
-        :email:
-        """
-
-        logging.info(msg=f"{UserService.__name__} Отправка секретного ключа для обновления пароля")
-        sctr_key: str = SecretKey().generate_password()
-
-        email_transfer.send_message(
-            text_to_message="Ваш секретный ключ для обновления пароля: {}\nПожалуйсте ни кому не передавайте его.".format(
-                sctr_key
-            ),
-            whom_email=email,
-        )
-
-        async with engine:
-            is_updated: bool = await engine.user_repository.update_one(
-                other_id=token_data.get("id_user"),
-                data_to_update={"secret_update_key": sctr_key},
-            )
-
-            if is_updated:
-                return
-            logging.critical(msg=f"{UserService.__name__} Не удалось отправить секретный ключ")
-            await UserHttpError().http_failed_to_update_user_information()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod

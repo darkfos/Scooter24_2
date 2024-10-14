@@ -1,6 +1,3 @@
-# Local
-import logging.config
-from src.settings.api_settings.api_settings import APISettings
 
 # ROUTES
 from src.api.core.user_catalog.router.user_router import user_router as user_router
@@ -18,6 +15,8 @@ from src.api.core.brand_catalog.router.brand_router import brand_router
 from src.api.core.model_catalog.router.model_router import model_router
 from src.api.core.product_models_catalog.router.product_models_router import product_models_router as pr_m_router
 from src.api.core.subcategory_catalog.router.subcategory_router import subcategory_router
+from src.api.core.user_type_catalog.routes.user_type_router import user_type_router
+from src.api.core.ss_category_catalog.router.sub_subcategory_router import ss_category_router
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
@@ -55,28 +54,20 @@ class ScooterBackendApplication:
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
-        routers_list: List[APIRouter] = [
-            auth_router,
-            user_router,
-            mark_router,
-            brand_router,
-            model_router,
-            product_router,
-            favourite_router,
-            category_router,
-            subcategory_router,
-            vacancies_router,
-            type_worker_router,
-            api_v1_router.get_api_v1,
-            history_buy_router,
-            order_router,
-            review_router,
-            pr_m_router
+        based_routers: List[APIRouter] = [
+            auth_router, user_router, user_type_router,
+            mark_router, model_router, brand_router,
+            product_router, pr_m_router, category_router,
+            subcategory_router, ss_category_router, favourite_router,
+            order_router, review_router, type_worker_router,
+            vacancies_router, history_buy_router,
+            api_v1_router.get_api_v1
         ]
-        if routers:
-            routers_list.extend(routers)
 
-        for router in routers_list:
+        if routers:
+            based_routers.extend(routers)
+
+        for router in based_routers:
             self.scooter24_app.include_router(router=router)
 
     def added_middleware(self) -> None:
