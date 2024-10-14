@@ -51,3 +51,14 @@ class UserHttpError(APIError):
             code=status.HTTP_400_BAD_REQUEST,
             detail_inf="Не удалось удалить пользователя",
         )
+
+    async def user_no_activated(self):
+        """
+        Ошибка аутентификации, пользователь не активирован
+        :return:
+        """
+
+        await self.api_error(
+            code=status.HTTP_423_LOCKED,
+            detail_inf="Пользователь не активировал свою учетную запись"
+        )

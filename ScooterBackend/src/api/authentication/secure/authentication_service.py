@@ -49,6 +49,9 @@ class Authentication:
 
             if res_to_find_user:
 
+                if res_to_find_user.is_active is False:
+                    await UserHttpError().user_no_activated()
+
                 # verify password
                 check_password = CryptographyScooter().verify_password(
                     password=token_data.password,
