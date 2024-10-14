@@ -76,7 +76,7 @@ async def login_user(
     Данный метод необходим для регистрации пользователей.
     Для успешной регистрации необходима почта и пароль.
     """,
-    summary="Авторизация",
+    summary="Регистрация",
     response_model=RegistrationUser,
     status_code=status.HTTP_201_CREATED,
 )

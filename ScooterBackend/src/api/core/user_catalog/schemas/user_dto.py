@@ -16,7 +16,6 @@ class UserBase(BaseModel):
     Начальный объект пользователя
     """
 
-    id_user_type: Annotated[int, Field()]
     email_user: Annotated[EmailStr, Field(EmailStr())]
     password_user: Annotated[str, Field(min_length=6, max_length=60)]
     name_user: Annotated[str, Field(max_length=100)]

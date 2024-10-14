@@ -26,6 +26,7 @@ from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.enums.user_type_enum import UserTypeEnum
 import logging as logger
 
 # Redis
@@ -59,7 +60,7 @@ class UserService:
             # Create a new user
             res_to_add_new_user: bool = await engine.user_repository.add_one(
                 User(
-                    id_type_user = new_user.id_user_type,
+                    id_type_user = UserTypeEnum.USER.value,
                     email_user=new_user.email_user,
                     password_user=hashed_password,
                     name_user=new_user.name_user,

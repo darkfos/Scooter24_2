@@ -10,6 +10,7 @@ from fastapi import Depends
 
 # Local
 from src.database.repository.user_repository import UserRepository
+from src.database.repository.user_type_repository import UserTypeRepository
 from src.database.repository.category_repository import CategoryRepository
 from src.database.repository.product_repository import ProductRepository
 from src.database.repository.vacancies_repository import VacanciesRepository
@@ -30,6 +31,7 @@ from src.database.db_worker import db_work
 class IEngineRepository(ABC):
 
     user_repository: Type[UserRepository]
+    user_type_repository: Type[UserTypeRepository]
     category_repository: Type[CategoryRepository]
     product_repository: Type[ProductRepository]
     vacancies_repository: Type[VacanciesRepository]
@@ -69,8 +71,10 @@ class EngineRepository(IEngineRepository):
         """
 
         self.session = await db_work.get_session()
+
         try:
             self.user_repository = UserRepository(session=self.session)
+            self.user_type_repository = UserTypeRepository(session=self.session)
             self.category_repository = CategoryRepository(session=self.session)
             self.review_repository = ReviewRepository(session=self.session)
             self.order_repository = OrderRepository(session=self.session)
