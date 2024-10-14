@@ -10,6 +10,7 @@ from src.database.repository.user_repository import UserRepository
 # Local
 from src.settings.engine_settings import Settings
 from src.api.core.auth_catalog.schemas.auth_dto import CreateToken, Tokens, AccessToken
+from src.other.enums.user_type_enum import UserTypeEnum
 from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.errors.general_exceptions import GeneralExceptions
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
@@ -169,11 +170,11 @@ class Authentication:
         """
 
         logging.info(msg=f"Сервис Аутентификации - проверка прав пользователя (на администратора), email={email}")
-        is_admin: Union[User, None] = await UserRepository.find_user_by_email_and_password(
+        is_admin: Union[User, None] = await UserRepository(session).find_user_by_email_and_password(
             email=email
         )
 
-        if is_admin:
+        if is_admin and is_admin.id_type_user == UserTypeEnum.ADMIN.value:
             
             if CryptographyScooter().verify_password(password=password, hashed_password=is_admin.password_user):
                 token_access_data: Dict[Union[str, int], Union[str, int]] = {

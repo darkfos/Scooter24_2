@@ -48,7 +48,6 @@ class AdminPanelAuthentication(AuthenticationBackend):
             update_tokens = await self.auth_service.update_token(
                 refresh_token=tokens[-1]
             )
-            # request.session.update(update_tokens)
             return True
         return False
 

@@ -94,7 +94,6 @@ class UserService:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_one(other_id=token_data.get("sub"))
             )[0]
-            print(user_data, user_data.email_user)
             if user_data:
                 information = InformationAboutUser(
                     email_user=user_data.email_user,
