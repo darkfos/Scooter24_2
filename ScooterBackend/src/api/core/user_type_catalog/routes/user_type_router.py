@@ -12,7 +12,6 @@ user_type_router: APIRouter = APIRouter(
 
 auth: Authentication = Authentication()
 
-
 @user_type_router.post(
     path="/create_user_type",
     description="""

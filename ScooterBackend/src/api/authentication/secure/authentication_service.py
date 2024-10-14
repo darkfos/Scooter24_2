@@ -57,7 +57,7 @@ class Authentication:
                 if check_password:
 
                     data_for_token: Dict[str, str] = {
-                        "is_admin": True if res_to_find_user.id_type_user == 1 else False,
+                        "is_admin": True if res_to_find_user.id_type_user == 2 else False,
                         "sub": res_to_find_user.id
                     }
 

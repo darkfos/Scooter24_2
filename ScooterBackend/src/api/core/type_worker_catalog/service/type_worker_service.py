@@ -38,14 +38,9 @@ class TypeWorkerService:
         """
 
         logging.info(msg=f"{TypeWorkerService.__name__} Создание нового типа работника")
-
         async with engine:
             # Проверка на администратора
-            is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
-            )
+            is_admin: bool = token_data.get("is_admin")
 
             if is_admin:
                 is_created: bool = await engine.type_worker_repository.add_one(

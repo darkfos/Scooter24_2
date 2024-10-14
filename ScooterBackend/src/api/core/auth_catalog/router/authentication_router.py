@@ -59,6 +59,7 @@ async def login_user(
     )
 
     # Set cookie's
+    response.set_cookie(key="access_key", value=tokens.token)
     response.set_cookie(key="refresh_key", value=tokens.refresh_token)
     response.set_cookie(key="token_type", value="bearer")
 

@@ -6,7 +6,6 @@ from typing import Type
 import uvicorn
 from logger import set_logger
 
-
 set_logger()
 
 scooter24: Type[ScooterBackendApplication] = ScooterBackendApplication()

@@ -92,13 +92,14 @@ class UserService:
 
         async with engine:
             user_data: Union[User, None] = (
-                await engine.user_repository.find_one(other_id=token_data.get("id_user"))
+                await engine.user_repository.find_one(other_id=token_data.get("sub"))
             )[0]
+            print(user_data, user_data.email_user)
             if user_data:
                 information = InformationAboutUser(
                     email_user=user_data.email_user,
-                    name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
+                    name_user=user_data.name_user if user_data.name_user else "",
+                    surname_user= user_data.surname_user if user_data.surname_user else "",
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
                 )

@@ -40,7 +40,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
     status_code=status.HTTP_200_OK,
 )
 async def get_information_about_user(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> InformationAboutUser:
     """
@@ -52,10 +52,9 @@ async def get_information_about_user(
 
     logger.info(msg="User-Router вызов метод получения краткой информации о пользователе (information_about_user)")
 
-    information_about_user = await UserService.get_information_about_me(
-        engine=session, token=user_data
+    return await UserService.get_information_about_me(
+        engine=engine, token=user_data
     )
-    return information_about_user
 
 
 @user_router.get(
