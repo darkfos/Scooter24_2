@@ -25,6 +25,12 @@ logging = logger.getLogger(__name__)
 
 class Authentication:
 
+    __instance: Union[None, "Authentication"] = None
+    def __new__(cls, *args, **kwargs) -> "Authentication":
+        if cls.__instance is None:
+            Authentication.__instance = super().__new__(cls, *args, **kwargs)
+        return cls.__instance
+
     def __init__(self):
         self.jwt_auth: OAuth2PasswordBearer = OAuth2PasswordBearer(
             tokenUrl=APIPrefix.API_V_PREFIX.value+APIPrefix.AUTH_PREFIX.value+"/login"
