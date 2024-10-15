@@ -12,11 +12,12 @@ from src.api.core.type_worker_catalog.service.type_worker_service import TypeWor
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.type_worker_catalog.schemas.type_worker_dto import TypeWorkerBase, TypeWorkerList
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()
 type_worker_router: APIRouter = APIRouter(
-    prefix="/type_worker", tags=["TypeWorker - Тип работников"]
+    prefix=APIPrefix.TYPE_WORKER_PREFIX.value, tags=[APITagsEnum.TYPE_WORKER.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

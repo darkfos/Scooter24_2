@@ -14,11 +14,12 @@ from src.api.core.vacancy_catalog.schemas.vacancies_dto import (
 )
 from src.api.core.vacancy_catalog.service.vacancies_service import VacanciesService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()
 vacancies_router: APIRouter = APIRouter(
-    prefix="/vacancies", tags=["Vacancies - Вакансии"]
+    prefix=APIPrefix.VACANCIES_PREFIX.value, tags=[APITagsEnum.VACANCIES.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

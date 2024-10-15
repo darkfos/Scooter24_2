@@ -3,12 +3,13 @@ from src.api.core.brand_catalog.service.brand_service import BrandService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.brand_catalog.schemas.brand_dto import BrandBase, AllBrands
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 
 brand_router = APIRouter(
-    prefix="/brand",
-    tags=["Brand"]
+    prefix=APIPrefix.BRAND_PREFIX.value,
+    tags=[APITagsEnum.BRAND.value]
 )
 auth: Authentication = Authentication()
 

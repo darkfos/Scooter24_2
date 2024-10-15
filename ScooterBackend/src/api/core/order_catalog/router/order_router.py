@@ -10,11 +10,12 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.order_catalog.schemas.order_dto import *
 from src.api.core.order_catalog.service.order_service import OrderService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()
 order_router: APIRouter = APIRouter(
-    prefix="/order", tags=["Order - Заказы пользователей"]
+    prefix=APIPrefix.ORDER_PREFIX.value, tags=[APITagsEnum.ORDER.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

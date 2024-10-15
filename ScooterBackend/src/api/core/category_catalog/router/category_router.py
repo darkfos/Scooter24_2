@@ -11,10 +11,11 @@ from src.api.core.category_catalog.schemas.category_dto import *
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.category_catalog.service.category_service import CategoryService
 from src.api.dep.dependencies import EngineRepository, IEngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 category_router = APIRouter(
-    prefix="/category",
-    tags=["Category - Категории товаров магазина"],
+    prefix=APIPrefix.CATEGORY_PREFIX.value,
+    tags=[APITagsEnum.CATEGORY.value],
 )
 
 auth: Authentication = Authentication()

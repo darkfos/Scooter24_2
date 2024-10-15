@@ -20,10 +20,11 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_catalog.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth_router: APIRouter = APIRouter(
-    prefix="/auth", tags=["Auth - Система аутентификации, авторизации, регистрации"]
+    prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
 )
 authentication_app: Authentication = Authentication()
 logger = logging.getLogger(__name__)

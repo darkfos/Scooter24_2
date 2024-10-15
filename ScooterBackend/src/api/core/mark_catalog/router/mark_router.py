@@ -3,12 +3,13 @@ from src.api.core.mark_catalog.schemas.mark_dto import MarkBase, AllMarks
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.core.mark_catalog.service.mark_service import MarkService
 from src.api.authentication.secure.authentication_service import Authentication
-from typing import NoReturn, Annotated, Dict, Union, List
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from typing import Annotated, Dict, Union, List
 
 
 mark_router: APIRouter = APIRouter(
-    prefix="/mark",
-    tags=["Mark"]
+    prefix=APIPrefix.MARK_PREFIX.value,
+    tags=[APITagsEnum.MARK.value]
 )
 auth: Authentication = Authentication()
 

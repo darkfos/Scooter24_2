@@ -3,13 +3,14 @@ from src.api.core.product_models_catalog.service.product_models_service import P
 from src.api.core.product_models_catalog.schemas.product_models_dto import ProductModelsBase, AllProductModels
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 
 auth: Authentication = Authentication()
 product_models_router: APIRouter = APIRouter(
-    prefix="/product_models",
-    tags=["ProductModels"]
+    prefix=APIPrefix.PRODUCT_MODEL_PREFIX.value,
+    tags=[APITagsEnum.PRODUCT_MODEL.value]
 )
 
 

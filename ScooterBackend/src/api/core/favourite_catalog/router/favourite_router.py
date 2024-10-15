@@ -13,11 +13,13 @@ from src.api.core.favourite_catalog.schemas.favourite_dto import *
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.favourite_catalog.service.favourite_service import FavouriteService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+
 
 
 auth: Authentication = Authentication()
 favourite_router: APIRouter = APIRouter(
-    prefix="/favourite", tags=["Favourite - Избранные товары"]
+    prefix=APIPrefix.FAVOURITE_PREFIX.value, tags=[APITagsEnum.FAVOURITE.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

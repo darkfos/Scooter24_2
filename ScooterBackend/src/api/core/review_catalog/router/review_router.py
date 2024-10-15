@@ -10,10 +10,11 @@ from src.api.core.review_catalog.schemas.review_dto import *
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.review_catalog.service.review_service import ReviewService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 review_router: APIRouter = APIRouter(
-    prefix="/review", tags=["Review - Отзывы товаров, магазина"]
+    prefix=APIPrefix.REVIEW_PREFIX.value, tags=[APITagsEnum.REVIEW.value]
 )
 
 auth: Authentication = Authentication()

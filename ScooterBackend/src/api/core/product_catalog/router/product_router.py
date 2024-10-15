@@ -13,10 +13,11 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.database.db_worker import db_work
 from src.api.core.product_catalog.service.product_service import ProductService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 product_router: APIRouter = APIRouter(
-    prefix="/product", tags=["Product - Товары магазина"]
+    prefix=APIPrefix.PRODUCT_PREFIX.value, tags=[APITagsEnum.PRODUCT.value]
 )
 
 auth: Type[Authentication] = Authentication()

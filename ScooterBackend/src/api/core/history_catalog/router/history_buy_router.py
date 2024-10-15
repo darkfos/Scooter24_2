@@ -12,11 +12,13 @@ from src.database.db_worker import db_work
 from src.api.core.history_catalog.schemas.history_buy_dto import *
 from src.api.core.history_catalog.service.history_buy_service import HistoryBuyService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+
 
 
 auth: Authentication = Authentication()
 history_buy_router: APIRouter = APIRouter(
-    prefix="/history_buy", tags=["History buy - Истории покупок товаров"]
+    prefix=APIPrefix.HISTORY_BUY_PREFIX.value, tags=[APITagsEnum.HISTORY_BUY.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

@@ -2,12 +2,13 @@ from fastapi import APIRouter, status, Depends
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_type_catalog.service.user_type_service import UserTypeService, NewUserType, AllUserType
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 
 user_type_router: APIRouter = APIRouter(
-    prefix="/user_type",
-    tags=["User Type"]
+    prefix=APIPrefix.USER_TYPE_PREFIX.value,
+    tags=[APITagsEnum.USER_TYPE.value]
 )
 
 auth: Authentication = Authentication()

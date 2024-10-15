@@ -21,8 +21,9 @@ from src.api.core.user_catalog.schemas.user_dto import (
 )
 from src.api.core.user_catalog.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
-user_router: APIRouter = APIRouter(prefix="/user", tags=["User - Работа пользователя"])
+user_router: APIRouter = APIRouter(prefix=APIPrefix.USER_PREFIX.value, tags=[APITagsEnum.USER.value])
 auth: Authentication = Authentication()
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 

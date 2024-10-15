@@ -2,14 +2,15 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.model_catalog.schemas.model_dto import ModelBase, AllModelBase
 from src.api.core.model_catalog.service.model_service import ModelService
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 from fastapi import APIRouter, status, Depends
 
 
 auth: Authentication = Authentication()
 model_router: APIRouter = APIRouter(
-    prefix="/model",
-    tags=["Model"]
+    prefix=APIPrefix.MODEL_PREFIX.value,
+    tags=[APITagsEnum.MODEL.value]
 )
 
 

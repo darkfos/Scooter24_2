@@ -3,13 +3,14 @@ from src.api.core.ss_category_catalog.service.sub_subcategories_service import S
 from src.api.core.ss_category_catalog.schemas.sub_subcategory_dto import AllSubSubCategory, SubSubCategoryBase
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 
 auth: Authentication = Authentication()
 ss_category_router: APIRouter = APIRouter(
-    prefix="/ss_category",
-    tags=["SubSubCategory"]
+    prefix=APIPrefix.SSUB_CATEGORY_PREFIX.value,
+    tags=[APITagsEnum.SSUB_CATEGORY.value]
 )
 
 
