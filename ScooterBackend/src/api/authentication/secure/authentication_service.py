@@ -17,6 +17,7 @@ from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.database.models.user import User
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.enums.api_enum import APIPrefix
 
 
 logging = logger.getLogger(__name__)
@@ -26,7 +27,7 @@ class Authentication:
 
     def __init__(self):
         self.jwt_auth: OAuth2PasswordBearer = OAuth2PasswordBearer(
-            tokenUrl="/api/v1/auth/login"
+            tokenUrl=APIPrefix.API_V_PREFIX.value+APIPrefix.AUTH_PREFIX.value+"/login"
         )
 
     async def create_tokens(

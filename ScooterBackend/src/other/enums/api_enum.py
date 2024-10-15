@@ -29,13 +29,14 @@ class APITagsEnum(Enum):
     VACANCIES: Final[str] = "Vacancies"
 
     # Другое
-    API_V: Final[str] = "/api/v1"
-    AUTH: Final[str] = "/auth"
+    API_V: Final[str] = "API V1"
+    AUTH: Final[str] = "Authentication"
 
 
 class APIPrefix(Enum):
 
     # Префиксы для роутеров
+    API_V_PREFIX: Final[str] = "/api/v1"
     AUTH_PREFIX: Final[str] = "/auth"
     USER_PREFIX: Final[str] = "/user"
     USER_TYPE_PREFIX: Final[str] = "/user_type"
