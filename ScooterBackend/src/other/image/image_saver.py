@@ -28,7 +28,8 @@ class ImageSaver:
 
                 # Logging
                 logging.info(
-                    msg="Image Saver (Admin Panel) сохранение фотографии в директории"
+                    msg="Image Saver (Admin Panel)"
+                        " сохранение фотографии в директории"
                 )
 
                 with open(
@@ -37,13 +38,14 @@ class ImageSaver:
                     shutil.copyfileobj(file.file, file_catalog)
             else:
                 # Logging
-                logging.info(msg="Image Saver сохранение фотографии в директории")
+                logging.info(msg="Image Saver сохранение"
+                                 " фотографии в директории")
                 with open(
                     file=self.init_url + self.filename, mode="wb"
                 ) as file_catalog:
                     shutil.copyfileobj(file.file, file_catalog)
             return self.filename
-        except Exception as ex:
+        except Exception:
             logging.exception(msg="Image Saver Не удалось сохранить файл")
             return False
 
@@ -53,7 +55,7 @@ class ImageSaver:
             logging.info(msg="Image Saver Картинка была успешно удалена")
             remove(path=self.init_url + self.filename)
             return True
-        except Exception as ex:
+        except Exception:
             # Logging
             logging.exception(msg="Image Saver не удалось удалить картинку")
             return False

@@ -1,6 +1,6 @@
 # System
 import os
-from typing import Union, Type, Annotated
+from typing import Union, Type
 from dotenv import load_dotenv
 
 # Local
@@ -12,7 +12,11 @@ class EmailTransferSettings:
     email: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
     password: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
     secret_symbols: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
-    min_length_key: Union[str, Type[SettingsDescriptor], int] = SettingsDescriptor()
+    min_length_key: Union[
+        str,
+        Type[SettingsDescriptor],
+        int
+    ] = SettingsDescriptor()
 
     def __init__(self) -> None:
         load_dotenv()

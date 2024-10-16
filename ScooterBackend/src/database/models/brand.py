@@ -10,20 +10,28 @@ class Brand(MainBase):
     """
 
     # Название бренда
-    name_brand: Mapped[str] = mapped_column(type_=String(length=100), nullable=False, unique=True)
+    name_brand: Mapped[str] = mapped_column(
+        type_=String(length=100),
+        nullable=False,
+        unique=True
+    )
 
     # Связи
-    product_data: Mapped["Product"] = relationship("Product", back_populates="brand_data", uselist=False)
+    product_data: Mapped["Product"] = relationship(
+        "Product",
+        back_populates="brand_data",
+        uselist=False
+    )
 
     def __str__(self) -> str:
         return str({
             k: v
             for k, v in self.__dict__.items()
         })
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def read_model(self) -> dict:
         """
         Чтение модели
@@ -31,6 +39,6 @@ class Brand(MainBase):
 
         return {
             k: v
-            for k,v in self.__dict__.items()
+            for k, v in self.__dict__.items()
             if not k.startswith("_")
         }
