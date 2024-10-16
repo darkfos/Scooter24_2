@@ -1,18 +1,28 @@
-from src.database.repository.user_type_repository import UserTypeRepository, UserType
-from src.api.core.user_type_catalog.error.user_type_error import UserTypeException
-from src.api.core.user_catalog.error.http_user_exception import UserHttpError
-from src.api.core.user_type_catalog.schemas.user_type_dto import UserTypeBase, NewUserType, AllUserType
-from src.api.authentication.secure.authentication_service import Authentication, AuthenticationEnum
+from src.database.repository.user_type_repository \
+    import UserType
+from src.api.core.user_type_catalog.error.user_type_error \
+    import UserTypeException
+from src.api.core.user_catalog.error.http_user_exception \
+    import UserHttpError
+from src.api.core.user_type_catalog.schemas.user_type_dto \
+    import (NewUserType, AllUserType)
+from src.api.authentication.secure.authentication_service \
+    import (Authentication, AuthenticationEnum)
 from src.api.dep.dependencies import IEngineRepository
-from typing import Union, List
 
 auth: Authentication = Authentication()
+
 
 class UserTypeService:
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
-    async def create_user_type(engine: IEngineRepository, token: str, new_user_type: NewUserType, token_data: dict = {}) -> None:
+    async def create_user_type(
+            engine: IEngineRepository,
+            token: str,
+            new_user_type: NewUserType,
+            token_data: dict = {}
+    ) -> None:
         """
         Метод сервиса UserTypeService - создание новой роли пользователя
         """
@@ -20,7 +30,9 @@ class UserTypeService:
         # Проверка на администратора
         if token_data.get("is_admin"):
             async with engine:
-                result = await engine.user_type_repository.add_one(data=UserType(name_type=new_user_type.name_type))
+                result = await engine.user_type_repository.add_one(
+                    data=UserType(name_type=new_user_type.name_type)
+                )
                 if result:
                     return
                 await UserTypeException().no_create_user_type()

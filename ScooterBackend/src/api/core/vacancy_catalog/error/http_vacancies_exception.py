@@ -13,7 +13,8 @@ class VacanciesHttpError(APIError):
         """
 
         return await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось создать вакансию"
+            code=status.HTTP_400_BAD_REQUEST,
+            detail_inf="Не удалось создать вакансию"
         )
 
     async def http_vacancies_not_found(self):
@@ -22,7 +23,8 @@ class VacanciesHttpError(APIError):
         """
 
         return await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось найти вакансию"
+            code=status.HTTP_400_BAD_REQUEST,
+            detail_inf="Не удалось найти вакансию"
         )
 
     async def http_dont_delete_vacancies(self):
@@ -31,7 +33,8 @@ class VacanciesHttpError(APIError):
         """
 
         return await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось удалить вакансию"
+            code=status.HTTP_400_BAD_REQUEST,
+            detail_inf="Не удалось удалить вакансию"
         )
 
     async def http_dont_update_vacancies(self):

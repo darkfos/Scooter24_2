@@ -2,13 +2,7 @@
 import datetime
 
 from pydantic import BaseModel, Field, EmailStr
-from typing import Annotated, Union, List, Dict, Any
-
-# Local
-from src.database.models.order import Order
-from src.database.models.review import Review
-from src.database.models.history_buy import HistoryBuy
-from src.database.models.favourite import Favourite
+from typing import Annotated, Union, List, Dict
 
 
 class UserBase(BaseModel):
@@ -32,7 +26,10 @@ class InformationAboutUser(BaseModel):
     name_user: Annotated[str, Field(max_length=100)]
     surname_user: Annotated[str, Field(max_length=150)]
     main_name_user: Annotated[str, Field(max_length=250)]
-    date_registration: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_registration: Annotated[
+        datetime.date,
+        Field(default=datetime.date.today())
+    ]
 
 
 class AddUser(UserBase):
@@ -51,7 +48,10 @@ class UpdateDataUser(BaseModel):
     name_user: Annotated[str, Field(le=100)]
     surname_user: Annotated[str, Field(le=150)]
     main_name_user: Annotated[str, Field(le=250)]
-    date_update: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update: Annotated[
+        datetime.date,
+        Field(default=datetime.date.today())
+    ]
 
 
 class UserReviewData(InformationAboutUser):
@@ -75,7 +75,9 @@ class UserOrdersData(InformationAboutUser):
     Информация о пользователе + все его заказы
     """
 
-    orders: List[Dict[str, Union[str, int, datetime.date]]]
+    orders: List[
+        Dict[str, Union[str, int, datetime.date]]
+    ]
 
 
 class UserHistoryData(InformationAboutUser):
@@ -103,7 +105,10 @@ class DataToUpdate(BaseModel):
     name_user: Annotated[str, Field(max_length=100)] = None
     surname_user: Annotated[str, Field(max_length=150)] = None
     main_name_user: Annotated[str, Field(max_length=250)] = None
-    date_update: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update: Annotated[
+        datetime.date,
+        Field(default=datetime.date.today())
+    ]
 
 
 class DataToUpdateUserPassword(BaseModel):
@@ -113,7 +118,10 @@ class DataToUpdateUserPassword(BaseModel):
 
     user_old_password: Annotated[str, Field(min_length=6, max_length=60)]
     new_password: Annotated[str, Field(min_length=6, max_length=60)]
-    date_update: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update: Annotated[
+        datetime.date,
+        Field(default=datetime.date.today())
+    ]
 
 
 class UserIsDeleted(BaseModel):

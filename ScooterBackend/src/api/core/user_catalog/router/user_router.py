@@ -23,7 +23,10 @@ from src.api.core.user_catalog.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
-user_router: APIRouter = APIRouter(prefix=APIPrefix.USER_PREFIX.value, tags=[APITagsEnum.USER.value])
+user_router: APIRouter = APIRouter(
+    prefix=APIPrefix.USER_PREFIX.value,
+    tags=[APITagsEnum.USER.value]
+)
 auth: Authentication = Authentication()
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 
@@ -51,7 +54,10 @@ async def get_information_about_user(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения краткой информации о пользователе (information_about_user)")
+    logger.info(
+        msg="User-Router вызов метод получения"
+            " краткой информации о пользователе (information_about_user)"
+    )
 
     return await UserService.get_information_about_me(
         engine=engine, token=user_data
@@ -85,7 +91,10 @@ async def get_full_information_about_user(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения полной информации о пользователе (full_information_about_user)")
+    logger.info(
+        msg="User-Router вызов метод получения полной"
+            " информации о пользователе (full_information_about_user)"
+    )
 
     return await UserService.get_full_information(
         engine=session,
@@ -98,7 +107,8 @@ async def get_full_information_about_user(
     path="/user_reviews",
     description="""
     ### Endpoint - Отзывы пользователя.
-    Данный метод позволяет получить информацию о пользователе, а так же список всех его отзывов.
+    Данный метод позволяет получить информацию о
+    пользователе, а так же список всех его отзывов.
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="Отзывы пользователя",
@@ -116,7 +126,10 @@ async def get_user_data_and_all_reviews(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения всех отзывов пользователя (user_reviews)")
+    logger.info(
+        msg="User-Router вызов метод получения"
+            " всех отзывов пользователя (user_reviews)"
+    )
 
     return await UserService.get_information_about_me_and_review(
         engine=session,
@@ -129,8 +142,9 @@ async def get_user_data_and_all_reviews(
     path="/user_favourites",
     description="""
     ### Endpoint - Избранные товары пользователя.
-    Данный метод позволяет получить информацию о пользователе, а так же список избранных товаров.
-    Необходим jwt ключ и Bearer в заголовке запроса. 
+    Данный метод позволяет получить информацию о пользователе,
+    а так же список избранных товаров. Необходим jwt ключ
+    и Bearer в заголовке запроса.
     """,
     summary="Избранное пользователя",
     response_model=UserFavouritesData,
@@ -147,7 +161,10 @@ async def get_user_data_and_all_favourites_product(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения всех избранных товаров пользователя (user_favourites)")
+    logger.info(
+        msg="User-Router вызов метод получения"
+            " всех избранных товаров пользователя (user_favourites)"
+    )
 
     return await UserService.get_information_about_me_and_favourite(
         engine=session,
@@ -160,7 +177,8 @@ async def get_user_data_and_all_favourites_product(
     path="/user_orders",
     description="""
     ### Endpoint - Заказы пользователя.
-    Данный метод позволяет узнать информацию о пользователе, а так же получить список заказов.
+    Данный метод позволяет узнать информацию о пользователе,
+     а так же получить список заказов.
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="Заказы пользователя",
@@ -178,7 +196,10 @@ async def get_user_data_and_all_orders(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения всех заказов пользователя (get_user_data_and_all_orders)")
+    logger.info(
+        msg="User-Router вызов метод получения всех"
+            " заказов пользователя (get_user_data_and_all_orders)"
+    )
 
     return await UserService.get_information_about_me_and_orders(
         engine=session,
@@ -191,7 +212,8 @@ async def get_user_data_and_all_orders(
     path="/user_history",
     description="""
     ### Endpoint - История покупок пользователя.
-    Данный метод позволяет узнать информацию о пользователе, а так же получить список историю покупок.
+    Данный метод позволяет узнать информацию о пользователе,
+    а так же получить список историю покупок.
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="История покупок",
@@ -209,7 +231,10 @@ async def get_user_data_and_history(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения всей истории пользователя (user_history)")
+    logger.info(
+        msg="User-Router вызов метод получения"
+            " всей истории пользователя (user_history)"
+    )
 
     return await UserService.get_information_about_me_and_history(
         engine=session,
@@ -225,7 +250,8 @@ async def get_user_data_and_history(
     Данный метод позволяет узнать информацию о других пользователях.
     Доступен только для администраторов!
     Необходим jwt ключ и Bearer в заголовке запроса.
-    Необходим первичный ключ в ссылке запроса для получения данных об указанном пользователе.
+    Необходим первичный ключ в ссылке запроса для получения
+    данных об указанном пользователе.
     """,
     summary="Другие лица",
     response_model=InformationAboutUser,
@@ -244,7 +270,10 @@ async def get_information_about_other_users(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получения краткой информации о другом пользователе по id (get_information_about_other_users)")
+    logger.info(
+        msg="User-Router вызов метод получения краткой информации"
+            " о другом пользователе по id (get_information_about_other_users)"
+    )
 
     return await UserService.get_information_about_user(
         engine=session,
@@ -260,7 +289,8 @@ async def get_information_about_other_users(
     ### Endpoint - Полная информация о другом пользователе.
     Данный метод позволяет узнать информацию о других пользователях.
     Необходим пароль администратора в заголовке.
-    Необходим первичный ключ в ссылке запроса для получения данных об указанном пользователе.
+    Необходим первичный ключ в ссылке запроса для получения
+    данных об указанном пользователе.
     """,
     summary="Полная информация о другом пользователе",
     response_model=AllDataUser,
@@ -280,7 +310,10 @@ async def get_all_information_about_other_users(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод получение полной информации о пользователе по id (other_user_all_data)")
+    logger.info(
+        msg="User-Router вызов метод получение полной информации"
+            " о пользователе по id (other_user_all_data)"
+    )
 
     return await UserService.get_full_information_other_user(
         engine=session,
@@ -293,7 +326,8 @@ async def get_all_information_about_other_users(
     path="/update_user_information",
     description="""
     ### Endpoint - Обновление информации о пользователе.
-    Данный метод позволяет обновить информацию о пользователе, как всю, так и некоторую.
+    Данный метод позволяет обновить информацию о пользователе,
+    как всю, так и некоторую.
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="Обновление данных пользователя",
@@ -310,10 +344,15 @@ async def update_user_information(
     :return:
     """
 
-    logger.info(msg="User-Router вызов метод обновления информации о пользователе (update_user_information)")
+    logger.info(
+        msg="User-Router вызов метод обновления"
+            " информации о пользователе (update_user_information)"
+    )
 
     return await UserService.update_user_information(
-        engine=session, token=user_data, to_update=data_to_update
+        engine=session,
+        token=user_data,
+        to_update=data_to_update
     )
 
 
@@ -337,7 +376,10 @@ async def update_address_data(
     ENDPOINT - Обновление адресных данных пользователя
     """
 
-    logger.info(msg="User-Router вызов метод обновления адресных данных пользователя (update_user_address_data)")
+    logger.info(
+        msg="User-Router вызов метод обновления"
+            " адресных данных пользователя (update_user_address_data)"
+    )
 
     return await UserService.update_address_user_data(
         engine=session, token=user_data, data_update=data_to_update
@@ -348,7 +390,8 @@ async def update_address_data(
     path="/delete_user",
     description="""
     ### Endpoint - УДАЛЕНИЕ пользователя.
-    Удаление пользователя, безвозвратное удаление данных, предельная ОСТОРОЖНОСТЬ!
+    Удаление пользователя, безвозвратное удаление данных,
+    предельная ОСТОРОЖНОСТЬ!
     Для удаления необходим jwt ключ и Bearer в заголовке.
     """,
     summary="Удаление пользователя",
@@ -363,6 +406,9 @@ async def delete_user(
     Удаление всех данных о пользователе
     """
 
-    logger.info(msg="User-Router вызов метод удаления пользователя по id (delete_user)")
+    logger.info(
+        msg="User-Router вызов метод"
+            " удаления пользователя по id (delete_user)"
+    )
 
     return await UserService.delete_user(engine=session, token=user_data)
