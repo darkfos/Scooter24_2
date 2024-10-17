@@ -8,10 +8,7 @@ from typing import Annotated
 
 
 auth: Authentication = Authentication()
-subcategory_router: APIRouter = APIRouter(
-    prefix=APIPrefix.SUB_CATEGORY_PREFIX.value,
-    tags=[APITagsEnum.SUB_CATEGORY.value]
-)
+subcategory_router: APIRouter = APIRouter(prefix=APIPrefix.SUB_CATEGORY_PREFIX.value, tags=[APITagsEnum.SUB_CATEGORY.value])
 
 
 @subcategory_router.post(
@@ -22,13 +19,9 @@ subcategory_router: APIRouter = APIRouter(
     Доступен только для администратора.
     """,
     summary="Добавление модели для продукта",
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
-async def added_new_subcategory(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_subcategory: SubCategoryBase
-) -> None:
+async def added_new_subcategory(engine: Annotated[IEngineRepository, Depends(EngineRepository)], admin_data: Annotated[str, Depends(auth.jwt_auth)], new_subcategory: SubCategoryBase) -> None:
     await SubCategoryService.added_new_model_to_product(engine=engine, token=admin_data, new_model=new_subcategory)
 
 
@@ -39,12 +32,9 @@ async def added_new_subcategory(
     ### ENDPOINT - Получение все моделей продукта по идентификатору продукта.
     """,
     summary="Полученеи всех моделей продукта по id product",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def get_all_subcategories_by_id_category(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_category: int
-) -> AllSubCategories:
+async def get_all_subcategories_by_id_category(engine: Annotated[IEngineRepository, Depends(EngineRepository)], id_category: int) -> AllSubCategories:
     return await SubCategoryService.get_subcategories_by_id_category(engine=engine, id_category=id_category, redis_search_data="get_subcategory_by_id_category_%s" % id_category)
 
 
@@ -55,7 +45,7 @@ async def get_all_subcategories_by_id_category(
     ### ENDPOINT - Получение всех подкатегорий.
     """,
     summary="Получение списка всех подкатегорий",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_product_models(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -71,11 +61,7 @@ async def get_all_product_models(
     Доступен только для администратора
     """,
     summary="Удаление подкатегории по идентификатору",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def delete_subcategory_by_id(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_subcategory: int
-) -> None:
+async def delete_subcategory_by_id(engine: Annotated[IEngineRepository, Depends(EngineRepository)], admin_data: Annotated[str, Depends(auth.jwt_auth)], id_subcategory: int) -> None:
     await SubCategoryService.delete_product_models_by_id(engine=engine, token=admin_data, id_subcategory=id_subcategory)

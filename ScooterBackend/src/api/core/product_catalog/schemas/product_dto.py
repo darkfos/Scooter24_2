@@ -1,13 +1,10 @@
 # System
 import datetime
-from typing import List, Union, Annotated
+from typing import List, Annotated
 
 # Other libraries
 from pydantic import BaseModel, Field
 from fastapi import UploadFile
-
-# Local
-...
 
 
 class ProductBase(BaseModel):
@@ -25,9 +22,7 @@ class ProductBase(BaseModel):
     price_with_discount: Annotated[float, Field()]
     photo_product: Annotated[UploadFile, Field()] = None
     date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
-    date_update_information: Annotated[
-        datetime.date, Field(default=datetime.date.today())
-    ]
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
     product_discount: Annotated[int, Field(lt=100)]
 
     @classmethod
@@ -62,9 +57,7 @@ class UpdateProduct(BaseModel):
     article_product: Annotated[str, Field(max_length=150, default=None)] = None
     tags: Annotated[str, Field(min_length=0, default=None)] = None
     other_data: Annotated[str, Field(min_length=0, default=None)] = None
-    date_update_information: Annotated[
-        datetime.date, Field(default=datetime.date.today())
-    ]
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
 
 
 class ProductIsCreated(BaseModel):
@@ -76,6 +69,4 @@ class ProductIsCreated(BaseModel):
 class UpdateProductDiscount(BaseModel):
 
     product_discount: Annotated[int, Field(lt=100)]
-    date_update_information: Annotated[
-        datetime.date, Field(default=datetime.date.today())
-    ]
+    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]

@@ -5,19 +5,10 @@ from fastapi import status
 class SubCategoryException(APIError):
 
     async def no_create_a_new_subcategory(self) -> None:
-        await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST,
-            detail_inf="Не удалось создать новую подкатегорию"
-        )
+        await self.api_error(code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось создать новую подкатегорию")
 
     async def no_found_a_subcategory(self) -> None:
-        await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST,
-            detail_inf="Не удалось найти подкатегорию по указанному идентификатору"
-        )
+        await self.api_error(code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось найти подкатегорию по " "указанному идентификатору")
 
     async def no_delete_a_subcategory(self) -> None:
-        await self.api_error(
-            code=status.HTTP_400_BAD_REQUEST,
-            detail_inf="Не удалось удалить подкатегорию"
-        )
+        await self.api_error(code=status.HTTP_400_BAD_REQUEST, detail_inf="Не удалось удалить подкатегорию")

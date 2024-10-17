@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Annotated, List, Dict
+from typing import Annotated, List
 
 
 class SubCategoryBase(BaseModel):

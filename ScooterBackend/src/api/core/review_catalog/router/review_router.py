@@ -1,21 +1,19 @@
 # System
-from typing import Annotated, List, Type
+from typing import Annotated, List, Type, Union
 import logging
 
 # Other libraries
 from fastapi import Depends, status, APIRouter
 
 # Local
-from src.api.core.review_catalog.schemas.review_dto import *
+from src.api.core.review_catalog.schemas.review_dto import ReviewBase, ReviewMessage, ListReviewMessageForProduct, ReviewIsCreated
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.review_catalog.service.review_service import ReviewService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
-review_router: APIRouter = APIRouter(
-    prefix=APIPrefix.REVIEW_PREFIX.value, tags=[APITagsEnum.REVIEW.value]
-)
+review_router: APIRouter = APIRouter(prefix=APIPrefix.REVIEW_PREFIX.value, tags=[APITagsEnum.REVIEW.value])
 
 auth: Authentication = Authentication()
 logger: Type[logging.Logger] = logging.getLogger(__name__)
@@ -45,11 +43,9 @@ async def create_review(
     :return:
     """
 
-    logger.info(msg="Review-Router вызов метода создания отзыва (create_review)")
+    logger.info(msg="Review-Router вызов " "метода создания отзыва (create_review)")
 
-    return await ReviewService.create_review(
-        engine=session, token=user_data, new_review=new_review
-    )
+    return await ReviewService.create_review(engine=session, token=user_data, new_review=new_review)
 
 
 @review_router.get(
@@ -62,9 +58,7 @@ async def create_review(
     response_model=ListReviewMessageForProduct,
     status_code=status.HTTP_200_OK,
 )
-async def get_all_reviews_by_id_product(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_product: int
-) -> ListReviewMessageForProduct:
+async def get_all_reviews_by_id_product(session: Annotated[IEngineRepository, Depends(EngineRepository)], id_product: int) -> ListReviewMessageForProduct:
     """
     ENDPOINT - Получение всех комментариев к указанному товару.
     :param session:
@@ -72,7 +66,7 @@ async def get_all_reviews_by_id_product(
     :return:
     """
 
-    logger.info(msg="Review-Router вызов метода получения всех отзывов по id продукта (get_all_reviews_by_id_product)")
+    logger.info(msg="Review-Router вызов метода " "получения всех отзывов по " "id продукта (get_all_reviews_by_id_product)")
 
     return await ReviewService.get_all_reviews_by_id_product(
         engine=session,
@@ -91,16 +85,14 @@ async def get_all_reviews_by_id_product(
     status_code=status.HTTP_200_OK,
     response_model=Union[List, List[ReviewMessage]],
 )
-async def get_all_reviews(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)]
-) -> Union[List, List[ReviewMessage]]:
+async def get_all_reviews(session: Annotated[IEngineRepository, Depends(EngineRepository)]) -> Union[List, List[ReviewMessage]]:
     """
     ENDPOINT - Возвращает список отзывов
     :param session:
     :return:
     """
 
-    logger.info(msg="Review-Router вызов метода получение всех отзывов (get_all_reviews)")
+    logger.info(msg="Review-Router вызов метода " "получение всех отзывов (get_all_reviews)")
 
     return await ReviewService.get_all_reviews(engine=session)
 
@@ -116,9 +108,7 @@ async def get_all_reviews(
     status_code=status.HTTP_200_OK,
     response_model=ReviewMessage,
 )
-async def get_review_data_by_id(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], review_id: int
-) -> ReviewMessage:
+async def get_review_data_by_id(session: Annotated[IEngineRepository, Depends(EngineRepository)], review_id: int) -> ReviewMessage:
     """
     ENDPOINT - Получение отзыва по id
     :param session:
@@ -126,7 +116,7 @@ async def get_review_data_by_id(
     :return:
     """
 
-    logger.info(msg="Review-Router вызов метода получения отзыва по id (get_review_data_by_id)")
+    logger.info(msg="Review-Router вызов метода получения отзыва" " по id (get_review_data_by_id)")
 
     return await ReviewService.get_review_by_id(
         engine=session,
@@ -160,8 +150,6 @@ async def delete_review_by_id(
     :return:
     """
 
-    logger.info(msg="Review-Router вызов метода удаления отзыва по id (delete_review_by_id)")
+    logger.info(msg="Review-Router вызов метода" " удаления отзыва по id (delete_review_by_id)")
 
-    return await ReviewService.delete_review(
-        engine=session, token=admin_data, id_review=id_review
-    )
+    return await ReviewService.delete_review(engine=session, token=admin_data, id_review=id_review)

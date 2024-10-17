@@ -8,10 +8,7 @@ from typing import Annotated
 
 
 auth: Authentication = Authentication()
-product_models_router: APIRouter = APIRouter(
-    prefix=APIPrefix.PRODUCT_MODEL_PREFIX.value,
-    tags=[APITagsEnum.PRODUCT_MODEL.value]
-)
+product_models_router: APIRouter = APIRouter(prefix=APIPrefix.PRODUCT_MODEL_PREFIX.value, tags=[APITagsEnum.PRODUCT_MODEL.value])
 
 
 @product_models_router.post(
@@ -22,13 +19,9 @@ product_models_router: APIRouter = APIRouter(
     Доступен только для администратора.
     """,
     summary="Добавление модели для продукта",
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
 )
-async def added_new_product_models(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_product_models: ProductModelsBase
-) -> None:
+async def added_new_product_models(engine: Annotated[IEngineRepository, Depends(EngineRepository)], admin_data: Annotated[str, Depends(auth.jwt_auth)], new_product_models: ProductModelsBase) -> None:
     await ProductModelsService.added_new_model_to_product(engine=engine, token=admin_data, new_model=new_product_models)
 
 
@@ -39,12 +32,9 @@ async def added_new_product_models(
     ### ENDPOINT - Получение все моделей продукта по идентификатору продукта.
     """,
     summary="Полученеи всех моделей продукта по id product",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def get_all_product_models_by_id_pr(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_product: int
-) -> AllProductModels:
+async def get_all_product_models_by_id_pr(engine: Annotated[IEngineRepository, Depends(EngineRepository)], id_product: int) -> AllProductModels:
     return await ProductModelsService.get_model_by_id_product(engine=engine, id_product=id_product, redis_search_data="get_product_models_by_id_%s" % id_product)
 
 
@@ -55,7 +45,7 @@ async def get_all_product_models_by_id_pr(
     ### ENDPOINT - Получение всех моделей продуктов.
     """,
     summary="Получение списка всех моделей продуктов",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_product_models(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
@@ -70,11 +60,7 @@ async def get_all_product_models(
     ### ENDPOINT - Удаление модели продукта по идентификатору
     """,
     summary="Удаление модели продукта по идентификатору",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def delete_product_model_by_id(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    id_pr_model: int
-) -> None:
+async def delete_product_model_by_id(engine: Annotated[IEngineRepository, Depends(EngineRepository)], admin_data: Annotated[str, Depends(auth.jwt_auth)], id_pr_model: int) -> None:
     await ProductModelsService.delete_product_models_by_id(engine=engine, token=admin_data, id_pr_m=id_pr_model)
