@@ -1,7 +1,6 @@
 # System
 import logging as logger
-from typing import List, Union, Dict, Type
-from typing import List, Union, Dict, Coroutine, Any, Type
+from typing import List, Union
 
 # Other libraries
 from fastapi.responses import FileResponse
@@ -9,11 +8,19 @@ from fastapi import status
 
 # Local
 from src.database.repository.category_repository import Category
-from src.api.core.category_catalog.schemas.category_dto import *
+from src.api.core.category_catalog.schemas.category_dto import (
+    CategoriesList,
+    DataCategoryToUpdate,
+    CategoryBase,
+    CategoryIsCreated,
+    CategoryIsFinded,
+    CategoryIsUpdated,
+)
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.category_catalog.error.http_category_exception import CategoryHttpError
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
-from src.api.core.category_catalog.error.http_category_exception import CategoryHttpError
+from src.api.core.category_catalog.error.http_category_exception import (
+    CategoryHttpError,
+)
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 
@@ -30,7 +37,10 @@ class CategoryService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_category(
-        engine: IEngineRepository, token: str, new_category: CategoryBase, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        new_category: CategoryBase,
+        token_data: dict = dict(),
     ) -> CategoryIsCreated:
         """
         Метод сервиса для создания новой категории товаров
@@ -40,12 +50,16 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Создание новой категории товара")
+        logging.info(
+            msg=f"{CategoryService.__name__} Создание новой категории товара"
+        )
 
         async with engine:
             # Find user in Admin table
-            find_admin = await engine.admin_repository.find_admin_by_email_and_password(
-                email=token_data.get("email")
+            find_admin = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    email=token_data.get("email")
+                )
             )
 
             if find_admin:
@@ -56,27 +70,35 @@ class CategoryService:
                     return CategoryIsCreated(is_created=True)
                 await CategoryHttpError().http_failed_to_create_a_new_category()
 
-            logging.critical(msg=f"{CategoryService.__name__} Не удалось создать новую категорию товара")
+            logging.critical(
+                msg=f"{CategoryService.__name__} "
+                f"Не удалось создать новую категорию товара"
+            )
             await UserHttpError().http_user_not_found()
 
     @staticmethod
     async def get_icon_category(
-        engine: IEngineRepository,
-        id_category: int
+        engine: IEngineRepository, id_category: int
     ) -> FileResponse:
-        
-        logger.info(msg=f"{CategoryService.__name__} Получение иконки категории")
-        
+
+        logger.info(
+            msg=f"{CategoryService.__name__} Получение иконки категории"
+        )
+
         async with engine:
-            category_data = await engine.category_repository.find_one(other_id=id_category)
+            category_data = await engine.category_repository.find_one(
+                other_id=id_category
+            )
             if category_data:
                 return FileResponse(
-                    path="src/static/images/{}".format(category_data[0].icon_category),
+                    path="src/static/images/{}".format(
+                        category_data[0].icon_category
+                    ),
                     filename="logo_category",
                     media_type="image/jpeg",
-                    status_code=status.HTTP_200_OK
+                    status_code=status.HTTP_200_OK,
                 )
-            
+
             await CategoryHttpError().http_not_found_a_icon()
 
     @redis
@@ -91,7 +113,10 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Поиск категории по названию name_category={name_category}")
+        logging.info(
+            msg=f"{CategoryService.__name__} "
+            f"Поиск категории по названию name_category={name_category}"
+        )
         async with engine:
             # Find category
             is_found: bool = await engine.category_repository.find_by_name(
@@ -101,7 +126,9 @@ class CategoryService:
 
     @redis
     @staticmethod
-    async def find_all_categories(engine: IEngineRepository, redis_search_data: str):
+    async def find_all_categories(
+        engine: IEngineRepository, redis_search_data: str
+    ):
         """
         Метод сервиса для получения всех категорий
         :param session:
@@ -111,7 +138,9 @@ class CategoryService:
         logging.info(msg=f"{CategoryService.__name__} Получение всех категорий")
         async with engine:
             # Get categories
-            categories: List[CategoryBase] = await engine.category_repository.find_all()
+            categories: List[CategoryBase] = (
+                await engine.category_repository.find_all()
+            )
             result = CategoriesList(
                 categories=[
                     CategoryBase(name_category=category[0].name_category)
@@ -132,21 +161,30 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Поиск категории по id={id_category}")
+        logging.info(
+            msg=f"{CategoryService.__name__} "
+            f"Поиск категории по id={id_category}"
+        )
         async with engine:
             # Get category
-            category: Union[None, Category] = await engine.category_repository.find_one(
-                other_id=id_category
+            category: Union[None, Category] = (
+                await engine.category_repository.find_one(other_id=id_category)
             )
             if category:
                 return CategoryBase(name_category=category[0].name_category)
-            logging.critical(msg=f"{CategoryService.__name__} Не удалось найти категорию по id={id_category}")
+            logging.critical(
+                msg=f"{CategoryService.__name__} "
+                f"Не удалось найти категорию по id={id_category}"
+            )
             await CategoryHttpError().http_category_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_category(
-        engine: IEngineRepository, token: str, data_to_update: DataCategoryToUpdate, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        data_to_update: DataCategoryToUpdate,
+        token_data: dict = dict(),
     ) -> CategoryIsUpdated:
         """
         Метод сервиса для обновления категории
@@ -155,19 +193,24 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Обновление названия категории")
+        logging.info(
+            msg=f"{CategoryService.__name__} Обновление названия категории"
+        )
         async with engine:
 
             # Find admin
-            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
-                token_data.get("email")
+            is_admin = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    token_data.get("email")
+                )
             )
 
             if is_admin:
                 # Find category
                 find_category: Union[None, Category] = (
                     await engine.category_repository.find_by_name(
-                        category_name=data_to_update.name_category, type_find=True
+                        category_name=data_to_update.name_category,
+                        type_find=True,
                     )
                 )
 
@@ -180,13 +223,19 @@ class CategoryService:
                         },
                     )
                     return CategoryIsUpdated(is_updated=is_updated)
-            logging.critical(msg=f"{CategoryService.__name__} Не удалось обновить данные по категории")
+            logging.critical(
+                msg=f"{CategoryService.__name__} "
+                f"Не удалось обновить данные по категории"
+            )
             await CategoryHttpError().http_category_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_category(
-        engine: IEngineRepository, id_category: int, token: str, token_data: dict = dict()
+        engine: IEngineRepository,
+        id_category: int,
+        token: str,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса для удаления категории по id
@@ -195,10 +244,15 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Удаление категории по id={id_category}")
+        logging.info(
+            msg=f"{CategoryService.__name__} "
+            f"Удаление категории по id={id_category}"
+        )
         async with engine:
-            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
-                token_data.get("email")
+            is_admin = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    token_data.get("email")
+                )
             )
             if is_admin:
                 is_del = await engine.category_repository.delete_one(
@@ -207,5 +261,9 @@ class CategoryService:
                 if is_del:
                     return
                 await CategoryHttpError().http_failed_to_delete_category()
-            logging.critical(msg=f"{CategoryService.__name__} Не удалось удалить категорию по id={id_category}")
+            logging.critical(
+                msg=f"{CategoryService.__name__} "
+                f"Не удалось удалить категорию по "
+                f"id={id_category}"
+            )
             await UserHttpError().http_user_not_found()

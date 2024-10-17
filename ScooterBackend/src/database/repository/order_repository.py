@@ -29,9 +29,11 @@ class OrderRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Удаление нескольких"
-                         f" заказов id = {id_orders}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Удаление нескольких"
+            f" заказов id = {id_orders}"
+        )
         for id_order in id_orders:
             del_order = delete(Order).where(Order.id == id_order)
             await self.async_session.execute(del_order)
@@ -52,17 +54,18 @@ class OrderRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Получение полной информации"
-                         f" по id_user = {id_user},"
-                         f" id_order = {id_order}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Получение полной информации"
+            f" по id_user = {id_user},"
+            f" id_order = {id_order}"
+        )
         if id_user:
             stmt = (
                 select(Order)
                 .where(Order.id_user == id_user)
                 .options(
-                    joinedload(Order.ord_user),
-                    joinedload(Order.product_info)
+                    joinedload(Order.ord_user), joinedload(Order.product_info)
                 )
             )
         else:
@@ -70,8 +73,7 @@ class OrderRepository(GeneralSQLRepository):
                 select(Order)
                 .where(Order.id == id_order)
                 .options(
-                    joinedload(Order.ord_user),
-                    joinedload(Order.product_info)
+                    joinedload(Order.ord_user), joinedload(Order.product_info)
                 )
             )
 
@@ -81,8 +83,9 @@ class OrderRepository(GeneralSQLRepository):
             ).one_or_none()
             return orders_data
         else:
-            orders_data = ((await self.async_session.execute(stmt))
-                           .unique()).fetchall()
+            orders_data = (
+                (await self.async_session.execute(stmt)).unique()
+            ).fetchall()
 
             if orders_data:
                 return orders_data[0]

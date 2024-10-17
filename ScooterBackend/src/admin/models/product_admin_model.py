@@ -2,7 +2,7 @@ from fastapi import Request
 from sqladmin import ModelView
 from sqladmin.exceptions import SQLAdminException
 import wtforms
-from typing import Coroutine, List, Any, Tuple
+from typing import Coroutine, Any, Tuple
 from src.database.models.product import Product
 from src.other.image.image_saver import ImageSaver
 from typing import Union
@@ -16,11 +16,27 @@ class ProductModelView(ModelView, model=Product):
     icon: str = "fa fa-motorcycle"
     category: str = "Продукт"
 
-    column_list: list = [Product.id, Product.id_s_sub_category, Product.brand,
-                         Product.brand_mark, Product.product_models_data, Product.title_product, Product.article_product, Product.explanation_product,
-                         Product.weight_product, Product.quantity_product, Product.price_product, Product.price_with_discount, Product.date_create_product,
-                         Product.date_update_information, Product.photo_product, Product.sub_sub_category_data,
-                         Product.order, Product.reviews, Product.product_info_for_fav]
+    column_list: list = [
+        Product.id,
+        Product.id_s_sub_category,
+        Product.brand,
+        Product.brand_mark,
+        Product.product_models_data,
+        Product.title_product,
+        Product.article_product,
+        Product.explanation_product,
+        Product.weight_product,
+        Product.quantity_product,
+        Product.price_product,
+        Product.price_with_discount,
+        Product.date_create_product,
+        Product.date_update_information,
+        Product.photo_product,
+        Product.sub_sub_category_data,
+        Product.order,
+        Product.reviews,
+        Product.product_info_for_fav,
+    ]
 
     column_labels: dict = {
         Product.id: "Идентификатор продукта",
@@ -39,7 +55,7 @@ class ProductModelView(ModelView, model=Product):
         Product.date_create_product: "Дата создания",
         Product.date_update_information: "Дата обновления",
         Product.photo_product: "Фотография",
-        Product.sub_sub_category_data: "Данные подкатегории"
+        Product.sub_sub_category_data: "Данные подкатегории",
     }
 
     # Operation's
@@ -69,7 +85,7 @@ class ProductModelView(ModelView, model=Product):
         "product_models_data",
         "category_data",
         "sub_category_datas",
-        "sub_l2_category_data"
+        "sub_l2_category_data",
     ]
 
     # Form's for FK
@@ -91,17 +107,17 @@ class ProductModelView(ModelView, model=Product):
             "order_by": ("id"),
         },
         "product_info_for_fav": {"fields": ("id",), "order_by": ("id")},
-        "sub_sub_category_data": {"fields": ("id", ), "order_by": ("id")},
-        "product_models_data": {"fields": ("id", ), "order_by": ("id")}
+        "sub_sub_category_data": {"fields": ("id",), "order_by": ("id")},
+        "product_models_data": {"fields": ("id",), "order_by": ("id")},
     }
 
     # Photo check
-    form_overrides = dict(photo_product=wtforms.FileField)  
+    form_overrides = dict(photo_product=wtforms.FileField)
 
     async def on_model_change(
         self, data: dict, model: Any, is_created: bool, request: Request
     ) -> None:
-                
+
         # Check file
         if "image" in str(data.get("photo_product").headers["content-type"]):
 
@@ -123,7 +139,9 @@ class ProductModelView(ModelView, model=Product):
         await image_service.remove_file()
         return
 
-    async def get_detail_value(self, obj: Any, prop: str) -> Coroutine[Any, Any, Tuple[Any, Any]]:
+    async def get_detail_value(
+        self, obj: Any, prop: str
+    ) -> Coroutine[Any, Any, Tuple[Any, Any]]:
 
         if prop == "photo_product":
             prev_obj_photo_data = obj.photo_product
@@ -131,7 +149,7 @@ class ProductModelView(ModelView, model=Product):
                 "type": "image",
                 "src": f"/static/images/{prev_obj_photo_data}",
                 "alt": "Фотография продукта",
-                "style": "width: 400px; height: auto"
+                "style": "width: 400px; height: auto",
             }
             return prev_obj_photo_data, formatted_value
         return await super().get_detail_value(obj, prop)

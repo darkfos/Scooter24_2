@@ -15,18 +15,18 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.id,
         SubCategory.name,
         SubCategory.id_category,
-        SubCategory.sub_sub_category_data
+        SubCategory.sub_sub_category_data,
     ]
 
     column_labels: dict = {
         SubCategory.id: "Идентификатор",
         SubCategory.name: "Название",
         SubCategory.id_category: "Категория",
-        SubCategory.sub_sub_category_data: "Данные подкатегории"
+        SubCategory.sub_sub_category_data: "Данные подкатегории",
     }
 
     form_ajax_refs: dict = {
-        "sub_sub_category_data": {"fields": ("id", ), "order_by": ("id")}
+        "sub_sub_category_data": {"fields": ("id",), "order_by": ("id")}
     }
 
     # Operations

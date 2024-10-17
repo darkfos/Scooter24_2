@@ -32,5 +32,5 @@ all_models: List = [
     MarkModelView,
     ModelModelView,
     ProductModelsModelView,
-    SSCategoryModelView
+    SSCategoryModelView,
 ]

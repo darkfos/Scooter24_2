@@ -8,11 +8,14 @@ from fastapi import APIRouter, status, Depends
 
 
 # Local
-from src.api.core.type_worker_catalog.service.type_worker_service \
-    import TypeWorkerService
+from src.api.core.type_worker_catalog.service.type_worker_service import (
+    TypeWorkerService,
+)
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.type_worker_catalog.schemas.type_worker_dto \
-    import (TypeWorkerBase, TypeWorkerList)
+from src.api.core.type_worker_catalog.schemas.type_worker_dto import (
+    TypeWorkerBase,
+    TypeWorkerList,
+)
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
@@ -20,7 +23,7 @@ from src.other.enums.api_enum import APITagsEnum, APIPrefix
 auth: Authentication = Authentication()
 type_worker_router: APIRouter = APIRouter(
     prefix=APIPrefix.TYPE_WORKER_PREFIX.value,
-    tags=[APITagsEnum.TYPE_WORKER.value]
+    tags=[APITagsEnum.TYPE_WORKER.value],
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 
@@ -51,13 +54,11 @@ async def create_new_type_worker(
 
     logger.info(
         msg="TypeWorker-Router вызов метода создания"
-            " типа рабочего (create_new_type_worker)"
+        " типа рабочего (create_new_type_worker)"
     )
 
     return await TypeWorkerService.create_a_new_type_worker(
-        engine=session,
-        token=admin_data,
-        new_type_worker=new_type_worker
+        engine=session, token=admin_data, new_type_worker=new_type_worker
     )
 
 
@@ -77,7 +78,7 @@ async def get_all_types_workers(
 
     logger.info(
         msg="TypeWorker-Router вызов метода получения"
-            " всех типов рабочих (get_all_types_workers)"
+        " всех типов рабочих (get_all_types_workers)"
     )
 
     return await TypeWorkerService.get_all_types(
@@ -100,7 +101,7 @@ async def get_type_worker_by_id(
 
     logger.info(
         msg="TypeWorker-Router вызов метода получение"
-            " типов работников по id (get_type_worker_by_id)"
+        " типов работников по id (get_type_worker_by_id)"
     )
 
     return await TypeWorkerService.get_type_worker_by_id(
@@ -133,11 +134,9 @@ async def delete_type_worker(
 
     logger.info(
         msg="TypeWorker-Router вызов метода"
-            " удаление типа рабочего (delete_type_worker)"
+        " удаление типа рабочего (delete_type_worker)"
     )
 
     return await TypeWorkerService.delete_type_worker(
-        engine=session,
-        id_type_worker=id_type,
-        token=admin_data
+        engine=session, id_type_worker=id_type, token=admin_data
     )

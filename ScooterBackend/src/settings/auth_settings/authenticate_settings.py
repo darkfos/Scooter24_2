@@ -12,30 +12,14 @@ class Authentication:
     Settings for authentication
     """
 
-    jwt_secret_key: Union[
-        str,
-        SettingsDescriptor,
-        int
-    ] = SettingsDescriptor()
-    jwt_secret_refresh_key: Union[
-        str,
-        SettingsDescriptor,
-        int
-    ] = (
+    jwt_secret_key: Union[str, SettingsDescriptor, int] = SettingsDescriptor()
+    jwt_secret_refresh_key: Union[str, SettingsDescriptor, int] = (
         SettingsDescriptor()
     )
-    time_work_secret_key: Union[
-        str,
-        SettingsDescriptor,
-        int
-    ] = (
+    time_work_secret_key: Union[str, SettingsDescriptor, int] = (
         SettingsDescriptor()
     )
-    time_work_refresh_secret_key: Union[
-        str,
-        SettingsDescriptor,
-        int
-    ] = (
+    time_work_refresh_secret_key: Union[str, SettingsDescriptor, int] = (
         SettingsDescriptor()
     )
     algorithm: Union[str, Type[SettingsDescriptor], int] = SettingsDescriptor()

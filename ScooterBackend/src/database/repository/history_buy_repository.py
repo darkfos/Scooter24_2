@@ -20,10 +20,7 @@ class HistoryBuyRepository(GeneralSQLRepository):
         self.model: Type[HistoryBuy] = HistoryBuy
         super().__init__(session=session, model=self.model)
 
-    async def del_more(
-            self,
-            id_histories: List[int]
-    ) -> bool:
+    async def del_more(self, id_histories: List[int]) -> bool:
         """
         Удаление нескольких записей об покупке
         товара
@@ -32,10 +29,12 @@ class HistoryBuyRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Удаление нескольких записей"
-                         f" об покупке товара "
-                         f"id = {id_histories}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Удаление нескольких записей"
+            f" об покупке товара "
+            f"id = {id_histories}"
+        )
         for id_history in id_histories:
             delete_history: Result = delete(HistoryBuy).where(
                 HistoryBuy.id == id_history
@@ -46,8 +45,7 @@ class HistoryBuyRepository(GeneralSQLRepository):
         return True
 
     async def find_by_user_id(
-            self,
-            id_user: int
+        self, id_user: int
     ) -> Union[List, List[HistoryBuy]]:
         """
         Получение истории покупок
@@ -55,9 +53,11 @@ class HistoryBuyRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Поиск пользователя по"
-                         f" id = {id_user}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Поиск пользователя по"
+            f" id = {id_user}"
+        )
         stmt = select(HistoryBuy).where(HistoryBuy.id_user == id_user)
         all_history = (await self.async_session.execute(stmt)).all()
 

@@ -1,16 +1,21 @@
 # System
-from typing import List, Dict, Union, Coroutine, Any, Type
+from typing import List, Union
 import logging as logger
-
-# Other libraries
-...
 
 # Local
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.favourite_catalog.error.http_favourite_exception import FavouriteHttpError
+from src.api.core.favourite_catalog.error.http_favourite_exception import (
+    FavouriteHttpError,
+)
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.database.models.favourite import Favourite
-from src.api.core.favourite_catalog.schemas.favourite_dto import *
+from src.api.core.favourite_catalog.schemas.favourite_dto import (
+    FavouriteInformation,
+    FavouriteSmallData,
+    ListFavouriteBase,
+    FavouriteBase,
+    AddFavourite,
+)
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 
@@ -28,7 +33,10 @@ class FavouriteService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_favourite_product(
-        engine: IEngineRepository, token: str, new_product_in_favourite: AddFavourite, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        new_product_in_favourite: AddFavourite,
+        token_data: dict = dict(),
     ) -> None:
         """
         Добавление нового товара в избранное
@@ -37,8 +45,11 @@ class FavouriteService:
         :param new_product_in_favourite:
         :return:
         """
-        
-        logging.info(msg=f"{FavouriteService.__name__} Добавление нового товара в избранное")
+
+        logging.info(
+            msg=f"{FavouriteService.__name__} Добавление нового"
+            f" товара в избранное"
+        )
         async with engine:
             # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
@@ -50,14 +61,20 @@ class FavouriteService:
 
             if is_created:
                 return
-            logging.critical(msg=f"{FavouriteService.__name__} Не удалось добавить новый товар в избранное")
+            logging.critical(
+                msg=f"{FavouriteService.__name__} Не удалось добавить"
+                f" новый товар в избранное"
+            )
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_all_favourite_product_by_user_id(
-        engine: IEngineRepository, token: str, redis_search_data: str, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        redis_search_data: str,
+        token_data: dict = dict(),
     ) -> FavouriteBase:
         """
         Список всех избранных товаров пользователя.
@@ -67,7 +84,10 @@ class FavouriteService:
         :return:
         """
 
-        logging.info(msg=f"{FavouriteService.__name__} Получения списка всех избранных товаров")
+        logging.info(
+            msg=f"{FavouriteService.__name__} Получения списка"
+            f" всех избранных товаров"
+        )
 
         async with engine:
             # Получаем список товаров
@@ -83,9 +103,9 @@ class FavouriteService:
                     product_data.append(
                         FavouriteBase(
                             product_info={
-                                "product_name": product.product_info.title_product,
-                                "price_product": product.product_info.price_product,
-                                "article_product": product.product_info.article_product,
+                                "product_name": product.product_info.title_product,  # noqa
+                                "price_product": product.product_info.price_product,  # noqa
+                                "article_product": product.product_info.article_product,  # noqa
                                 "tags": product.product_info.tags,
                             }
                         )
@@ -102,7 +122,7 @@ class FavouriteService:
         token: str,
         id_fav_product: int,
         redis_search_data: str,
-        token_data: dict = dict()
+        token_data: dict = dict(),
     ) -> FavouriteInformation:
         """
         Метод сервиса для получение полной информации о избранном товаре
@@ -112,7 +132,10 @@ class FavouriteService:
         :return:
         """
 
-        logging.info(msg=f"{FavouriteService.__name__} Получения полной информации о избранном товаре id={id_fav_product}")
+        logging.info(
+            msg=f"{FavouriteService.__name__} Получения полной информации"
+            f" о избранном товаре id={id_fav_product}"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -132,19 +155,23 @@ class FavouriteService:
                 if find_favourite_product:
                     return FavouriteInformation(
                         product_info={
-                            "name_product": find_favourite_product.product_info.title_product,
-                            "price_product": find_favourite_product.product_info.price_product,
-                            "description": find_favourite_product.product_info.explanation_product,
-                            "id_category": find_favourite_product.product_info.id_category,
+                            "name_product": find_favourite_product.product_info.title_product,  # noqa
+                            "price_product": find_favourite_product.product_info.price_product,  # noqa
+                            "description": find_favourite_product.product_info.explanation_product,  # noqa
+                            "id_category": find_favourite_product.product_info.id_category,  # noqa
                         },
                         user_detail_information={
-                            "email_user": find_favourite_product.fav_user.email_user,
-                            "name_user": find_favourite_product.fav_user.name_user,
+                            "email_user": find_favourite_product.fav_user.email_user,  # noqa
+                            "name_user": find_favourite_product.fav_user.name_user,  # noqa
                         },
                     )
 
                 await FavouriteHttpError().http_favourite_not_found()
-            logging.critical(msg=f"{FavouriteService.__name__} Не удалось получить полную информацию о избранном товара, не был найден пользователь")
+            logging.critical(
+                msg=f"{FavouriteService.__name__} Не удалось получить полную"
+                f" информацию о избранном товара, не был найден"
+                f" пользователь"
+            )
             await UserHttpError().http_user_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
@@ -159,7 +186,9 @@ class FavouriteService:
         :return:
         """
 
-        logging.info(msg=f"{FavouriteService.__name__} Получение всех избранных товаров")
+        logging.info(
+            msg=f"{FavouriteService.__name__} Получение всех избранных товаров"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -187,13 +216,19 @@ class FavouriteService:
 
                     return all_fav_products
                 return []
-            logging.critical(msg=f"{FavouriteService.__name__} не удалось получить список избранных товаров, пользователь не был найден")
+            logging.critical(
+                msg=f"{FavouriteService.__name__} не удалось получить "
+                f"список избранных товаров, пользователь не был найден"
+            )
             await UserHttpError().http_user_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_favourite_product(
-        engine: IEngineRepository, token: str, id_favourite: int, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        id_favourite: int,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса для удаление товара из списка избранных.
@@ -203,24 +238,34 @@ class FavouriteService:
         :return:
         """
 
-        logging.info(msg=f"{FavouriteService.__name__} Удаление товара из списка избранных id_favourite={id_favourite}")
+        logging.info(
+            msg=f"{FavouriteService.__name__} Удаление товара из "
+            f"списка избранных id_favourite={id_favourite}"
+        )
 
         async with engine:
             # Проверка на пользователя
             get_favourite_data: Union[None, Favourite] = (
-                await engine.favourite_repository.find_one(other_id=id_favourite)
+                await engine.favourite_repository.find_one(
+                    other_id=id_favourite
+                )
             )
 
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
 
                 if get_favourite_data.id_user == token_data.get("id_user"):
-                    is_deleted: bool = await engine.favourite_repository.delete_one(
-                        other_id=id_favourite
+                    is_deleted: bool = (
+                        await engine.favourite_repository.delete_one(
+                            other_id=id_favourite
+                        )
                     )
                     if is_deleted:
                         return
                     await FavouriteHttpError().http_failed_to_delete_favourite()
                 await UserHttpError().http_user_not_found()
-            logging.critical(msg=f"{FavouriteService.__name__} Не удалось удалить товар из списка избранных id_favourite={id_favourite}")
+            logging.critical(
+                msg=f"{FavouriteService.__name__} Не удалось удалить товар"
+                f" из списка избранных id_favourite={id_favourite}"
+            )
             await FavouriteHttpError().http_favourite_not_found()

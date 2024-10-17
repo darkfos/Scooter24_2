@@ -12,7 +12,7 @@ class RedisTools:
     __REDIS_CONNECTION: Final[Redis] = Redis(
         host=Settings.redis_settings.REDIS_HOST,
         port=Settings.redis_settings.REDIS_PORT,
-        db=0
+        db=0,
     )
 
     @classmethod
@@ -43,7 +43,7 @@ class RedisTools:
             # Set data in redis DB
             await self.set_key_and_value(
                 key=kwargs["redis_search_data"],
-                value=result_func.model_dump_json()
+                value=result_func.model_dump_json(),
             )
 
             # Logging

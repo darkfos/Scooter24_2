@@ -7,9 +7,10 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
 
 from src.database.repository.user_repository import UserRepository
+
 # Local
 from src.settings.engine_settings import Settings
-from src.api.core.auth_catalog.schemas.auth_dto import CreateToken, Tokens, AccessToken
+from src.api.core.auth_catalog.schemas.auth_dto import CreateToken, Tokens
 from src.other.enums.user_type_enum import UserTypeEnum
 from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.errors.general_exceptions import GeneralExceptions
@@ -26,6 +27,7 @@ logging = logger.getLogger(__name__)
 class Authentication:
 
     __instance: Union[None, "Authentication"] = None
+
     def __new__(cls, *args, **kwargs) -> "Authentication":
         if cls.__instance is None:
             Authentication.__instance = super().__new__(cls, *args, **kwargs)
@@ -33,7 +35,10 @@ class Authentication:
 
     def __init__(self):
         self.jwt_auth: OAuth2PasswordBearer = OAuth2PasswordBearer(
-            tokenUrl=APIPrefix.API_V_PREFIX.value+APIPrefix.AUTH_PREFIX.value+"/login"
+            tokenUrl=(
+                (APIPrefix.API_V_PREFIX.value + APIPrefix.AUTH_PREFIX.value)
+                + "/login"  # noqa
+            )
         )
 
     async def create_tokens(
@@ -45,7 +50,7 @@ class Authentication:
         :return:
         """
 
-        logging.info(msg=f"Сервис Аутентификации - создание токена")
+        logging.info(msg="Сервис Аутентификации - создание токена")
 
         async with engine:
             res_to_find_user: Union[bool, User] = (
@@ -62,17 +67,23 @@ class Authentication:
                 # verify password
                 check_password = CryptographyScooter().verify_password(
                     password=token_data.password,
-                    hashed_password=res_to_find_user.password_user
+                    hashed_password=res_to_find_user.password_user,
                 )
 
                 if check_password:
 
                     data_for_token: Dict[str, str] = {
-                        "is_admin": True if res_to_find_user.id_type_user == 2 else False,
-                        "sub": res_to_find_user.id
+                        "is_admin": (
+                            True
+                            if res_to_find_user.id_type_user == 2
+                            else False
+                        ),
+                        "sub": res_to_find_user.id,
                     }
 
-                    data_for_refresh_token: Dict[str, str] = data_for_token.copy()
+                    data_for_refresh_token: Dict[str, str] = (
+                        data_for_token.copy()
+                    )
                     data_for_token.update(
                         {
                             "exp": (
@@ -105,9 +116,14 @@ class Authentication:
                         Settings.auth_settings.algorithm,
                     )
 
-                    return Tokens(token=jwt_token, refresh_token=jwt_refresh_token)
-                
-            logging.critical(msg=f"Сервис Аутентификации - не удалось создать токен, пользователь не был найден")
+                    return Tokens(
+                        token=jwt_token, refresh_token=jwt_refresh_token
+                    )
+
+            logging.critical(
+                msg="Сервис Аутентификации - не удалось создать"
+                " токен, пользователь не был найден"
+            )
             await UserHttpError().http_user_not_found()
 
     async def decode_jwt_token(
@@ -119,9 +135,9 @@ class Authentication:
         :return:
         """
 
-        logging.info(msg=f"Сервис Аутентификации - декодирование токена")
+        logging.info(msg="Сервис Аутентификации - декодирование токена")
         try:
-            match type_token.lower():
+            match type_token.lower():  # fmt: skip
                 case "access":
                     token_data: Dict[str, str] = jwt.decode(
                         token,
@@ -137,10 +153,16 @@ class Authentication:
                     )
                     return token_data
                 case _:
-                    logging.info(msg=f"Сервис Аутентификации - ошибка декодирование токена, не удалось найти пользователя")
+                    logging.info(
+                        msg="Сервис Аутентификации - ошибка декодирование"
+                        " токена, не удалось найти пользователя"
+                    )
                     await UserHttpError().http_user_not_found()
         except jwt.PyJWTError as er:
-            logging.exception(msg=f"Сервис Аутентификации - не удалось декодировать токен, ошибка={er}")
+            logging.exception(
+                msg=f"Сервис Аутентификации - не удалось"
+                f" декодировать токен, ошибка={er}"
+            )
             await GeneralExceptions().http_auth_error()
 
     async def update_token(self, refresh_token: str) -> dict:
@@ -150,7 +172,7 @@ class Authentication:
         :return:
         """
 
-        logging.info(msg=f"Сервис Аутентификации - обновление токена")
+        logging.info(msg="Сервис Аутентификации - обновление токена")
         try:
             token_data: Dict[str, str] = await self.decode_jwt_token(
                 token=refresh_token, type_token="refresh"
@@ -158,7 +180,9 @@ class Authentication:
             token_data.update(
                 {
                     "exp": datetime.utcnow()
-                    + timedelta(minutes=Settings.auth_settings.time_work_secret_key)
+                    + timedelta(
+                        minutes=Settings.auth_settings.time_work_secret_key
+                    )
                 }
             )
             new_access_token: str = jwt.encode(
@@ -168,10 +192,15 @@ class Authentication:
             )
             return new_access_token
         except jwt.PyJWTError as jwterr:
-            logging.info(msg=f"Сервис Аутентификации - ошибка обновления токена, error={jwterr}")
+            logging.info(
+                msg=f"Сервис Аутентификации - ошибка"
+                f" обновления токена, error={jwterr}"
+            )
             await GeneralExceptions().http_auth_error()
 
-    async def is_admin(self, session: AsyncSession, email: str, password: str) -> dict:
+    async def is_admin(
+        self, session: AsyncSession, email: str, password: str
+    ) -> dict:
         """
         Проверка, что данные соответствуют данным какого-либо администратора.
         :param engine:
@@ -179,28 +208,35 @@ class Authentication:
         :param password:
         """
 
-        logging.info(msg=f"Сервис Аутентификации - проверка прав пользователя (на администратора), email={email}")
-        is_admin: Union[User, None] = await UserRepository(session).find_user_by_email_and_password(
-            email=email
+        logging.info(
+            msg=f"Сервис Аутентификации - проверка прав"
+            f" пользователя (на администратора), email={email}"
         )
+        is_admin: Union[User, None] = await UserRepository(
+            session
+        ).find_user_by_email_and_password(email=email)
 
         if is_admin and is_admin.id_type_user == UserTypeEnum.ADMIN.value:
-            
-            if CryptographyScooter().verify_password(password=password, hashed_password=is_admin.password_user):
+
+            if CryptographyScooter().verify_password(
+                password=password, hashed_password=is_admin.password_user
+            ):
                 token_access_data: Dict[Union[str, int], Union[str, int]] = {
                     "sub": is_admin.id,
-                    "is_admin": True
+                    "is_admin": True,
                 }
                 token_refresh_data: Dict[Union[str, int], Union[str, int]] = {
                     "sub": is_admin.id,
-                    "is_admin": True
+                    "is_admin": True,
                 }
 
                 token_access_data.update(
                     {
                         "exp": (
                             datetime.now()
-                            + timedelta(minutes=Settings.auth_settings.time_work_secret_key)
+                            + timedelta(
+                                minutes=Settings.auth_settings.time_work_secret_key
+                            )
                         )
                     }
                 )
@@ -229,7 +265,10 @@ class Authentication:
 
         await session.close()
 
-        logging.critical(msg=f"Сервис Аутентификации - пользователь не прошел проверка на администратора, email={email}")
+        logging.critical(
+            msg=f"Сервис Аутентификации - пользователь не "
+            f"прошел проверка на администратора, email={email}"
+        )
         await UserHttpError().http_user_not_found()
 
     def __call__(cls, worker: str):
@@ -237,14 +276,22 @@ class Authentication:
             async def auth_json_wrapper(*args, **kwargs):
                 match worker:
                     case AuthenticationEnum.CREATE_TOKEN.value:
-                        res = await cls.create_tokens(engine=kwargs["session"], token_data=kwargs["token_data"])
+                        res = await cls.create_tokens(
+                            engine=kwargs["session"],
+                            token_data=kwargs["token_data"],
+                        )
                         return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.DECODE_TOKEN.value:
-                        res = await cls.decode_jwt_token(token=kwargs["token"], type_token="access")
+                        res = await cls.decode_jwt_token(
+                            token=kwargs["token"], type_token="access"
+                        )
                         return await func(*args, **kwargs, token_data=res)
                     case AuthenticationEnum.UPDATE_TOKEN.value:
-                        res = await cls.update_token(refresh_token=kwargs["refresh_token"])
+                        res = await cls.update_token(
+                            refresh_token=kwargs["refresh_token"]
+                        )
                         return await func(*args, **kwargs, new_token=res)
+
             return auth_json_wrapper
+
         return auth_wrapper
-        

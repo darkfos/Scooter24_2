@@ -24,8 +24,7 @@ from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 user_router: APIRouter = APIRouter(
-    prefix=APIPrefix.USER_PREFIX.value,
-    tags=[APITagsEnum.USER.value]
+    prefix=APIPrefix.USER_PREFIX.value, tags=[APITagsEnum.USER.value]
 )
 auth: Authentication = Authentication()
 logger: Type[logging.Logger] = logging.getLogger(__name__)
@@ -56,7 +55,7 @@ async def get_information_about_user(
 
     logger.info(
         msg="User-Router вызов метод получения"
-            " краткой информации о пользователе (information_about_user)"
+        " краткой информации о пользователе (information_about_user)"
     )
 
     return await UserService.get_information_about_me(
@@ -93,7 +92,7 @@ async def get_full_information_about_user(
 
     logger.info(
         msg="User-Router вызов метод получения полной"
-            " информации о пользователе (full_information_about_user)"
+        " информации о пользователе (full_information_about_user)"
     )
 
     return await UserService.get_full_information(
@@ -128,7 +127,7 @@ async def get_user_data_and_all_reviews(
 
     logger.info(
         msg="User-Router вызов метод получения"
-            " всех отзывов пользователя (user_reviews)"
+        " всех отзывов пользователя (user_reviews)"
     )
 
     return await UserService.get_information_about_me_and_review(
@@ -163,7 +162,7 @@ async def get_user_data_and_all_favourites_product(
 
     logger.info(
         msg="User-Router вызов метод получения"
-            " всех избранных товаров пользователя (user_favourites)"
+        " всех избранных товаров пользователя (user_favourites)"
     )
 
     return await UserService.get_information_about_me_and_favourite(
@@ -198,7 +197,7 @@ async def get_user_data_and_all_orders(
 
     logger.info(
         msg="User-Router вызов метод получения всех"
-            " заказов пользователя (get_user_data_and_all_orders)"
+        " заказов пользователя (get_user_data_and_all_orders)"
     )
 
     return await UserService.get_information_about_me_and_orders(
@@ -233,7 +232,7 @@ async def get_user_data_and_history(
 
     logger.info(
         msg="User-Router вызов метод получения"
-            " всей истории пользователя (user_history)"
+        " всей истории пользователя (user_history)"
     )
 
     return await UserService.get_information_about_me_and_history(
@@ -272,7 +271,7 @@ async def get_information_about_other_users(
 
     logger.info(
         msg="User-Router вызов метод получения краткой информации"
-            " о другом пользователе по id (get_information_about_other_users)"
+        " о другом пользователе по id (get_information_about_other_users)"
     )
 
     return await UserService.get_information_about_user(
@@ -312,7 +311,7 @@ async def get_all_information_about_other_users(
 
     logger.info(
         msg="User-Router вызов метод получение полной информации"
-            " о пользователе по id (other_user_all_data)"
+        " о пользователе по id (other_user_all_data)"
     )
 
     return await UserService.get_full_information_other_user(
@@ -346,13 +345,11 @@ async def update_user_information(
 
     logger.info(
         msg="User-Router вызов метод обновления"
-            " информации о пользователе (update_user_information)"
+        " информации о пользователе (update_user_information)"
     )
 
     return await UserService.update_user_information(
-        engine=session,
-        token=user_data,
-        to_update=data_to_update
+        engine=session, token=user_data, to_update=data_to_update
     )
 
 
@@ -378,7 +375,7 @@ async def update_address_data(
 
     logger.info(
         msg="User-Router вызов метод обновления"
-            " адресных данных пользователя (update_user_address_data)"
+        " адресных данных пользователя (update_user_address_data)"
     )
 
     return await UserService.update_address_user_data(
@@ -408,7 +405,7 @@ async def delete_user(
 
     logger.info(
         msg="User-Router вызов метод"
-            " удаления пользователя по id (delete_user)"
+        " удаления пользователя по id (delete_user)"
     )
 
     return await UserService.delete_user(engine=session, token=user_data)

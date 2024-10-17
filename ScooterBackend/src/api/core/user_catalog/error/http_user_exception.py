@@ -59,5 +59,5 @@ class UserHttpError(APIError):
 
         await self.api_error(
             code=status.HTTP_423_LOCKED,
-            detail_inf="Пользователь не активировал свою учетную запись"
+            detail_inf="Пользователь не активировал свою учетную запись",
         )

@@ -6,8 +6,9 @@ import logging
 
 # Local
 from src.settings.engine_settings import Settings
-from src.settings.other_settings.email_transfer_settings \
-    import EmailTransferSettings
+from src.settings.other_settings.email_transfer_settings import (
+    EmailTransferSettings,
+)
 
 
 class EmailTransfer:
@@ -48,7 +49,8 @@ class EmailTransfer:
         # Logging
         logging.info(
             msg="Email отправка сообщения {} по почте"
-                "".format(text_to_message))
+            "".format(text_to_message)
+        )
 
         # Отправка
         self.smtp_server.send_message(new_message)

@@ -23,9 +23,10 @@ class AdminPanelAuthentication(AuthenticationBackend):
 
         # Validate
         jwt_admin_data: Type[Tokens] = await self.auth_service.is_admin(
-            session=await db_work.get_session(), email=username, password=password
+            session=await db_work.get_session(),
+            email=username,
+            password=password,
         )
-
 
         if jwt_admin_data:
             request.session.update(
@@ -38,16 +39,16 @@ class AdminPanelAuthentication(AuthenticationBackend):
             return True
         return False
 
-    async def authenticate(self, request: Type[Request]) -> Union[Type[Response], bool]:
+    async def authenticate(
+        self, request: Type[Request]
+    ) -> Union[Type[Response], bool]:
         tokens: tuple = request.session.get("token"), request.session.get(
             "refresh_token"
         )
 
         if tokens[-1]:
             # Check jwt token and update this as needed
-            update_tokens = await self.auth_service.update_token(
-                refresh_token=tokens[-1]
-            )
+            await self.auth_service.update_token(refresh_token=tokens[-1])
             return True
         return False
 

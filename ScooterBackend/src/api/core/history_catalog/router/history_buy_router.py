@@ -1,5 +1,5 @@
 # System
-from typing import Annotated, Type
+from typing import Annotated, Type, List, Union
 import logging
 
 # Other libraries
@@ -8,17 +8,18 @@ from fastapi import Depends, status, APIRouter
 
 # Local
 from src.api.authentication.secure.authentication_service import Authentication
-from src.database.db_worker import db_work
-from src.api.core.history_catalog.schemas.history_buy_dto import *
-from src.api.core.history_catalog.service.history_buy_service import HistoryBuyService
+from src.api.core.history_catalog.schemas.history_buy_dto import HistoryBuyBase
+from src.api.core.history_catalog.service.history_buy_service import (
+    HistoryBuyService,
+)
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
-
 auth: Authentication = Authentication()
 history_buy_router: APIRouter = APIRouter(
-    prefix=APIPrefix.HISTORY_BUY_PREFIX.value, tags=[APITagsEnum.HISTORY_BUY.value]
+    prefix=APIPrefix.HISTORY_BUY_PREFIX.value,
+    tags=[APITagsEnum.HISTORY_BUY.value],
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 
@@ -47,7 +48,10 @@ async def create_new_history(
     :return:
     """
 
-    logger.info(msg="History-Router вызов метода создания новой истории покупки (create_new_history)")
+    logger.info(
+        msg="History-Router вызов метода создания новой"
+        " истории покупки (create_new_history)"
+    )
 
     return await HistoryBuyService.create_history(
         engine=session,
@@ -78,8 +82,11 @@ async def get_all_histories_for_user(
     :return:
     """
 
-    logger.info(msg="Favourite-Router вызов метода получения всей истории покупок пользователя (get_all_histories_for_user)")
-    
+    logger.info(
+        msg="Favourite-Router вызов метода получения всей истории"
+        " покупок пользователя (get_all_histories_for_user)"
+    )
+
     return await HistoryBuyService.get_all_histories_for_user(
         engine=session, token=user_data
     )
@@ -108,7 +115,10 @@ async def get_data_about_history_by_id(
     :return:
     """
 
-    logger.info(msg="Favourite-Router вызов метода получение данных об истории (get_history_by_id)")
+    logger.info(
+        msg="Favourite-Router вызов метода получение"
+        " данных об истории (get_history_by_id)"
+    )
 
     return await HistoryBuyService.get_history_by_id(
         engine=session, token=user_data, id_history=id_history
@@ -141,7 +151,10 @@ async def delete_history_by_id(
     :return:
     """
 
-    logger.info(msg="Favourite-Router вызов метода удаления истории по id (delete_history_by_id)")
+    logger.info(
+        msg="Favourite-Router вызов метода удаления"
+        " истории по id (delete_history_by_id)"
+    )
 
     return await HistoryBuyService.delete_history_by_id(
         engine=session, token=admin_data, id_history=id_history

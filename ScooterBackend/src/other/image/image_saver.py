@@ -29,7 +29,7 @@ class ImageSaver:
                 # Logging
                 logging.info(
                     msg="Image Saver (Admin Panel)"
-                        " сохранение фотографии в директории"
+                    " сохранение фотографии в директории"
                 )
 
                 with open(
@@ -38,8 +38,9 @@ class ImageSaver:
                     shutil.copyfileobj(file.file, file_catalog)
             else:
                 # Logging
-                logging.info(msg="Image Saver сохранение"
-                                 " фотографии в директории")
+                logging.info(
+                    msg="Image Saver сохранение" "фотографии в директории"
+                )
                 with open(
                     file=self.init_url + self.filename, mode="wb"
                 ) as file_catalog:

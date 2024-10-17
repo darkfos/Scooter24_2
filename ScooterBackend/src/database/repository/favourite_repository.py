@@ -21,10 +21,7 @@ class FavouriteRepository(GeneralSQLRepository):
         self.model: Type[Favourite] = Favourite
         super().__init__(session=session, model=self.model)
 
-    async def del_more(
-            self,
-            id_favourites: List[int]
-    ) -> bool:
+    async def del_more(self, id_favourites: List[int]) -> bool:
         """
         Удаление нескольких избранных товаров
         :param args:
@@ -32,10 +29,12 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Осуществлён процесс удаления"
-                         f" избранных товаров "
-                         f"id_favourites={id_favourites}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Осуществлён процесс удаления"
+            f" избранных товаров "
+            f"id_favourites={id_favourites}"
+        )
 
         for id_fav in id_favourites:
             del_favourite: Result = delete(Favourite).where(
@@ -55,17 +54,19 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Осуществлён процесс получения"
-                         f" списка избранных товаров"
-                         f" по id_user=%s" % id_user)
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Осуществлён процесс получения"
+            f" списка избранных товаров"
+            f" по id_user=%s" % id_user
+        )
 
         stmt = (
             select(Favourite)
             .where(Favourite.id_user == id_user)
             .options(
                 joinedload(Favourite.fav_user),
-                joinedload(Favourite.product_info)
+                joinedload(Favourite.product_info),
             )
         )
 
@@ -86,16 +87,18 @@ class FavouriteRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Осуществлён процесс получения"
-                         f" полной информации о избранном"
-                         f" товаре по id = %s" % id_fav_product)
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Осуществлён процесс получения"
+            f" полной информации о избранном"
+            f" товаре по id = %s" % id_fav_product
+        )
         stmt = (
             select(Favourite)
             .where(Favourite.id == id_fav_product)
             .options(
                 joinedload(Favourite.fav_user),
-                joinedload(Favourite.product_info)
+                joinedload(Favourite.product_info),
             )
         )
         data_favourite_product = (

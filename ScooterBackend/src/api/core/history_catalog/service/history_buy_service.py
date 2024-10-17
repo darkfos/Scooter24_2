@@ -1,17 +1,15 @@
 # System
-from typing import List, Union, Dict, Coroutine, Any
+from typing import List, Union
 import logging as logger
-
-
-# Other libraries
-...
 
 # Local
 from src.api.authentication.secure.authentication_service import Authentication
 from src.database.models.history_buy import HistoryBuy
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
-from src.api.core.history_catalog.error.http_history_buy_exception import HistoryBuyHttpError
-from src.api.core.history_catalog.schemas.history_buy_dto import *
+from src.api.core.history_catalog.error.http_history_buy_exception import (
+    HistoryBuyHttpError,
+)
+from src.api.core.history_catalog.schemas.history_buy_dto import HistoryBuyBase
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 
@@ -25,7 +23,10 @@ class HistoryBuyService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_history(
-        engine: IEngineRepository, token: str, new_history: HistoryBuyBase, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        new_history: HistoryBuyBase,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса для создания новой истории
@@ -41,13 +42,17 @@ class HistoryBuyService:
             # Создание истории
             is_created: bool = await engine.history_buy_repository.add_one(
                 data=HistoryBuy(
-                    id_user=token_data.get("id_user"), id_product=new_history.id_product
+                    id_user=token_data.get("id_user"),
+                    id_product=new_history.id_product,
                 )
             )
 
             if is_created:
                 return
-            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось создать новую историю")
+            logging.critical(
+                msg=f"{HistoryBuyService.__name__} Не удалось"
+                f" создать новую историю"
+            )
             await HistoryBuyHttpError().http_failed_to_create_a_new_history()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
@@ -62,7 +67,9 @@ class HistoryBuyService:
         :return:
         """
 
-        logging.info(msg=f"{HistoryBuyService.__name__} Получение всей истории покупок")
+        logging.info(
+            msg=f"{HistoryBuyService.__name__} Получение всей истории покупок"
+        )
 
         async with engine:
             # Получение всей истории по id пользователя
@@ -78,11 +85,14 @@ class HistoryBuyService:
                     for history in all_user_history
                 ]
             return all_user_history
-    
+
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_history_by_id(
-        engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        id_history: int,
+        token_data: dict = dict(),
     ) -> HistoryBuyBase:
         """
         Метод сервиса для получения данных об истории
@@ -92,25 +102,40 @@ class HistoryBuyService:
         :return:
         """
 
-        logging.info(msg=f"{HistoryBuyService.__name__} Получение данных об истории")
+        logging.info(
+            msg=f"{HistoryBuyService.__name__} Получение данных об истории"
+        )
 
         async with engine:
             # Получение всей истории по id пользователя
             history_data: Union[None, HistoryBuy] = (
-                await engine.history_buy_repository.find_one(other_id=id_history)
+                await engine.history_buy_repository.find_one(
+                    other_id=id_history
+                )
             )
             if history_data:
                 if history_data[0].id_user == token_data.get("id_user"):
                     return HistoryBuyBase(id_product=history_data[0].id_product)
-                logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, пользователь не был найден")
+                logging.critical(
+                    msg=f"{HistoryBuyService.__name__} Не удалось"
+                    f" получить данные"
+                    f" об истории, пользователь"
+                    f" не был найден"
+                )
                 await UserHttpError().http_user_not_found()
-            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось получить данные об истории, не была найдена история")
+            logging.critical(
+                msg=f"{HistoryBuyService.__name__} Не удалось получить данные"
+                f" об истории, не была найдена история"
+            )
             await HistoryBuyHttpError().http_history_buy_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_history_by_id(
-        engine: IEngineRepository, token: str, id_history: int, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        id_history: int,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса для удаления истории
@@ -120,7 +145,10 @@ class HistoryBuyService:
         :return:
         """
 
-        logging.info(msg=f"{HistoryBuyService.__name__} Удаление истории id_history={id_history}")
+        logging.info(
+            msg=f"{HistoryBuyService.__name__} Удаление истории "
+            f"id_history={id_history}"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -129,11 +157,16 @@ class HistoryBuyService:
             )
 
             if is_admin:
-                is_deleted: bool = await engine.history_buy_repository.delete_one(
-                    other_id=id_history
+                is_deleted: bool = (
+                    await engine.history_buy_repository.delete_one(
+                        other_id=id_history
+                    )
                 )
                 if is_deleted:
                     return
                 await HistoryBuyHttpError().http_failed_to_delete_history()
-            logging.critical(msg=f"{HistoryBuyService.__name__} Не удалось удалить историю, id_history={id_history}")
+            logging.critical(
+                msg=f"{HistoryBuyService.__name__} Не удалось удалить историю,"
+                f" id_history={id_history}"
+            )
             await UserHttpError().http_user_not_found()

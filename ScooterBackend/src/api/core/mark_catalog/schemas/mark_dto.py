@@ -3,7 +3,7 @@ from typing import Annotated, List
 
 
 class MarkBase(BaseModel):
-    
+
     name_mark: Annotated[str, Field()]
 
 

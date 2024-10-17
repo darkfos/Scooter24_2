@@ -1,6 +1,6 @@
 # Other libraries
 from pydantic import BaseModel, Field
-from typing import List, Union, Annotated, Dict
+from typing import Union, Annotated, Dict
 
 # Local
 ...

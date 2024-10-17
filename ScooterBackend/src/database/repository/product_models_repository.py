@@ -11,11 +11,8 @@ class ProductModelsRepository(GeneralSQLRepository):
         super().__init__(session=session, model=ProductModels)
 
     async def find_all_models_by_id_product(
-            self,
-            id_product: int
+        self, id_product: int
     ) -> List[ProductModels]:
-        stmt = select(self.model).where(
-            self.model.id_product == id_product
-        )
+        stmt = select(self.model).where(self.model.id_product == id_product)
         result = (await self.async_session.execute(stmt)).fetchall()
         return result

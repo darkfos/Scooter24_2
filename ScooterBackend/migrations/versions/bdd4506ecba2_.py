@@ -1,14 +1,9 @@
 """empty message
 
 Revision ID: bdd4506ecba2
-Revises: 
+Revises:
 Create Date: 2024-06-01 19:02:33.077911
-
 """
-
-from alembic import op
-import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision = "bdd4506ecba2"

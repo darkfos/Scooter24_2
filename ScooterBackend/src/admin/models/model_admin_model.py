@@ -11,11 +11,15 @@ class ModelModelView(ModelView, model=Model):
     icon: str = "fa-solid fa-motorcycle"
     category: str = "Продукт"
 
-    column_list: List[Any] = [Model.id, Model.name_model, Model.product_models_data]
+    column_list: List[Any] = [
+        Model.id,
+        Model.name_model,
+        Model.product_models_data,
+    ]
     column_labels: Dict[Any, str] = {
         Model.id: "Идентификатор модели",
         Model.name_model: "Название модели",
-        Model.product_models_data: "Данные продукта"
+        Model.product_models_data: "Данные продукта",
     }
 
     # Operation's
@@ -26,5 +30,5 @@ class ModelModelView(ModelView, model=Model):
     can_view_details: bool = True
 
     form_ajax_refs: Dict[str, dict] = {
-        "product_models_data": {"fields": ("id", ), "order_by": ("id")}
+        "product_models_data": {"fields": ("id",), "order_by": ("id")}
     }

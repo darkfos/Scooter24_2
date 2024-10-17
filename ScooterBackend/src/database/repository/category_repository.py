@@ -21,9 +21,7 @@ class CategoryRepository(GeneralSQLRepository):
         super().__init__(session=session, model=self.model)
 
     async def find_by_name(
-            self,
-            category_name: str,
-            type_find: bool = False
+        self, category_name: str, type_find: bool = False
     ) -> bool:
         """
         Поиск категории по названию
@@ -32,28 +30,30 @@ class CategoryRepository(GeneralSQLRepository):
         """
 
         # Logging
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Осуществлен поиск категории"
-                         f" по названию "
-                         f"category_name={category_name},"
-                         f" type_find={type_find}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Осуществлен поиск категории"
+            f" по названию "
+            f"category_name={category_name},"
+            f" type_find={type_find}"
+        )
 
         stmt = select(Category).where(Category.name_category == category_name)
         res_to_find = (await self.async_session.execute(stmt)).one_or_none()
 
         if type_find:
             return res_to_find[0]
-        logging.critical(msg=f"{self.__class__.__name__} "
-                             f"Не удалось найти категорию"
-                             f" по названию "
-                             f"category_name={category_name},"
-                             f" type_find={type_find}")
+        logging.critical(
+            msg=f"{self.__class__.__name__} "
+            f"Не удалось найти категорию"
+            f" по названию "
+            f"category_name={category_name},"
+            f" type_find={type_find}"
+        )
         return False
 
     async def del_more(
-            self,
-            session: AsyncSession,
-            id_categories: List[int]
+        self, session: AsyncSession, id_categories: List[int]
     ) -> bool:
         """
         Удаление нескольких категорий
@@ -62,14 +62,14 @@ class CategoryRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} "
-                         f"Осуществление операции "
-                         f"удаления категории по "
-                         f"id_categories={id_categories}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Осуществление операции "
+            f"удаления категории по "
+            f"id_categories={id_categories}"
+        )
         for id_cat in id_categories:
-            delete_category = delete(Category).where(
-                Category.id == id_cat
-            )
+            delete_category = delete(Category).where(Category.id == id_cat)
             await session.execute((delete_category))
             await session.commit()
 

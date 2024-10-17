@@ -3,14 +3,12 @@ from typing import List, Union, Type
 import logging as logger
 
 # Local
-from src.api.core.user_catalog.error.http_user_exception \
-    import UserHttpError
-from src.api.core.vacancy_catalog.error.http_vacancies_exception \
-    import VacanciesHttpError
-from src.api.authentication.secure.authentication_service \
-    import Authentication
-from src.database.repository.vacancies_repository \
-    import Vacancies
+from src.api.core.user_catalog.error.http_user_exception import UserHttpError
+from src.api.core.vacancy_catalog.error.http_vacancies_exception import (
+    VacanciesHttpError,
+)
+from src.api.authentication.secure.authentication_service import Authentication
+from src.database.repository.vacancies_repository import Vacancies
 from src.api.core.vacancy_catalog.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
@@ -35,7 +33,7 @@ class VacanciesService:
         engine: IEngineRepository,
         token: str,
         vac_data: VacanciesBase,
-        token_data: dict = dict()
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса для создания новой вакансии
@@ -65,12 +63,16 @@ class VacanciesService:
 
                 if is_created:
                     return
-                logging.critical(msg=f"{VacanciesService.__name__} "
-                                     f"Не удалось создать новую вакансию")
+                logging.critical(
+                    msg=f"{VacanciesService.__name__} "
+                    f"Не удалось создать новую вакансию"
+                )
                 await VacanciesHttpError().http_dont_create_a_new_vacancies()
-            logging.critical(msg=f"{VacanciesService.__name__} "
-                                 f"Не удалось создать новую вакансию,"
-                                 f" пользователь не был найден")
+            logging.critical(
+                msg=f"{VacanciesService.__name__} "
+                f"Не удалось создать новую вакансию,"
+                f" пользователь не был найден"
+            )
             await UserHttpError().http_user_not_found()
 
     @redis
@@ -83,8 +85,9 @@ class VacanciesService:
         :session:
         """
 
-        logging.info(msg=f"{VacanciesService.__name__} "
-                         f"Получение списка вакансий")
+        logging.info(
+            msg=f"{VacanciesService.__name__} " f"Получение списка вакансий"
+        )
         async with engine:
             all_vacancies: Union[List, List[Vacancies]] = (
                 await engine.vacancies_repository.find_all()
@@ -111,9 +114,11 @@ class VacanciesService:
         :id_vacancies:
         """
 
-        logging.info(msg=f"{VacanciesService.__name__} "
-                         f"Получение информации о вакансии по "
-                         f"id={id_vacancies}")
+        logging.info(
+            msg=f"{VacanciesService.__name__} "
+            f"Получение информации о вакансии по "
+            f"id={id_vacancies}"
+        )
         async with engine:
             vacancies_data: Union[None, Vacancies] = (
                 await engine.vacancies_repository.find_one(
@@ -123,25 +128,26 @@ class VacanciesService:
 
             if vacancies_data:
                 return VacanciesBase(
-                    salary_employee=vacancies_data[0]
-                    .salary_employee,
-                    description_vacancies=vacancies_data[0]
-                    .description_vacancies,
-                    id_type_worker=vacancies_data[0]
-                    .id_type_worker,
+                    salary_employee=vacancies_data[0].salary_employee,
+                    description_vacancies=vacancies_data[
+                        0
+                    ].description_vacancies,
+                    id_type_worker=vacancies_data[0].id_type_worker,
                 )
-            logging.critical(msg=f"{VacanciesService.__name__} "
-                                 f"Не удалось получить информацию о заказе,"
-                                 f" заказ не был найден")
+            logging.critical(
+                msg=f"{VacanciesService.__name__} "
+                f"Не удалось получить информацию о заказе,"
+                f" заказ не был найден"
+            )
             await VacanciesHttpError().http_vacancies_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_vacancies(
         engine: IEngineRepository,
-        token: str, # noqa
+        token: str,  # noqa
         data_to_update: UpdateVacancies,
-        token_data: dict = dict()
+        token_data: dict = dict(),
     ):
         """
         Метод сервиса для обновления вакансии
@@ -166,12 +172,16 @@ class VacanciesService:
                 )
                 if is_updated:
                     return
-                logging.critical(msg=f"{VacanciesService.__name__} "
-                                     f"Не удалось обновить вакансию")
+                logging.critical(
+                    msg=f"{VacanciesService.__name__} "
+                    f"Не удалось обновить вакансию"
+                )
                 await VacanciesHttpError().http_dont_update_vacancies()
-            logging.critical(msg=f"{VacanciesService.__name__} "
-                                 f"Не удалось обновить вакансию,"
-                                 f" пользователь не был найден")
+            logging.critical(
+                msg=f"{VacanciesService.__name__} "
+                f"Не удалось обновить вакансию,"
+                f" пользователь не был найден"
+            )
             await UserHttpError().http_user_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
@@ -180,7 +190,7 @@ class VacanciesService:
         engine: IEngineRepository,
         token: str,
         id_vacancies: int,
-        token_data: dict = dict()
+        token_data: dict = dict(),
     ):
         """
         Метод сервиса для удаления вакансии
@@ -205,10 +215,14 @@ class VacanciesService:
                 )
                 if is_deleted:
                     return
-                logging.critical(msg=f"{VacanciesService.__name__} Не удалось"
-                                     f" удалить вакансию")
+                logging.critical(
+                    msg=f"{VacanciesService.__name__} Не удалось"
+                    f" удалить вакансию"
+                )
                 await VacanciesHttpError().http_dont_delete_vacancies()
-            logging.critical(msg=f"{VacanciesService.__name__} "
-                                 f"Не удалось удалить вакансию,"
-                                 f" пользователь не был найден")
+            logging.critical(
+                msg=f"{VacanciesService.__name__} "
+                f"Не удалось удалить вакансию,"
+                f" пользователь не был найден"
+            )
             await UserHttpError().http_user_not_found()

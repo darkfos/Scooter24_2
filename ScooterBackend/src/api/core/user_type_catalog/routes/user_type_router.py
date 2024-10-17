@@ -1,15 +1,17 @@
 from fastapi import APIRouter, status, Depends
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.user_type_catalog.service.user_type_service \
-    import (UserTypeService, NewUserType, AllUserType)
-from src.api.dep.dependencies import (IEngineRepository, EngineRepository)
-from src.other.enums.api_enum import (APITagsEnum, APIPrefix)
+from src.api.core.user_type_catalog.service.user_type_service import (
+    UserTypeService,
+    NewUserType,
+    AllUserType,
+)
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 
 user_type_router: APIRouter = APIRouter(
-    prefix=APIPrefix.USER_TYPE_PREFIX.value,
-    tags=[APITagsEnum.USER_TYPE.value]
+    prefix=APIPrefix.USER_TYPE_PREFIX.value, tags=[APITagsEnum.USER_TYPE.value]
 )
 
 auth: Authentication = Authentication()
@@ -28,12 +30,10 @@ auth: Authentication = Authentication()
 async def create_new_user_type(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    new_user_type: NewUserType
+    new_user_type: NewUserType,
 ) -> None:
     await UserTypeService.create_user_type(
-        engine=engine,
-        token=admin_data,
-        new_user_type=new_user_type
+        engine=engine, token=admin_data, new_user_type=new_user_type
     )
 
 
@@ -43,7 +43,7 @@ async def create_new_user_type(
     ### ENDPOINT - получение всех типов пользователей""",
     summary="Все типы пользователей",
     response_model=AllUserType,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def all_user_types(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)]

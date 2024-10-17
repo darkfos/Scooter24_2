@@ -1,17 +1,15 @@
 # Other libraries
-from fastapi import APIRouter, Depends, status, BackgroundTasks, Request
+from fastapi import APIRouter, Depends, status, BackgroundTasks
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
 
-from urllib3 import request
 
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
     Tokens,
     CreateToken,
-    RegistrationUser,
     RefreshUpdateToken,
     AccessToken,
 )
@@ -34,10 +32,14 @@ logger = logging.getLogger(__name__)
     path="/login",
     description="""
     ### Endpoint - (Авторизация | Создание токена).
-    Данный метод необходим для АВТОРИЗАЦИИ пользователя, и получения токенов доступа.\n
-    При успешном выполнении запроса выдаётся 2 токена, access token и refresh token.\n\n
-    1. Access токен - обычный токен, необходимый для выполнений всех дальнейших запросов.
-    2. Refresh токен - необходим только для ОБНОВЛЕНИЯ, получения нового ACCESS токена.\n\n
+    Данный метод необходим для АВТОРИЗАЦИИ пользователя,
+    и получения токенов доступа.
+    При успешном выполнении запроса выдаётся 2 токена,
+    access token и refresh token.\n\n
+    1. Access токен - обычный токен, необходимый для выполнений
+    всех дальнейших запросов.
+    2. Refresh токен - необходим только для ОБНОВЛЕНИЯ,
+    получения нового ACCESS токена.\n\n
     Для корректной обработки необходимо ввести почту и пароль.
     """,
     summary="Авторизация",
@@ -55,10 +57,14 @@ async def login_user(
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода авторизации пользователя (login_user)")
+    logger.info(
+        msg="Auth-Router вызов метода авторизации пользователя (login_user)"
+    )
 
     tokens = await authentication_app.create_tokens(
-        token_data=CreateToken(email=data_login.username, password=data_login.password),
+        token_data=CreateToken(
+            email=data_login.username, password=data_login.password
+        ),
         engine=session,
     )
 
@@ -85,8 +91,9 @@ async def login_user(
     status_code=status.HTTP_201_CREATED,
 )
 async def registration_user(
-    engine: Annotated[IEngineRepository, Depends(EngineRepository)], new_user: AddUser,
-    back_task: BackgroundTasks
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    new_user: AddUser,
+    back_task: BackgroundTasks,
 ):
     """
     Создание нового пользователя
@@ -95,17 +102,23 @@ async def registration_user(
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода регистрации пользователя (registration_user)")
+    logger.info(
+        msg="Auth-Router вызов метода регистрации"
+        " пользователя (registration_user)"
+    )
 
-    back_task.add_task(EmailService.send_secret_key_for_register, engine, new_user)
+    back_task.add_task(
+        EmailService.send_secret_key_for_register, engine, new_user
+    )
 
 
 @auth_router.post(
     path="/update_token",
     description="""
     ### Endpoint - Обновление токена.
-    Данный метод необходим для ОБНОВЛЕНИЯ access токена.\n
-    При успешном выполнении запроса выдаётся 2 токена, access token (Обновлённый) и refresh token.
+    Данный метод необходим для ОБНОВЛЕНИЯ access токена.
+    При успешном выполнении запроса выдаётся 2 токена,
+    access token (Обновлённый) и refresh token.
     """,
     summary="Обновление токена",
     response_model=Tokens,
@@ -119,7 +132,10 @@ async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода обновления токена (update_by_refresh_token)")
+    logger.info(
+        msg="Auth-Router вызов метода "
+        "обновления токена (update_by_refresh_token)"
+    )
 
     data_tokens: str = await authentication_app.update_token(
         refresh_token=refresh_token.refresh_token
@@ -147,7 +163,10 @@ async def create_and_send_secret_key(
     :user_email:
     """
 
-    logger.info(msg="Auth-Router вызов метода создания секретного ключа (create_and_send_secret_key)")
+    logger.info(
+        msg="Auth-Router вызов метода создания "
+        "секретного ключа (create_and_send_secret_key)"
+    )
 
     token_data: dict = await authentication_app.decode_jwt_token(
         token=user_data, type_token="access"
@@ -180,7 +199,10 @@ async def update_password_with_email(
     Обновление пароля пользователя
     """
 
-    logger.info(msg="Auth-Router вызов метода обновления пароля по секретному ключу (update_password_with_email)")
+    logger.info(
+        msg="Auth-Router вызов метода обновления "
+        "пароля по секретному ключу (update_password_with_email)"
+    )
 
     return await UserService.check_secret_key(
         engine=session,
@@ -197,11 +219,13 @@ async def update_password_with_email(
     description="""
     ### ENDPOINT - Подтверждение регистрации пользователя
     """,
-    summary="Подтверждение регистрации пользователя"
+    summary="Подтверждение регистрации пользователя",
 )
 async def access_user(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     secret_key: str,
-    email: str
+    email: str,
 ) -> None:
-    await EmailService.access_user_account(engine=engine, user_email=email, secret_key=secret_key)
+    await EmailService.access_user_account(
+        engine=engine, user_email=email, secret_key=secret_key
+    )

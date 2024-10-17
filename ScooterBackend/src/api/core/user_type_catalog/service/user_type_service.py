@@ -1,13 +1,16 @@
-from src.database.repository.user_type_repository \
-    import UserType
-from src.api.core.user_type_catalog.error.user_type_error \
-    import UserTypeException
-from src.api.core.user_catalog.error.http_user_exception \
-    import UserHttpError
-from src.api.core.user_type_catalog.schemas.user_type_dto \
-    import (NewUserType, AllUserType)
-from src.api.authentication.secure.authentication_service \
-    import (Authentication, AuthenticationEnum)
+from src.database.repository.user_type_repository import UserType
+from src.api.core.user_type_catalog.error.user_type_error import (
+    UserTypeException,
+)
+from src.api.core.user_catalog.error.http_user_exception import UserHttpError
+from src.api.core.user_type_catalog.schemas.user_type_dto import (
+    NewUserType,
+    AllUserType,
+)
+from src.api.authentication.secure.authentication_service import (
+    Authentication,
+    AuthenticationEnum,
+)
 from src.api.dep.dependencies import IEngineRepository
 
 auth: Authentication = Authentication()
@@ -18,10 +21,10 @@ class UserTypeService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_user_type(
-            engine: IEngineRepository,
-            token: str,
-            new_user_type: NewUserType,
-            token_data: dict = {}
+        engine: IEngineRepository,
+        token: str,
+        new_user_type: NewUserType,
+        token_data: dict = {},
     ) -> None:
         """
         Метод сервиса UserTypeService - создание новой роли пользователя
@@ -49,10 +52,7 @@ class UserTypeService:
             if result:
                 return AllUserType(
                     user_types=[
-                        UserType(
-                            id=data[0].id,
-                            name_type=data[0].name_type
-                        )
+                        UserType(id=data[0].id, name_type=data[0].name_type)
                         for data in result
                     ]
                 )
