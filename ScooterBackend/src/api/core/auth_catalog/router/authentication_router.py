@@ -5,22 +5,24 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
 
+
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
     Tokens,
     CreateToken,
-    RegistrationUser,
     RefreshUpdateToken,
     AccessToken,
 )
 from src.api.core.user_catalog.schemas.user_dto import AddUser
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_catalog.service.user_service import UserService
+from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth_router: APIRouter = APIRouter(
-    prefix="/auth", tags=["Auth - Система аутентификации, авторизации, регистрации"]
+    prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
 )
 authentication_app: Authentication = Authentication()
 logger = logging.getLogger(__name__)
@@ -30,10 +32,14 @@ logger = logging.getLogger(__name__)
     path="/login",
     description="""
     ### Endpoint - (Авторизация | Создание токена).
-    Данный метод необходим для АВТОРИЗАЦИИ пользователя, и получения токенов доступа.\n
-    При успешном выполнении запроса выдаётся 2 токена, access token и refresh token.\n\n
-    1. Access токен - обычный токен, необходимый для выполнений всех дальнейших запросов.
-    2. Refresh токен - необходим только для ОБНОВЛЕНИЯ, получения нового ACCESS токена.\n\n
+    Данный метод необходим для АВТОРИЗАЦИИ пользователя,
+    и получения токенов доступа.
+    При успешном выполнении запроса выдаётся 2 токена,
+    access token и refresh token.\n\n
+    1. Access токен - обычный токен, необходимый для выполнений
+    всех дальнейших запросов.
+    2. Refresh токен - необходим только для ОБНОВЛЕНИЯ,
+    получения нового ACCESS токена.\n\n
     Для корректной обработки необходимо ввести почту и пароль.
     """,
     summary="Авторизация",
@@ -51,14 +57,19 @@ async def login_user(
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода авторизации пользователя (login_user)")
+    logger.info(
+        msg="Auth-Router вызов метода авторизации пользователя (login_user)"
+    )
 
     tokens = await authentication_app.create_tokens(
-        token_data=CreateToken(email=data_login.username, password=data_login.password),
+        token_data=CreateToken(
+            email=data_login.username, password=data_login.password
+        ),
         engine=session,
     )
 
     # Set cookie's
+    response.set_cookie(key="access_key", value=tokens.token)
     response.set_cookie(key="refresh_key", value=tokens.refresh_token)
     response.set_cookie(key="token_type", value="bearer")
 
@@ -76,13 +87,14 @@ async def login_user(
     Данный метод необходим для регистрации пользователей.
     Для успешной регистрации необходима почта и пароль.
     """,
-    summary="Авторизация",
-    response_model=RegistrationUser,
+    summary="Регистрация",
     status_code=status.HTTP_201_CREATED,
 )
 async def registration_user(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], new_user: AddUser
-) -> RegistrationUser:
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    new_user: AddUser,
+    back_task: BackgroundTasks,
+):
     """
     Создание нового пользователя
     :param session:
@@ -90,17 +102,23 @@ async def registration_user(
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода регистрации пользователя (registration_user)")
+    logger.info(
+        msg="Auth-Router вызов метода регистрации"
+        " пользователя (registration_user)"
+    )
 
-    return await UserService.create_a_new_user(engine=session, new_user=new_user)
+    back_task.add_task(
+        EmailService.send_secret_key_for_register, engine, new_user
+    )
 
 
 @auth_router.post(
     path="/update_token",
     description="""
     ### Endpoint - Обновление токена.
-    Данный метод необходим для ОБНОВЛЕНИЯ access токена.\n
-    При успешном выполнении запроса выдаётся 2 токена, access token (Обновлённый) и refresh token.
+    Данный метод необходим для ОБНОВЛЕНИЯ access токена.
+    При успешном выполнении запроса выдаётся 2 токена,
+    access token (Обновлённый) и refresh token.
     """,
     summary="Обновление токена",
     response_model=Tokens,
@@ -114,7 +132,10 @@ async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
     :return:
     """
 
-    logger.info(msg="Auth-Router вызов метода обновления токена (update_by_refresh_token)")
+    logger.info(
+        msg="Auth-Router вызов метода "
+        "обновления токена (update_by_refresh_token)"
+    )
 
     data_tokens: str = await authentication_app.update_token(
         refresh_token=refresh_token.refresh_token
@@ -142,7 +163,10 @@ async def create_and_send_secret_key(
     :user_email:
     """
 
-    logger.info(msg="Auth-Router вызов метода создания секретного ключа (create_and_send_secret_key)")
+    logger.info(
+        msg="Auth-Router вызов метода создания "
+        "секретного ключа (create_and_send_secret_key)"
+    )
 
     token_data: dict = await authentication_app.decode_jwt_token(
         token=user_data, type_token="access"
@@ -175,11 +199,33 @@ async def update_password_with_email(
     Обновление пароля пользователя
     """
 
-    logger.info(msg="Auth-Router вызов метода обновления пароля по секретному ключу (update_password_with_email)")
+    logger.info(
+        msg="Auth-Router вызов метода обновления "
+        "пароля по секретному ключу (update_password_with_email)"
+    )
 
     return await UserService.check_secret_key(
         engine=session,
         secret_key=secret_key,
         token=user_data,
         new_password=new_password,
+    )
+
+
+@auth_router.get(
+    path="/access_create_account",
+    response_model=None,
+    status_code=status.HTTP_201_CREATED,
+    description="""
+    ### ENDPOINT - Подтверждение регистрации пользователя
+    """,
+    summary="Подтверждение регистрации пользователя",
+)
+async def access_user(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    secret_key: str,
+    email: str,
+) -> None:
+    await EmailService.access_user_account(
+        engine=engine, user_email=email, secret_key=secret_key
     )

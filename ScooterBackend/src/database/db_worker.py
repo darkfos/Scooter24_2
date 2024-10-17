@@ -11,19 +11,19 @@ from typing import Union, Type
 
 # Local
 
-##MODELS##
-from src.database.models.product import Product
-from src.database.models.category import Category
-from src.database.models.order import Order
-from src.database.models.user import User
-from src.database.models.review import Review
-from src.database.models.history_buy import HistoryBuy
-from src.database.models.favourite import Favourite
-from src.database.models.admin import Admin
-from src.database.models.type_worker import TypeWorker
-from src.database.models.vacancies import Vacancies
-from src.database.models.subcategory import SubCategory
-from src.database.models.product_models import ProductModels
+# Модели
+from src.database.models.product import Product  # noqa
+from src.database.models.category import Category  # noqa
+from src.database.models.order import Order  # noqa
+from src.database.models.user import User  # noqa
+from src.database.models.review import Review  # noqa
+from src.database.models.history_buy import HistoryBuy  # noqa
+from src.database.models.favourite import Favourite  # noqa
+from src.database.models.type_worker import TypeWorker  # noqa
+from src.database.models.vacancies import Vacancies  # noqa
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.product_models import ProductModels  # noqa
+from src.database.models.user_type import UserType  # noqa
 
 from src.settings.engine_settings import Settings
 from src.database.mainbase import MainBase
@@ -33,10 +33,9 @@ class DatabaseEngine:
 
     __instance: Union[None] = None
 
-    def __new__(cls, *args, **kwargs) -> None:
+    def __new__(cls, *args, **kwargs) -> "DatabaseEngine":
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
-            return cls.__instance
         return cls.__instance
 
     def __init__(self):
@@ -48,12 +47,12 @@ class DatabaseEngine:
         )
 
     async def create_tables(self):
-        # Creating tables
+        # Создание таблиц
         async with self.db_engine.begin() as session:
             await session.run_sync(MainBase.metadata.create_all)
 
     async def get_session(self) -> AsyncSession:
-        # Return session
+        # Получение сесиии
         async with self.async_session.begin() as session:
             return session
 

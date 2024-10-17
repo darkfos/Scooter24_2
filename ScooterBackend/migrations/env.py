@@ -4,6 +4,30 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import AsyncEngine
+from src.settings.database_settings.database_settings import DatabaseSettings
+
+
+# Tables
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.user import User  # noqa
+from src.database.models.order import Order  # noqa
+from src.database.models.product import Product  # noqa
+from src.database.models.history_buy import HistoryBuy  # noqa
+from src.database.models.review import Review  # noqa
+from src.database.models.favourite import Favourite  # noqa
+from src.database.models.category import Category  # noqa
+from src.database.models.type_worker import TypeWorker  # noqa
+from src.database.models.vacancies import Vacancies  # noqa
+from src.database.models.brand import Brand  # noqa
+from src.database.models.marks import Mark  # noqa
+from src.database.models.model import Model  # noqa
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.sub_sub_category import SubSubCategory  # noqa
+from src.database.models.product_models import ProductModels  # noqa
+from src.database.models.user_type import UserType  # noqa
+
+# Database for migrations
+from src.database.mainbase import MainBase
 
 from alembic import context
 
@@ -11,7 +35,6 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
-from src.settings.database_settings.database_settings import DatabaseSettings
 
 # URL to database
 config.set_main_option("sqlalchemy.url", DatabaseSettings().db_url)
@@ -24,28 +47,6 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-
-# Tables
-from src.database.models.subcategory import SubCategory
-from src.database.models.user import User
-from src.database.models.order import Order
-from src.database.models.product import Product
-from src.database.models.history_buy import HistoryBuy
-from src.database.models.review import Review
-from src.database.models.favourite import Favourite
-from src.database.models.category import Category
-from src.database.models.admin import Admin
-from src.database.models.type_worker import TypeWorker
-from src.database.models.vacancies import Vacancies
-from src.database.models.brand import Brand
-from src.database.models.marks import Mark
-from src.database.models.model import Model
-from src.database.models.subcategory import SubCategory
-from src.database.models.sub_sub_category import SubSubCategory
-from src.database.models.product_models import ProductModels
-
-# Database for migrations
-from src.database.mainbase import MainBase
 
 target_metadata = MainBase.metadata
 

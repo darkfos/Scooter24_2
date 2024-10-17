@@ -13,7 +13,9 @@ class CryptographyScooter:
 
     def __init__(self):
         self.algorithm: str = ""
-        self.crypto: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        self.crypto: CryptContext = CryptContext(
+            schemes=["bcrypt"], deprecated="auto"
+        )
 
     def hashed_password(self, password) -> str:
         logging.info(msg="Хеширование пароля")
@@ -27,5 +29,7 @@ class CryptographyScooter:
 
     def verify_password(self, password: str, hashed_password: str) -> bool:
         logging.info(msg="Верификация пользователя")
-        check_password: bool = self.crypto.verify(secret=password, hash=hashed_password)
+        check_password: bool = self.crypto.verify(
+            secret=password, hash=hashed_password
+        )
         return check_password

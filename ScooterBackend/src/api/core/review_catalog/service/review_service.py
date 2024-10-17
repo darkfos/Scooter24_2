@@ -1,15 +1,19 @@
 # System
-from typing import Union, Dict, List, Coroutine, Any, Type
+from typing import Type, Union, List
 import logging as logger
 
-# Other libraries
-...
 
 # Local
 from src.database.models.review import Review
-from src.api.core.review_catalog.error.http_review_exception import *
-from src.api.core.review_catalog.schemas.review_dto import *
-from src.api.core.review_catalog.error.http_review_exception import ReviewHttpError
+from src.api.core.review_catalog.schemas.review_dto import (
+    ReviewMessage,
+    ReviewBase,
+    ReviewIsCreated,
+    ListReviewMessageForProduct,
+)
+from src.api.core.review_catalog.error.http_review_exception import (
+    ReviewHttpError,
+)
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
@@ -28,7 +32,10 @@ class ReviewService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def create_review(
-        engine: IEngineRepository, token: str, new_review: ReviewBase, token_data: dict = dict()
+        engine: IEngineRepository,
+        token: str,
+        new_review: ReviewBase,
+        token_data: dict = dict(),
     ) -> ReviewIsCreated:
         """
         Метод сервиса для создания нового отзыва о товаре
@@ -38,7 +45,9 @@ class ReviewService:
         :return:
         """
 
-        logging.info(msg=f"{ReviewService.__name__} Создание нового отзыва о товаре")
+        logging.info(
+            msg=f"{ReviewService.__name__} " f"Создание нового отзыва о товаре"
+        )
 
         async with engine:
             # Created new review
@@ -65,7 +74,11 @@ class ReviewService:
         :return:
         """
 
-        logging.info(msg=f"{ReviewService.__name__} Получение списка комментариев к указанному товару id_product={id_product}")
+        logging.info(
+            msg=f"{ReviewService.__name__} "
+            f"Получение списка комментариев к указанному "
+            f"товару id_product={id_product}"
+        )
         async with engine:
             # Получение всех отзывов к товару
             all_reviews_for_product: Union[None, Review] = (
@@ -75,22 +88,24 @@ class ReviewService:
             )
 
             if all_reviews_for_product:
-                reviews: ListReviewMessageForProduct = ListReviewMessageForProduct(
-                    reviews=[
-                        ReviewMessage(
-                            text_review=review[0].text_review,
-                            estimation_review=review[0].estimation_review,
-                            user_data={
-                                "user_name": review[0]
-                                .user.read_model()
-                                .get("name_user"),
-                                "email_user": review[0]
-                                .user.read_model()
-                                .get("email_user"),
-                            },
-                        )
-                        for review in all_reviews_for_product
-                    ]
+                reviews: ListReviewMessageForProduct = (
+                    ListReviewMessageForProduct(
+                        reviews=[
+                            ReviewMessage(
+                                text_review=review[0].text_review,
+                                estimation_review=review[0].estimation_review,
+                                user_data={
+                                    "user_name": review[0]
+                                    .user.read_model()
+                                    .get("name_user"),
+                                    "email_user": review[0]
+                                    .user.read_model()
+                                    .get("email_user"),
+                                },
+                            )
+                            for review in all_reviews_for_product
+                        ]
+                    )
                 )
 
                 return reviews
@@ -107,7 +122,10 @@ class ReviewService:
         :return:
         """
 
-        logging.info(msg=f"{ReviewService.__name__} Получение списка имеющихся товаров")
+        logging.info(
+            msg=f"{ReviewService.__name__} "
+            f"Получение списка имеющихся товаров"
+        )
         async with engine:
             # Получение всех отзывов к товару
             all_reviews: Union[None, Review] = (
@@ -120,8 +138,12 @@ class ReviewService:
                         text_review=review[0].text_review,
                         estimation_review=review[0].estimation_review,
                         user_data={
-                            "user_name": review[0].user.read_model().get("name_user"),
-                            "email_user": review[0].user.read_model().get("email_user"),
+                            "user_name": review[0]
+                            .user.read_model()
+                            .get("name_user"),  # noqa
+                            "email_user": review[0]
+                            .user.read_model()
+                            .get("email_user"),  # noqa
                         },
                     )
                     for review in all_reviews
@@ -140,8 +162,11 @@ class ReviewService:
         :param review_id:
         :return:
         """
-        
-        logging.info(msg=f"{ReviewService.__name__} Получение данных об отзыве по id={review_id}")
+
+        logging.info(
+            msg=f"{ReviewService.__name__} "
+            f"Получение данных об отзыве по id={review_id}"
+        )
         async with engine:
             review_data = (
                 await engine.review_repository.find_all_reviews_with_user_data(
@@ -161,13 +186,18 @@ class ReviewService:
                         .get("email_user"),
                     },
                 )
-            logging.critical(msg=f"{ReviewService.__name__} Не удалось найти отзыв")
+            logging.critical(
+                msg=f"{ReviewService.__name__} " f"Не удалось найти отзыв"
+            )
             await ReviewHttpError().http_review_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def delete_review(
-        engine: IEngineRepository, id_review: int, token: str, token_data: dict = dict()
+        engine: IEngineRepository,
+        id_review: int,
+        token: str,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервися для удаления отзыва.
@@ -177,7 +207,10 @@ class ReviewService:
         :return:
         """
 
-        logging.info(msg=f"{ReviewService.__name__} Удаление отзыва по id_review={id_review}")
+        logging.info(
+            msg=f"{ReviewService.__name__} "
+            f"Удаление отзыва по id_review={id_review}"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -188,8 +221,10 @@ class ReviewService:
             )
 
             if is_admin:
-                is_review_deleted: bool = await engine.review_repository.delete_one(
-                    other_id=id_review
+                is_review_deleted: bool = (
+                    await engine.review_repository.delete_one(
+                        other_id=id_review
+                    )
                 )
                 if is_review_deleted:
                     return
@@ -207,9 +242,21 @@ class ReviewService:
                         )
                         if is_review_deleted:
                             return
-                        logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв")
+                        logging.critical(
+                            msg=f"{ReviewService.__name__} "
+                            f"Не удалось удалить отзыв"
+                        )
                         await ReviewHttpError().http_failed_to_delete_review()
-                    logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв, пользователь не был найден")
+                    logging.critical(
+                        msg=f"{ReviewService.__name__} "
+                        f"Не удалось удалить отзыв,"
+                        f" пользователь"
+                        f" не был найден"
+                    )
                     await UserHttpError().http_user_not_found()
-                logging.critical(msg=f"{ReviewService.__name__} Не удалось удалить отзыв, отзыв не был найден")
+                logging.critical(
+                    msg=f"{ReviewService.__name__} "
+                    f"Не удалось удалить отзыв, отзыв"
+                    f" не был найден"
+                )
                 await ReviewHttpError().http_review_not_found()

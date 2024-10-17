@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from typing import Annotated, Union, List, Dict
 
 # Local
-from src.database.models.product import Product
 
 
 class FavouriteBase(BaseModel):

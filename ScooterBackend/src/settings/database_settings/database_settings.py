@@ -1,5 +1,3 @@
-from pydantic_settings import BaseSettings
-
 # System
 import os
 from typing import Union, Type
@@ -28,7 +26,13 @@ class DatabaseSettings:
         self.db_host = os.getenv("DB_HOST")
         self.db_port = os.getenv("DB_PORT")
         self.db_name = os.getenv("DB_NAME")
-        self.db_url = f"postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}/{self.db_name}"
+        self.db_url = (
+            f"postgresql+asyncpg://"
+            f"{self.db_user}"
+            f":{self.db_password}"
+            f"@{self.db_host}"
+            f"/{self.db_name}"
+        )
 
     def __str__(self) -> str:
         return f"{type(self)}"

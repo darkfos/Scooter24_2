@@ -3,12 +3,12 @@ from src.api.core.mark_catalog.schemas.mark_dto import MarkBase, AllMarks
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.core.mark_catalog.service.mark_service import MarkService
 from src.api.authentication.secure.authentication_service import Authentication
-from typing import NoReturn, Annotated, Dict, Union, List
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from typing import Annotated, Dict, Union, List
 
 
 mark_router: APIRouter = APIRouter(
-    prefix="/mark",
-    tags=["Mark"]
+    prefix=APIPrefix.MARK_PREFIX.value, tags=[APITagsEnum.MARK.value]
 )
 auth: Authentication = Authentication()
 
@@ -20,14 +20,16 @@ auth: Authentication = Authentication()
     Доступен только для администратора
     """,
     summary="Создание марки",
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def create_a_new_mark(
     admin_data: Annotated[Dict[str, str], Depends(auth.jwt_auth)],
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    new_mark: MarkBase
+    new_mark: MarkBase,
 ) -> None:
-    await MarkService.create_a_new_mark(token=admin_data, engine=engine, new_mark_data=new_mark)
+    await MarkService.create_a_new_mark(
+        token=admin_data, engine=engine, new_mark_data=new_mark
+    )
 
 
 @mark_router.get(
@@ -37,10 +39,14 @@ async def create_a_new_mark(
     ### ENDPOINT - Получение списка всех имеющихся марок.
     """,
     summary="Получение всех марок",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def get_all_marks(engine: Annotated[IEngineRepository, Depends(EngineRepository)]) -> Union[List, AllMarks]:
-    return await MarkService.get_all_marks(engine=engine, redis_search_data="all_marks")
+async def get_all_marks(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)]
+) -> Union[List, AllMarks]:
+    return await MarkService.get_all_marks(
+        engine=engine, redis_search_data="all_marks"
+    )
 
 
 @mark_router.get(
@@ -50,11 +56,16 @@ async def get_all_marks(engine: Annotated[IEngineRepository, Depends(EngineRepos
     """,
     summary="Получение марки по id",
     response_model=MarkBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def get_mark_by_id(engine: Annotated[IEngineRepository, Depends(EngineRepository)], id_mark: int) -> MarkBase:
+async def get_mark_by_id(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_mark: int,
+) -> MarkBase:
     return await MarkService.get_mark_by_id(
-        engine=engine, id_mark=id_mark, redis_search_data="mark_by_id_%s" % id_mark
+        engine=engine,
+        id_mark=id_mark,
+        redis_search_data="mark_by_id_%s" % id_mark,
     )
 
 
@@ -66,10 +77,10 @@ async def get_mark_by_id(engine: Annotated[IEngineRepository, Depends(EngineRepo
     """,
     summary="Удаление марки по id",
     response_model=None,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def delete_mark_by_id(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_mark: int
+    id_mark: int,
 ) -> None:
     await MarkService.delete_mark_by_id(engine=engine, id_mark=id_mark)

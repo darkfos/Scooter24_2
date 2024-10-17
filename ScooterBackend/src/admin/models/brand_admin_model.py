@@ -15,7 +15,7 @@ class BrandModelView(ModelView, model=Brand):
     column_labels: Dict[Any, str] = {
         Brand.id: "Идентификатор бренда",
         Brand.name_brand: "Название бренда",
-        Brand.product_data: "Продукты бренда"
+        Brand.product_data: "Продукты бренда",
     }
 
     # Operation's
@@ -27,5 +27,11 @@ class BrandModelView(ModelView, model=Brand):
 
     form_create_rules: List[str] = ["name_brand"]
     form_ajax_refs: Dict[str, dict] = {
-        "product_data": {"fields": ("id", "title_product", ), "order_by": ("id", "title_product")}
+        "product_data": {
+            "fields": (
+                "id",
+                "title_product",
+            ),
+            "order_by": ("id", "title_product"),
+        }
     }

@@ -23,7 +23,8 @@ class TypeWorkerExceptions(APIError):
         """
 
         await self.api_error(
-            code=status.HTTP_404_NOT_FOUND, detail_inf="Не удалось найти работника"
+            code=status.HTTP_404_NOT_FOUND,
+            detail_inf="Не удалось найти работника",
         )
 
     async def http_dont_delete_type_worker(self):

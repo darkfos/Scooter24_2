@@ -8,5 +8,5 @@ class BrandBase(BaseModel):
 
 
 class AllBrands(BaseModel):
-    
+
     brands: Annotated[Union[List, List[BrandBase]], Field()]

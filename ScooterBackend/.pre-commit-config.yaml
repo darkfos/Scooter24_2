@@ -1,0 +1,24 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v2.5.0"
+    hooks:
+      - id: check-merge-conflict
+      - id: debug-statements
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types: [python]
+        args: [--line-length=80, --target-version=py310]
+
+      - id: autoflake
+        name: autoflake
+        entry: autoflake
+        language: system
+        types: [python]
+        args: [--in-place, --remove-all-unused-imports, --remove-duplicate-keys]
+
+      # Добавьте другие хуки здесь...

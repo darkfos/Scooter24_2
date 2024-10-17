@@ -1,13 +1,19 @@
 from redis import Redis
-from typing import Any, Type, Final, Dict, Callable
-import json, logging
+from typing import Any, Final, Dict, Callable
+import json
+import logging
 
 # Settings
 from src.settings.engine_settings import Settings
 
+
 class RedisTools:
 
-    __REDIS_CONNECTION: Final[Redis] = Redis(host=Settings.redis_settings.REDIS_HOST, port=Settings.redis_settings.REDIS_PORT, db=0)
+    __REDIS_CONNECTION: Final[Redis] = Redis(
+        host=Settings.redis_settings.REDIS_HOST,
+        port=Settings.redis_settings.REDIS_PORT,
+        db=0,
+    )
 
     @classmethod
     async def set_key_and_value(cls, key: str, value: Dict):
@@ -36,9 +42,12 @@ class RedisTools:
 
             # Set data in redis DB
             await self.set_key_and_value(
-                key=kwargs["redis_search_data"], value=result_func.model_dump_json()
+                key=kwargs["redis_search_data"],
+                value=result_func.model_dump_json(),
             )
-            logging.info(msg="Redis данные были сохранены в хранилище")  # Logging
+
+            # Logging
+            logging.info(msg="Redis данные были сохранены в хранилище")
             return result_func
 
         return wrapper_service

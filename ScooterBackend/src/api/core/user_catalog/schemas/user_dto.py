@@ -2,13 +2,7 @@
 import datetime
 
 from pydantic import BaseModel, Field, EmailStr
-from typing import Annotated, Union, List, Dict, Any
-
-# Local
-from src.database.models.order import Order
-from src.database.models.review import Review
-from src.database.models.history_buy import HistoryBuy
-from src.database.models.favourite import Favourite
+from typing import Annotated, Union, List, Dict
 
 
 class UserBase(BaseModel):
@@ -32,7 +26,9 @@ class InformationAboutUser(BaseModel):
     name_user: Annotated[str, Field(max_length=100)]
     surname_user: Annotated[str, Field(max_length=150)]
     main_name_user: Annotated[str, Field(max_length=250)]
-    date_registration: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_registration: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
 
 
 class AddUser(UserBase):

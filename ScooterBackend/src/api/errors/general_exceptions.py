@@ -1,6 +1,6 @@
 from src.api.errors.global_excp import APIError
 from src.api.errors.enum_message_for_excp import HeaderMessage
-from fastapi import HTTPException, status
+from fastapi import status
 
 
 class GeneralExceptions(APIError):

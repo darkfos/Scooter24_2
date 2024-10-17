@@ -4,9 +4,6 @@ from typing import Union, Annotated, Dict, List
 # Other libraries
 from pydantic import BaseModel, Field
 
-# Local
-from src.database.models.category import Category
-
 
 class ReviewBase(BaseModel):
 

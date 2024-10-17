@@ -15,7 +15,7 @@ class MarkModelView(ModelView, model=Mark):
     column_labels: Dict[Any, str] = {
         Mark.id: "Идентификатор марки",
         Mark.name_mark: "Название марки",
-        Mark.product_data: "Данные продукта"
+        Mark.product_data: "Данные продукта",
     }
 
     # Operation's
@@ -27,5 +27,11 @@ class MarkModelView(ModelView, model=Mark):
 
     form_create_rules: list[str] = ["name_mark"]
     form_ajax_refs: Dict[str, dict] = {
-        "product_data": {"fields": ("id", "title_product", ), "order_by": ("id", "title_product")}
+        "product_data": {
+            "fields": (
+                "id",
+                "title_product",
+            ),
+            "order_by": ("id", "title_product"),
+        }
     }

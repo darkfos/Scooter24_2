@@ -7,14 +7,24 @@ from fastapi import APIRouter, status, Depends
 from fastapi.responses import FileResponse
 
 # Local
-from src.api.core.category_catalog.schemas.category_dto import *
+from src.api.core.category_catalog.schemas.category_dto import (
+    CategoryIsUpdated,
+    CategoryIsFinded,
+    CategoriesList,
+    CategoryBase,
+    CategoryIsCreated,
+    DataCategoryToUpdate,
+)
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.category_catalog.service.category_service import CategoryService
+from src.api.core.category_catalog.service.category_service import (
+    CategoryService,
+)
 from src.api.dep.dependencies import EngineRepository, IEngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 category_router = APIRouter(
-    prefix="/category",
-    tags=["Category - Категории товаров магазина"],
+    prefix=APIPrefix.CATEGORY_PREFIX.value,
+    tags=[APITagsEnum.CATEGORY.value],
 )
 
 auth: Authentication = Authentication()
@@ -46,7 +56,10 @@ async def create_new_category(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода создания новой категории (create_new_category)")
+    logger.info(
+        msg="Category-Router вызов метода создания"
+        " новой категории (create_new_category)"
+    )
 
     return await CategoryService.create_category(
         engine=session, token=admin_data, new_category=new_category
@@ -61,12 +74,12 @@ async def create_new_category(
     """,
     summary="Получение иконки категории",
     status_code=status.HTTP_200_OK,
-    response_class=FileResponse
+    response_class=FileResponse,
 )
 async def get_icon_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    id_category: int
-    ):
+    id_category: int,
+):
     return await CategoryService.get_icon_category(session, id_category)
 
 
@@ -81,7 +94,8 @@ async def get_icon_category(
     status_code=status.HTTP_200_OK,
 )
 async def find_category_by_name(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], category_name: str
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    category_name: str,
 ) -> CategoryIsFinded:
     """
     ENDPOINT - Поиск категории
@@ -89,7 +103,10 @@ async def find_category_by_name(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода получения категории по названию (find_category_by_name)")
+    logger.info(
+        msg="Category-Router вызов метода получения"
+        " категории по названию (find_category_by_name)"
+    )
 
     return await CategoryService.find_category_by_name(
         engine=session,
@@ -117,7 +134,10 @@ async def get_all_categories(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода получения всех категорий (get_all_category)")
+    logger.info(
+        msg="Category-Router вызов метода "
+        "получения всех категорий (get_all_category)"
+    )
 
     return await CategoryService.find_all_categories(
         engine=session, redis_search_data="all_categories"
@@ -135,7 +155,8 @@ async def get_all_categories(
     status_code=status.HTTP_200_OK,
 )
 async def find_category_by_id(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_category: int
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_category: int,
 ) -> CategoryBase:
     """
     ENDPOINT - Поиск категории по id
@@ -143,7 +164,10 @@ async def find_category_by_id(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода поиска категории по id (find_category_by_id)")
+    logger.info(
+        msg="Category-Router вызов метода поиска"
+        " категории по id (find_category_by_id)"
+    )
 
     return await CategoryService.find_by_id(
         engine=session,
@@ -176,7 +200,10 @@ async def update_category_name(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода обновления названия категории (update_category_name)")
+    logger.info(
+        msg="Category-Router вызов метода обновления"
+        " названия категории (update_category_name)"
+    )
 
     return await CategoryService.update_category(
         engine=session, token=admin_data, data_to_update=to_update
@@ -207,7 +234,9 @@ async def delete_category(
     :return:
     """
 
-    logger.info(msg="Category-Router вызов метода удаления категории (delete_category)")
+    logger.info(
+        msg="Category-Router вызов метода удаления категории (delete_category)"
+    )
 
     await CategoryService.delete_category(
         engine=session, id_category=id_category, token=admin_data

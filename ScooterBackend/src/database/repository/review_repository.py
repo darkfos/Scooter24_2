@@ -4,7 +4,7 @@ import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete, Result
+from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
 # Local
@@ -29,7 +29,11 @@ class ReviewRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} Удаление отзывов id_reviews={id_reviews}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Удаление отзывов "
+            f"id_reviews={id_reviews}"
+        )
         for id_review in id_reviews:
             delete_review = delete(Review).where(Review.id == id_review)
             await self.async_session.execute(delete_review)
@@ -46,7 +50,11 @@ class ReviewRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} Поиск всех отзывов к продукту id_product={id_product}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Поиск всех отзывов к продукту"
+            f" id_product={id_product}"
+        )
         stmt = (
             select(Review)
             .where(Review.id_product == id_product)
@@ -64,7 +72,12 @@ class ReviewRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} Получение всех отзывов с данными о пользователях id_review={id_review}")
+        logging.info(
+            msg=f"{self.__class__.__name__} "
+            f"Получение всех отзывов с"
+            f" данными о пользователях"
+            f" id_review={id_review}"
+        )
 
         if id_review:
             stmt = (

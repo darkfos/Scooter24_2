@@ -7,14 +7,19 @@ from fastapi import Depends, status, APIRouter
 
 # Local
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.order_catalog.schemas.order_dto import *
+from src.api.core.order_catalog.schemas.order_dto import (
+    OrderAndUserInformation,
+    AddOrder,
+    ListOrderAndUserInformation,
+)
 from src.api.core.order_catalog.service.order_service import OrderService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()
 order_router: APIRouter = APIRouter(
-    prefix="/order", tags=["Order - Заказы пользователей"]
+    prefix=APIPrefix.ORDER_PREFIX.value, tags=[APITagsEnum.ORDER.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 
@@ -43,7 +48,9 @@ async def create_a_new_order(
     :return:
     """
 
-    logger.info(msg="Order-Router вызов метода создания заказа (create_order)")
+    logger.info(
+        msg="Order-Router вызов метода " "создания заказа (create_order)"
+    )
 
     return await OrderService.create_new_order(
         engine=session, token=user_data, new_order=new_order
@@ -66,13 +73,18 @@ async def get_orders_by_id_user(
     user_data: Annotated[str, Depends(auth.jwt_auth)],
 ) -> ListOrderAndUserInformation:
     """
-    ENDPOINT - Получение всех заказов пользователя, подробная информация
+    ENDPOINT - Получение всех заказов пользователя,
+    подробная информация
     :param session:
     :param id_user:
     :return:
     """
 
-    logger.info(msg="Order-Router вызов метода получения заказов по id пользователя (get_orders_by_id_user)")
+    logger.info(
+        msg="Order-Router вызов метода "
+        "получения заказов по "
+        "id пользователя (get_orders_by_id_user)"
+    )
 
     return await OrderService.get_full_information_by_user_id(
         engine=session,
@@ -104,7 +116,11 @@ async def get_information_about_order_by_id(
     :return:
     """
 
-    logger.info(msg="Order-Router вызов метода получения информации о заказе по id заказа (get_information_about_order_by_id)")
+    logger.info(
+        msg="Order-Router вызов метода получения"
+        " информации о заказе по "
+        "id заказа (get_information_about_order_by_id)"
+    )
 
     return await OrderService.get_information_about_order_by_id(
         engine=session,
@@ -139,7 +155,11 @@ async def delete_order_by_id(
     :return:
     """
 
-    logger.info(msg="Order-Router вызов метода удаления заказа по id (delete_order_by_id)")
+    logger.info(
+        msg="Order-Router вызов метода"
+        " удаления заказа по "
+        "id (delete_order_by_id)"
+    )
 
     return await OrderService.delete_order_by_id(
         engine=session, token=user_data, id_order=id_order

@@ -1,5 +1,4 @@
-from fastapi import HTTPException, status
-from src.api.errors.enum_message_for_excp import HeaderMessage
+from fastapi import status
 from src.api.errors.global_excp import APIError
 
 
@@ -50,4 +49,15 @@ class UserHttpError(APIError):
         await self.api_error(
             code=status.HTTP_400_BAD_REQUEST,
             detail_inf="Не удалось удалить пользователя",
+        )
+
+    async def user_no_activated(self):
+        """
+        Ошибка аутентификации, пользователь не активирован
+        :return:
+        """
+
+        await self.api_error(
+            code=status.HTTP_423_LOCKED,
+            detail_inf="Пользователь не активировал свою учетную запись",
         )

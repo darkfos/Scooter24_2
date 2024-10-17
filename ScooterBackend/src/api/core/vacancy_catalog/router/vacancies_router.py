@@ -12,13 +12,16 @@ from src.api.core.vacancy_catalog.schemas.vacancies_dto import (
     UpdateVacancies,
     VacanciesGeneralData,
 )
-from src.api.core.vacancy_catalog.service.vacancies_service import VacanciesService
+from src.api.core.vacancy_catalog.service.vacancies_service import (
+    VacanciesService,
+)
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()
 vacancies_router: APIRouter = APIRouter(
-    prefix="/vacancies", tags=["Vacancies - Вакансии"]
+    prefix=APIPrefix.VACANCIES_PREFIX.value, tags=[APITagsEnum.VACANCIES.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
 
@@ -48,8 +51,11 @@ async def create_a_new_vacancies(
     :new_vacancies:
     """
 
-    logger.info(msg="Vacancy-Router вызов метода создания новой вакансии (create_a_new_vacancies)")
-    
+    logger.info(
+        msg="Vacancy-Router вызов метода создания"
+        " новой вакансии (create_a_new_vacancies)"
+    )
+
     return await VacanciesService.create_vacancies(
         engine=session, token=admin_data, vac_data=new_vacancies
     )
@@ -72,7 +78,10 @@ async def get_all_vacancies(
     ENDPOINT - Получение все вакансий.
     """
 
-    logger.info(msg="Vacancy-Router вызов метода получения всех вакансий (get_all_vacancies)")
+    logger.info(
+        msg="Vacancy-Router вызов метода получения"
+        " всех вакансий (get_all_vacancies)"
+    )
 
     return await VacanciesService.get_all_vacancies(
         engine=session, redis_search_data="all_vacancies"
@@ -90,14 +99,19 @@ async def get_all_vacancies(
     response_model=VacanciesBase,
     status_code=status.HTTP_200_OK,
 )
-async def get_all_vacancies(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)], id_vacancies: int
+async def get_vacancies_by_id(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_vacancies: int,
 ) -> VacanciesBase:
     """
     ENDPOINT - Получение все вакансий.
     """
 
-    logger.info(msg="Vacancy-Router вызов метода получения вакансии по id (get_vacancies_by_id)")
+    logger.info(
+        msg="Vacancy-Router вызов метода"
+        " получения вакансии по "
+        "id (get_vacancies_by_id)"
+    )
 
     return await VacanciesService.get_vacancies_by_id(
         engine=session,
@@ -119,7 +133,7 @@ async def get_all_vacancies(
     status_code=status.HTTP_204_NO_CONTENT,
     tags=["AdminPanel - Панель администратора"],
 )
-async def get_all_vacancies(
+async def update_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.jwt_auth)],
     data_to_update: UpdateVacancies,
@@ -128,7 +142,11 @@ async def get_all_vacancies(
     ENDPOINT - Обновление данных о вакансии.
     """
 
-    logger.info(msg="Vacancy-Router вызов метода обновление вакансии по id (update_vacancies)")
+    logger.info(
+        msg="Vacancy-Router вызов метода"
+        " обновление вакансии по "
+        "id (update_vacancies)"
+    )
 
     return await VacanciesService.update_vacancies(
         engine=session, token=admin_data, data_to_update=data_to_update
@@ -160,7 +178,10 @@ async def delete_vacancies_by_id(
     :id_vacancies:
     """
 
-    logger.info(msg="Vacancy-Router вызов метода удаления вакансии по id (delete_vacancies)")
+    logger.info(
+        msg="Vacancy-Router вызов метода"
+        " удаления вакансии по id (delete_vacancies)"
+    )
 
     return await VacanciesService.delete_vacancies_by_id(
         engine=session, token=admin_data, id_vacancies=id_vacancies

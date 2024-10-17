@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from fastapi import status
 from src.api.errors.enum_message_for_excp import HeaderMessage
 from src.api.errors.global_excp import APIError
 
@@ -62,5 +62,5 @@ class CategoryHttpError(APIError):
 
         await self.api_error(
             code=status.HTTP_404_NOT_FOUND,
-            detail_inf="Не удалось найти иконку категории"
+            detail_inf="Не удалось найти иконку категории",
         )

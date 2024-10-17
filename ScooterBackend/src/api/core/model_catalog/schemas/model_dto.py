@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Annotated, Dict
+from typing import List, Annotated
 
 
 class ModelBase(BaseModel):

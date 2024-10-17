@@ -11,13 +11,19 @@ class ProductModelsModelView(ModelView, model=ProductModels):
     category: str = "Продукт"
     icon: str = "fa-solid fa-motorcycle"
 
-    column_list: List[Any] = [ProductModels.id, ProductModels.id_model, ProductModels.id_product, ProductModels.model_data, ProductModels.product_data]
+    column_list: List[Any] = [
+        ProductModels.id,
+        ProductModels.id_model,
+        ProductModels.id_product,
+        ProductModels.model_data,
+        ProductModels.product_data,
+    ]
     column_labels: Dict[Any, str] = {
         ProductModels.id: "Идентификатор модели продукта",
         ProductModels.id_model: "Идентификатор модели",
         ProductModels.id_product: "Идентификатор продукта",
         ProductModels.model_data: "Данные модели",
-        ProductModels.product_data: "Данные продукта"
+        ProductModels.product_data: "Данные продукта",
     }
 
     # Operation's
@@ -26,8 +32,20 @@ class ProductModelsModelView(ModelView, model=ProductModels):
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
-    
+
     form_ajax_refs: Dict[str, dict] = {
-        "model_data": {"fields": ("id", "name_model", ), "order_by": ("id", "name_model")},
-        "product_data": {"fields": ("id", "title_product", ), "order_by": ("id", "title_product")}
+        "model_data": {
+            "fields": (
+                "id",
+                "name_model",
+            ),
+            "order_by": ("id", "name_model"),
+        },
+        "product_data": {
+            "fields": (
+                "id",
+                "title_product",
+            ),
+            "order_by": ("id", "title_product"),
+        },
     }

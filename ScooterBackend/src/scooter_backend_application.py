@@ -1,24 +1,49 @@
-# Local
-import logging.config
-from src.settings.api_settings.api_settings import APISettings
-
 # ROUTES
-from src.api.core.user_catalog.router.user_router import user_router as user_router
-from src.api.core.auth_catalog.router.authentication_router import auth_router as auth_router
-from src.api.core.category_catalog.router.category_router import category_router as category_router
-from src.api.core.admin_catalog.router.admin_router import admin_router as admin_router
-from src.api.core.review_catalog.router.review_router import review_router as review_router
-from src.api.core.product_catalog.router.product_router import product_router as product_router
-from src.api.core.order_catalog.router.order_router import order_router as order_router
-from src.api.core.favourite_catalog.router.favourite_router import favourite_router as favourite_router
-from src.api.core.history_catalog.router.history_buy_router import history_buy_router as history_buy_router
-from src.api.core.type_worker_catalog.router.type_worker_router import type_worker_router as type_worker_router
-from src.api.core.vacancy_catalog.router.vacancies_router import vacancies_router as vacancies_router
+from src.api.core.user_catalog.router.user_router import (
+    user_router as user_router,
+)
+from src.api.core.auth_catalog.router.authentication_router import (
+    auth_router as auth_router,
+)
+from src.api.core.category_catalog.router.category_router import (
+    category_router as category_router,
+)
+from src.api.core.review_catalog.router.review_router import (
+    review_router as review_router,
+)
+from src.api.core.product_catalog.router.product_router import (
+    product_router as product_router,
+)
+from src.api.core.order_catalog.router.order_router import (
+    order_router as order_router,
+)
+from src.api.core.favourite_catalog.router.favourite_router import (
+    favourite_router as favourite_router,
+)
+from src.api.core.history_catalog.router.history_buy_router import (
+    history_buy_router as history_buy_router,
+)
+from src.api.core.type_worker_catalog.router.type_worker_router import (
+    type_worker_router as type_worker_router,
+)
+from src.api.core.vacancy_catalog.router.vacancies_router import (
+    vacancies_router as vacancies_router,
+)
 from src.api.core.mark_catalog.router.mark_router import mark_router
 from src.api.core.brand_catalog.router.brand_router import brand_router
 from src.api.core.model_catalog.router.model_router import model_router
-from src.api.core.product_models_catalog.router.product_models_router import product_models_router as pr_m_router
-from src.api.core.subcategory_catalog.router.subcategory_router import subcategory_router
+from src.api.core.product_models_catalog.router.product_models_router import (
+    product_models_router as pr_m_router,
+)
+from src.api.core.subcategory_catalog.router.subcategory_router import (
+    subcategory_router,
+)
+from src.api.core.user_type_catalog.routes.user_type_router import (
+    user_type_router,
+)
+from src.api.core.ss_category_catalog.router.sub_subcategory_router import (
+    ss_category_router,
+)
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
@@ -36,13 +61,16 @@ class ScooterBackendApplication:
     def __init__(self) -> None:
         self.scooter24_app: FastAPI = FastAPI(
             title="Scooter24 API",
-            description="Программный интерфейс для сайта по продаже мото-деталей",
+            description="Программный интерфейс для сайта по"
+            " продаже мото-деталей",
             # lifespan=connection_db
         )
 
         # Static's
         self.statics: StaticFiles = StaticFiles(directory="src/statics")
-        self.scooter24_app.mount(path="/static", app=self.statics, name="static")
+        self.scooter24_app.mount(
+            path="/static", app=self.statics, name="static"
+        )
 
         # Admjn panel
         self.admin: AdminPanel = AdminPanel(app=self.scooter24_app)
@@ -50,35 +78,37 @@ class ScooterBackendApplication:
         # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
-        self.origins: List[str] = ["*", "http://localhost:8000"]
+        self.origins: List[str] = ["http://localhost:8000"]
 
         self.include_router()
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
-        routers_list: List[APIRouter] = [
+        based_routers: List[APIRouter] = [
             auth_router,
             user_router,
+            user_type_router,
             mark_router,
-            brand_router,
             model_router,
-            admin_router,
+            brand_router,
             product_router,
-            favourite_router,
+            pr_m_router,
             category_router,
             subcategory_router,
-            vacancies_router,
-            type_worker_router,
-            api_v1_router.get_api_v1,
-            history_buy_router,
+            ss_category_router,
+            favourite_router,
             order_router,
             review_router,
-            pr_m_router
+            type_worker_router,
+            vacancies_router,
+            history_buy_router,
+            api_v1_router.get_api_v1,
         ]
-        if routers:
-            routers_list.extend(routers)
 
-        for router in routers_list:
+        if routers:
+            based_routers.extend(routers)
+
+        for router in based_routers:
             self.scooter24_app.include_router(router=router)
 
     def added_middleware(self) -> None:

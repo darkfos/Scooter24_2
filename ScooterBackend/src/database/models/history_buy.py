@@ -1,8 +1,8 @@
 # System
-from typing import List, Dict
+from typing import Dict
 
 # Other
-from sqlalchemy import Integer, Text, String, ForeignKey
+from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -16,6 +16,7 @@ class HistoryBuy(MainBase):
     id_user: Mapped[int] = mapped_column(
         ForeignKey("User.id"), type_=Integer
     )  # id пользователя
+
     id_product: Mapped[int] = mapped_column(
         ForeignKey("Product.id"), type_=Integer
     )  # id продукта

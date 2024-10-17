@@ -1,9 +1,8 @@
 # System
-import datetime
-from typing import List, Dict
+from typing import Dict
 
 # Other
-from sqlalchemy import Integer, Text, String, ForeignKey, Date
+from sqlalchemy import Integer, ForeignKey, Date
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local

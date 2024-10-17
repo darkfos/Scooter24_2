@@ -25,16 +25,26 @@ class GeneralSQLRepository:
         """
 
         try:
-            logging.info(msg=f"{self.model.__class__.__name__} Добавление записи, data={data}")
-            stmt = insert(self.model).values(data.read_model()).returning(self.model.id)
+            logging.info(
+                msg=f"{self.model.__class__.__name__} "
+                f"Добавление записи, data={data}"
+            )
+            stmt = (
+                insert(self.model)
+                .values(data.read_model())
+                .returning(self.model.id)
+            )
             result = await self.async_session.execute(stmt)
             if result:
                 await self.async_session.commit()
                 return result.scalar()
             else:
-                logging.exception(msg=f"{self.model.__class__.__name__} Не удалось добавить новую запись")
+                logging.exception(
+                    msg=f"{self.model.__class__.__name__} "
+                    f"Не удалось добавить новую запись"
+                )
                 raise Exception
-        except Exception as ex:
+        except Exception:
             await self.async_session.rollback()
             return False
 
@@ -45,7 +55,11 @@ class GeneralSQLRepository:
         :return:
         """
 
-        logging.info(msg=f"{self.model.__class__.__name__} Получение записи по ключу = {other_id}")
+        logging.info(
+            msg=f"{self.model.__class__.__name__} "
+            f"Получение записи по "
+            f"ключу = {other_id}"
+        )
         stmt = select(self.model).where(self.model.id == other_id)
         information_about_object = await self.async_session.execute(stmt)
         return information_about_object.fetchone()
@@ -56,7 +70,9 @@ class GeneralSQLRepository:
         :return:
         """
 
-        logging.info(msg=f"{self.model.__class__.__name__} Получение всех записей")
+        logging.info(
+            msg=f"{self.model.__class__.__name__} " f"Получение всех записей"
+        )
         stmt = select(self.model)
         all_info = await self.async_session.execute(stmt)
         return all_info.fetchall()
@@ -69,14 +85,21 @@ class GeneralSQLRepository:
         :return:
         """
 
-        logging.info(msg=f"{self.model.__class__.__name__} Обновление данных по id={other_id}, data={data_to_update}")
+        logging.info(
+            msg=f"{self.model.__class__.__name__} "
+            f"Обновление данных по "
+            f"id={other_id},"
+            f" data={data_to_update}"
+        )
         data_to_update = {
             data: data_to_update.get(data)
             for data in data_to_update
-            if data_to_update.get(data) != None
+            if data_to_update.get(data) is not None
         }
         stmt = (
-            update(self.model).where(self.model.id == other_id).values(data_to_update)
+            update(self.model)
+            .where(self.model.id == other_id)
+            .values(data_to_update)
         )
         try:
             update_data = await self.async_session.execute(stmt)
@@ -84,9 +107,12 @@ class GeneralSQLRepository:
                 await self.async_session.commit()
                 return True
             else:
-                logging.exception(msg=f"{self.model.__class__.__name__} Не удалось обновить данные")
+                logging.exception(
+                    msg=f"{self.model.__class__.__name__} "
+                    f"Не удалось обновить данные"
+                )
                 raise Exception
-        except Exception as ex:
+        except Exception:
             await self.async_session.rollback()
             return False
 
@@ -97,7 +123,11 @@ class GeneralSQLRepository:
         :return:
         """
 
-        logging.info(msg=f"{self.model.__class__.__name__} Удаление записи по id={other_id}")
+        logging.info(
+            msg=f"{self.model.__class__.__name__} "
+            f"Удаление записи по "
+            f"id={other_id}"
+        )
         stmt = delete(self.model).where(self.model.id == other_id)
         res_to_del: int = (await self.async_session.execute(stmt)).rowcount
         if res_to_del:
@@ -106,5 +136,9 @@ class GeneralSQLRepository:
                 return True
         else:
             await self.async_session.rollback()
-            logging.critical(msg=f"{self.model.__class__.__name__} Не удалось удалить запись по id={other_id}")
+            logging.critical(
+                msg=f"{self.model.__class__.__name__} "
+                f"Не удалось удалить запись по "
+                f"id={other_id}"
+            )
             return False

@@ -3,7 +3,7 @@ from typing import List, Dict
 
 # Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, String, Text
+from sqlalchemy import String, Text
 
 # Local
 from src.database.mainbase import MainBase
@@ -20,11 +20,15 @@ class Category(MainBase):
         type_=Text, nullable=True, index=False
     )
 
-    #relation's
-    subcategory_data: Mapped[List["SubCategory"]] = relationship("SubCategory", back_populates="category_data", uselist=True)
+    # Связи
+    subcategory_data: Mapped[List["SubCategory"]] = relationship(
+        "SubCategory", back_populates="category_data", uselist=True
+    )
 
     def read_model(self) -> Dict[str, str]:
-        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+        return {
+            k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"
+        }
 
     def __str__(self):
         # Возвращает строковый объект класса

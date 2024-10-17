@@ -1,8 +1,8 @@
 # System
-from typing import List, Dict
+from typing import Dict
 
 # Other
-from sqlalchemy import Integer, Text, String, ForeignKey
+from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -16,6 +16,7 @@ class Favourite(MainBase):
     id_user: Mapped[int] = mapped_column(
         ForeignKey("User.id"), type_=Integer
     )  # id пользователя
+
     id_product: Mapped[int] = mapped_column(
         ForeignKey("Product.id"), type_=Integer
     )  # id продукта
@@ -23,6 +24,7 @@ class Favourite(MainBase):
     fav_user: Mapped["User"] = relationship(
         "User", back_populates="favourites_user", uselist=False
     )
+
     product_info: Mapped["Product"] = relationship(
         "Product", back_populates="product_info_for_fav", uselist=False
     )
