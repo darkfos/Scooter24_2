@@ -1,6 +1,6 @@
 # System
 import datetime
-from typing import List, Annotated, Dict
+from typing import List, Annotated, Dict, Union
 
 # Other libraries
 from pydantic import BaseModel, Field
@@ -58,9 +58,12 @@ class ProductAllInformation(ProductBase):
     reviews: Annotated[List[dict], Field()]
     orders: Annotated[List[dict], Field]
     favourites: Annotated[List[dict], Field()]
-    bicycle_data: Annotated[Dict[BrandBase, MarkBase, AllProductModels]]
+    bicycle_data: Annotated[
+        Dict[str, Union[BrandBase, MarkBase, AllProductModels]], Field()
+    ]
     categories: Annotated[
-        Dict[CategoryBase, SubCategoryBase, SubSubCategoryBase]
+        Dict[str, Union[CategoryBase, SubCategoryBase, SubSubCategoryBase]],
+        Field(),
     ]
 
 
