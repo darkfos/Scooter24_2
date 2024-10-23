@@ -1,10 +1,22 @@
 # System
 import datetime
-from typing import List, Annotated
+from typing import List, Annotated, Dict
 
 # Other libraries
 from pydantic import BaseModel, Field
 from fastapi import UploadFile
+from src.api.core.product_models_catalog.schemas.product_models_dto import (
+    AllProductModels,
+)
+from src.api.core.brand_catalog.schemas.brand_dto import BrandBase
+from src.api.core.mark_catalog.schemas.mark_dto import MarkBase
+from src.api.core.category_catalog.schemas.category_dto import CategoryBase
+from src.api.core.subcategory_catalog.schemas.subcategory_dto import (
+    SubCategoryBase,
+)
+from src.api.core.ss_category_catalog.schemas.sub_subcategory_dto import (
+    SubSubCategoryBase,
+)
 
 
 class ProductBase(BaseModel):
@@ -21,13 +33,19 @@ class ProductBase(BaseModel):
     price_product: Annotated[float, Field(gt=-1)]
     price_with_discount: Annotated[float, Field()]
     photo_product: Annotated[UploadFile, Field()] = None
-    date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_create_product: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
     product_discount: Annotated[int, Field(lt=100)]
 
     @classmethod
     def change_product_discount(cls) -> None:
-        cls.product_discount = (cls.price_product - cls.price_with_discount) // cls.price_product
+        cls.product_discount = (
+            cls.price_product - cls.price_with_discount
+        ) // cls.price_product
 
 
 class ListProductBase(BaseModel):
@@ -37,10 +55,13 @@ class ListProductBase(BaseModel):
 
 class ProductAllInformation(ProductBase):
 
-    reviews: List[dict]
-    orders: List[dict]
-    favourites: List[dict]
-    categories: List[dict]
+    reviews: Annotated[List[dict], Field()]
+    orders: Annotated[List[dict], Field]
+    favourites: Annotated[List[dict], Field()]
+    bicycle_data: Annotated[Dict[BrandBase, MarkBase, AllProductModels]]
+    categories: Annotated[
+        Dict[CategoryBase, SubCategoryBase, SubSubCategoryBase]
+    ]
 
 
 class DeleteProduct(BaseModel):
@@ -57,16 +78,20 @@ class UpdateProduct(BaseModel):
     article_product: Annotated[str, Field(max_length=150, default=None)] = None
     tags: Annotated[str, Field(min_length=0, default=None)] = None
     other_data: Annotated[str, Field(min_length=0, default=None)] = None
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
 
 
 class ProductIsCreated(BaseModel):
 
-    is_created: bool
-    product_name: str
+    is_created: Annotated[bool, Field()]
+    product_name: Annotated[str, Field()]
 
 
 class UpdateProductDiscount(BaseModel):
 
     product_discount: Annotated[int, Field(lt=100)]
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
