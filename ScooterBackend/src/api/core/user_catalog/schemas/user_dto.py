@@ -23,9 +23,9 @@ class InformationAboutUser(BaseModel):
     """
 
     email_user: Annotated[EmailStr, Field(EmailStr())]
-    name_user: Annotated[str, Field(max_length=100)]
-    surname_user: Annotated[str, Field(max_length=150)]
-    main_name_user: Annotated[str, Field(max_length=250)]
+    name_user: Annotated[Union[str, None], Field(max_length=100)]
+    surname_user: Annotated[Union[str, None], Field(max_length=150)]
+    main_name_user: Annotated[Union[str, None], Field(max_length=250)]
     date_registration: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]
@@ -95,7 +95,6 @@ class DataToUpdate(BaseModel):
     Информация о пользователе кроме пароля для обновления
     """
 
-    email_user: Annotated[EmailStr, Field(EmailStr())] = None
     name_user: Annotated[str, Field(max_length=100)] = None
     surname_user: Annotated[str, Field(max_length=150)] = None
     main_name_user: Annotated[str, Field(max_length=250)] = None
