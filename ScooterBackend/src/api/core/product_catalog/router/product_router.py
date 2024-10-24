@@ -1,6 +1,6 @@
 # System
 from typing import Annotated, Type, Union
-from datetime import datetime
+import datetime
 import logging
 
 # Other libraries

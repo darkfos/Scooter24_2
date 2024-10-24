@@ -52,20 +52,29 @@ class IEngineRepository(ABC):
 
     @abstractmethod
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     async def __aenter__(self):
-        pass
+        raise NotImplementedError()
 
     @abstractmethod
     async def __aexit__(self, *args):
-        pass
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def commit(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def rollback(self):
+        raise NotImplementedError()
 
 
 class EngineRepository(IEngineRepository):
 
     def __init__(self):
+        self.session_factory = db_work.async_session
         self.session: AsyncSession
 
     async def __aenter__(self, *args, **kwargs):
@@ -74,46 +83,44 @@ class EngineRepository(IEngineRepository):
         по репозиториям
         """
 
-        self.session = await db_work.get_session()
+        self.session = self.session_factory()
 
-        try:
-            self.user_repository = UserRepository(session=self.session)
-            self.user_type_repository = UserTypeRepository(session=self.session)
-            self.category_repository = CategoryRepository(session=self.session)
-            self.review_repository = ReviewRepository(session=self.session)
-            self.order_repository = OrderRepository(session=self.session)
-            self.favourite_repository = FavouriteRepository(
-                session=self.session
-            )
-            self.vacancies_repository = VacanciesRepository(
-                session=self.session
-            )
-            self.product_repository = ProductRepository(session=self.session)
-            self.type_worker_repository = TypeWorkerRepository(
-                session=self.session
-            )
-            self.history_buy_repository = HistoryBuyRepository(
-                session=self.session
-            )
-            self.subcategory_repository = SubCategoryRepository(
-                session=self.session
-            )
-            self.sub_subcategory_repository = SubSubCategoryRepository(
-                session=self.session
-            )
-            self.brand_repository = BrandRepository(session=self.session)
-            self.model_repository = ModelRepository(session=self.session)
-            self.mark_repository = MarkRepository(session=self.session)
-            self.product_models_repository = ProductModelsRepository(
-                session=self.session
-            )
-        # Ловим все ошибка ACID (транзакций)
-        except Exception:
-            self.session.rollback()
+        self.user_repository = UserRepository(session=self.session)
+        self.user_type_repository = UserTypeRepository(session=self.session)
+        self.category_repository = CategoryRepository(session=self.session)
+        self.review_repository = ReviewRepository(session=self.session)
+        self.order_repository = OrderRepository(session=self.session)
+        self.favourite_repository = FavouriteRepository(session=self.session)
+        self.vacancies_repository = VacanciesRepository(session=self.session)
+        self.product_repository = ProductRepository(session=self.session)
+        self.type_worker_repository = TypeWorkerRepository(session=self.session)
+        self.history_buy_repository = HistoryBuyRepository(session=self.session)
+        self.subcategory_repository = SubCategoryRepository(
+            session=self.session
+        )
+        self.sub_subcategory_repository = SubSubCategoryRepository(
+            session=self.session
+        )
+        self.brand_repository = BrandRepository(session=self.session)
+        self.model_repository = ModelRepository(session=self.session)
+        self.mark_repository = MarkRepository(session=self.session)
+        self.product_models_repository = ProductModelsRepository(
+            session=self.session
+        )
 
     async def __aexit__(self, *args):
         """
         Закрытие сессии
         """
 
+        print("Выход из сессии")
+        await self.session.rollback()
         await self.session.close()
+
+    async def commit(self):
+        print("Коммит!")
+        await self.session.commit()
+
+    async def rollback(self):
+        print("Rollback")
+        await self.session.rollback()
