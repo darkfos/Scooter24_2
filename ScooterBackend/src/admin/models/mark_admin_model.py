@@ -11,11 +11,17 @@ class MarkModelView(ModelView, model=Mark):
     icon: str = "fa-solid fa-circle-xmark"
     category: str = "Продукт"
 
-    column_list: List[Any] = [Mark.id, Mark.name_mark, Mark.product_data]
+    column_list: List[Any] = [
+        Mark.id,
+        Mark.name_mark,
+        Mark.product_data,
+        Mark.model_data,
+    ]
     column_labels: Dict[Any, str] = {
         Mark.id: "Идентификатор марки",
         Mark.name_mark: "Название марки",
         Mark.product_data: "Данные продукта",
+        Mark.model_data: "Модели",
     }
 
     # Operation's

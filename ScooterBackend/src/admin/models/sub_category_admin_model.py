@@ -1,4 +1,5 @@
 from sqladmin import ModelView
+
 from src.database.models.subcategory import SubCategory
 from typing import Any, List
 
@@ -16,17 +17,27 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.name,
         SubCategory.id_category,
         SubCategory.sub_sub_category_data,
+        SubCategory.category_data,
     ]
 
     column_labels: dict = {
         SubCategory.id: "Идентификатор",
         SubCategory.name: "Название",
         SubCategory.id_category: "Категория",
-        SubCategory.sub_sub_category_data: "Данные подкатегории",
+        SubCategory.sub_sub_category_data: "Данные подкатегории 2 ур.",
+        SubCategory.category_data: "Данные категории",
     }
 
-    form_ajax_refs: dict = {
-        "sub_sub_category_data": {"fields": ("id",), "order_by": ("id")}
+    form_create_rules = ["name", "category_data"]
+
+    column_select_related_list = ["category_data"]
+
+    form_ajax_refs = {
+        "category_data": {
+            "fields": ("name_category", "id"),
+            "order_by": ("name_category"),
+            "placeholder": "Выберите категорию",
+        }
     }
 
     # Operations

@@ -31,7 +31,7 @@ from src.database.mainbase import MainBase
 
 class DatabaseEngine:
 
-    __instance: Union[None] = None
+    __instance: Union[None, "DatabaseEngine"] = None
 
     def __new__(cls, *args, **kwargs) -> "DatabaseEngine":
         if cls.__instance is None:
@@ -43,7 +43,11 @@ class DatabaseEngine:
             url=Settings.database_settings.db_url, echo=True
         )
         self.async_session: Type[async_sessionmaker] = async_sessionmaker(
-            bind=self.db_engine
+            bind=self.db_engine,
+            autoflush=False,
+            autocommit=False,
+            expire_on_commit=False,
+            class_=AsyncSession,
         )
 
     async def create_tables(self):

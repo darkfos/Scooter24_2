@@ -147,23 +147,19 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin: bool = await engine.user_repository.find_one(
+                other_id=token_data.get("sub")
             )
 
-            if is_admin:
-                user_data: Union[None, User] = await engine.user_repositor
-                y.find_one(other_id=user_id)
-                if user_data:
-                    return InformationAboutUser(
-                        email_user=user_data[0].email_user,
-                        name_user=user_data[0].name_user,
-                        surname_user=user_data[0].surname_user,
-                        main_name_user=user_data[0].main_name_user,
-                        date_registration=user_data[0].date_registration,
-                    )
+            if is_admin and token_data.get("is_admin"):
+                user_data: dict = is_admin[0]
+                return InformationAboutUser(
+                    email_user=user_data.email_user,
+                    name_user=user_data.name_user,
+                    surname_user=user_data.surname_user,
+                    main_name_user=user_data.main_name_user,
+                    date_registration=user_data.date_registration,
+                )
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось получить информацию о"
@@ -196,7 +192,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_reviews(
-                    user_id=token_data.get("id_user")
+                    user_id=token_data.get("sub")
                 )
             )
 
@@ -245,7 +241,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_favourites(
-                    user_id=token_data.get("id_user")
+                    user_id=token_data.get("sub")
                 )
             )
 
@@ -292,7 +288,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_orders(
-                    user_id=token_data.get("id_user")
+                    user_id=token_data.get("sub")
                 )
             )
             if user_data:
@@ -344,7 +340,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_history(
-                    user_id=token_data.get("id_user")
+                    user_id=token_data.get("sub")
                 )
             )
 
@@ -384,7 +380,7 @@ class UserService:
         logging.info(msg="Получение полной информации о пользователе")
 
         # Getting user id
-        user_id: int = token_data.get("id_user")
+        user_id: int = token_data.get("sub")
 
         async with engine:
             user_all_information: Union[User, None] = (
@@ -429,6 +425,7 @@ class UserService:
                         address_phone_number=user_all_information.address_phone_number,  # noqa
                     ),
                 )
+
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось получить информацию"
@@ -459,13 +456,11 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin: bool = await engine.user_repository.find_one(
+                other_id=token_data.get("sub")
             )
 
-            if is_admin:
+            if is_admin and token_data.get("is_admin"):
                 user_all_information: Union[None, User] = (
                     await engine.user_repository.find_user_and_get_full_information(
                         user_id=user_id
@@ -496,6 +491,7 @@ class UserService:
                             address_phone_number=user_all_information.address_phone_number,  # noqa
                         ),
                     )
+
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось получить полную "
@@ -557,7 +553,7 @@ class UserService:
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
-                    other_id=token_data.get("id_user"),
+                    other_id=token_data.get("sub"),
                     data_to_update=to_update.model_dump(),
                 )
             )

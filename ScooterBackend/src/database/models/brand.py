@@ -20,7 +20,7 @@ class Brand(MainBase):
     )
 
     def __str__(self) -> str:
-        return str({k: v for k, v in self.__dict__.items()})
+        return str({"Идентификатор": self.id, "Название": self.name_brand})
 
     def __repr__(self) -> str:
         return self.__str__()

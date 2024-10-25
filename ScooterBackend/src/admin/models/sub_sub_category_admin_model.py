@@ -34,18 +34,13 @@ class SSCategoryModelView(ModelView, model=SubSubCategory):
     can_view_details: bool = True
 
     form_ajax_refs: Dict[str, dict] = {
-        "product_data": {
-            "fields": (
-                "id",
-                "title_product",
-            ),
-            "order_by": ("id", "title_product"),
-        },
         "sub_category_data": {
             "fields": (
                 "id",
                 "name",
             ),
-            "order_by": ("id", "name"),
+            "order_by": "name",
         },
     }
+
+    form_excluded_columns = [SubSubCategory.product_data]
