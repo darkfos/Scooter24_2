@@ -48,14 +48,23 @@ class AdminPanel(AdminPanelService):
         self.starlette_data: Starlette = self.admin_panel.__dict__["admin"]
 
         # Add router
-        self.starlette_data.routes.append(
-            Route(
-                path="/load_data/{model}",
-                endpoint=self.load_data,
-                name="load_data",
-                methods=["POST", "GET"],
-            )
+        self.starlette_data.routes.extend(
+            [
+                Route(
+                    path="/load_data/{model}",
+                    endpoint=self.load_data,
+                    name="load_data",
+                    methods=["POST", "GET"],
+                ),
+                Route(
+                    path="/load_data/{model}/{update}",
+                    endpoint=self.update_data,
+                    name="update_data",
+                    methods=["POST", "GET"],
+                ),
+            ]
         )
+
         self.starlette_data.routes.append(
             Mount(
                 path="/static_sc24",
@@ -91,6 +100,7 @@ class AdminPanel(AdminPanelService):
 
         if file:
             if ".csv" in file.filename or ".xlsx" in file.filename:
+
                 # Decode data file
                 file_data = (await file.read()).decode("UTF-8")
                 file_object = StringIO(file_data)
@@ -147,3 +157,44 @@ class AdminPanel(AdminPanelService):
                             status_code=status.HTTP_307_TEMPORARY_REDIRECT,
                         )
                 # fmt: onn
+
+    @override
+    @login_required
+    async def update_data(self, request: Request):
+        """
+        Обновление данных в таблице
+        """
+
+        params_from_req = request.path_params
+        file: UploadFile = (await request.form()).get("csv_file")
+        model_view = (
+            "product" if params_from_req["model"] == "Товары" else "category"
+        )
+
+        # Работа с файлом
+        file_data = (await file.read()).decode("UTF-8")
+        file_object = StringIO(file_data)
+        file_data = pandas.read_csv(file_object, comment="#", sep=";")
+        df = pandas.DataFrame(file_data)
+
+        match params_from_req["model"]:
+            case "Товары":
+                await self.update_product(
+                    request=request, engine=EngineRepository(), file=df
+                )
+            case "Категория":
+                await self.update_category(
+                    request=request,
+                    file=df,
+                    session=EngineRepository(),
+                    data_to_response="category",
+                )
+            case _:
+                return RedirectResponse(
+                    url=f"/admin", status_code=status.HTTP_303_SEE_OTHER
+                )
+
+        return RedirectResponse(
+            url=f"/admin/{model_view}/list",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )

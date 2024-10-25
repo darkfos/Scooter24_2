@@ -202,7 +202,7 @@ class AdminPanelService:
                 else:
                     request.session["warning_message"] = (
                         f"Удалось добавить {cnt_to_add} из"
-                        f" {cnt_row - 1} записей"
+                        f" {cnt_row} записей"
                     )
                     return RedirectResponse(
                         url=f"/admin/{data_to_response}/list",
@@ -227,11 +227,11 @@ class AdminPanelService:
             session: EngineRepository = session
             try:
                 for index, row in file.itertuples():
-                    name_category, image = row.split(",")
+                    name_category, image = row["Категория"], row["Фото"]
                     res_to_add = await session.category_repository.add_one(
                         Category(
                             name_category=name_category,
-                            icon_category=image if image else None,
+                            icon_category=image if image else "Неопределенно",
                         )
                     )
                     if res_to_add:
@@ -336,8 +336,12 @@ class AdminPanelService:
                 new_model = await engine.model_repository.add_one(
                     data=Model(name_model=line_data, id_mark=id_mark)
                 )
+                print("#" * 30)
+                print(line_data, new_model, find_model, id_mark)
+                print("#" * 30)
 
-                cls.lst_to_add_product_models.append(new_model)
+                if new_model:
+                    cls.lst_to_add_product_models.append(new_model)
 
     @classmethod
     async def add_product_model(cls, engine: EngineRepository) -> None:
@@ -350,8 +354,8 @@ class AdminPanelService:
                 data=ProductModels(id_product=cls.id_product, id_model=el)
             )
 
-            cls.lst_to_add_product_models.clear()
-            cls.id_product = None
+        cls.lst_to_add_product_models.clear()
+        cls.id_product = None
 
     @staticmethod
     async def add_mark(name_mark: str, engine: EngineRepository) -> None:
@@ -362,3 +366,122 @@ class AdminPanelService:
         return await engine.mark_repository.add_one(
             data=Mark(name_mark=name_mark)
         ).id
+
+    @staticmethod
+    async def update_product(
+        request, engine: EngineRepository, file: pandas.DataFrame
+    ):
+        """
+        Обновление данных в файле
+        """
+
+        cnt_to_update: int = 0
+        cnt_result_update: int = 0
+
+        async with engine:
+            for index, row in file.iterrows():
+                # Поиск товара по названию
+                product_data = (
+                    await engine.product_repository.find_product_by_name(
+                        name_product=row["Наименование товара"]
+                    )
+                )
+                if product_data:
+                    product_data = product_data[0].id
+                    # Обновление данных
+                    is_updated = await engine.product_repository.update_one(
+                        other_id=product_data,
+                        data_to_update={
+                            "price_with_discount": row[
+                                "Текущая цена с учетом скидки, ₽"
+                            ],
+                            "price_product": row[
+                                "Цена до скидки (перечеркнутая цена), ₽"
+                            ],
+                            "quantity_product": row[
+                                "Доступно к продаже по схеме FBS, шт."
+                            ],
+                        },
+                    )
+
+                    if is_updated:
+                        cnt_result_update += 1
+                cnt_to_update += 1
+
+        request.session["warning_message"] = (
+            f"Удалось обновить "
+            f"{cnt_result_update} из {cnt_result_update} записей"
+        )
+        return RedirectResponse(
+            url=f"/admin/product/list",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )
+
+    @staticmethod
+    async def update_category(  # noqa
+        request: Request,
+        file: pandas.DataFrame,
+        session: EngineRepository,
+        data_to_response: str,
+    ) -> Response:
+        """
+        Добавление новых категорий
+        """
+
+        cnt_to_update: int = 0
+        cnt_row: int = 0
+
+        async with session:
+            session: EngineRepository = session
+            try:
+                for index, row in file.itertuples():
+                    name_category, image = row["Категория"], row["Фото"]
+
+                    # Поиск категории
+                    category = await session.category_repository.find_by_name(
+                        category_name=name_category, type_find=True
+                    )
+
+                    if category:
+                        category = category[0].id
+
+                        is_updated = (
+                            await session.category_repository.update_one(
+                                other_id=category,
+                                data_to_update={"icon_category": image},
+                            )
+                        )
+
+                        if is_updated:
+                            cnt_to_update += 1
+                    cnt_row += 1
+
+            except KeyError:
+                request.session["error_message"] = (
+                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
+                )
+                return RedirectResponse(
+                    url=f"/admin/{data_to_response}/list",
+                    status_code=status.HTTP_303_SEE_OTHER,
+                )
+            except ValueError:
+                request.session["error_message"] = (
+                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не верный формат файла"
+                )
+                return RedirectResponse(
+                    url=f"/admin/{data_to_response}/list",
+                    status_code=status.HTTP_303_SEE_OTHER,
+                )
+            else:
+                if cnt_row == cnt_to_update - 1:
+                    return RedirectResponse(
+                        url="/admin", status_code=status.HTTP_303_SEE_OTHER
+                    )
+                else:
+                    request.session["warning_message"] = (
+                        f"Удалось обновить {cnt_to_update} из {cnt_row} записей"
+                    )
+                    return RedirectResponse(
+                        url=f"/admin/{data_to_response}/list",
+                        status_code=status.HTTP_303_SEE_OTHER,
+                    )
