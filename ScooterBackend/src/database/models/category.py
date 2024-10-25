@@ -16,13 +16,19 @@ class Category(MainBase):
     name_category: Mapped[str] = mapped_column(
         type_=String(150), nullable=False, unique=True, index=True
     )
+
     icon_category: Mapped[str] = mapped_column(
-        type_=Text, nullable=True, index=False
+        type_=Text,
+        nullable=True,
+        index=False,
     )
 
     # Связи
     subcategory_data: Mapped[List["SubCategory"]] = relationship(
-        "SubCategory", back_populates="category_data", uselist=True
+        "SubCategory",
+        back_populates="category_data",
+        uselist=True,
+        cascade="all, delete",
     )
 
     def read_model(self) -> Dict[str, str]:

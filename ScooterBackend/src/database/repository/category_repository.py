@@ -39,10 +39,12 @@ class CategoryRepository(GeneralSQLRepository):
         )
 
         stmt = select(Category).where(Category.name_category == category_name)
-        res_to_find = (await self.async_session.execute(stmt)).one_or_none()
+        result = await self.async_session.execute(stmt)
+        result_data = result.one_or_none()
 
-        if type_find:
-            return res_to_find[0]
+        if type_find and result_data:
+            return result_data[0].id
+
         logging.critical(
             msg=f"{self.__class__.__name__} "
             f"Не удалось найти категорию"

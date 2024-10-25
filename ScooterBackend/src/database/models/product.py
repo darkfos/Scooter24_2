@@ -44,7 +44,9 @@ class Product(MainBase):
 
     # Подкатегория
     id_s_sub_category: Mapped[int] = mapped_column(
-        ForeignKey("Subsubcategory.id"), type_=Integer, nullable=False
+        ForeignKey("Subsubcategory.id", ondelete="SET NULL"),
+        type_=Integer,
+        nullable=True,
     )
 
     # Пояснение продукта

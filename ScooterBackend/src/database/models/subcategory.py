@@ -10,7 +10,9 @@ class SubCategory(MainBase):
         type_=String(length=225), nullable=False, unique=True
     )
     id_category: Mapped[int] = mapped_column(
-        ForeignKey("Category.id"), type_=Integer, nullable=False
+        ForeignKey("Category.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
 
     # Связи
@@ -19,7 +21,10 @@ class SubCategory(MainBase):
         "Category", back_populates="subcategory_data", uselist=False
     )
     sub_sub_category_data: Mapped[List["SubSubCategory"]] = relationship(
-        "SubSubCategory", back_populates="sub_category_data", uselist=True
+        "SubSubCategory",
+        back_populates="sub_category_data",
+        uselist=True,
+        cascade="all, delete",
     )
 
     def __str__(self) -> str:
