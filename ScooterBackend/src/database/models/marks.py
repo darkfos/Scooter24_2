@@ -1,4 +1,5 @@
 from sqlalchemy import String
+from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database.mainbase import MainBase
 
@@ -16,6 +17,9 @@ class Mark(MainBase):
     # Связи
     product_data: Mapped["Product"] = relationship(
         "Product", back_populates="mark_data", uselist=False
+    )
+    model_data: Mapped[List["Model"]] = relationship(
+        "Model", back_populates="mark_data", uselist=True
     )
 
     def __str__(self) -> str:
