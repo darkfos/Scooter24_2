@@ -64,7 +64,6 @@ class ProductModelView(ModelView, model=Product):
     can_view_details: bool = True
 
     form_create_rules: list = [
-        "id_category",
         "sub_sub_category_data",
         "brand_data",
         "mark_data",
@@ -79,7 +78,21 @@ class ProductModelView(ModelView, model=Product):
         "date_create_product",
         "date_update_information",
         "photo_product",
-        "category_data",
+    ]
+
+    form_edit_rules = [
+        "brand_data",
+        "mark_data",
+        "title_product",
+        "article_product",
+        "explanation_product",
+        "quantity_product",
+        "product_discount",
+        "weight_product",
+        "price_product",
+        "price_with_discount",
+        "photo_product",
+        "sub_sub_category_data",
     ]
 
     # Form's for FK

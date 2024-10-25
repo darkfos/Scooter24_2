@@ -6,8 +6,10 @@ from fastapi import status, UploadFile
 from starlette.staticfiles import StaticFiles
 from sqladmin.authentication import login_required
 from typing import Type, List
+
 from src.database.db_worker import db_work
 from fastapi import FastAPI, Request
+
 from src.settings.engine_settings import Settings
 from io import StringIO
 from typing import override
@@ -19,13 +21,11 @@ from src.admin import all_models
 from src.admin.admin_auth import AdminPanelAuthentication
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import EngineRepository
-from src.database.models.product import Product
-from src.database.models.category import Category
-from src.database.models.subcategory import SubCategory
+from src.admin.admin_panel_data_service import AdminPanelService
 import pandas
 
 
-class AdminPanel:
+class AdminPanel(AdminPanelService):
     def __init__(self, app: FastAPI) -> None:
         self.admin_panel_auth: Type[AdminPanelAuthentication] = (
             AdminPanelAuthentication(
@@ -48,14 +48,23 @@ class AdminPanel:
         self.starlette_data: Starlette = self.admin_panel.__dict__["admin"]
 
         # Add router
-        self.starlette_data.routes.append(
-            Route(
-                path="/load_data/{model}",
-                endpoint=self.load_data,
-                name="load_data",
-                methods=["POST", "GET"],
-            )
+        self.starlette_data.routes.extend(
+            [
+                Route(
+                    path="/load_data/{model}",
+                    endpoint=self.load_data,
+                    name="load_data",
+                    methods=["POST", "GET"],
+                ),
+                Route(
+                    path="/load_data/{model}/{update}",
+                    endpoint=self.update_data,
+                    name="update_data",
+                    methods=["POST", "GET"],
+                ),
+            ]
         )
+
         self.starlette_data.routes.append(
             Mount(
                 path="/static_sc24",
@@ -149,255 +158,43 @@ class AdminPanel:
                         )
                 # fmt: onn
 
-    @staticmethod
-    async def add_product(  # noqa
-        request: Request,
-        file: pandas.DataFrame,
-        session: EngineRepository,
-        data_to_response: str,
-    ) -> Response:
+    @override
+    @login_required
+    async def update_data(self, request: Request):
         """
-        Добавление новых продуктов
+        Обновление данных в таблице
         """
 
-        cnt_to_add: int = 0
-        cnt_row: int = 0
+        params_from_req = request.path_params
+        file: UploadFile = (await request.form()).get("csv_file")
+        model_view = (
+            "product" if params_from_req["model"] == "Товары" else "category"
+        )
 
-        async with session:
-            session: EngineRepository = session
-            try:
-                for index, row in file.iterrows():
-                    category_data = id_subcat_1 = id_subcat_2 = (
-                        None  # Initial data for fk
-                    )
+        # Работа с файлом
+        file_data = (await file.read()).decode("UTF-8")
+        file_object = StringIO(file_data)
+        file_data = pandas.read_csv(file_object, comment="#", sep=";")
+        df = pandas.DataFrame(file_data)
 
-                    # Find fk in other tables
-                    if str(row["Категория"]) not in (None, "nan"):
-                        category_data: Category = (
-                            await session.category_repository.find_by_name(
-                                category_name=row["Категория"]
-                            )
-                        )
-                    if str(row["Подкатегория первого уровня"]) not in (
-                        None,
-                        "nan",
-                    ):
-                        id_subcat_1: SubCategory = (
-                            await session.subcategory_repository.find_by_name(
-                                name_subcategory=row[
-                                    "Подкатегория первого уровня"
-                                ]
-                            )
-                        )
-                    if str(row["Подкатегория второго уровня"]) not in (
-                        None,
-                        "nan",
-                    ):
-                        id_subcat_2: SubCategory = (
-                            await session.subcategory_repository.find_by_name(
-                                name_subcategory=row[
-                                    "Подкатегория второго уровня"
-                                ]
-                            )
-                        )
-
-                    # replace type of object
-                    weight_product = float(
-                        str(row["Объемный вес, кг"]).replace("'", "")
-                    )
-                    quantity_product = int(
-                        row["Доступно к продаже по схеме FBS, шт."]
-                    )
-                    price_product = float(
-                        row["Цена до скидки (перечеркнутая цена), ₽"]
-                    )
-                    price_with_discount = float(
-                        row["Текущая цена с учетом скидки, ₽"]
-                    )
-
-                    res_to_add = await session.product_repository.add_one(
-                        Product(
-                            article_product=row["Артикул"],
-                            title_product=row["Наименование товара"],
-                            brand=(
-                                row["Бренд"]
-                                if str(row["Бренд"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
-                            weight_product=weight_product,
-                            id_category=(
-                                category_data.id
-                                if type(category_data) is Category
-                                else None
-                            ),
-                            id_subcategory_thirst_level=(
-                                id_subcat_1.id
-                                if type(id_subcat_1) is SubCategory
-                                else None
-                            ),
-                            id_subcategory_second_level=(
-                                id_subcat_2.id
-                                if type(id_subcat_2) is SubCategory
-                                else None
-                            ),
-                            explanation_product=(
-                                row["Описание"]
-                                if str(row["Описание"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
-                            brand_mark=(
-                                row["Марка"]
-                                if str(row["Марка"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
-                            model=(
-                                row["Модель"]
-                                if str(row["Модель"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
-                            photo_product=(
-                                row["Фото"]
-                                if str(row["Фото"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
-                            quantity_product=quantity_product,
-                            price_product=price_product,
-                            price_with_discount=price_with_discount,
-                            product_discount=0,
-                        )
-                    )
-                    if res_to_add:
-                        cnt_to_add += 1
-                    cnt_row += 1
-            except KeyError:
-                request.session["error_message"] = (
-                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
+        match params_from_req["model"]:
+            case "Товары":
+                await self.update_product(
+                    request=request, engine=EngineRepository(), file=df
                 )
+            case "Категория":
+                await self.update_category(
+                    request=request,
+                    file=df,
+                    session=EngineRepository(),
+                    data_to_response="category",
+                )
+            case _:
                 return RedirectResponse(
-                    url=f"/admin/{data_to_response}/list",
-                    status_code=status.HTTP_303_SEE_OTHER,
+                    url=f"/admin", status_code=status.HTTP_303_SEE_OTHER
                 )
-            else:
-                if cnt_row == cnt_to_add - 1:
-                    return RedirectResponse(
-                        url="/admin", status_code=status.HTTP_303_SEE_OTHER
-                    )
-                else:
-                    request.session["warning_message"] = (
-                        f"Удалось добавить {cnt_to_add} из"
-                        f" {cnt_row - 1} записей"
-                    )
-                    return RedirectResponse(
-                        url=f"/admin/{data_to_response}/list",
-                        status_code=status.HTTP_303_SEE_OTHER,
-                    )
 
-    @staticmethod
-    async def add_category(  # noqa
-        request: Request,
-        file: pandas.DataFrame,
-        session: EngineRepository,
-        data_to_response: str,
-    ) -> Response:
-        """
-        Добавление новых категорий
-        """
-
-        cnt_to_add: int = 0
-        cnt_row: int = 0
-
-        async with session:
-            session: EngineRepository = session
-            try:
-                for index, row in file.itertuples():
-                    name_category, image = row.split(",")
-                    res_to_add = await session.category_repository.add_one(
-                        Category(
-                            name_category=name_category,
-                            icon_category=image if image else None,
-                        )
-                    )
-                    if res_to_add:
-                        cnt_to_add += 1
-                    cnt_row += 1
-            except KeyError:
-                request.session["error_message"] = (
-                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
-                )
-                return RedirectResponse(
-                    url=f"/admin/{data_to_response}/list",
-                    status_code=status.HTTP_303_SEE_OTHER,
-                )
-            except ValueError:
-                request.session["error_message"] = (
-                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не верный формат файла"
-                )
-                return RedirectResponse(
-                    url=f"/admin/{data_to_response}/list",
-                    status_code=status.HTTP_303_SEE_OTHER,
-                )
-            else:
-                if cnt_row == cnt_to_add - 1:
-                    return RedirectResponse(
-                        url="/admin", status_code=status.HTTP_303_SEE_OTHER
-                    )
-                else:
-                    request.session["warning_message"] = (
-                        f"Удалось добавить {cnt_to_add} из {cnt_row} записей"
-                    )
-                    return RedirectResponse(
-                        url=f"/admin/{data_to_response}/list",
-                        status_code=status.HTTP_303_SEE_OTHER,
-                    )
-
-    @staticmethod
-    async def add_sub_category(
-        request: Request,
-        file: pandas.DataFrame,
-        session: EngineRepository,
-        data_to_response: str,
-    ) -> Response:
-        """
-        Добавление новых подкатегорий
-        """
-
-        cnt_to_add: int = 0
-        cnt_row: int = 0
-
-        async with session:
-            session: EngineRepository = session
-            try:
-                for index, row in file.iterrows():
-                    res_to_add = await session.subcategory_repository.add_one(
-                        SubCategory(
-                            name=row.get("Подкатегория"),
-                            level=row.get("Уровень"),
-                            id_category=row.get("Категория"),
-                            id_sub_category=row.get("П. подкатегории"),
-                        )
-                    )
-                if res_to_add:
-                    cnt_to_add += 1
-                cnt_row += 1
-            except KeyError:
-                request.session["error_message"] = (
-                    "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
-                )
-                return RedirectResponse(
-                    url=f"/admin/{data_to_response}/list",
-                    status_code=status.HTTP_303_SEE_OTHER,
-                )
-            else:
-                if cnt_row == cnt_to_add - 1:
-                    return RedirectResponse(
-                        url="/admin", status_code=status.HTTP_303_SEE_OTHER
-                    )
-                else:
-                    request.session["warning_message"] = (
-                        f"Удалось добавить "
-                        f"{cnt_to_add} из {cnt_row - 1} записей"
-                    )
-                    return RedirectResponse(
-                        url=f"/admin/{data_to_response}/list",
-                        status_code=status.HTTP_303_SEE_OTHER,
-                    )
+        return RedirectResponse(
+            url=f"/admin/{model_view}/list",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )

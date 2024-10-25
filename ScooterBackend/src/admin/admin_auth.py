@@ -19,7 +19,6 @@ class AdminPanelAuthentication(AuthenticationBackend):
 
     async def login(self, request: Type[Request]) -> bool:
         form = await request.form()
-        print(form, request)
         username, password = form["username"], form["password"]
 
         # Validate

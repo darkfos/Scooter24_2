@@ -35,4 +35,4 @@ class Model(MainBase):
     def read_model(self) -> dict:
         # Чтение модели
 
-        return {k: v for k, v in self.__dict__.items()}
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
