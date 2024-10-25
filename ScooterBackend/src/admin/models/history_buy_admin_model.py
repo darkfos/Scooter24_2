@@ -16,12 +16,14 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
         HistoryBuy.id_user,
         HistoryBuy.id_product,
         HistoryBuy.hst_user,
+        HistoryBuy.product_data,
     ]
     column_labels: dict = {
         HistoryBuy.id: "Идентификатор истории",
         HistoryBuy.id_user: "Идентификатор пользователя",
         HistoryBuy.id_product: "Идентификатор продукта",
         HistoryBuy.hst_user: "Пользователь",
+        HistoryBuy.product_data: "Данные продуктов",
     }
 
     # Operation's
@@ -31,6 +33,8 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
     can_export: bool = True
     can_view_details: bool = True
 
+    form_create_rules = ["hst_user", "product_data"]
+
     # Form's
     form_ajax_refs: dict = {
         "hst_user": {
@@ -39,5 +43,6 @@ class HistoryBuyModelView(ModelView, model=HistoryBuy):
                 "name_user",
             ),
             "order_by": ("id"),
-        }
+        },
+        "product_data": {"fields": ("id", "title_product"), "order_by": ("id")},
     }

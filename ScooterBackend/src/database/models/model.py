@@ -15,12 +15,15 @@ class Model(MainBase):
     )
 
     id_mark: Mapped[int] = mapped_column(
-        ForeignKey("Mark.id"), type_=Integer, nullable=False
+        ForeignKey("Mark.id", ondelete="CASCADE"), type_=Integer, nullable=False
     )
 
     # Связи
     product_models_data: Mapped[List["ProductModels"]] = relationship(
-        "ProductModels", back_populates="model_data", uselist=True
+        "ProductModels",
+        back_populates="model_data",
+        uselist=True,
+        cascade="all, delete",
     )
     mark_data: Mapped["Mark"] = relationship(
         "Mark", back_populates="model_data", uselist=False

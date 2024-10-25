@@ -10,10 +10,14 @@ class ProductModels(MainBase):
     """
 
     id_product: Mapped[int] = mapped_column(
-        ForeignKey("Product.id"), type_=Integer, nullable=False
+        ForeignKey("Product.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
     id_model: Mapped[int] = mapped_column(
-        ForeignKey("Model.id"), type_=Integer, nullable=False
+        ForeignKey("Model.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
 
     # Связи
