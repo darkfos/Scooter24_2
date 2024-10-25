@@ -130,7 +130,15 @@ class Product(MainBase):
 
     def __str__(self) -> str:
         # Возвращает строковый объект класса
-        return str({k: v for k, v in self.__dict__.items()})
+        return str(
+            {
+                "Идентификатор": self.id,
+                "Название": self.title_product,
+                "Бренд": self.brand,
+                "Подкатегория": self.id_s_sub_category,
+                "Цена": self.price_product,
+            }
+        )
 
     def __repr__(self) -> str:
         # Возвращает строковый объект класса

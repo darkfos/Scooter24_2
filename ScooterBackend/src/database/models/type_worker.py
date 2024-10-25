@@ -24,9 +24,7 @@ class TypeWorker(MainBase):
 
     def __str__(self) -> str:
         # Возвращает строковый объект
-        return str(
-            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
-        )
+        return str({"Идентификатор": self.id, "Название": self.name_type})
 
     def __repr__(self) -> str:
         # Возвращает строковый объект

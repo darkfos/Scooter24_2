@@ -19,6 +19,7 @@ class AdminPanelAuthentication(AuthenticationBackend):
 
     async def login(self, request: Type[Request]) -> bool:
         form = await request.form()
+        print(form, request)
         username, password = form["username"], form["password"]
 
         # Validate
@@ -42,13 +43,18 @@ class AdminPanelAuthentication(AuthenticationBackend):
     async def authenticate(
         self, request: Type[Request]
     ) -> Union[Type[Response], bool]:
-        tokens: tuple = request.session.get("token"), request.session.get(
-            "refresh_token"
-        )
+
+        tokens: tuple = request.session.get(
+            "access_token"
+        ), request.session.get("refresh_token")
 
         if tokens[-1]:
-            # Check jwt token and update this as needed
-            await self.auth_service.update_token(refresh_token=tokens[-1])
+            # Check jwt token and update this
+            new_token = await self.auth_service.update_token(
+                refresh_token=tokens[-1]
+            )
+            request.session.update({"access_token": new_token})
+
             return True
         return False
 

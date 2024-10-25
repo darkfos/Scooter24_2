@@ -24,7 +24,11 @@ class SubCategory(MainBase):
 
     def __str__(self) -> str:
         return str(
-            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+            {
+                "Идентификатор": self.id,
+                "Название": self.name,
+                "Категория": self.id_category,
+            }
         )
 
     def __repr__(self) -> str:

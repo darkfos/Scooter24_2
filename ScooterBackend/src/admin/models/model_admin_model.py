@@ -22,6 +22,8 @@ class ModelModelView(ModelView, model=Model):
         Model.product_models_data: "Данные продукта",
     }
 
+    form_create_rules = {"name_model"}
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

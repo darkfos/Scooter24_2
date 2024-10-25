@@ -21,13 +21,19 @@ class ProductBase(BaseModel):
     price_product: Annotated[float, Field(gt=-1)]
     price_with_discount: Annotated[float, Field()]
     photo_product: Annotated[UploadFile, Field()] = None
-    date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_create_product: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
     product_discount: Annotated[int, Field(lt=100)]
 
     @classmethod
     def change_product_discount(cls) -> None:
-        cls.product_discount = (cls.price_product - cls.price_with_discount) // cls.price_product
+        cls.product_discount = (
+            cls.price_product - cls.price_with_discount
+        ) // cls.price_product
 
 
 class ListProductBase(BaseModel):
@@ -57,7 +63,9 @@ class UpdateProduct(BaseModel):
     article_product: Annotated[str, Field(max_length=150, default=None)] = None
     tags: Annotated[str, Field(min_length=0, default=None)] = None
     other_data: Annotated[str, Field(min_length=0, default=None)] = None
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
 
 
 class ProductIsCreated(BaseModel):
@@ -69,4 +77,6 @@ class ProductIsCreated(BaseModel):
 class UpdateProductDiscount(BaseModel):
 
     product_discount: Annotated[int, Field(lt=100)]
-    date_update_information: Annotated[datetime.date, Field(default=datetime.date.today())]
+    date_update_information: Annotated[
+        datetime.date, Field(default=datetime.date.today())
+    ]
