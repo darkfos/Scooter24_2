@@ -28,8 +28,6 @@ class EmailService:
         Метод сервиса EmailService - отправка ссылки на почту
         """
 
-        await UserService.create_a_new_user(engine=engine, new_user=new_user)
-
         logging.info(
             msg=f"{EmailService.__name__} Отправка ссылки"
             f" на подтверждение регистрации"
@@ -59,8 +57,6 @@ class EmailService:
                         f"{new_user.email_user}",
                         whom_email=new_user.email_user,
                     )
-                await UserHttpError.http_failed_to_update_user_information()
-            await UserHttpError.http_user_not_found()
 
     @staticmethod
     async def access_user_account(

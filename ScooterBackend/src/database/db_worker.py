@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 # System
-from typing import Union, Type
+from typing import Union
 
 # Local
 
@@ -39,10 +39,10 @@ class DatabaseEngine:
         return cls.__instance
 
     def __init__(self):
-        self.db_engine: Type[AsyncEngine] = create_async_engine(
+        self.db_engine: AsyncEngine = create_async_engine(
             url=DatabaseSettings().db_url, echo=True
         )
-        self.async_session: Type[async_sessionmaker] = async_sessionmaker(
+        self.async_session: async_sessionmaker = async_sessionmaker(
             bind=self.db_engine,
             autoflush=False,
             autocommit=False,

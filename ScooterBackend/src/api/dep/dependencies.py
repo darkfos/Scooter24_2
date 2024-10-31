@@ -108,19 +108,18 @@ class EngineRepository(IEngineRepository):
             session=self.session
         )
 
+        return self
+
     async def __aexit__(self, *args):
         """
         Закрытие сессии
         """
 
-        print("Выход из сессии")
         await self.session.rollback()
         await self.session.close()
 
     async def commit(self):
-        print("Коммит!")
         await self.session.commit()
 
     async def rollback(self):
-        print("Rollback")
         await self.session.rollback()
