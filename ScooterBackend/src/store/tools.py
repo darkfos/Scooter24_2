@@ -16,6 +16,10 @@ class RedisTools:
     )
 
     @classmethod
+    async def delete_key(cls, key):
+        cls.__REDIS_CONNECTION.delete(key)
+
+    @classmethod
     async def set_key_and_value(cls, key: str, value: Dict):
         cls.__REDIS_CONNECTION.set(key, value, ex=20)
 

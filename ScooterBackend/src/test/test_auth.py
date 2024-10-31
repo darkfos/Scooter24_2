@@ -99,9 +99,7 @@ async def test_user_auth_t(
 
 
 @pytest.mark.asyncio
-async def update_refresh_token(
-    async_client: AsyncClient, session: AsyncSession
-) -> None:
+async def update_refresh_token(async_client: AsyncClient) -> None:
 
     req_for_update_token = await async_client.post(
         url="/update_token", params={"refresh_token": REFRESH_TOKEN_LOCAL}
