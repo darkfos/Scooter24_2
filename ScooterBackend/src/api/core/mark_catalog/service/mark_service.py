@@ -72,7 +72,7 @@ class MarkService:
                     ]
                 )
                 if all_marks
-                else []
+                else AllMarks(marks=[])
             )
 
     @redis
