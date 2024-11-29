@@ -26,6 +26,10 @@ jobs:
           python -m pip install --upgrade pip
           pip3 install flake8
           pip3 install black
+      - name: Check flake8 version
+        run: flake8 --version
+      - name: Check flake8 linter
+        run: flake8 --verbose ScooterBackend/src/ .
       - name: Check flake8 linter
         run: flake8 .
       - name: Check black linter
@@ -49,7 +53,7 @@ jobs:
             pip3 install httpx
             pip3 install jwt
             pip3 install python-dotenv
-            pip3 install email-validato
+            pip3 install email-validator
             pip3 install pydantic
       - name: Run tests
         run: pytest ScooterBackend/src/test .
