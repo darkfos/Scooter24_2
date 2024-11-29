@@ -68,7 +68,7 @@ class ScooterBackendApplication:
 
         # Static's
         self.statics: StaticFiles = StaticFiles(
-            directory="ScooterBackend/src/statics"
+            directory="src/statics"
         )
         self.scooter24_app.mount(
             path="/static", app=self.statics, name="static"
