@@ -45,7 +45,7 @@ jobs:
       - name: Download libraries
         run: |
             python -m pip install --upgrade pip
-            pip3 install -r ScooterBackend/src/requirements.txt
+            pip3 install -r requirements.txt
       - name: Run tests
         env:
           DB_USER: "darkfos82"
