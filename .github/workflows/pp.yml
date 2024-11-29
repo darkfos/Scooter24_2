@@ -35,6 +35,11 @@ jobs:
         run: flake8 .
   test_check:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
     steps:
       - uses: actions/checkout@v4
       - name: Download python
