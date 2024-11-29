@@ -29,7 +29,9 @@ jobs:
       - name: Check flake8 version
         run: flake8 --version
       - name: Check flake8 linter
-        run: flake8 --verbose ScooterBackend/src/ .
+        run: |
+          cd ScooterBackend
+          flake8 --verbose src/ .
       - name: Check flake8 linter
         run: flake8 .
       - name: Check black linter
@@ -45,7 +47,7 @@ jobs:
       - name: Download libraries
         run: |
             python -m pip install --upgrade pip
-            pip3 install -r ScooterBackend/requirements.txt
+            pip3 install -r requirements.txt
       - name: Run tests
         env:
           DB_USER: "darkfos82"
@@ -67,4 +69,6 @@ jobs:
           PASSWORD: "debx vcij qufa dxxl"
           SECRET_SYMBOLS: "{][)(192345678.,}"
           MIN_LENGTH_KEY: 20
-        run: pytest ScooterBackend/src/test/ .
+        run: |
+          cd ScooterBackend
+          pytest src/test/ .
