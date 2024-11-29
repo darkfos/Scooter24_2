@@ -31,7 +31,7 @@ jobs:
       - name: Check flake8 linter
         run: |
           cd ScooterBackend
-          flake8 --verbose src/ .
+          flake8 .
       - name: Check flake8 linter
         run: flake8 .
       - name: Check black linter
