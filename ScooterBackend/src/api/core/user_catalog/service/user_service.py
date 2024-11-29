@@ -53,6 +53,7 @@ class UserService:
         """
 
         logging.info(msg=f"{UserService.__name__} Создание пользователя")
+
         # Hash password
         hashed_password: (
             CryptographyScooter

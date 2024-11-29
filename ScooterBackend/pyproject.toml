@@ -34,6 +34,7 @@ pytest-asyncio = "^0.24.0"
 aiosqlite = "^0.20.0"
 pytest = "^8.3.3"
 trio = "^0.27.0"
+bcrypt = "^4.2.1"
 
 [tool.poetry.dev-dependencies]
 

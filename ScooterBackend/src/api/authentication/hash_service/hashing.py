@@ -1,6 +1,6 @@
 # Other libraries
-from passlib.context import CryptContext
 import logging as logger
+import bcrypt
 
 # Local
 ...
@@ -13,23 +13,24 @@ class CryptographyScooter:
 
     def __init__(self):
         self.algorithm: str = ""
-        self.crypto: CryptContext = CryptContext(
-            schemes=["bcrypt"], deprecated="auto"
-        )
 
-    def hashed_password(self, password) -> str:
+    def hashed_password(self, password: str) -> bytes:
         logging.info(msg="Хеширование пароля")
-        hash_password: str = self.crypto.hash(password)
+        hash_password: bytes = bcrypt.hashpw(
+            password=password.encode("utf-8"), salt=bcrypt.gensalt()
+        )
         return hash_password
 
-    def hashed_img(self, img_name) -> str:
+    def hashed_img(self, img_name: str) -> bytes:
         logging.info(msg="Хеширование изображения")
-        hash_image: str = self.crypto.hash(img_name)
+        hash_image: bytes = bcrypt.hashpw(
+            password=img_name.encode("utf-8"), salt=bcrypt.gensalt()
+        )
         return hash_image
 
-    def verify_password(self, password: str, hashed_password: str) -> bool:
+    def verify_password(self, password: str, hashed_password: bytes) -> bool:
         logging.info(msg="Верификация пользователя")
-        check_password: bool = self.crypto.verify(
-            secret=password, hash=hashed_password
+        check_password: bool = bcrypt.checkpw(
+            password=password.encode("utf-8"), hashed_password=hashed_password
         )
         return check_password

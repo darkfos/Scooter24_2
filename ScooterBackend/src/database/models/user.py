@@ -3,7 +3,15 @@ from datetime import date
 from typing import List, Dict
 
 # Other
-from sqlalchemy import Integer, Text, String, ForeignKey, Date, Boolean
+from sqlalchemy import (
+    Integer,
+    Text,
+    String,
+    ForeignKey,
+    Date,
+    Boolean,
+    LargeBinary,
+)
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -29,7 +37,9 @@ class User(MainBase):
     )
 
     # Пароль пользователя
-    password_user: Mapped[str] = mapped_column(type_=String(60), nullable=False)
+    password_user: Mapped[str] = mapped_column(
+        type_=LargeBinary, nullable=False
+    )
 
     # Ключ обновление пароля пользователя
     secret_update_key: Mapped[str] = mapped_column(
