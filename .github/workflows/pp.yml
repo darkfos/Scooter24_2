@@ -45,7 +45,7 @@ jobs:
       - name: Download libraries
         run: |
             python -m pip install --upgrade pip
-            pip3 install -r requirements.txt
+            pip3 install -r ScooterBackend/requirements.txt
       - name: Run tests
         env:
           DB_USER: "darkfos82"
@@ -67,4 +67,4 @@ jobs:
           PASSWORD: "debx vcij qufa dxxl"
           SECRET_SYMBOLS: "{][)(192345678.,}"
           MIN_LENGTH_KEY: 20
-        run: pytest ScooterBackend/src/test .
+        run: pytest ScooterBackend/src/test/ .
