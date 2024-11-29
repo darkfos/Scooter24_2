@@ -26,8 +26,12 @@ jobs:
           python -m pip install --upgrade pip
           pip3 install flake8
           pip3 install black
+      - name: Check flake8 version
+        run: flake8 --version
       - name: Check flake8 linter
-        run: flake8 ScooterBackend/src/ .
+        run: flake8 --verbose ScooterBackend/src/ .
+      - name: Check flake8 linter
+        run: flake8 .
       - name: Check black linter
         run: black --check ScooterBackend/src/ .
   test_check:
@@ -41,10 +45,26 @@ jobs:
       - name: Download libraries
         run: |
             python -m pip install --upgrade pip
-            pip3 install pytest
-            pip3 install fastapi
-            pip3 install sqlalchemy
-            pip3 install aiosqlite
-            pip3 install pydantic
+            pip3 install -r ScooterBackend/requirements.txt
       - name: Run tests
-        run: pytest ScooterBackend/src/test .
+        env:
+          DB_USER: "darkfos82"
+          DB_PASSWORD: "anonim99003"
+          DB_HOST: "localhost"
+          DB_PORT: 5432
+          DB_NAME: "scooters24"
+          REDIS_PORT: 6379
+          REDIS_HOST: "127.0.0.1"
+          JWT_SECRET_KEY: "dsadsad432jfhjdsuurteiunfkjsdhfkaj3874723jkllasknfsd899284nmanjsns789342nmnamdsad"
+          JWT_REFRESH_SECRET_KEY: "5dsnaljfkdhn37824kdkjshfsd8098f34mhhjsad6789034kngjk8734578234nsdr123n5123u4353452nsdf"
+          SECRET_TIME_WORK: 10
+          REFRESH_SECRET_TIME_WORK: 30
+          ALGORITHM: "HS256"
+          API_HOST: "127.0.0.1"
+          API_PORT: 5678
+          RELOAD: True
+          EMAIL: "motoshopscooter24@gmail.com"
+          PASSWORD: "debx vcij qufa dxxl"
+          SECRET_SYMBOLS: "{][)(192345678.,}"
+          MIN_LENGTH_KEY: 20
+        run: pytest ScooterBackend/src/test/ .
