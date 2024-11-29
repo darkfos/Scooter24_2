@@ -14,7 +14,7 @@ class HistoryBuy(MainBase):
 
     # Связи
     id_user: Mapped[int] = mapped_column(
-        ForeignKey("User.id"), type_=Integer
+        ForeignKey("User.id", ondelete="CASCADE"), type_=Integer
     )  # id пользователя
 
     id_product: Mapped[int] = mapped_column(
@@ -25,6 +25,10 @@ class HistoryBuy(MainBase):
     # Инф об пользователе
     hst_user: Mapped["User"] = relationship(
         "User", back_populates="history_buy_user", uselist=False
+    )
+
+    product_data: Mapped["Product"] = relationship(
+        "Product", back_populates="history_data", uselist=False
     )
 
     def read_model(self) -> Dict[str, str]:

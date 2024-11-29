@@ -1,5 +1,7 @@
 # Other libraries
-from typing import Union, Type
+from typing import Union, Type, Callable
+
+from fastapi import BackgroundTasks
 
 # Local
 from src.api.core.user_catalog.schemas.user_dto import (
@@ -38,7 +40,10 @@ class UserService:
 
     @staticmethod
     async def create_a_new_user(
-        engine: IEngineRepository, new_user: AddUser
+        engine: IEngineRepository,
+        new_user: AddUser,
+        bt: BackgroundTasks,
+        func_to_bt: Callable,
     ) -> RegistrationUser:
         """
         Метод сервиса для создания пользователя
@@ -49,15 +54,15 @@ class UserService:
 
         logging.info(msg=f"{UserService.__name__} Создание пользователя")
         # Hash password
-        hashed_password: Type[
+        hashed_password: (
             CryptographyScooter
-        ] = CryptographyScooter().hashed_password(
+        ) = CryptographyScooter().hashed_password(
             password=new_user.password_user
         )
 
         async with engine:
             # Create a new user
-            res_to_add_new_user: bool = await engine.user_repository.add_one(
+            res_to_add_new_user = await engine.user_repository.add_one(
                 User(
                     is_active=False,
                     id_type_user=UserTypeEnum.USER.value,
@@ -70,9 +75,9 @@ class UserService:
                     date_update=new_user.date_registration,
                 )
             )
-
             if res_to_add_new_user:
-                return RegistrationUser(is_registry=True)
+                bt.add_task(func_to_bt, engine, new_user)
+                return
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось создать пользователя"
@@ -462,7 +467,7 @@ class UserService:
 
             if is_admin and token_data.get("is_admin"):
                 user_all_information: Union[None, User] = (
-                    await engine.user_repository.find_user_and_get_full_information(
+                    await engine.user_repository.find_user_and_get_full_information(  # noqa
                         user_id=user_id
                     )
                 )  # noqa

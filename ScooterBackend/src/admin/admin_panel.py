@@ -83,7 +83,9 @@ class AdminPanel(AdminPanelService):
     @override
     @login_required
     async def index(self, request: Request) -> Response:
-        """Index route which can be overridden to create dashboards."""
+        """
+        Index route which can be overridden to create dashboards.
+        """
         request.session["error_message"] = ""
         request.session["warning_message"] = ""
         return await self.templates.TemplateResponse(
@@ -191,7 +193,7 @@ class AdminPanel(AdminPanelService):
                 )
             case _:
                 return RedirectResponse(
-                    url=f"/admin", status_code=status.HTTP_303_SEE_OTHER
+                    url="/admin", status_code=status.HTTP_303_SEE_OTHER
                 )
 
         return RedirectResponse(

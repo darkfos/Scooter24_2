@@ -83,12 +83,12 @@ class ModelService:
 
             if models:
                 return AllModelBase(
-                    models=[
+                    all_models=[
                         ModelBase(name_model=model[0].name_model)
                         for model in models
                     ]
                 )
-            return AllModelBase(models=[])
+            return AllModelBase(all_models=[])
 
     @staticmethod
     async def delete_model_by_id(

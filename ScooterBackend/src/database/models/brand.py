@@ -16,7 +16,9 @@ class Brand(MainBase):
 
     # Связи
     product_data: Mapped["Product"] = relationship(
-        "Product", back_populates="brand_data", uselist=False
+        "Product",
+        back_populates="brand_data",
+        uselist=False,
     )
 
     def __str__(self) -> str:

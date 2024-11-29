@@ -14,6 +14,7 @@ class UserModelView(ModelView, model=User):
     # Columns
     column_list: List[Any] = [
         User.id,
+        User.id_type_user,
         User.name_user,
         User.email_user,
         User.password_user,
@@ -29,10 +30,12 @@ class UserModelView(ModelView, model=User):
         User.name_company_address,
         User.date_registration,
         User.date_update,
+        User.type_user_data,
     ]
 
     column_labels: dict = {
         User.id: "Идентификатор пользователя",
+        User.id_type_user: "Тип пользователя",
         User.name_user: "Имя пользователя",
         User.email_user: "Электронная почта",
         User.password_user: "Пароль",
@@ -48,6 +51,7 @@ class UserModelView(ModelView, model=User):
         User.name_company_address: "Адрес компании",
         User.date_registration: "Дата регистрации",
         User.date_update: "Дата обновления",
+        User.type_user_data: "Данные типа пользователя",
     }
 
     # Operations
@@ -58,6 +62,7 @@ class UserModelView(ModelView, model=User):
     can_view_details: bool = True
 
     form_create_rules: List[Any] = [
+        "type_user_data",
         "name_user",
         "email_user",
         "surname_user",
@@ -82,4 +87,5 @@ class UserModelView(ModelView, model=User):
         "orders_user": {"fields": ("id",), "order_by": ("id")},
         "favourites_user": {"fields": ("id",), "order_by": ("id")},
         "history_buy_user": {"fields": ("id",), "order_by": ("id")},
+        "type_user_data": {"fields": ("id", "name_type"), "order_by": ("id")},
     }

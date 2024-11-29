@@ -32,6 +32,7 @@ class ProductModelView(ModelView, model=Product):
         Product.order,
         Product.reviews,
         Product.product_info_for_fav,
+        Product.history_data,
     ]
 
     column_labels: dict = {
@@ -54,6 +55,7 @@ class ProductModelView(ModelView, model=Product):
         Product.photo_product: "Фотография",
         Product.sub_sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
+        Product.history_data: "История покупок",
     }
 
     # Operation's

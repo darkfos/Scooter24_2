@@ -88,8 +88,8 @@ class Authentication:
                         {
                             "exp": (
                                 datetime.utcnow()
-                                + timedelta(
-                                    minutes=Settings.auth_settings.time_work_secret_key
+                                + timedelta(  # noqa
+                                    minutes=Settings.auth_settings.time_work_secret_key  # noqa
                                 )
                             )
                         }
@@ -98,8 +98,8 @@ class Authentication:
                         {
                             "exp": (
                                 datetime.utcnow()
-                                + timedelta(
-                                    days=Settings.auth_settings.time_work_refresh_secret_key
+                                + timedelta(  # noqa
+                                    days=Settings.auth_settings.time_work_refresh_secret_key  # noqa
                                 )
                             )
                         }
@@ -180,8 +180,8 @@ class Authentication:
             token_data.update(
                 {
                     "exp": datetime.utcnow()
-                    + timedelta(
-                        minutes=Settings.auth_settings.time_work_secret_key
+                    + timedelta(  # noqa
+                        minutes=Settings.auth_settings.time_work_secret_key  # noqa
                     )
                 }
             )
@@ -234,8 +234,8 @@ class Authentication:
                     {
                         "exp": (
                             datetime.now()
-                            + timedelta(
-                                minutes=Settings.auth_settings.time_work_secret_key
+                            + timedelta(  # noqa
+                                minutes=Settings.auth_settings.time_work_secret_key  # noqa
                             )
                         )
                     }
@@ -244,10 +244,10 @@ class Authentication:
                     {
                         "exp": (
                             datetime.now()
-                            + timedelta(
-                                days=Settings.auth_settings.time_work_refresh_secret_key
+                            + timedelta(  # noqa
+                                days=Settings.auth_settings.time_work_refresh_secret_key  # noqa
                             )
-                        )
+                        )  # noqa
                     }
                 )
                 return Tokens(

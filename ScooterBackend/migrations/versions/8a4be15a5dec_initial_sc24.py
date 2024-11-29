@@ -1,7 +1,7 @@
 """initial sc24
 
 Revision ID: 8a4be15a5dec
-Revises: 
+Revises: # noqa
 Create Date: 2024-10-25 13:39:15.666906
 
 """

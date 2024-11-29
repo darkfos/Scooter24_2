@@ -61,7 +61,7 @@ class TypeWorkerService:
                     f"Не удалось создать нового типа работника"
                 )
                 (
-                    await TypeWorkerExceptions().http_dont_create_a_new_type_worker()
+                    await TypeWorkerExceptions().http_dont_create_a_new_type_worker()  # noqa
                 )  # noqa
             logging.critical(
                 msg=f"{TypeWorkerService.__name__} "

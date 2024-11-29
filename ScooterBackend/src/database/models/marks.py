@@ -16,10 +16,12 @@ class Mark(MainBase):
 
     # Связи
     product_data: Mapped["Product"] = relationship(
-        "Product", back_populates="mark_data", uselist=False
+        "Product",
+        back_populates="mark_data",
+        uselist=False,
     )
     model_data: Mapped[List["Model"]] = relationship(
-        "Model", back_populates="mark_data", uselist=True
+        "Model", back_populates="mark_data", uselist=True, cascade="all, delete"
     )
 
     def __str__(self) -> str:

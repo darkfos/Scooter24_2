@@ -1,6 +1,6 @@
 from src.api.dep.dependencies import IEngineRepository
 from src.database.models.product_models import ProductModels
-from src.api.core.product_models_catalog.errors.http_product_models_exception import (
+from src.api.core.product_models_catalog.errors.http_product_models_exception import (  # noqa
     ProductModelsException,
 )
 from src.api.core.product_models_catalog.schemas.product_models_dto import (
@@ -68,7 +68,7 @@ class ProductModelsService:
 
         async with engine:
 
-            all_models_by_id_product = await engine.product_models_repository.find_all_models_by_id_product(
+            all_models_by_id_product = await engine.product_models_repository.find_all_models_by_id_product(  # noqa
                 id_product=id_product
             )
             if all_models_by_id_product:
@@ -82,7 +82,7 @@ class ProductModelsService:
                     ]
                 )
             (
-                await ProductModelsException().no_found_a_product_models_by_id_product()
+                await ProductModelsException().no_found_a_product_models_by_id_product()  # noqa
             )
 
     async def get_all_product_models(
@@ -138,7 +138,7 @@ class ProductModelsService:
                 if is_deleted:
                     return
                 (
-                    await ProductModelsException().no_to_delete_product_models_by_id()
+                    await ProductModelsException().no_to_delete_product_models_by_id()  # noqa
                 )  # noqa
 
             await UserHttpError().http_user_not_found()

@@ -30,9 +30,19 @@ flake8 = {extras = ["all"], version = "^7.1.1"}
 pandas = "^2.2.3"
 pre-commit = "^4.0.1"
 autoflake = "^2.3.1"
+pytest-asyncio = "^0.24.0"
+aiosqlite = "^0.20.0"
+pytest = "^8.3.3"
+trio = "^0.27.0"
 
 [tool.poetry.dev-dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = [
+    ".", "src"
+]
+asyncio_mode="auto"

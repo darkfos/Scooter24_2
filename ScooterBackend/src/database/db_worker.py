@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 # System
-from typing import Union, Type
+from typing import Union
 
 # Local
 
@@ -24,8 +24,8 @@ from src.database.models.vacancies import Vacancies  # noqa
 from src.database.models.subcategory import SubCategory  # noqa
 from src.database.models.product_models import ProductModels  # noqa
 from src.database.models.user_type import UserType  # noqa
+from src.settings.database_settings.database_settings import DatabaseSettings
 
-from src.settings.engine_settings import Settings
 from src.database.mainbase import MainBase
 
 
@@ -39,10 +39,10 @@ class DatabaseEngine:
         return cls.__instance
 
     def __init__(self):
-        self.db_engine: Type[AsyncEngine] = create_async_engine(
-            url=Settings.database_settings.db_url, echo=True
+        self.db_engine: AsyncEngine = create_async_engine(
+            url=DatabaseSettings().db_url, echo=True
         )
-        self.async_session: Type[async_sessionmaker] = async_sessionmaker(
+        self.async_session: async_sessionmaker = async_sessionmaker(
             bind=self.db_engine,
             autoflush=False,
             autocommit=False,

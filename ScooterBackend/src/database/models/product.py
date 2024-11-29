@@ -29,12 +29,14 @@ class Product(MainBase):
 
     # Бренд товара
     brand: Mapped[int] = mapped_column(
-        ForeignKey("Brand.id"), type_=Integer, nullable=True
+        ForeignKey("Brand.id", ondelete="SET NULL"),
+        type_=Integer,
+        nullable=True,
     )
 
     # Марка
     brand_mark: Mapped[int] = mapped_column(
-        ForeignKey("Mark.id"), type_=Integer, nullable=True
+        ForeignKey("Mark.id", ondelete="SET NULL"), type_=Integer, nullable=True
     )
 
     # Объемный вес продукта
@@ -112,7 +114,9 @@ class Product(MainBase):
 
     # Бренд
     brand_data: Mapped["Brand"] = relationship(
-        "Brand", back_populates="product_data", uselist=False
+        "Brand",
+        back_populates="product_data",
+        uselist=False,
     )
 
     # Марка
@@ -122,7 +126,17 @@ class Product(MainBase):
 
     # Модели продукта
     product_models_data: Mapped[List["ProductModels"]] = relationship(
-        "ProductModels", back_populates="product_data", uselist=True
+        "ProductModels",
+        back_populates="product_data",
+        uselist=True,
+        cascade="all, delete",
+    )
+
+    history_data: Mapped[List["HistoryBuy"]] = relationship(
+        "HistoryBuy",
+        back_populates="product_data",
+        uselist=True,
+        cascade="all, delete",
     )
 
     def read_model(self) -> Dict[str, str]:

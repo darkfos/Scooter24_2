@@ -2,7 +2,7 @@
 import datetime
 import logging as logger
 from typing import Union, List, Type
-from random import choice
+from random import randint
 from fastapi import status, HTTPException
 
 
@@ -164,7 +164,7 @@ class ProductService:
                     True
                     if created_new_category_for_product
                     else (
-                        await CategoryHttpError().http_failed_to_create_a_new_category()
+                        await CategoryHttpError().http_failed_to_create_a_new_category()  # noqa
                     )
                 )
             logging.critical(
@@ -525,7 +525,7 @@ class ProductService:
                     f" продукт не был найден"
                 )
                 (
-                    await ProductHttpError().http_failed_to_update_product_information()
+                    await ProductHttpError().http_failed_to_update_product_information()  # noqa
                 )
             logging.critical(
                 msg=f"{ProductService.__name__} "
@@ -601,7 +601,7 @@ class ProductService:
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
+                await engine.user_repository.find_user_by_email_and_password(
                     email=token_data.get("email")
                 )
             )
@@ -619,7 +619,6 @@ class ProductService:
                     other_id=id_product
                 )
                 if is_del:
-
                     # Delete photo
                     image = ImageSaver()
                     image.filename = product_data.photo_product
@@ -725,9 +724,11 @@ class ProductService:
 
                 result: list = []
 
-                while len(result) != 7:
+                while len(result) != 7 and all_products:
 
-                    rnd_product: Product = choice(all_products)
+                    rnd_product: Product = all_products.pop(
+                        randint(0, len(all_products))
+                    )
                     result.append(
                         ProductBase(
                             title_product=rnd_product[0].title_product,
@@ -754,12 +755,11 @@ class ProductService:
                         )
                     )
 
-                    if len(all_products) < 7:
+                    if len(result) == 7:
                         break
 
                 return ListProductBase(products=[*result])
-
-            return []
+            await ProductHttpError().http_product_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
@@ -801,7 +801,7 @@ class ProductService:
                     f"Не удалось обновить скидку товара"
                 )
                 (
-                    await ProductHttpError().http_failed_to_update_product_information()
+                    await ProductHttpError().http_failed_to_update_product_information()  # noqa
                 )
             logging.info(
                 msg=f"{ProductService.__name__} "
@@ -859,5 +859,4 @@ class ProductService:
                     )
 
                 return ListProductBase(products=[*result])
-
-            return ListProductBase(products=[])
+            await ProductHttpError().http_product_not_found()

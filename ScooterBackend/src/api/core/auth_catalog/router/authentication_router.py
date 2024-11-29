@@ -107,8 +107,11 @@ async def registration_user(
         " пользователя (registration_user)"
     )
 
-    back_task.add_task(
-        EmailService.send_secret_key_for_register, engine, new_user
+    await UserService.create_a_new_user(
+        engine,
+        new_user,
+        bt=back_task,
+        func_to_bt=EmailService.send_secret_key_for_register,
     )
 
 
@@ -172,7 +175,7 @@ async def create_and_send_secret_key(
         token=user_data, type_token="access"
     )
     return background_task.add_task(
-        UserService.send_secret_key_by_update_password,
+        EmailService.send_secret_key_by_update_password,
         session,
         token_data.get("email"),
         user_data,

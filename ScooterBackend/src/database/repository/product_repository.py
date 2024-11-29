@@ -58,7 +58,9 @@ class ProductRepository(GeneralSQLRepository):
             msg=f"{self.__class__.__name__} " f"Поиск товаров по категории"
         )
         if isinstance(how_to_find, int):
-            stmt = select(Product).where(Product.id_category == how_to_find)
+            stmt = select(Product).where(
+                Product.id_s_sub_category == how_to_find
+            )
             all_products = (await self.async_session.execute(stmt)).fetchall()
             return all_products
         elif isinstance(how_to_find, str):
@@ -147,11 +149,11 @@ class ProductRepository(GeneralSQLRepository):
             f" desc={desc}"
         )
         stmt = select(Product).options(
-            joinedload(Product.product_all_categories)
+            joinedload(Product.sub_sub_category_data)
         )
 
         if id_categories:
-            stmt = stmt.where(Product.id_category == id_categories)
+            stmt = stmt.where(Product.id_s_sub_category == id_categories)
 
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)

@@ -19,7 +19,10 @@ class TypeWorker(MainBase):
 
     # Relation
     vacancies: Mapped[List["Vacancies"]] = relationship(
-        "Vacancies", uselist=True, back_populates="type_work"
+        "Vacancies",
+        uselist=True,
+        back_populates="type_work",
+        cascade="all, delete",
     )
 
     def __str__(self) -> str:
