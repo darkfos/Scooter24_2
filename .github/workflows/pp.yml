@@ -27,9 +27,9 @@ jobs:
           pip3 install flake8
           pip3 install black
       - name: Check flake8 linter
-        run: flake8 .
+        run: flake8 ScooterBackend/src/ .
       - name: Check black linter
-        run: black --check .
+        run: black --check ScooterBackend/src/ .
   test_check:
     runs-on: ubuntu-latest
     steps:
@@ -47,4 +47,4 @@ jobs:
             pip3 install aiosqlite
             pip3 install pydantic
       - name: Run tests
-        run: pytest src/test .
+        run: pytest ScooterBackend/src/test .
