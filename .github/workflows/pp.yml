@@ -71,4 +71,5 @@ jobs:
           SECRET_SYMBOLS: "{][)(192345678.,}"
           MIN_LENGTH_KEY: 20
         run: |
+          cd ScooterBackend
           pytest src/test/ .
