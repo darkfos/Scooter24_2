@@ -54,7 +54,7 @@ class SubSubCategoryService:
                     return
                 (
                     (
-                        await SubSubCategoryException().no_create_a_new_sub_subcategory()
+                        await SubSubCategoryException().no_create_a_new_sub_subcategory()  # noqa
                     )
                 )
             await UserHttpError().http_user_not_found()
@@ -71,7 +71,7 @@ class SubSubCategoryService:
 
         async with engine:
 
-            all_sub_subcategory = await engine.sub_subcategory_repository.find_all_s_subcategory_by_id_s(
+            all_sub_subcategory = await engine.sub_subcategory_repository.find_all_s_subcategory_by_id_s(  # noqa
                 id_s=id_s
             )
             if all_sub_subcategory:

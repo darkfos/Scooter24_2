@@ -147,7 +147,7 @@ class FavouriteService:
 
             if is_admin:
                 find_favourite_product: Union[Favourite, None] = (
-                    await engine.favourite_repository.get_all_data_for_favourite_product_by_id(
+                    await engine.favourite_repository.get_all_data_for_favourite_product_by_id(  # noqa
                         id_fav_product=id_fav_product
                     )
                 )

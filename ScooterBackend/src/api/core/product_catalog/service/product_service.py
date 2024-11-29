@@ -164,7 +164,7 @@ class ProductService:
                     True
                     if created_new_category_for_product
                     else (
-                        await CategoryHttpError().http_failed_to_create_a_new_category()
+                        await CategoryHttpError().http_failed_to_create_a_new_category()  # noqa
                     )
                 )
             logging.critical(
@@ -525,7 +525,7 @@ class ProductService:
                     f" продукт не был найден"
                 )
                 (
-                    await ProductHttpError().http_failed_to_update_product_information()
+                    await ProductHttpError().http_failed_to_update_product_information()  # noqa
                 )
             logging.critical(
                 msg=f"{ProductService.__name__} "
@@ -801,7 +801,7 @@ class ProductService:
                     f"Не удалось обновить скидку товара"
                 )
                 (
-                    await ProductHttpError().http_failed_to_update_product_information()
+                    await ProductHttpError().http_failed_to_update_product_information()  # noqa
                 )
             logging.info(
                 msg=f"{ProductService.__name__} "

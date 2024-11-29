@@ -467,7 +467,7 @@ class UserService:
 
             if is_admin and token_data.get("is_admin"):
                 user_all_information: Union[None, User] = (
-                    await engine.user_repository.find_user_and_get_full_information(
+                    await engine.user_repository.find_user_and_get_full_information(  # noqa
                         user_id=user_id
                     )
                 )  # noqa

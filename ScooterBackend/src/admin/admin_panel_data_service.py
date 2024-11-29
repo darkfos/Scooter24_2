@@ -97,7 +97,7 @@ class AdminPanelService:
                         )
 
                         if not id_subcat_2:
-                            create_subcat_2 = await session.sub_subcategory_repository.add_one(
+                            create_subcat_2 = await session.sub_subcategory_repository.add_one(  # noqa
                                 data=SubSubCategory(
                                     name=row.get("Подкатегория второго уровня"),
                                     id_sub_category=id_subcat_1,
@@ -413,7 +413,7 @@ class AdminPanelService:
             f"{cnt_result_update} из {cnt_result_update} записей"
         )
         return RedirectResponse(
-            url=f"/admin/product/list",
+            url="/admin/product/list",
             status_code=status.HTTP_303_SEE_OTHER,
         )
 

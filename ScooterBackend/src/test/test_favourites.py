@@ -36,7 +36,7 @@ async def test_favourites_user_by_log(
 
     assert (
         req_to_my_fav.status_code == 200
-        and req_to_my_fav.json()["favourites"] == list()
+        and req_to_my_fav.json()["favourites"] == list()  # noqa
     )
 
 

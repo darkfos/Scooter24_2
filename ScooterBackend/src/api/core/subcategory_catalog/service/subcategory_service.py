@@ -1,6 +1,6 @@
 from src.api.dep.dependencies import IEngineRepository
 from src.database.models.subcategory import SubCategory
-from src.api.core.subcategory_catalog.errors.http_subcategory_exceptions import (
+from src.api.core.subcategory_catalog.errors.http_subcategory_exceptions import (  # noqa
     SubCategoryException,
 )
 from src.api.core.subcategory_catalog.schemas.subcategory_dto import (
@@ -66,7 +66,7 @@ class SubCategoryService:
 
         async with engine:
 
-            all_models_by_id_category = await engine.subcategory_repository.find_subcategories_by_id_category(
+            all_models_by_id_category = await engine.subcategory_repository.find_subcategories_by_id_category(  # noqa
                 id_category=id_category
             )  # noqa
             if all_models_by_id_category:

@@ -193,7 +193,7 @@ class AdminPanel(AdminPanelService):
                 )
             case _:
                 return RedirectResponse(
-                    url=f"/admin", status_code=status.HTTP_303_SEE_OTHER
+                    url="/admin", status_code=status.HTTP_303_SEE_OTHER
                 )
 
         return RedirectResponse(
