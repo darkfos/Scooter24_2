@@ -46,6 +46,6 @@ jobs:
             pip3 install sqlalchemy
             pip3 install aiosqlite
             pip3 install pydantic
-            pip3 instapp httpx
+            pip3 install httpx
       - name: Run tests
         run: pytest ScooterBackend/src/test .
