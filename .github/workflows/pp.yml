@@ -45,15 +45,26 @@ jobs:
       - name: Download libraries
         run: |
             python -m pip install --upgrade pip
-            pip3 install pytest
-            pip3 install fastapi
-            pip3 install sqlalchemy
-            pip3 install aiosqlite
-            pip3 install pydantic
-            pip3 install httpx
-            pip3 install jwt
-            pip3 install python-dotenv
-            pip3 install email-validator
-            pip3 install pydantic
+            pip3 install pytest fastapi sqlalchemy aiosqlite pydantic httpx jwt python-dotenv email-validator redis
       - name: Run tests
+        env:
+          DB_USER: "darkfos82"
+          DB_PASSWORD: "anonim99003"
+          DB_HOST: "localhost"
+          DB_PORT: 5432
+          DB_NAME: "scooters24"
+          REDIS_PORT: 6379
+          REDIS_HOST: "127.0.0.1"
+          JWT_SECRET_KEY: "dsadsad432jfhjdsuurteiunfkjsdhfkaj3874723jkllasknfsd899284nmanjsns789342nmnamdsad"
+          JWT_REFRESH_SECRET_KEY: "5dsnaljfkdhn37824kdkjshfsd8098f34mhhjsad6789034kngjk8734578234nsdr123n5123u4353452nsdf"
+          SECRET_TIME_WORK: 10
+          REFRESH_SECRET_TIME_WORK: 30
+          ALGORITHM: "HS256"
+          API_HOST: "127.0.0.1"
+          API_PORT: 5678
+          RELOAD: True
+          EMAIL: "motoshopscooter24@gmail.com"
+          PASSWORD: "debx vcij qufa dxxl"
+          SECRET_SYMBOLS: "{][)(192345678.,}"
+          MIN_LENGTH_KEY: 20
         run: pytest ScooterBackend/src/test .
