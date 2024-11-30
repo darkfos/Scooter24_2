@@ -8,6 +8,7 @@ from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey
 
 # Local
 from src.database.mainbase import MainBase
+from src.database.models.product_photos import ProductPhotos
 
 
 class Product(MainBase):
@@ -134,6 +135,14 @@ class Product(MainBase):
 
     history_data: Mapped[List["HistoryBuy"]] = relationship(
         "HistoryBuy",
+        back_populates="product_data",
+        uselist=True,
+        cascade="all, delete",
+    )
+
+    # Фотографии продукта
+    photos: Mapped[List["ProductPhotos"]] = relationship(
+        "ProductPhotos",
         back_populates="product_data",
         uselist=True,
         cascade="all, delete",
