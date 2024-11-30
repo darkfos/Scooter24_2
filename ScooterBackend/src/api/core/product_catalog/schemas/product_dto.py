@@ -4,7 +4,6 @@ from typing import List, Annotated, Dict, Union
 
 # Other libraries
 from pydantic import BaseModel, Field
-from fastapi import UploadFile
 from src.api.core.product_models_catalog.schemas.product_models_dto import (
     AllProductModels,
 )
@@ -32,7 +31,6 @@ class ProductBase(BaseModel):
     quantity_product: Annotated[int, Field(gt=-1)]
     price_product: Annotated[float, Field(gt=-1)]
     price_with_discount: Annotated[float, Field()]
-    photo_product: Annotated[UploadFile, Field()] = None
     date_create_product: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]

@@ -24,7 +24,6 @@ class ProductModelView(ModelView, model=Product):
         Product.price_with_discount,
         Product.date_create_product,
         Product.date_update_information,
-        Product.photo_product,
         Product.sub_sub_category_data,
         Product.brand_data,
         Product.mark_data,
@@ -33,6 +32,7 @@ class ProductModelView(ModelView, model=Product):
         Product.reviews,
         Product.product_info_for_fav,
         Product.history_data,
+        Product.photos,
     ]
 
     column_labels: dict = {
@@ -52,10 +52,10 @@ class ProductModelView(ModelView, model=Product):
         Product.price_with_discount: "Цена со скидкой",
         Product.date_create_product: "Дата создания",
         Product.date_update_information: "Дата обновления",
-        Product.photo_product: "Фотография",
         Product.sub_sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
         Product.history_data: "История покупок",
+        Product.photos: "Фотографии",
     }
 
     # Operation's
@@ -79,7 +79,6 @@ class ProductModelView(ModelView, model=Product):
         "price_with_discount",
         "date_create_product",
         "date_update_information",
-        "photo_product",
     ]
 
     form_edit_rules = [
@@ -93,7 +92,6 @@ class ProductModelView(ModelView, model=Product):
         "weight_product",
         "price_product",
         "price_with_discount",
-        "photo_product",
         "sub_sub_category_data",
     ]
 
@@ -123,4 +121,5 @@ class ProductModelView(ModelView, model=Product):
         "product_info_for_fav": {"fields": ("id",), "order_by": ("id")},
         "sub_sub_category_data": {"fields": ("id", "name"), "order_by": ("id")},
         "product_models_data": {"fields": ("id",), "order_by": ("id")},
+        "photos": {"fields": ("id", "photo_url"), "order_by": ("id")},
     }

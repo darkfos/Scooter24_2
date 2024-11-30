@@ -44,6 +44,7 @@ from src.api.core.user_type_catalog.routes.user_type_router import (
 from src.api.core.ss_category_catalog.router.sub_subcategory_router import (
     ss_category_router,
 )
+from src.api.core.photo_catalog.router.photo_router import photo_router
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
@@ -92,6 +93,7 @@ class ScooterBackendApplication:
             model_router,
             brand_router,
             product_router,
+            photo_router,
             pr_m_router,
             category_router,
             subcategory_router,

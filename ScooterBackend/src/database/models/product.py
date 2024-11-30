@@ -57,11 +57,6 @@ class Product(MainBase):
         type_=Text, nullable=True, default="Пояснение"
     )
 
-    # Фотография продукта
-    photo_product: Mapped[str] = mapped_column(
-        type_=Text, nullable=True, default=None
-    )
-
     # Количество продукта
     quantity_product: Mapped[int] = mapped_column(
         type_=Integer, nullable=True, default=0

@@ -40,6 +40,7 @@ from src.api.core.user_type_catalog.routes.user_type_router import (
 from src.api.core.ss_category_catalog.router.sub_subcategory_router import (
     ss_category_router,
 )
+from src.api.core.photo_catalog.router.photo_router import photo_router
 
 
 class GeneralRouter:
@@ -59,6 +60,7 @@ class GeneralRouter:
             user_type_router,
             auth_router,
             product_router,
+            photo_router,
             category_router,
             subcategory_router,
             ss_category_router,

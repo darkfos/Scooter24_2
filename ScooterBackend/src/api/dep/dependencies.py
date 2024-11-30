@@ -28,6 +28,7 @@ from src.database.repository.mark_repository import MarkRepository
 from src.database.repository.product_models_repository import (
     ProductModelsRepository,
 )
+from src.database.repository.photos_repository import PhotosRepository
 from src.database.db_worker import db_work
 
 
@@ -49,6 +50,7 @@ class IEngineRepository(ABC):
     model_repository: Type[ModelRepository]
     mark_repository: Type[MarkRepository]
     product_models_repository: Type[ProductModelsRepository]
+    photos_repository: Type[PhotosRepository]
 
     @abstractmethod
     def __init__(self):
@@ -85,26 +87,55 @@ class EngineRepository(IEngineRepository):
 
         self.session = self.session_factory()
 
-        self.user_repository = UserRepository(session=self.session)
-        self.user_type_repository = UserTypeRepository(session=self.session)
-        self.category_repository = CategoryRepository(session=self.session)
-        self.review_repository = ReviewRepository(session=self.session)
-        self.order_repository = OrderRepository(session=self.session)
-        self.favourite_repository = FavouriteRepository(session=self.session)
-        self.vacancies_repository = VacanciesRepository(session=self.session)
-        self.product_repository = ProductRepository(session=self.session)
-        self.type_worker_repository = TypeWorkerRepository(session=self.session)
-        self.history_buy_repository = HistoryBuyRepository(session=self.session)
-        self.subcategory_repository = SubCategoryRepository(
+        self.user_repository: UserRepository = UserRepository(
             session=self.session
         )
-        self.sub_subcategory_repository = SubSubCategoryRepository(
+        self.user_type_repository: UserTypeRepository = UserTypeRepository(
             session=self.session
         )
-        self.brand_repository = BrandRepository(session=self.session)
-        self.model_repository = ModelRepository(session=self.session)
-        self.mark_repository = MarkRepository(session=self.session)
-        self.product_models_repository = ProductModelsRepository(
+        self.category_repository: CategoryRepository = CategoryRepository(
+            session=self.session
+        )
+        self.review_repository: ReviewRepository = ReviewRepository(
+            session=self.session
+        )
+        self.order_repository: OrderRepository = OrderRepository(
+            session=self.session
+        )
+        self.favourite_repository: FavouriteRepository = FavouriteRepository(
+            session=self.session
+        )
+        self.vacancies_repository: VacanciesRepository = VacanciesRepository(
+            session=self.session
+        )
+        self.product_repository: ProductRepository = ProductRepository(
+            session=self.session
+        )
+        self.type_worker_repository: TypeWorkerRepository = (
+            TypeWorkerRepository(session=self.session)
+        )
+        self.history_buy_repository: HistoryBuyRepository = (
+            HistoryBuyRepository(session=self.session)
+        )
+        self.subcategory_repository: SubCategoryRepository = (
+            SubCategoryRepository(session=self.session)
+        )
+        self.sub_subcategory_repository: SubSubCategoryRepository = (
+            SubSubCategoryRepository(session=self.session)
+        )
+        self.brand_repository: BrandRepository = BrandRepository(
+            session=self.session
+        )
+        self.model_repository: ModelRepository = ModelRepository(
+            session=self.session
+        )
+        self.mark_repository: MarkRepository = MarkRepository(
+            session=self.session
+        )
+        self.product_models_repository: ProductModelsRepository = (
+            ProductModelsRepository(session=self.session)
+        )
+        self.photos_repository: PhotosRepository = PhotosRepository(
             session=self.session
         )
 

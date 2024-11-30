@@ -5,7 +5,6 @@ import logging
 
 # Other libraries
 from fastapi import APIRouter, Depends, UploadFile
-from fastapi.responses import FileResponse
 
 # Local
 from src.api.core.product_catalog.error.http_product_exception import status
@@ -243,33 +242,33 @@ async def get_products_by_category_or_id(
     )
 
 
-@product_router.get(
-    path="/get_image_product/{photo_product_name}",
-    description="""
-    ### Endpoint - Получение картинки продукта по названию.
-    Данный метод позволяет получить картинку продукта по названию
-    """,
-    summary="Получение изображения",
-    response_class=FileResponse,
-    status_code=status.HTTP_200_OK,
-)
-async def get_image_product(photo_product_name: str) -> FileResponse:
-    """
-    ### Endpoint - Получение картинки продукта по названию.
-    Данный метод позволяет получить картинку продукта по названию
-    """
-
-    logger.info(
-        msg="Product-Router вызов метода "
-        "получения картинки товара (get_image_product)"
-    )
-
-    return FileResponse(
-        path=f"src/static/images/{photo_product_name}",
-        filename="product_avatar.png",
-        media_type="image/jpeg",
-        status_code=status.HTTP_200_OK,
-    )
+# @product_router.get(
+#     path="/get_image_product/{photo_product_name}",
+#     description="""
+#     ### Endpoint - Получение картинки продукта по названию.
+#     Данный метод позволяет получить картинку продукта по названию
+#     """,
+#     summary="Получение изображения",
+#     response_class=FileResponse,
+#     status_code=status.HTTP_200_OK,
+# )
+# async def get_image_product(photo_product_name: str) -> FileResponse:
+#     """
+#     ### Endpoint - Получение картинки продукта по названию.
+#     Данный метод позволяет получить картинку продукта по названию
+#     """
+#
+#     logger.info(
+#         msg="Product-Router вызов метода "
+#         "получения картинки товара (get_image_product)"
+#     )
+#
+#     return FileResponse(
+#         path=f"src/static/images/{photo_product_name}",
+#         filename="product_avatar.png",
+#         media_type="image/jpeg",
+#         status_code=status.HTTP_200_OK,
+#     )
 
 
 @product_router.get(
@@ -430,43 +429,43 @@ async def update_information_about_product(
     )
 
 
-@product_router.patch(
-    path="/update_product_photo/{product_id}",
-    description="""
-    ### Endpoint - Обновление фотографии продукта.
-    Данный метод позволяет обновить фотографию продукта.
-    Доступен только для администратора.
-    Необходим jwt ключ и Bearer в заголовке запроса.
-    """,
-    summary="Обновление фотографии продукта",
-    status_code=status.HTTP_204_NO_CONTENT,
-    response_model=None,
-)
-async def update_photo_product(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
-    product_id: int,
-    new_photo: str,
-) -> None:
-    """
-    ENDPOINT - Обновление фотографии товара
-    :param session:
-    :param admin_data:
-    :param new_photo:
-    :return:
-    """
-
-    logger.info(
-        msg="Product-Router вызов метода"
-        " обновления фотографии продукта (update_photo_product)"
-    )
-
-    return await ProductService.update_photo(
-        engine=session,
-        photo_data=new_photo,
-        token=admin_data,
-        product_id=product_id,
-    )
+# @product_router.patch(
+#     path="/update_product_photo/{product_id}",
+#     description="""
+#     ### Endpoint - Обновление фотографии продукта.
+#     Данный метод позволяет обновить фотографию продукта.
+#     Доступен только для администратора.
+#     Необходим jwt ключ и Bearer в заголовке запроса.
+#     """,
+#     summary="Обновление фотографии продукта",
+#     status_code=status.HTTP_204_NO_CONTENT,
+#     response_model=None,
+# )
+# async def update_photo_product(
+#     session: Annotated[IEngineRepository, Depends(EngineRepository)],
+#     admin_data: Annotated[str, Depends(auth.jwt_auth)],
+#     product_id: int,
+#     new_photo: str,
+# ) -> None:
+#     """
+#     ENDPOINT - Обновление фотографии товара
+#     :param session:
+#     :param admin_data:
+#     :param new_photo:
+#     :return:
+#     """
+#
+#     logger.info(
+#         msg="Product-Router вызов метода"
+#         " обновления фотографии продукта (update_photo_product)"
+#     )
+#
+#     return await ProductService.update_photo(
+#         engine=session,
+#         photo_data=new_photo,
+#         token=admin_data,
+#         product_id=product_id,
+#     )
 
 
 @product_router.patch(
