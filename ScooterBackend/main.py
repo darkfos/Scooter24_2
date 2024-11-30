@@ -5,6 +5,7 @@ from fastapi import status, FastAPI
 from typing import Type
 import uvicorn
 from logger import set_logger
+from src.settings.engine_settings import Settings
 
 set_logger()
 
@@ -26,4 +27,8 @@ if __name__ == "__main__":
 
     # Start project
     logging.info(msg="Start Project")
-    uvicorn.run("main:app", reload=True)
+    uvicorn.run(
+        app=app,
+        host=Settings.api_settings.api_host,
+        port=int(Settings.api_settings.api_port),
+    )

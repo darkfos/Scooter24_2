@@ -5,14 +5,13 @@ from starlette.applications import Starlette
 from fastapi import status, UploadFile
 from starlette.staticfiles import StaticFiles
 from sqladmin.authentication import login_required
-from typing import Type, List
+from typing import Type, List, override
 
 from src.database.db_worker import db_work
 from fastapi import FastAPI, Request
 
 from src.settings.engine_settings import Settings
 from io import StringIO
-from typing import override
 
 # Models
 from src.admin import all_models
