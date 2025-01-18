@@ -35,9 +35,7 @@ class AdminPanelService:
             session: EngineRepository = session
             try:
                 for index, row in file.iterrows():
-                    category_data = id_subcat_1  = (
-                        None  # Initial data for fk
-                    )
+                    category_data = id_subcat_1 = None  # Initial data for fk
 
                     # Find fk in other tables
                     if str(row["Категория"]) not in (None, "nan"):
@@ -135,7 +133,11 @@ class AdminPanelService:
                             title_product=row["Наименование товара"],
                             brand=id_brand,
                             weight_product=weight_product,
-                            id_sub_category=id_subcat_1[0].id if isinstance(id_subcat_1, dict) else id_subcat_1, # Noqa
+                            id_sub_category=(
+                                id_subcat_1[0].id
+                                if isinstance(id_subcat_1, dict)
+                                else id_subcat_1
+                            ),  # Noqa
                             explanation_product=(
                                 row["Описание"]
                                 if str(row["Описание"]) not in (None, "nan")

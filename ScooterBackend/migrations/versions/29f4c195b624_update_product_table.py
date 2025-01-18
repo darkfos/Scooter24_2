@@ -98,12 +98,8 @@ def upgrade():
         sa.Column("date_registration", sa.Date(), nullable=False),
         sa.Column("date_update", sa.Date(), nullable=False),
         sa.Column("name_user_address", sa.String(length=200), nullable=True),
-        sa.Column(
-            "surname_user_address", sa.String(length=200), nullable=True
-        ),
-        sa.Column(
-            "name_company_address", sa.String(length=200), nullable=True
-        ),
+        sa.Column("surname_user_address", sa.String(length=200), nullable=True),
+        sa.Column("name_company_address", sa.String(length=200), nullable=True),
         sa.Column("country_address", sa.String(length=300), nullable=True),
         sa.Column("address_street", sa.String(length=450), nullable=True),
         sa.Column("address_rl_et_home", sa.String(length=250), nullable=True),
@@ -213,9 +209,7 @@ def upgrade():
         sa.Column("id_product", sa.Integer(), nullable=False),
         sa.Column("id_model", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["id_model"], ["Model.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(
             ["id_product"], ["Product.id"], ondelete="CASCADE"
         ),
