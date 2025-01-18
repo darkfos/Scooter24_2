@@ -108,14 +108,8 @@ class EngineRepository(IEngineRepository):
         self.type_worker_repository: TypeWorkerRepository = (
             TypeWorkerRepository(session=self.session)
         )
-        self.history_buy_repository: HistoryBuyRepository = (
-            HistoryBuyRepository(session=self.session)
-        )
         self.subcategory_repository: SubCategoryRepository = (
             SubCategoryRepository(session=self.session)
-        )
-        self.sub_subcategory_repository: SubSubCategoryRepository = (
-            SubSubCategoryRepository(session=self.session)
         )
         self.brand_repository: BrandRepository = BrandRepository(
             session=self.session

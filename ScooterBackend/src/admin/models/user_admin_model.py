@@ -86,6 +86,5 @@ class UserModelView(ModelView, model=User):
         "reviews": {"fields": ("id",), "order_by": ("id")},
         "orders_user": {"fields": ("id",), "order_by": ("id")},
         "favourites_user": {"fields": ("id",), "order_by": ("id")},
-        "history_buy_user": {"fields": ("id",), "order_by": ("id")},
         "type_user_data": {"fields": ("id", "name_type"), "order_by": ("id")},
     }

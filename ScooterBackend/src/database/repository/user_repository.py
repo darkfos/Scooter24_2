@@ -66,7 +66,6 @@ class UserRepository(GeneralSQLRepository):
             .where(User.id == user_id)
             .options(
                 joinedload(User.favourites_user),
-                joinedload(User.history_buy_user),
                 joinedload(User.orders_user),
                 joinedload(User.reviews),
             )

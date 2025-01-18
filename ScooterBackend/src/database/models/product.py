@@ -62,6 +62,11 @@ class Product(MainBase):
         type_=Integer, nullable=True, default=0
     )
 
+    # Метка продукта
+    label_product: Mapped[str] = mapped_column(
+        type_=String(80), nullable=True, default="1 год"
+    )
+
     # Цена продукта
     price_product: Mapped[float] = mapped_column(
         type_=Double, nullable=False, default=0
@@ -150,7 +155,7 @@ class Product(MainBase):
                 "Идентификатор": self.id,
                 "Название": self.title_product,
                 "Бренд": self.brand,
-                "Подкатегория": self.id_s_sub_category,
+                "Подкатегория": self.id_sub_category,
                 "Цена": self.price_product,
             }
         )

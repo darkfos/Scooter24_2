@@ -35,7 +35,7 @@ class AdminPanelService:
             session: EngineRepository = session
             try:
                 for index, row in file.iterrows():
-                    category_data = id_subcat_1 = id_subcat_2 = (
+                    category_data = id_subcat_1  = (
                         None  # Initial data for fk
                     )
 
@@ -83,27 +83,6 @@ class AdminPanelService:
                             )
                             id_subcat_1 = create_subcat_1
 
-                    if str(row["Подкатегория второго уровня"]) not in (
-                        None,
-                        "nan",
-                    ):
-                        id_subcat_2: SubCategory = (
-                            await session.subcategory_repository.find_by_name(
-                                name_subcategory=row[
-                                    "Подкатегория второго уровня"
-                                ]
-                            )
-                        )
-
-                        if not id_subcat_2:
-                            """create_subcat_2 = await session.sub_subcategory_repository.add_one(  # noqa
-                                data=SubSubCategory(
-                                    name=row.get("Подкатегория второго уровня"),
-                                    id_sub_category=id_subcat_1,
-                                )
-                            )"""
-                            # id_subcat_2 = create_subcat_2
-
                     if str(row.get("Бренд")) not in (None, "nan"):
                         id_brand = await session.brand_repository.find_by_name(
                             name_brand_to_find=row.get("Бренд"),
@@ -150,14 +129,13 @@ class AdminPanelService:
                     price_with_discount = float(
                         row["Текущая цена с учетом скидки, ₽"]
                     )
-
                     res_to_add = await session.product_repository.add_one(
                         Product(
                             article_product=row["Артикул"],
                             title_product=row["Наименование товара"],
                             brand=id_brand,
                             weight_product=weight_product,
-                            id_s_sub_category=id_subcat_2,
+                            id_sub_category=id_subcat_1[0].id if isinstance(id_subcat_1, dict) else id_subcat_1, # Noqa
                             explanation_product=(
                                 row["Описание"]
                                 if str(row["Описание"]) not in (None, "nan")
@@ -287,9 +265,7 @@ class AdminPanelService:
                     res_to_add = await session.subcategory_repository.add_one(
                         SubCategory(
                             name=row.get("Подкатегория"),
-                            level=row.get("Уровень"),
                             id_category=row.get("Категория"),
-                            id_sub_category=row.get("П. подкатегории"),
                         )
                     )
                 if res_to_add:
@@ -335,10 +311,6 @@ class AdminPanelService:
                 new_model = await engine.model_repository.add_one(
                     data=Model(name_model=line_data, id_mark=id_mark)
                 )
-                print("#" * 30)
-                print(line_data, new_model, find_model, id_mark)
-                print("#" * 30)
-
                 if new_model:
                     cls.lst_to_add_product_models.append(new_model)
 

@@ -12,8 +12,8 @@ class ProductModelView(ModelView, model=Product):
 
     column_list: list = [
         Product.id,
-        Product.id_s_sub_category,
         Product.brand,
+        Product.id_sub_category,
         Product.brand_mark,
         Product.title_product,
         Product.article_product,
@@ -24,7 +24,7 @@ class ProductModelView(ModelView, model=Product):
         Product.price_with_discount,
         Product.date_create_product,
         Product.date_update_information,
-        Product.sub_sub_category_data,
+        Product.sub_category_data,
         Product.brand_data,
         Product.mark_data,
         Product.product_models_data,
@@ -32,11 +32,12 @@ class ProductModelView(ModelView, model=Product):
         Product.reviews,
         Product.product_info_for_fav,
         Product.photos,
+        Product.label_product
     ]
 
     column_labels: dict = {
         Product.id: "Идентификатор продукта",
-        Product.id_s_sub_category: "Идентификатор подкатегории 2 ур.",
+        Product.id_sub_category: "Идентификатор подкатегории",
         Product.brand: "Бренд",
         Product.brand_mark: "Марка",
         Product.brand_data: "Данные бренда",
@@ -51,9 +52,10 @@ class ProductModelView(ModelView, model=Product):
         Product.price_with_discount: "Цена со скидкой",
         Product.date_create_product: "Дата создания",
         Product.date_update_information: "Дата обновления",
-        Product.sub_sub_category_data: "Данные подкатегории",
+        Product.sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
         Product.photos: "Фотографии",
+        Product.label_product: "Метка продукта"
     }
 
     # Operation's
@@ -64,7 +66,7 @@ class ProductModelView(ModelView, model=Product):
     can_view_details: bool = True
 
     form_create_rules: list = [
-        "sub_sub_category_data",
+        "sub_category_data",
         "brand_data",
         "mark_data",
         "title_product",
@@ -77,6 +79,7 @@ class ProductModelView(ModelView, model=Product):
         "price_with_discount",
         "date_create_product",
         "date_update_information",
+        "label_product"
     ]
 
     form_edit_rules = [
@@ -90,7 +93,8 @@ class ProductModelView(ModelView, model=Product):
         "weight_product",
         "price_product",
         "price_with_discount",
-        "sub_sub_category_data",
+        "sub_category_data",
+        "label_product"
     ]
 
     # Form's for FK
@@ -117,7 +121,7 @@ class ProductModelView(ModelView, model=Product):
             "order_by": ("id"),
         },
         "product_info_for_fav": {"fields": ("id",), "order_by": ("id")},
-        "sub_sub_category_data": {"fields": ("id", "name"), "order_by": ("id")},
+        "sub_category_data": {"fields": ("id", "name"), "order_by": ("id")},
         "product_models_data": {"fields": ("id",), "order_by": ("id")},
         "photos": {"fields": ("id", "photo_url"), "order_by": ("id")},
     }

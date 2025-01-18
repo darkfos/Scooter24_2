@@ -74,14 +74,6 @@ class UserOrdersData(InformationAboutUser):
     orders: List[Dict[str, Union[str, int, datetime.date]]]
 
 
-class UserHistoryData(InformationAboutUser):
-    """
-    Информация о пользователе + вся история заказов
-    """
-
-    history: List[Dict]
-
-
 class UserIsUpdated(BaseModel):
     """
     Обновление данных пользователя
@@ -136,14 +128,14 @@ class UpdateAddressDate(BaseModel):
     address_phone_number: Annotated[Union[None, str], Field(max_length=40)]
 
 
-class AllDataUser(InformationAboutUser):
+class AllDataUser(BaseModel):
     """
     Полная информация о пользователе
     """
 
+    general_user_info: Annotated[InformationAboutUser, Field()]
     orders: Union[List, List[Dict]]
     favourite: Union[List, List[Dict]]
-    history: Union[List, List[Dict]]
     reviews: Union[List, List[Dict]]
 
     address: UpdateAddressDate

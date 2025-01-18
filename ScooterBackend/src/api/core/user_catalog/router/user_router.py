@@ -13,7 +13,6 @@ from src.api.core.user_catalog.schemas.user_dto import (
     UserReviewData,
     UserFavouritesData,
     UserOrdersData,
-    UserHistoryData,
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
@@ -204,41 +203,6 @@ async def get_user_data_and_all_orders(
         engine=session,
         token=user_data,
         redis_search_data="user_orders_by_token_%s" % user_data,
-    )
-
-
-@user_router.get(
-    path="/user_history",
-    description="""
-    ### Endpoint - История покупок пользователя.
-    Данный метод позволяет узнать информацию о пользователе,
-    а так же получить список историю покупок.
-    Необходим jwt ключ и Bearer в заголовке запроса.
-    """,
-    summary="История покупок",
-    response_model=UserHistoryData,
-    status_code=status.HTTP_200_OK,
-)
-async def get_user_data_and_history(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
-) -> UserHistoryData:
-    """
-    ENDPOINT - Получение информации о пользователе + история заказов
-    :param session:
-    :param user_data:
-    :return:
-    """
-
-    logger.info(
-        msg="User-Router вызов метод получения"
-        " всей истории пользователя (user_history)"
-    )
-
-    return await UserService.get_information_about_me_and_history(
-        engine=session,
-        token=user_data,
-        redis_search_data="user_history_by_token_%s" % user_data,
     )
 
 

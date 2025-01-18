@@ -11,7 +11,6 @@ from src.api.core.user_catalog.schemas.user_dto import (
     UserReviewData,
     UserFavouritesData,
     UserOrdersData,
-    UserHistoryData,
     UserIsUpdated,
     DataToUpdate,
     DataToUpdateUserPassword,
@@ -325,51 +324,6 @@ class UserService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
-    async def get_information_about_me_and_history(
-        engine: IEngineRepository,
-        token: str,
-        redis_search_data: str,
-        token_data: dict = dict(),
-    ) -> UserHistoryData:
-        """
-        Метод сервиса для получения информации о пользователе + история заказов
-        :param session:
-        :param token:
-        :return:
-        """
-
-        logging.info(
-            msg=f"{UserService.__name__} Получение информации о "
-            f"пользователе и его истории"
-        )
-
-        async with engine:
-            user_data: Union[User, None] = (
-                await engine.user_repository.find_user_and_get_history(
-                    user_id=token_data.get("sub")
-                )
-            )
-
-            if user_data:
-                return UserHistoryData(
-                    email_user=user_data.email_user,
-                    name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
-                    main_name_user=user_data.main_name_user,
-                    date_registration=user_data.date_registration,
-                    history=user_data.history_buy_user,
-                )
-            logging.info(
-                msg=f"{UserService.__name__} "
-                f"Не удалось получить информацию"
-                f" о пользователе и его истории,"
-                f" пользователь не был найден"
-            )
-            await UserHttpError().http_user_not_found()
-
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @redis
-    @staticmethod
     async def get_full_information(
         engine: IEngineRepository,
         token: str,
@@ -397,11 +351,13 @@ class UserService:
 
             if user_all_information:
                 return AllDataUser(
-                    email_user=user_all_information.email_user,
-                    name_user=user_all_information.name_user,
-                    surname_user=user_all_information.surname_user,
-                    main_name_user=user_all_information.main_name_user,
-                    date_registration=user_all_information.date_registration,
+                    general_user_info=InformationAboutUser(
+                        email_user=user_all_information.email_user,
+                        name_user=user_all_information.name_user,
+                        surname_user=user_all_information.surname_user,
+                        main_name_user=user_all_information.main_name_user,
+                        date_registration=user_all_information.date_registration
+                    ),
                     orders=[
                         order.read_model()
                         for order in user_all_information.orders_user
@@ -409,10 +365,6 @@ class UserService:
                     favourite=[
                         fav.read_model()
                         for fav in user_all_information.favourites_user
-                    ],
-                    history=[
-                        history.read_model()
-                        for history in user_all_information.history_buy_user
                     ],
                     reviews=[
                         review.read_model()

@@ -37,7 +37,8 @@ class AdminPanelAuthentication(AuthenticationBackend):
                 }
             )
             return True
-        return False
+        else:
+            return False
 
     async def authenticate(
         self, request: Type[Request]
@@ -47,15 +48,10 @@ class AdminPanelAuthentication(AuthenticationBackend):
             "access_token"
         ), request.session.get("refresh_token")
 
-        if tokens[-1]:
-            # Check jwt token and update this
-            new_token = await self.auth_service.update_token(
-                refresh_token=tokens[-1]
-            )
-            request.session.update({"access_token": new_token})
-
+        if tokens[-1] not in (None, ""):
             return True
-        return False
+        else:
+            return False
 
     async def logout(self, request: Type[Request]):
         request.session.clear()
