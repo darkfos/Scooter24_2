@@ -46,8 +46,8 @@ class Product(MainBase):
     )
 
     # Подкатегория
-    id_s_sub_category: Mapped[int] = mapped_column(
-        ForeignKey("Subsubcategory.id", ondelete="SET NULL"),
+    id_sub_category: Mapped[int] = mapped_column(
+        ForeignKey("Subcategory.id", ondelete="SET NULL"),
         type_=Integer,
         nullable=True,
     )
@@ -103,11 +103,6 @@ class Product(MainBase):
         "Favourite", back_populates="product_info", uselist=True
     )
 
-    # Подкатегория
-    sub_sub_category_data: Mapped["SubSubCategory"] = relationship(
-        "SubSubCategory", back_populates="product_data", uselist=False
-    )
-
     # Бренд
     brand_data: Mapped["Brand"] = relationship(
         "Brand",
@@ -128,11 +123,11 @@ class Product(MainBase):
         cascade="all, delete",
     )
 
-    history_data: Mapped[List["HistoryBuy"]] = relationship(
-        "HistoryBuy",
+    # Данные категории
+    sub_category_data: Mapped["SubCategory"] = relationship(
+        "SubCategory",
         back_populates="product_data",
-        uselist=True,
-        cascade="all, delete",
+        uselist=False,
     )
 
     # Фотографии продукта

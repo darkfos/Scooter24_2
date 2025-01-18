@@ -31,7 +31,6 @@ class ProductModelView(ModelView, model=Product):
         Product.order,
         Product.reviews,
         Product.product_info_for_fav,
-        Product.history_data,
         Product.photos,
     ]
 
@@ -54,7 +53,6 @@ class ProductModelView(ModelView, model=Product):
         Product.date_update_information: "Дата обновления",
         Product.sub_sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
-        Product.history_data: "История покупок",
         Product.photos: "Фотографии",
     }
 

@@ -107,14 +107,12 @@ class User(MainBase):
     favourites_user: Mapped[List["Favourite"]] = relationship(
         "Favourite", back_populates="fav_user", uselist=True
     )
+
     # Заказы
     orders_user: Mapped[List["Order"]] = relationship(
         "Order", back_populates="ord_user", uselist=True
     )
-    # История покупок
-    history_buy_user: Mapped[List["HistoryBuy"]] = relationship(
-        "HistoryBuy", back_populates="hst_user", uselist=True
-    )
+
     # Отзывы
     reviews: Mapped[List["Review"]] = relationship(
         "Review", back_populates="user", uselist=True

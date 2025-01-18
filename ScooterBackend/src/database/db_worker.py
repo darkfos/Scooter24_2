@@ -17,7 +17,6 @@ from src.database.models.category import Category  # noqa
 from src.database.models.order import Order  # noqa
 from src.database.models.user import User  # noqa
 from src.database.models.review import Review  # noqa
-from src.database.models.history_buy import HistoryBuy  # noqa
 from src.database.models.favourite import Favourite  # noqa
 from src.database.models.type_worker import TypeWorker  # noqa
 from src.database.models.vacancies import Vacancies  # noqa

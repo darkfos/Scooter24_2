@@ -15,13 +15,9 @@ from src.database.repository.product_repository import ProductRepository
 from src.database.repository.vacancies_repository import VacanciesRepository
 from src.database.repository.type_worker_repository import TypeWorkerRepository
 from src.database.repository.favourite_repository import FavouriteRepository
-from src.database.repository.history_buy_repository import HistoryBuyRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
 from src.database.repository.subcategory_repository import SubCategoryRepository
-from src.database.repository.sub_sub_categiry_repository import (
-    SubSubCategoryRepository,
-)
 from src.database.repository.brand_repository import BrandRepository
 from src.database.repository.model_repository import ModelRepository
 from src.database.repository.mark_repository import MarkRepository
@@ -41,11 +37,9 @@ class IEngineRepository(ABC):
     vacancies_repository: Type[VacanciesRepository]
     type_worker_repository: Type[TypeWorkerRepository]
     favourite_repository: Type[FavouriteRepository]
-    history_buy_repository: Type[HistoryBuyRepository]
     order_repository: Type[OrderRepository]
     review_repository: Type[ReviewRepository]
     subcategory_repository: Type[SubCategoryRepository]
-    sub_subcategory_repository: Type[SubSubCategoryRepository]
     brand_repository: Type[BrandRepository]
     model_repository: Type[ModelRepository]
     mark_repository: Type[MarkRepository]

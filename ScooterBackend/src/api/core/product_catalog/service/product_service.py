@@ -3,7 +3,7 @@ import datetime
 import logging as logger
 from typing import Union, List, Type
 from random import randint
-from fastapi import status, HTTPException
+from fastapi import status, HTTPException, UploadFile
 
 
 # Local
@@ -22,7 +22,6 @@ from src.api.core.product_catalog.schemas.product_dto import (
     ProductIsCreated,
     UpdateProduct,
     UpdateProductDiscount,
-    UploadFile,
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository

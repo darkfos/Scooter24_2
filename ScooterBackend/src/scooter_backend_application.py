@@ -20,9 +20,6 @@ from src.api.core.order_catalog.router.order_router import (
 from src.api.core.favourite_catalog.router.favourite_router import (
     favourite_router as favourite_router,
 )
-from src.api.core.history_catalog.router.history_buy_router import (
-    history_buy_router as history_buy_router,
-)
 from src.api.core.type_worker_catalog.router.type_worker_router import (
     type_worker_router as type_worker_router,
 )
@@ -40,9 +37,6 @@ from src.api.core.subcategory_catalog.router.subcategory_router import (
 )
 from src.api.core.user_type_catalog.routes.user_type_router import (
     user_type_router,
-)
-from src.api.core.ss_category_catalog.router.sub_subcategory_router import (
-    ss_category_router,
 )
 from src.api.core.photo_catalog.router.photo_router import photo_router
 from src.api.general_router import api_v1_router
@@ -97,13 +91,11 @@ class ScooterBackendApplication:
             pr_m_router,
             category_router,
             subcategory_router,
-            ss_category_router,
             favourite_router,
             order_router,
             review_router,
             type_worker_router,
             vacancies_router,
-            history_buy_router,
             api_v1_router.get_api_v1,
         ]
 

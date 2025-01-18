@@ -16,7 +16,6 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.id,
         SubCategory.name,
         SubCategory.id_category,
-        SubCategory.sub_sub_category_data,
         SubCategory.category_data,
     ]
 
@@ -24,7 +23,6 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.id: "Идентификатор",
         SubCategory.name: "Название",
         SubCategory.id_category: "Категория",
-        SubCategory.sub_sub_category_data: "Данные подкатегории 2 ур.",
         SubCategory.category_data: "Данные категории",
     }
 

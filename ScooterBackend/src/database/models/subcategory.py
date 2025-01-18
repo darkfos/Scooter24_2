@@ -20,11 +20,11 @@ class SubCategory(MainBase):
     category_data: Mapped["Category"] = relationship(
         "Category", back_populates="subcategory_data", uselist=False
     )
-    sub_sub_category_data: Mapped[List["SubSubCategory"]] = relationship(
-        "SubSubCategory",
+    product_data: Mapped[List["Product"]] = relationship(
+        "Product",
         back_populates="sub_category_data",
         uselist=True,
-        cascade="all, delete",
+        passive_deletes=True
     )
 
     def __str__(self) -> str:

@@ -13,9 +13,6 @@ from src.api.core.category_catalog.schemas.category_dto import CategoryBase
 from src.api.core.subcategory_catalog.schemas.subcategory_dto import (
     SubCategoryBase,
 )
-from src.api.core.ss_category_catalog.schemas.sub_subcategory_dto import (
-    SubSubCategoryBase,
-)
 
 
 class ProductBase(BaseModel):
@@ -60,7 +57,7 @@ class ProductAllInformation(ProductBase):
         Dict[str, Union[BrandBase, MarkBase, AllProductModels]], Field()
     ]
     categories: Annotated[
-        Dict[str, Union[CategoryBase, SubCategoryBase, SubSubCategoryBase]],
+        Dict[str, Union[CategoryBase, SubCategoryBase]],
         Field(),
     ]
 

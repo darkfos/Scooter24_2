@@ -12,9 +12,6 @@ from src.api.core.category_catalog.router.category_router import category_router
 from src.api.core.favourite_catalog.router.favourite_router import (
     favourite_router,
 )
-from src.api.core.history_catalog.router.history_buy_router import (
-    history_buy_router,
-)
 from src.api.core.order_catalog.router.order_router import order_router
 from src.api.core.product_catalog.router.product_router import product_router
 from src.api.core.review_catalog.router.review_router import review_router
@@ -36,9 +33,6 @@ from src.api.core.subcategory_catalog.router.subcategory_router import (
 )
 from src.api.core.user_type_catalog.routes.user_type_router import (
     user_type_router,
-)
-from src.api.core.ss_category_catalog.router.sub_subcategory_router import (
-    ss_category_router,
 )
 from src.api.core.photo_catalog.router.photo_router import photo_router
 
@@ -63,7 +57,6 @@ class GeneralRouter:
             photo_router,
             category_router,
             subcategory_router,
-            ss_category_router,
             mark_router,
             brand_router,
             model_router,
@@ -73,7 +66,6 @@ class GeneralRouter:
             order_router,
             favourite_router,
             review_router,
-            history_buy_router,
             product_models_router,
         ]
 
