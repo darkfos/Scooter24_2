@@ -96,13 +96,13 @@ class AdminPanelService:
                         )
 
                         if not id_subcat_2:
-                          """  create_subcat_2 = await session.sub_subcategory_repository.add_one(  # noqa
+                            """create_subcat_2 = await session.sub_subcategory_repository.add_one(  # noqa
                                 data=SubSubCategory(
                                     name=row.get("Подкатегория второго уровня"),
                                     id_sub_category=id_subcat_1,
                                 )
                             )"""
-                          # id_subcat_2 = create_subcat_2
+                            # id_subcat_2 = create_subcat_2
 
                     if str(row.get("Бренд")) not in (None, "nan"):
                         id_brand = await session.brand_repository.find_by_name(

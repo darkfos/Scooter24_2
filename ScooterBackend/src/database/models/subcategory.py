@@ -24,7 +24,7 @@ class SubCategory(MainBase):
         "Product",
         back_populates="sub_category_data",
         uselist=True,
-        passive_deletes=True
+        passive_deletes=True,
     )
 
     def __str__(self) -> str:
