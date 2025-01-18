@@ -50,7 +50,7 @@ class EmailService:
                         text_to_message="Ваша ссылка для подтверждения"
                         " регистрации,"
                         " пожалуйста никому её не передавайте. "
-                        "http://localhost:8000/auth/"
+                        "http://0.0.0.0:5678/auth/"
                         "access_create_account"
                         "?secret_key="
                         f"{secret_key}&email="

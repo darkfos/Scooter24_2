@@ -165,18 +165,18 @@ class AdminPanelService:
                                 else "Неопределен"
                             ),
                             brand_mark=id_mark,
-                            photo_product=(
-                                row["Фото"]
-                                if str(row["Фото"]) not in (None, "nan")
-                                else "Неопределен"
-                            ),
                             quantity_product=quantity_product,
                             price_product=price_product,
                             price_with_discount=price_with_discount,
                             product_discount=0,
                         )
                     )
+
                     if res_to_add:
+
+                        if str(row["Фото"]) not in (None, "nan"):
+                            # Add rows in photo table
+                            pass
 
                         # Создание моделей продукта
                         AdminPanelService.id_product = res_to_add
