@@ -2,13 +2,13 @@
 from typing import Dict
 
 # Other
-from sqlalchemy import Integer, ForeignKey, Date
+from sqlalchemy import Integer, ForeignKey, Date, String, Enum
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
 from src.database.mainbase import MainBase
 from datetime import date
-
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 class Order(MainBase):
     # Таблица заказы
@@ -16,6 +16,19 @@ class Order(MainBase):
     # Дата заказа
     date_buy: Mapped[date] = mapped_column(
         type_=Date, unique=False, nullable=False, default=date.today()
+    )
+
+    # Тип операции
+    type_operation: Mapped[str] = mapped_column(
+        type_=Enum(OrderTypeOperationsEnum),
+        unique=False,
+        nullable=False,
+        default=OrderTypeOperationsEnum.IN_PROCESS.value
+    )
+
+    # Количество товаров
+    count_product: Mapped[int] = mapped_column(
+        type_=Integer, unique=False, nullable=False, default=1
     )
 
     # Связи
