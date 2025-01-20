@@ -356,7 +356,7 @@ class UserService:
                         name_user=user_all_information.name_user,
                         surname_user=user_all_information.surname_user,
                         main_name_user=user_all_information.main_name_user,
-                        date_registration=user_all_information.date_registration, # noqa
+                        date_registration=user_all_information.date_registration,  # noqa
                     ),
                     orders=[
                         order.read_model()

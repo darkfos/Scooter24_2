@@ -17,7 +17,7 @@ class Category(MainBase):
         type_=String(150), nullable=False, unique=True, index=True
     )
 
-    icon_category: Mapped[str] = mapped_column( # Убрать3
+    icon_category: Mapped[str] = mapped_column(  # Убрать3
         type_=Text,
         nullable=True,
         index=False,
