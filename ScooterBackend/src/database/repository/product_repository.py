@@ -7,9 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
-from src.database.models.brand import Brand
 from src.database.models.marks import Mark
 from src.database.models.model import Model
+
 # Local
 from src.database.models.product import Product
 from src.database.models.product_models import ProductModels
@@ -135,23 +135,26 @@ class ProductRepository(GeneralSQLRepository):
         return product_data
 
     async def find_to_garage(
-            self, brand: str = None, model: str = None
+        self, brand: str = None, model: str = None
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов для гаража по модели и бренду
         """
 
         logging.info(
-            msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам BRAND: {brand}; MODEL: {model}" # noqa
+            msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам BRAND: {brand}; MODEL: {model}"  # noqa
         )
 
-        stmt = (select(Product).join(
-            Mark, Product.brand_mark == Mark.id
-        ).join(
-            ProductModels, ProductModels.id_product == Product.id, isouter=True
-        ).join(
-            Model, Model.id == ProductModels.id_model, isouter=True
-        ))
+        stmt = (
+            select(Product)
+            .join(Mark, Product.brand_mark == Mark.id)
+            .join(
+                ProductModels,
+                ProductModels.id_product == Product.id,
+                isouter=True,
+            )
+            .join(Model, Model.id == ProductModels.id_model, isouter=True)
+        )
 
         if model:
             stmt = stmt.filter(Model.name_model == model)
