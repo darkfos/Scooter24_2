@@ -216,6 +216,25 @@ class ProductService:
 
             return ListProductBase(products=[])
 
+    @staticmethod
+    async def get_garage_products(
+            token: str,
+            engine: IEngineRepository,
+            brand = None,
+            model = None,
+    ) -> ListProductBase:
+        """
+        Получение всех товаров для гаража по модели и бренду
+        """
+
+        async with engine:
+            req = await engine.product_repository.find_to_garage(brand=brand, model=model)
+            return ListProductBase(products=[
+                product[0].read_model()
+                for product in req
+            ])
+
+
     @redis
     @staticmethod
     async def get_products_by_category(

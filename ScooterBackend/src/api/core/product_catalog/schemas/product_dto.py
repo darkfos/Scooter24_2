@@ -21,7 +21,7 @@ class ProductBase(BaseModel):
     title_product: Annotated[str, Field(max_length=500)]
     brand: int
     brand_mark: int
-    model: int
+    models: List
     id_s_sub_category: int
     weight_product: Annotated[float, Field(ge=0)]
     explanation_product: Annotated[str, Field()]
@@ -35,6 +35,7 @@ class ProductBase(BaseModel):
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
+    photo: Annotated[Union[str, None], Field(default=None)] = None
 
     @classmethod
     def change_product_discount(cls) -> None:
@@ -45,7 +46,7 @@ class ProductBase(BaseModel):
 
 class ListProductBase(BaseModel):
 
-    products: Annotated[List[ProductBase], Field()]
+    products: Annotated[List, Field()]
 
 
 class ProductAllInformation(ProductBase):

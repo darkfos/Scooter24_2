@@ -7,8 +7,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
+from src.database.models.brand import Brand
+from src.database.models.marks import Mark
+from src.database.models.model import Model
 # Local
 from src.database.models.product import Product
+from src.database.models.product_models import ProductModels
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
 
@@ -130,6 +134,34 @@ class ProductRepository(GeneralSQLRepository):
 
         return product_data
 
+    async def find_to_garage(
+            self, brand: str = None, model: str = None
+    ) -> Union[List, List[Product]]:
+        """
+        Поиск всех продуктов для гаража по модели и бренду
+        """
+
+        logging.info(
+            msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам BRAND: {brand}; MODEL: {model}" # noqa
+        )
+
+        stmt = (select(Product).join(
+            Mark, Product.brand_mark == Mark.id
+        ).join(
+            ProductModels, ProductModels.id_product == Product.id, isouter=True
+        ).join(
+            Model, Model.id == ProductModels.id_model, isouter=True
+        ))
+
+        if model:
+            stmt = stmt.filter(Model.name_model == model)
+
+        if brand:
+            stmt = stmt.filter(Mark.name_mark == brand)
+
+        result = (await self.async_session.execute(stmt)).all()
+        return result
+
     async def find_by_filters(
         self, id_categories: int, min_price: int, max_price: int, desc: bool
     ) -> Union[List, List[Product]]:
@@ -148,12 +180,12 @@ class ProductRepository(GeneralSQLRepository):
             f" max_price={max_price};"
             f" desc={desc}"
         )
-        stmt = select(Product).options(
-            joinedload(Product.sub_sub_category_data)
+        stmt = select(Product, Product.sub_category_data).options(
+            joinedload(Product.sub_category_data)
         )
 
         if id_categories:
-            stmt = stmt.where(Product.id_s_sub_category == id_categories)
+            stmt = stmt.where(Product.id_sub_category == id_categories)
 
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)

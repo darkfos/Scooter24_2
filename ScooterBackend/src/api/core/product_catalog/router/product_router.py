@@ -301,6 +301,35 @@ async def product_is_created(
 
 
 @product_router.get(
+    path='/garage_filter',
+    summary="Запчасти гаража",
+    description="Товары подходящие под определенную технику из гаража",
+    response_model=ListProductBase,
+    status_code=status.HTTP_200_OK
+)
+async def garage_products(
+        user_data: Annotated[str, Depends(auth.jwt_auth)],
+        session: Annotated[IEngineRepository, Depends(EngineRepository)],
+        brand: Annotated[str, Field(max_length=100)] = None,
+        model: Annotated[str, Field(max_length=100)] = None
+) -> ListProductBase:
+    """
+    Получение списка товаров под определенную модель и бренд
+    :param user_data:
+    :param session:
+    :param brand:
+    :param model:
+    """
+
+    return await ProductService.get_garage_products(
+        token=user_data,
+        engine=session,
+        brand=brand,
+        model=model
+    )
+
+
+@product_router.get(
     path="/get_all_information_about_product",
     description="""
     ### Endpoint - Получение всей информации о продукте.
