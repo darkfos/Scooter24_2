@@ -2,7 +2,7 @@
 from typing import Dict
 
 # Other
-from sqlalchemy import Integer, ForeignKey, Date, Enum
+from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -30,6 +30,10 @@ class Order(MainBase):
     # Количество товаров
     count_product: Mapped[int] = mapped_column(
         type_=Integer, unique=False, nullable=False, default=1
+    )
+
+    price_result: Mapped[float] = mapped_column(
+        type_=Numeric, unique=False, nullable=False
     )
 
     # Связи

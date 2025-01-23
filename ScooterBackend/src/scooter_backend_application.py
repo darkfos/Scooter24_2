@@ -73,9 +73,10 @@ class ScooterBackendApplication:
         # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
-        self.origins: List[str] = ["http://localhost:8000", "*"]
+        self.origins: List[str] = ["http://localhost:8000", "http://localhost:3000"]
 
         self.include_router()
+        self.added_middleware()
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
@@ -110,7 +111,7 @@ class ScooterBackendApplication:
             CORSMiddleware,
             allow_origins=self.origins,
             allow_credentials=True,
-            allow_method=["*"],
+            allow_methods=["*"],
             allow_headers=["*"],
         )
 

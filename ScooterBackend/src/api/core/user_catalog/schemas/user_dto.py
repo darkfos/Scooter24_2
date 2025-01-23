@@ -13,8 +13,8 @@ class UserBase(BaseModel):
     email_user: Annotated[EmailStr, Field(EmailStr())]
     password_user: Annotated[str, Field(min_length=6, max_length=60)]
     name_user: Annotated[str, Field(max_length=100)]
-    surname_user: Annotated[str, Field(max_length=150)]
-    main_name_user: Annotated[str, Field(max_length=250)]
+    surname_user: Annotated[Union[str, None], Field(max_length=150)]
+    main_name_user: Annotated[Union[str, None], Field(max_length=250)]
 
 
 class InformationAboutUser(BaseModel):
@@ -27,7 +27,7 @@ class InformationAboutUser(BaseModel):
     surname_user: Annotated[Union[str, None], Field(max_length=150)]
     main_name_user: Annotated[Union[str, None], Field(max_length=250)]
     date_registration: Annotated[
-        datetime.date, Field(default=datetime.date.today())
+        Union[datetime.date, None], Field(default=datetime.date.today())
     ]
 
 
@@ -36,7 +36,7 @@ class AddUser(UserBase):
     Добавление нового пользователя
     """
 
-    date_registration: datetime.date = datetime.date.today()
+    date_registration: Union[datetime.date, None] = datetime.date.today()
 
 
 class UpdateDataUser(BaseModel):

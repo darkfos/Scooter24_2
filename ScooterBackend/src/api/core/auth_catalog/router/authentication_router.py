@@ -1,4 +1,6 @@
 # Other libraries
+import datetime
+
 from fastapi import APIRouter, Depends, status, BackgroundTasks
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
@@ -106,6 +108,8 @@ async def registration_user(
         msg="Auth-Router вызов метода регистрации"
         " пользователя (registration_user)"
     )
+
+    new_user.date_registration = datetime.date.today()
 
     await UserService.create_a_new_user(
         engine,

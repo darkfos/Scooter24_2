@@ -59,7 +59,7 @@ class User(MainBase):
 
     # Отображаемое имя пользователя
     main_name_user: Mapped[str] = mapped_column(
-        type_=String(250), nullable=False
+        type_=String(250), nullable=True
     )
 
     # Дата регистрации
@@ -72,34 +72,11 @@ class User(MainBase):
         type_=Date, nullable=False, default=date.today()
     )
 
-    # Адресные данные
+    # Дата рождения
+    date_birthday: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date.today())
 
-    name_user_address: Mapped[str] = mapped_column(
-        type_=String(200), nullable=True, index=False
-    )
-    surname_user_address: Mapped[str] = mapped_column(
-        type_=String(200), nullable=True, index=False
-    )
-    name_company_address: Mapped[str] = mapped_column(
-        type_=String(200), nullable=True, index=True
-    )
-    country_address: Mapped[str] = mapped_column(
-        type_=String(300), nullable=True, index=True
-    )
-    address_street: Mapped[str] = mapped_column(
-        type_=String(450), nullable=True
-    )
-    address_rl_et_home: Mapped[str] = mapped_column(
-        type_=String(250), nullable=True
-    )
-    address_locality: Mapped[str] = mapped_column(
-        type_=String(300), nullable=True
-    )
-    address_area: Mapped[str] = mapped_column(type_=String(350), nullable=True)
-    address_index: Mapped[int] = mapped_column(type_=Integer, nullable=True)
-    address_phone_number: Mapped[str] = mapped_column(
-        type_=String(40), nullable=True
-    )
+    # Адресные данные
+    address: Mapped[str] = mapped_column(type_=Text, nullable=True)
 
     # Связи c таблицами
 
