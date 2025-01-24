@@ -15,7 +15,7 @@ from src.api.core.auth_catalog.schemas.auth_dto import (
     CreateToken,
     RefreshUpdateToken,
     AccessToken,
-    UpdateUserPassword
+    UpdateUserPassword,
 )
 from src.api.core.user_catalog.schemas.user_dto import AddUser
 from src.api.authentication.secure.authentication_service import Authentication
@@ -196,12 +196,12 @@ async def create_and_send_secret_key(
     description="""
     ### ENDPOINT - Обновление пароля пользователя
     """,
-    summary="Обновление пароля"
+    summary="Обновление пароля",
 )
 async def update_user_password(
-        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-        data_update: UpdateUserPassword,
-        user_data: Annotated[str, Depends(authentication_app.jwt_auth)]
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    data_update: UpdateUserPassword,
+    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
 ) -> None:
     """
     Обновление пароля пользователя
@@ -210,13 +210,16 @@ async def update_user_password(
     "param user_data"
     """
 
-    if await UserService.update_user_password(engine=engine, token=user_data, to_update=data_update):
+    if await UserService.update_user_password(
+        engine=engine, token=user_data, to_update=data_update
+    ):
         pass
     else:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Не удалось обновить пароль пользователя"
+            detail="Не удалось обновить пароль пользователя",
         )
+
 
 @auth_router.get(
     path="/access_create_account",
@@ -237,6 +240,5 @@ async def access_user(
     )
 
     return RedirectResponse(
-        url=Settings.client_settings.front_url,
-        status_code=307
+        url=Settings.client_settings.front_url, status_code=307
     )

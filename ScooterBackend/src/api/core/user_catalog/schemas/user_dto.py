@@ -94,7 +94,9 @@ class DataToUpdate(BaseModel):
     address: Annotated[Union[None, str], Field()]
     telephone: Annotated[Union[None, str], Field(max_length=65)]
     date_birthday: Annotated[Union[datetime.date, None], Field()]
-    date_update: Annotated[Union[None, datetime.date], Field(default=datetime.date.today())]
+    date_update: Annotated[
+        Union[None, datetime.date], Field(default=datetime.date.today())
+    ]
 
 
 class DataToUpdateUserPassword(BaseModel):

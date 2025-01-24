@@ -73,7 +73,10 @@ class ScooterBackendApplication:
         # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
-        self.origins: List[str] = ["http://localhost:8000", "http://localhost:3000"]
+        self.origins: List[str] = [
+            "http://localhost:8000",
+            "http://localhost:3000",
+        ]
 
         self.include_router()
         self.added_middleware()

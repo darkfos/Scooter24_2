@@ -73,13 +73,17 @@ class User(MainBase):
     )
 
     # Дата рождения
-    date_birthday: Mapped[date] = mapped_column(type_=Date, nullable=True, default=date.today())
+    date_birthday: Mapped[date] = mapped_column(
+        type_=Date, nullable=True, default=date.today()
+    )
 
     # Адресные данные
     address: Mapped[str] = mapped_column(type_=Text, nullable=True)
 
     # Телефон
-    telephone: Mapped[str] = mapped_column(type_=String(length=65), nullable=True)
+    telephone: Mapped[str] = mapped_column(
+        type_=String(length=65), nullable=True
+    )
 
     # Связи c таблицами
 

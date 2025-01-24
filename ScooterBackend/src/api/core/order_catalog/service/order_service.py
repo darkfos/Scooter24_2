@@ -94,7 +94,9 @@ class OrderService:
             if orders_data:
                 data_orders: list = []
                 for order in orders_data:
-                    order_product_data: dict = order[0].product_info.read_model()
+                    order_product_data: dict = order[
+                        0
+                    ].product_info.read_model()
                     get_category: Union[None, Category] = (
                         await engine.subcategory_repository.find_one(
                             other_id=order_product_data.get("id_sub_category")
@@ -110,17 +112,19 @@ class OrderService:
                                 "price_product": order_product_data.get(
                                     "price_product"
                                 ),
-                                "category_product": get_category[
-                                    0
-                                ].name if get_category else None,  # noqa
+                                "category_product": (
+                                    get_category[0].name
+                                    if get_category
+                                    else None
+                                ),  # noqa
                             },
                             order_data={
                                 "status": order[0].type_operation,
                                 "quantity": order[0].count_product,
                                 "price_result": order[0].price_result,
                                 "id_order": order[0].id,
-                                "date_buy": order[0].date_buy
-                            }
+                                "date_buy": order[0].date_buy,
+                            },
                         )
                     )
                 return ListOrderAndUserInformation(orders=[*data_orders])

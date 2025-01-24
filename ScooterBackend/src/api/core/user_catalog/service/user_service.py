@@ -17,9 +17,7 @@ from src.api.core.user_catalog.schemas.user_dto import (
     UserIsDeleted,
     UpdateAddressDate,
 )
-from src.api.core.auth_catalog.schemas.auth_dto import (
-    UpdateUserPassword
-)
+from src.api.core.auth_catalog.schemas.auth_dto import UpdateUserPassword
 from src.api.core.auth_catalog.schemas.auth_dto import RegistrationUser
 from src.database.models.user import User
 from src.api.core.user_catalog.error.http_user_exception import UserHttpError
@@ -122,7 +120,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     date_birthday=user_data.date_birthday,
                     telephone=user_data.telephone,
-                    address=user_data.address
+                    address=user_data.address,
                 )
 
                 return information
