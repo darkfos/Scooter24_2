@@ -1,7 +1,7 @@
 # Other libraries
 import datetime
 
-from fastapi import APIRouter, Depends, status, BackgroundTasks
+from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
@@ -15,6 +15,7 @@ from src.api.core.auth_catalog.schemas.auth_dto import (
     CreateToken,
     RefreshUpdateToken,
     AccessToken,
+    UpdateUserPassword
 )
 from src.api.core.user_catalog.schemas.user_dto import AddUser
 from src.api.authentication.secure.authentication_service import Authentication
@@ -188,38 +189,34 @@ async def create_and_send_secret_key(
     )
 
 
-@auth_router.post(
-    path="/update_password_get_new_password",
-    description="""
-    ### ENDPOINT - Обновление пароля.
-    Необходим jwt ключ и Bearer в заголовке запроса.
-    Необходим новый пароль.""",
-    summary="Обновление пароля",
+@auth_router.patch(
+    path="/update_password",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
+    description="""
+    ### ENDPOINT - Обновление пароля пользователя
+    """,
+    summary="Обновление пароля"
 )
-async def update_password_with_email(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
-    secret_key: str,
-    new_password: str,
+async def update_user_password(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        data_update: UpdateUserPassword,
+        user_data: Annotated[str, Depends(authentication_app.jwt_auth)]
 ) -> None:
     """
     Обновление пароля пользователя
+    :param engine:
+    :param data_update:
+    "param user_data"
     """
 
-    logger.info(
-        msg="Auth-Router вызов метода обновления "
-        "пароля по секретному ключу (update_password_with_email)"
-    )
-
-    return await UserService.check_secret_key(
-        engine=session,
-        secret_key=secret_key,
-        token=user_data,
-        new_password=new_password,
-    )
-
+    if await UserService.update_user_password(engine=engine, token=user_data, to_update=data_update):
+        pass
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Не удалось обновить пароль пользователя"
+        )
 
 @auth_router.get(
     path="/access_create_account",

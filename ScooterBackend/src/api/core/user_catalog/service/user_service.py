@@ -1,4 +1,5 @@
 # Other libraries
+import datetime
 from typing import Union, Type, Callable
 
 from fastapi import BackgroundTasks
@@ -13,9 +14,11 @@ from src.api.core.user_catalog.schemas.user_dto import (
     UserOrdersData,
     UserIsUpdated,
     DataToUpdate,
-    DataToUpdateUserPassword,
     UserIsDeleted,
     UpdateAddressDate,
+)
+from src.api.core.auth_catalog.schemas.auth_dto import (
+    UpdateUserPassword
 )
 from src.api.core.auth_catalog.schemas.auth_dto import RegistrationUser
 from src.database.models.user import User
@@ -511,7 +514,6 @@ class UserService:
             msg=f"{UserService.__name__} " f"Обновление данных о пользователе"
         )
 
-        print(to_update)
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
@@ -532,7 +534,7 @@ class UserService:
     async def update_user_password(
         engine: IEngineRepository,
         token: str,
-        to_update: DataToUpdateUserPassword,
+        to_update: UpdateUserPassword,
         token_data: dict = dict(),
     ) -> UserIsUpdated:
         """
@@ -552,24 +554,26 @@ class UserService:
             # Проверка на совпадение пароля
             get_user_data: Union[User, None] = (
                 await engine.user_repository.find_one(
-                    other_id=token_data.get("id_user")
+                    other_id=token_data.get("sub")
                 )
             )
+
             if get_user_data:
                 check_password = crypt.verify_password(
-                    password=to_update.user_old_password,
+                    password=to_update.old_password,
                     hashed_password=get_user_data[0].password_user,
                 )
+
                 if check_password:
                     hash_password = crypt.hashed_password(
                         password=to_update.new_password
                     )
                     return UserIsUpdated(
                         is_updated=await engine.user_repository.update_one(
-                            other_id=token_data.get("id_user"),
+                            other_id=token_data.get("sub"),
                             data_to_update={
                                 "password_user": hash_password,
-                                "date_update": to_update.date_update,
+                                "date_update": datetime.date.today(),
                             },
                         )
                     )
