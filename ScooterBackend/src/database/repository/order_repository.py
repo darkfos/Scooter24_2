@@ -60,6 +60,7 @@ class OrderRepository(GeneralSQLRepository):
             f" по id_user = {id_user},"
             f" id_order = {id_order}"
         )
+
         if id_user:
             stmt = (
                 select(Order)
@@ -88,5 +89,5 @@ class OrderRepository(GeneralSQLRepository):
             ).fetchall()
 
             if orders_data:
-                return orders_data[0]
+                return orders_data
             return []

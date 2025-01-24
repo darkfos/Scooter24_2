@@ -29,6 +29,9 @@ class InformationAboutUser(BaseModel):
     date_registration: Annotated[
         Union[datetime.date, None], Field(default=datetime.date.today())
     ]
+    date_birthday: Annotated[Union[None, datetime.date], Field()]
+    address: Annotated[Union[str, None], Field()]
+    telephone: Annotated[Union[str, None], Field()]
 
 
 class AddUser(UserBase):
@@ -87,10 +90,11 @@ class DataToUpdate(BaseModel):
     Информация о пользователе кроме пароля для обновления
     """
 
-    name_user: Annotated[str, Field(max_length=100)] = None
-    surname_user: Annotated[str, Field(max_length=150)] = None
-    main_name_user: Annotated[str, Field(max_length=250)] = None
-    date_update: Annotated[datetime.date, Field(default=datetime.date.today())]
+    main_name_user: Annotated[Union[None, str], Field(max_length=250)]
+    address: Annotated[Union[None, str], Field()]
+    telephone: Annotated[Union[None, str], Field(max_length=65)]
+    date_birthday: Annotated[Union[datetime.date, None], Field()]
+    date_update: Annotated[Union[None, datetime.date], Field(default=datetime.date.today())]
 
 
 class DataToUpdateUserPassword(BaseModel):

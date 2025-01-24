@@ -10,7 +10,7 @@ from typing import Union, Annotated, List, Dict
 
 class OrderBase(BaseModel):
 
-    product_data: Annotated[Dict[str, Union[str, int, datetime.date]], Field()]
+    product_data: Annotated[Dict[str, Union[str, int, datetime.date, None]], Field()]
 
 
 class AddOrder(BaseModel):
@@ -20,8 +20,7 @@ class AddOrder(BaseModel):
 
 
 class OrderAndUserInformation(OrderBase):
-
-    user_data: Annotated[Dict[str, Union[str, int, datetime.date]], Field()]
+    order_data: Annotated[Dict[Union[str, int], Union[str, int, datetime.date]], Field()]
 
 
 class ListOrderAndUserInformation(BaseModel):

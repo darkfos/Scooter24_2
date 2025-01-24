@@ -311,7 +311,6 @@ async def update_user_information(
         msg="User-Router вызов метод обновления"
         " информации о пользователе (update_user_information)"
     )
-
     return await UserService.update_user_information(
         engine=session, token=user_data, to_update=data_to_update
     )

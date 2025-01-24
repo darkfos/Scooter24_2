@@ -87,51 +87,42 @@ class OrderService:
             # Данные заказов пользователя
             orders_data: Union[None, List[Order]] = (
                 await engine.order_repository.get_full_information(
-                    id_user=token_data.get("id_user")
+                    id_user=token_data.get("sub")
                 )
             )
 
             if orders_data:
                 data_orders: list = []
-
                 for order in orders_data:
-                    order_user_data: dict = order.ord_user.read_model()
-                    order_product_data: dict = order.product_info.read_model()
+                    order_product_data: dict = order[0].product_info.read_model()
                     get_category: Union[None, Category] = (
-                        await engine.order_repository.find_one(
-                            other_id=order_product_data.get("id_category")
+                        await engine.subcategory_repository.find_one(
+                            other_id=order_product_data.get("id_sub_category")
                         )
                     )
 
-                    if get_category:
-                        data_orders.append(
-                            OrderAndUserInformation(
-                                product_data={
-                                    "name_product": order_product_data.get(
-                                        "title_product"
-                                    ),
-                                    "price_product": order_product_data.get(
-                                        "price_product"
-                                    ),
-                                    "category_product": get_category[
-                                        0
-                                    ].name_category,  # noqa
-                                    "date_buy": order.date_buy,
-                                },
-                                user_data={
-                                    "user_name": order_user_data.get(
-                                        "name_user"
-                                    ),  # noqa
-                                    "surname_user": order_user_data.get(
-                                        "surname_user"
-                                    ),  # noqa
-                                    "email": order_user_data.get("email_user"),
-                                },
-                            )
+                    data_orders.append(
+                        OrderAndUserInformation(
+                            product_data={
+                                "name_product": order_product_data.get(
+                                    "title_product"
+                                ),
+                                "price_product": order_product_data.get(
+                                    "price_product"
+                                ),
+                                "category_product": get_category[
+                                    0
+                                ].name if get_category else None,  # noqa
+                            },
+                            order_data={
+                                "status": order[0].type_operation,
+                                "quantity": order[0].count_product,
+                                "price_result": order[0].price_result,
+                                "id_order": order[0].id,
+                                "date_buy": order[0].date_buy
+                            }
                         )
-                    else:
-                        continue
-
+                    )
                 return ListOrderAndUserInformation(orders=[*data_orders])
 
             return ListOrderAndUserInformation(orders=[])

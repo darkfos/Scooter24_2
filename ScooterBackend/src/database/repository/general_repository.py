@@ -44,8 +44,7 @@ class GeneralSQLRepository:
                     f"Не удалось добавить новую запись"
                 )
                 raise Exception
-        except Exception as ex:
-            print(ex)
+        except Exception:
             await self.async_session.rollback()
             return False
 
@@ -86,22 +85,21 @@ class GeneralSQLRepository:
         :return:
         """
 
+        print(data_to_update)
+
         logging.info(
             msg=f"{self.model.__class__.__name__} "
             f"Обновление данных по "
             f"id={other_id},"
             f" data={data_to_update}"
         )
-        data_to_update = {
-            data: data_to_update.get(data)
-            for data in data_to_update
-            if data_to_update.get(data) is not None
-        }
+
         stmt = (
             update(self.model)
             .where(self.model.id == other_id)
             .values(data_to_update)
         )
+
         try:
             update_data = await self.async_session.execute(stmt)
             if update_data:
@@ -113,7 +111,8 @@ class GeneralSQLRepository:
                     f"Не удалось обновить данные"
                 )
                 raise Exception
-        except Exception:
+        except Exception as ex:
+            print(ex)
             await self.async_session.rollback()
             return False
 

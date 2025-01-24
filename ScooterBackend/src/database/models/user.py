@@ -78,6 +78,9 @@ class User(MainBase):
     # Адресные данные
     address: Mapped[str] = mapped_column(type_=Text, nullable=True)
 
+    # Телефон
+    telephone: Mapped[str] = mapped_column(type_=String(length=65), nullable=True)
+
     # Связи c таблицами
 
     # Избранное

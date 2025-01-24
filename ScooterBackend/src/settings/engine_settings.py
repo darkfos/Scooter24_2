@@ -5,13 +5,14 @@ from src.settings.other_settings.email_transfer_settings import (
     EmailTransferSettings,
 )
 from src.settings.database_settings.redis_settings import RedisSettings
-from typing import Type
+from src.settings.other_settings.client_settings import ClientSettings
 
 
 class Settings:
 
-    api_settings: Type[APISettings] = APISettings()
-    database_settings: Type[DatabaseSettings] = DatabaseSettings()
-    auth_settings: Type[Authentication] = Authentication()
-    email_tr_settings: Type[EmailTransferSettings] = EmailTransferSettings()
-    redis_settings: Type[RedisSettings] = RedisSettings()
+    api_settings: APISettings = APISettings()
+    database_settings: DatabaseSettings = DatabaseSettings()
+    auth_settings: Authentication = Authentication()
+    email_tr_settings: EmailTransferSettings = EmailTransferSettings()
+    redis_settings: RedisSettings = RedisSettings()
+    client_settings: ClientSettings = ClientSettings()

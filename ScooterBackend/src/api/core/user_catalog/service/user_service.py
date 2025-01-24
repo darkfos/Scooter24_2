@@ -117,6 +117,9 @@ class UserService:
                     ),
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
+                    date_birthday=user_data.date_birthday,
+                    telephone=user_data.telephone,
+                    address=user_data.address
                 )
 
                 return information
@@ -508,6 +511,7 @@ class UserService:
             msg=f"{UserService.__name__} " f"Обновление данных о пользователе"
         )
 
+        print(to_update)
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(

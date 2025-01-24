@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
 
+from starlette.responses import RedirectResponse
 
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
@@ -21,6 +22,7 @@ from src.api.core.user_catalog.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.settings.engine_settings import Settings
 
 
 auth_router: APIRouter = APIRouter(
@@ -71,9 +73,9 @@ async def login_user(
     )
 
     # Set cookie's
-    response.set_cookie(key="access_key", value=tokens.token)
-    response.set_cookie(key="refresh_key", value=tokens.refresh_token)
-    response.set_cookie(key="token_type", value="bearer")
+    # response.set_cookie(key="access_key", value=tokens.token)
+    # response.set_cookie(key="refresh_key", value=tokens.refresh_token)
+    # response.set_cookie(key="token_type", value="bearer")
 
     return AccessToken(
         access_token=tokens.token,
@@ -235,4 +237,9 @@ async def access_user(
 ) -> None:
     await EmailService.access_user_account(
         engine=engine, user_email=email, secret_key=secret_key
+    )
+
+    return RedirectResponse(
+        url=Settings.client_settings.front_url,
+        status_code=307
     )
