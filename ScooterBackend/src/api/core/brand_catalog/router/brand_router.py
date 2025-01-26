@@ -25,7 +25,7 @@ auth: Authentication = Authentication()
 )
 async def create_a_new_brand(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_brand: BrandBase,
 ) -> None:
     await BrandService.add_a_new_brand(
@@ -82,7 +82,7 @@ async def get_all_brands(
 )
 async def delete_brand_by_id(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_brand: int,
 ) -> None:
     await BrandService.delete_brand_by_id(

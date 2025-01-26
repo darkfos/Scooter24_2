@@ -25,7 +25,7 @@ model_router: APIRouter = APIRouter(
 )
 async def create_new_model(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_model: ModelBase,
 ) -> None:
     await ModelService.add_new_model(
@@ -78,7 +78,7 @@ async def get_all_models(
 )
 async def delete_model_by_id(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_model: int,
 ) -> None:
     await ModelService.delete_model_by_id(

@@ -39,7 +39,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_review(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     new_review: ReviewBase,
 ) -> ReviewIsCreated:
     """
@@ -168,7 +168,7 @@ async def get_review_data_by_id(
 )
 async def delete_review_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_review: int,
 ) -> None:
     """

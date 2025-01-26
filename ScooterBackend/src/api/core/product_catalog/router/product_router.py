@@ -47,7 +47,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     article_product: Annotated[str, Field(max_length=300)],
     title_product: Annotated[str, Field(max_length=500)],
     brand: int,
@@ -116,7 +116,7 @@ async def create_product(
     response_model=None,
 )
 async def add_new_category_to_product(
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_product: int,
     id_category: int,
@@ -308,7 +308,7 @@ async def product_is_created(
     status_code=status.HTTP_200_OK,
 )
 async def garage_products(
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     brand: Annotated[str, Field(max_length=100)] = None,
     model: Annotated[str, Field(max_length=100)] = None,
@@ -338,7 +338,7 @@ async def garage_products(
 )
 async def get_all_information_about_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_product: int,
 ) -> ProductAllInformation:
     """
@@ -431,7 +431,7 @@ async def get_new_products(
 )
 async def update_information_about_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_product: int,
     data_update: UpdateProduct,
 ) -> None:
@@ -507,7 +507,7 @@ async def update_information_about_product(
 )
 async def update_product_discount(
     session: Annotated[IEngineRepository, Depends(db_work.get_session)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_product: int,
     data_to_update: UpdateProductDiscount,
 ) -> None:
@@ -546,7 +546,7 @@ async def update_product_discount(
 )
 async def delete_product_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_product: int,
 ) -> None:
     """

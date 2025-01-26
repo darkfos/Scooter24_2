@@ -37,7 +37,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_a_new_order(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     new_order: AddOrder,
 ) -> None:
     """
@@ -70,7 +70,7 @@ async def create_a_new_order(
 )
 async def get_orders_by_id_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> ListOrderAndUserInformation:
     """
     ENDPOINT - Получение всех заказов пользователя,
@@ -105,7 +105,7 @@ async def get_orders_by_id_user(
 )
 async def get_information_about_order_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     id_order: int,
 ) -> OrderAndUserInformation:
     """
@@ -144,7 +144,7 @@ async def get_information_about_order_by_id(
 )
 async def delete_order_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     id_order: int,
 ) -> None:
     """

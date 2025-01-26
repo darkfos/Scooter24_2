@@ -7,7 +7,7 @@ from typing import Annotated, Union, List, Dict
 
 class FavouriteBase(BaseModel):
 
-    product_info: Annotated[Dict[str, Union[str, int]], Field()]
+    product_info: Annotated[Dict[str, Union[str, int, List]], Field()]
 
 
 class ListFavouriteBase(BaseModel):

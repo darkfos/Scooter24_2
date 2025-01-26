@@ -23,7 +23,7 @@ auth: Authentication = Authentication()
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def create_a_new_mark(
-    admin_data: Annotated[Dict[str, str], Depends(auth.jwt_auth)],
+    admin_data: Annotated[Dict[str, str], Depends(auth.auth_user)],
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     new_mark: MarkBase,
 ) -> None:

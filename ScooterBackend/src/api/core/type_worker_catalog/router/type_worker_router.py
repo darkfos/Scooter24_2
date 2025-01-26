@@ -42,7 +42,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_new_type_worker(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_type_worker: TypeWorkerBase,
 ) -> None:
     """
@@ -125,7 +125,7 @@ async def get_type_worker_by_id(
 )
 async def delete_type_worker(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_type: int,
 ) -> None:
     """

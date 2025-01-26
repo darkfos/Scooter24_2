@@ -44,7 +44,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_a_new_favourite(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     new_favourite: AddFavourite,
 ) -> None:
     """
@@ -79,7 +79,7 @@ async def create_a_new_favourite(
 )
 async def get_all_favourites_products_by_user_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> ListFavouriteBase:
     """
     ENDPOINT - Получение всех избранных товаров пользователя
@@ -117,7 +117,7 @@ async def get_all_favourites_products_by_user_id(
 )
 async def get_full_information_about_favourite_product_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[AsyncSession, Depends(auth.jwt_auth)],
+    admin_data: Annotated[AsyncSession, Depends(auth.auth_user)],
     id_fav_product: int,
 ) -> FavouriteInformation:
     """
@@ -155,7 +155,7 @@ async def get_full_information_about_favourite_product_by_id(
 )
 async def get_all_favourites_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
 ) -> Union[List, List[FavouriteSmallData]]:
     """
     ENDPOINT - Получение информации обо всех избранных товаров
@@ -187,7 +187,7 @@ async def get_all_favourites_products(
 )
 async def delete_favourite_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     id_favourite: int,
 ) -> None:
     """

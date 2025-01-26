@@ -5,11 +5,13 @@ import logging as logger
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, Result
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, selectinload
 
 # Local
 from src.database.models.favourite import Favourite
+from src.database.models.product_photos import ProductPhotos
 from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product import Product
 
 
 logging = logger.getLogger(__name__)
@@ -63,19 +65,14 @@ class FavouriteRepository(GeneralSQLRepository):
 
         stmt = (
             select(Favourite)
+            .options(selectinload(Favourite.product_info).selectinload(Product.photos))  # Загрузка связанных данных
             .where(Favourite.id_user == id_user)
-            .options(
-                joinedload(Favourite.fav_user),
-                joinedload(Favourite.product_info),
-            )
         )
 
-        all_data_products = (
-            (await self.async_session.execute(stmt)).unique()
-        ).fetchall()
+        all_data_products = (await self.async_session.execute(stmt)).all()
 
         if all_data_products:
-            return all_data_products[0]
+            return all_data_products
         return all_data_products
 
     async def get_all_data_for_favourite_product_by_id(

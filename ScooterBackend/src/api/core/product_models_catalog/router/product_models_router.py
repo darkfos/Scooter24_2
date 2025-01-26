@@ -31,7 +31,7 @@ product_models_router: APIRouter = APIRouter(
 )
 async def added_new_product_models(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_product_models: ProductModelsBase,
 ) -> None:
     await ProductModelsService.added_new_model_to_product(
@@ -85,7 +85,7 @@ async def get_all_product_models(
 )
 async def delete_product_model_by_id(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_pr_model: int,
 ) -> None:
     await ProductModelsService.delete_product_models_by_id(

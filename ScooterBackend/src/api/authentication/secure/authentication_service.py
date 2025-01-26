@@ -2,9 +2,12 @@
 import jwt
 import logging as logger
 from datetime import timedelta, datetime
+
+from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
+from fastapi.requests import Request
 
 from src.database.repository.user_repository import UserRepository
 
@@ -40,6 +43,26 @@ class Authentication:
                 + "/login"  # noqa
             )
         )
+
+    async def auth_user(self, request: Request) -> None:
+        """
+        Аутентификация пользователя
+        :param request:
+        """
+
+        try:
+            cookies: dict[str, str] = request.cookies
+            token_access_data: dict[str, str | int] = jwt.decode(
+                cookies.get("access_key"),
+                Settings.auth_settings.jwt_secret_key,
+                algorithms=Settings.auth_settings.algorithm
+            )
+            return cookies.get("access_key")
+        except (KeyError, jwt.PyJWTError, jwt.DecodeError):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Ошибка авторизации"
+            )
 
     async def create_tokens(
         self, token_data: CreateToken, engine: IEngineRepository

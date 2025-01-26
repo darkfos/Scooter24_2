@@ -43,7 +43,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def get_information_about_user(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> InformationAboutUser:
     """
     ENDPOINT - Получение краткой информации о пользователе, (ЛИЧНОЕ)
@@ -81,7 +81,7 @@ async def get_information_about_user(
 )
 async def get_full_information_about_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> AllDataUser:
     """
     ENDPOINT - Получение полной информации об пользователе, (ЛИЧНОЕ
@@ -115,7 +115,7 @@ async def get_full_information_about_user(
 )
 async def get_user_data_and_all_reviews(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> UserReviewData:
     """
     ENDPOINT - Получение информации о пользователе + отзывы
@@ -150,7 +150,7 @@ async def get_user_data_and_all_reviews(
 )
 async def get_user_data_and_all_favourites_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> UserFavouritesData:
     """
     ENDPOINT - Получение информации о пользователе + избранные товары
@@ -185,7 +185,7 @@ async def get_user_data_and_all_favourites_product(
 )
 async def get_user_data_and_all_orders(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> UserOrdersData:
     """
     ENDPOINT - Получение информации о пользователе + заказы
@@ -222,7 +222,7 @@ async def get_user_data_and_all_orders(
 )
 async def get_information_about_other_users(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_user: int,
 ) -> InformationAboutUser:
     """
@@ -262,7 +262,7 @@ async def get_information_about_other_users(
 )
 async def get_all_information_about_other_users(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_user: int,
 ) -> AllDataUser:
     """
@@ -299,7 +299,7 @@ async def get_all_information_about_other_users(
 )
 async def update_user_information(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     data_to_update: DataToUpdate,
 ) -> UserIsUpdated:
     """
@@ -329,7 +329,7 @@ async def update_user_information(
 )
 async def update_address_data(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
     data_to_update: UpdateAddressDate,
 ) -> None:
     """
@@ -360,7 +360,7 @@ async def update_address_data(
 )
 async def delete_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.jwt_auth)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> UserIsDeleted:
     """
     Удаление всех данных о пользователе

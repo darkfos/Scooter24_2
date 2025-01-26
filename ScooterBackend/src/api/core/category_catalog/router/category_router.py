@@ -46,7 +46,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_new_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_category: CategoryBase,
 ) -> CategoryIsCreated:
     """
@@ -190,7 +190,7 @@ async def find_category_by_id(
 )
 async def update_category_name(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     to_update: DataCategoryToUpdate,
 ) -> CategoryIsUpdated:
     """
@@ -224,7 +224,7 @@ async def update_category_name(
 )
 async def delete_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_category: int,
 ) -> None:
     """

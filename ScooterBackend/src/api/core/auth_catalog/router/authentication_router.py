@@ -2,6 +2,7 @@
 import datetime
 
 from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
+from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
@@ -13,7 +14,6 @@ from starlette.responses import RedirectResponse
 from src.api.core.auth_catalog.schemas.auth_dto import (
     Tokens,
     CreateToken,
-    RefreshUpdateToken,
     AccessToken,
     UpdateUserPassword,
 )
@@ -74,9 +74,24 @@ async def login_user(
     )
 
     # Set cookie's
-    # response.set_cookie(key="access_key", value=tokens.token)
-    # response.set_cookie(key="refresh_key", value=tokens.refresh_token)
-    # response.set_cookie(key="token_type", value="bearer")
+    response.set_cookie(
+        key="access_key",
+        value=tokens.token,
+        httponly=True,
+        samesite="lax"
+    )
+    response.set_cookie(
+        key="refresh_key",
+        value=tokens.refresh_token,
+        httponly=True,
+        samesite="lax"
+    )
+    response.set_cookie(
+        key="token_type",
+        value="bearer",
+        httponly=True,
+        samesite="lax"
+    )
 
     return AccessToken(
         access_token=tokens.token,
@@ -131,10 +146,9 @@ async def registration_user(
     access token (Обновлённый) и refresh token.
     """,
     summary="Обновление токена",
-    response_model=Tokens,
     status_code=status.HTTP_201_CREATED,
 )
-async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
+async def update_by_refresh_token(req: Request, response: Response):
     """
     Обновление существующего токена
     :param session:
@@ -147,10 +161,25 @@ async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
         "обновления токена (update_by_refresh_token)"
     )
 
-    data_tokens: str = await authentication_app.update_token(
-        refresh_token=refresh_token.refresh_token
-    )
-    return Tokens(token=data_tokens, refresh_token=refresh_token.refresh_token)
+    try:
+        data_tokens: str = await authentication_app.update_token(
+            refresh_token=req.cookies.get("refresh_key")
+        )
+
+        # Установка cookie
+        response.set_cookie(
+            key="access_key",
+            value=data_tokens,
+            httponly=True,
+            samesite="lax"
+        )
+
+        return None
+    except KeyError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Ключ для обновлений не был найден"
+        )
 
 
 @auth_router.post(
@@ -166,7 +195,7 @@ async def update_by_refresh_token(refresh_token: RefreshUpdateToken) -> Tokens:
 async def create_and_send_secret_key(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     background_task: BackgroundTasks,
-    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
+    user_data: Annotated[str, Depends(authentication_app.auth_user)],
 ) -> None:
     """
     Обновление пароля пользователя
@@ -201,7 +230,7 @@ async def create_and_send_secret_key(
 async def update_user_password(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     data_update: UpdateUserPassword,
-    user_data: Annotated[str, Depends(authentication_app.jwt_auth)],
+    user_data: Annotated[str, Depends(authentication_app.auth_user)],
 ) -> None:
     """
     Обновление пароля пользователя

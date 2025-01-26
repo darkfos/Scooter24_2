@@ -41,7 +41,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 )
 async def create_a_new_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     new_vacancies: VacanciesBase,
 ) -> None:
     """
@@ -135,7 +135,7 @@ async def get_vacancies_by_id(
 )
 async def update_vacancies(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     data_to_update: UpdateVacancies,
 ) -> None:
     """
@@ -168,7 +168,7 @@ async def update_vacancies(
 )
 async def delete_vacancies_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.jwt_auth)],
+    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_vacancies: int,
 ) -> None:
     """
