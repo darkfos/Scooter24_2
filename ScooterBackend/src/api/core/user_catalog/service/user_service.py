@@ -70,7 +70,6 @@ class UserService:
                     email_user=new_user.email_user,
                     password_user=hashed_password,
                     name_user=new_user.name_user,
-                    surname_user=new_user.surname_user,
                     main_name_user=new_user.main_name_user,
                     date_registration=new_user.date_registration,
                     date_update=new_user.date_registration,
@@ -112,9 +111,6 @@ class UserService:
                     email_user=user_data.email_user,
                     name_user=(
                         user_data.name_user if user_data.name_user else ""
-                    ),
-                    surname_user=(
-                        user_data.surname_user if user_data.surname_user else ""
                     ),
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,

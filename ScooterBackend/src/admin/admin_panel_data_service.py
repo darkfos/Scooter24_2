@@ -146,7 +146,6 @@ class AdminPanelService:
                             brand_mark=id_mark,
                             quantity_product=quantity_product,
                             price_product=price_product,
-                            price_with_discount=price_with_discount,
                             product_discount=0,
                         )
                     )

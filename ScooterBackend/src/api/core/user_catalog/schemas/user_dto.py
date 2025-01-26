@@ -13,7 +13,6 @@ class UserBase(BaseModel):
     email_user: Annotated[EmailStr, Field(EmailStr())]
     password_user: Annotated[str, Field(min_length=6, max_length=60)]
     name_user: Annotated[str, Field(max_length=100)]
-    surname_user: Annotated[Union[str, None], Field(max_length=150)]
     main_name_user: Annotated[Union[str, None], Field(max_length=250)]
 
 
@@ -24,7 +23,6 @@ class InformationAboutUser(BaseModel):
 
     email_user: Annotated[EmailStr, Field(EmailStr())]
     name_user: Annotated[Union[str, None], Field(max_length=100)]
-    surname_user: Annotated[Union[str, None], Field(max_length=150)]
     main_name_user: Annotated[Union[str, None], Field(max_length=250)]
     date_registration: Annotated[
         Union[datetime.date, None], Field(default=datetime.date.today())
