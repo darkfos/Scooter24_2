@@ -14,6 +14,7 @@ from src.api.core.order_catalog.schemas.order_dto import (
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 # Redis
@@ -45,12 +46,20 @@ class OrderService:
         logging.info(msg=f"{OrderService.__name__} Создание нового заказа")
 
         async with engine:
+            # Данные продукта
+            product_data = await engine.product_repository.find_one(new_order.id_product)
+
+            print(product_data)
+
             # Создание отзыва
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
                     date_buy=new_order.date_create,
-                    id_user=token_data.get("id_user"),
+                    id_user=token_data.get("sub"),
                     id_product=new_order.id_product,
+                    count_product = 0,
+                    type_operation =  OrderTypeOperationsEnum.NO_BUY,
+                    price_result=product_data[0].price_product
                 )
             )
 

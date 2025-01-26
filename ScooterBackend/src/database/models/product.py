@@ -72,11 +72,6 @@ class Product(MainBase):
         type_=Double, nullable=False, default=0
     )
 
-    # Цена со скидкой
-    price_with_discount: Mapped[float] = mapped_column(
-        type_=Double, nullable=True, default=0.0
-    )
-
     # Дата создания
     date_create_product: Mapped[date] = mapped_column(
         type_=Date, nullable=True, default=date.today()

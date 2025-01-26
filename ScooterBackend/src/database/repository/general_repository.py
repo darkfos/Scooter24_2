@@ -85,7 +85,6 @@ class GeneralSQLRepository:
         :return:
         """
 
-        print(data_to_update)
 
         logging.info(
             msg=f"{self.model.__class__.__name__} "
@@ -111,8 +110,7 @@ class GeneralSQLRepository:
                     f"Не удалось обновить данные"
                 )
                 raise Exception
-        except Exception as ex:
-            print(ex)
+        except Exception:
             await self.async_session.rollback()
             return False
 
