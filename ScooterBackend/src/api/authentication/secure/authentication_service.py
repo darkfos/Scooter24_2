@@ -52,16 +52,16 @@ class Authentication:
 
         try:
             cookies: dict[str, str] = request.cookies
-            token_access_data: dict[str, str | int] = jwt.decode(
+            token_access_data: dict[str, str | int] = jwt.decode(  # noqa
                 cookies.get("access_key"),
                 Settings.auth_settings.jwt_secret_key,
-                algorithms=Settings.auth_settings.algorithm
+                algorithms=Settings.auth_settings.algorithm,
             )
             return cookies.get("access_key")
         except (KeyError, jwt.PyJWTError, jwt.DecodeError):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Ошибка авторизации"
+                detail="Ошибка авторизации",
             )
 
     async def create_tokens(

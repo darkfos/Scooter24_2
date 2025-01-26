@@ -12,7 +12,6 @@ from starlette.responses import RedirectResponse
 
 # Local
 from src.api.core.auth_catalog.schemas.auth_dto import (
-    Tokens,
     CreateToken,
     AccessToken,
     UpdateUserPassword,
@@ -75,22 +74,16 @@ async def login_user(
 
     # Set cookie's
     response.set_cookie(
-        key="access_key",
-        value=tokens.token,
-        httponly=True,
-        samesite="lax"
+        key="access_key", value=tokens.token, httponly=True, samesite="lax"
     )
     response.set_cookie(
         key="refresh_key",
         value=tokens.refresh_token,
         httponly=True,
-        samesite="lax"
+        samesite="lax",
     )
     response.set_cookie(
-        key="token_type",
-        value="bearer",
-        httponly=True,
-        samesite="lax"
+        key="token_type", value="bearer", httponly=True, samesite="lax"
     )
 
     return AccessToken(
@@ -168,17 +161,14 @@ async def update_by_refresh_token(req: Request, response: Response):
 
         # Установка cookie
         response.set_cookie(
-            key="access_key",
-            value=data_tokens,
-            httponly=True,
-            samesite="lax"
+            key="access_key", value=data_tokens, httponly=True, samesite="lax"
         )
 
         return None
     except KeyError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Ключ для обновлений не был найден"
+            detail="Ключ для обновлений не был найден",
         )
 
 

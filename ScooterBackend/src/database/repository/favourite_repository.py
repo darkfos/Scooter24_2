@@ -9,7 +9,6 @@ from sqlalchemy.orm import joinedload, selectinload
 
 # Local
 from src.database.models.favourite import Favourite
-from src.database.models.product_photos import ProductPhotos
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.product import Product
 
@@ -65,7 +64,11 @@ class FavouriteRepository(GeneralSQLRepository):
 
         stmt = (
             select(Favourite)
-            .options(selectinload(Favourite.product_info).selectinload(Product.photos))  # Загрузка связанных данных
+            .options(
+                selectinload(Favourite.product_info).selectinload(
+                    Product.photos
+                )
+            )  # Загрузка связанных данных
             .where(Favourite.id_user == id_user)
         )
 

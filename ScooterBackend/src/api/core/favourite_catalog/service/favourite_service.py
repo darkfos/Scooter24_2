@@ -105,12 +105,20 @@ class FavouriteService:
                             product_info={
                                 "id_favourite": product[0].id,
                                 "id_product": product[0].product_info.id,
-                                "quantity": product[0].product_info.quantity_product,
-                                "product_name": product[0].product_info.title_product,  # noqa
-                                "price_product": product[0].product_info.price_product,  # noqa
-                                "article_product": product[0].product_info.article_product,  # noqa
+                                "quantity": product[
+                                    0
+                                ].product_info.quantity_product,
+                                "product_name": product[
+                                    0
+                                ].product_info.title_product,  # noqa
+                                "price_product": product[
+                                    0
+                                ].product_info.price_product,  # noqa
+                                "article_product": product[
+                                    0
+                                ].product_info.article_product,  # noqa
                                 "photos": product[0].product_info.photos,
-                                "label": product[0].product_info.label_product
+                                "label": product[0].product_info.label_product,
                             }
                         )
                     )
@@ -254,7 +262,6 @@ class FavouriteService:
                     other_id=id_favourite
                 )
             )
-
 
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
