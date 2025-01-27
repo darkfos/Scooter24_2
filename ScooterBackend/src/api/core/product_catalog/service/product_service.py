@@ -795,7 +795,6 @@ class ProductService:
                 await engine.product_repository.get_recommended_products()
             )
             data_result: ListProductBase = ListProductBase(products=[])
-
             for product in products_data:
                 data_result.products.append(
                     ProductBase(

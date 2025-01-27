@@ -231,7 +231,7 @@ class ProductRepository(GeneralSQLRepository):
         )
         stmt = (
             select(Product)
-            .where(Product.is_recommended is True)
+            .where(Product.is_recommended == True) # noqa
             .options(
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
