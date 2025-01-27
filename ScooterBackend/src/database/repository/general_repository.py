@@ -85,7 +85,6 @@ class GeneralSQLRepository:
         :return:
         """
 
-
         logging.info(
             msg=f"{self.model.__class__.__name__} "
             f"Обновление данных по "

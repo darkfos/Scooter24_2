@@ -341,16 +341,18 @@ async def get_all_information_about_product(
     """,
     summary="Последние проданные товары",
     response_model=ListProductBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def last_selled_products(
-        session: Annotated[IEngineRepository, Depends(EngineRepository)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> ListProductBase:
     """
     Получение последних проданных товаров
     """
 
-    return await ProductService.last_products(engine=session, redis_search_data="last_selled_products")
+    return await ProductService.last_products(
+        engine=session, redis_search_data="last_selled_products"
+    )
 
 
 @product_router.get(

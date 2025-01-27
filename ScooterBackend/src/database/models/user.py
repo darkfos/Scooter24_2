@@ -52,9 +52,7 @@ class User(MainBase):
     )
 
     # Опциональные данные
-    name_user: Mapped[str] = mapped_column(
-        type_=String(100), nullable=True
-    )
+    name_user: Mapped[str] = mapped_column(type_=String(100), nullable=True)
 
     # Отображаемое имя пользователя
     main_name_user: Mapped[str] = mapped_column(

@@ -5,14 +5,12 @@ import logging as logger
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, Row, desc
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload
 
 # Local
 from src.database.models.order import Order
 from src.database.models.product import Product
-from src.database.models.product_models import ProductModels
 from src.database.repository.general_repository import GeneralSQLRepository
-from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 logging = logger.getLogger(__name__)
@@ -30,13 +28,17 @@ class OrderRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Order, Product).join(
-            Product, Product.id == Order.id_product, isouter=True
-        ).options(
-            joinedload(Product.product_models_data),
-            joinedload(Product.photos)
-        ).order_by(desc(Order.date_buy)).limit(7)
-        result = (await self.async_session.execute(stmt))
+        stmt = (
+            select(Order, Product)
+            .join(Product, Product.id == Order.id_product, isouter=True)
+            .options(
+                joinedload(Product.product_models_data),
+                joinedload(Product.photos),
+            )
+            .order_by(desc(Order.date_buy))
+            .limit(7)
+        )
+        result = await self.async_session.execute(stmt)
         return result.unique().all()
 
     async def del_more(self, id_orders: List[int]) -> bool:

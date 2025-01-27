@@ -2,7 +2,6 @@
 import datetime
 import logging as logger
 from typing import Union, List, Type
-from random import randint
 from fastapi import status, HTTPException, UploadFile
 
 
@@ -219,14 +218,16 @@ class ProductService:
     @redis
     @staticmethod
     async def last_products(
-            engine: IEngineRepository,
-            redis_search_data: str,
+        engine: IEngineRepository,
+        redis_search_data: str,
     ) -> ListProductBase:
         """
         Получение последних проданных товаров
         """
 
-        logging.info(msg=f"{ProductService.__name__} получение последних проданных товаров")
+        logging.info(
+            msg=f"{ProductService.__name__} получение последних проданных товаров"  # noqa
+        )  # noqa
 
         async with engine:
             products = await engine.order_repository.get_last_products()
@@ -240,23 +241,37 @@ class ProductService:
                         title_product=product[0].product_info.title_product,
                         brand=product[0].product_info.brand,
                         brand_mark=product[0].product_info.brand_mark,
-                        models=[model.read_model() for model in product[0].product_info.product_models_data],
+                        models=[
+                            model.read_model()
+                            for model in product[
+                                0
+                            ].product_info.product_models_data
+                        ],
                         id_sub_category=product[0].product_info.id_sub_category,
                         weight_product=product[0].product_info.weight_product,
                         is_recommended=product[0].product_info.is_recommended,
-                        explanation_product=product[0].product_info.explanation_product,
-                        quantity_product=product[0].product_info.quantity_product,
+                        explanation_product=product[
+                            0
+                        ].product_info.explanation_product,
+                        quantity_product=product[
+                            0
+                        ].product_info.quantity_product,
                         price_product=product[0].product_info.price_product,
-                        date_create_product=product[0].product_info.date_create_product,
-                        date_update_information=product[0].product_info.date_update_information,
-                        product_discount=product[0].product_info.product_discount,
+                        date_create_product=product[
+                            0
+                        ].product_info.date_create_product,
+                        date_update_information=product[
+                            0
+                        ].product_info.date_update_information,
+                        product_discount=product[
+                            0
+                        ].product_info.product_discount,
                         photo=product[0].product_info.photos,
-                        type_pr=product[0].product_info.type_pr
+                        type_pr=product[0].product_info.type_pr,
                     )
                 )
 
             return product_data
-
 
     @staticmethod
     async def get_garage_products(
@@ -776,7 +791,9 @@ class ProductService:
 
         async with engine:
             # Получение всех товаров
-            products_data: List[Product] = await engine.product_repository.get_recommended_products()
+            products_data: List[Product] = (
+                await engine.product_repository.get_recommended_products()
+            )
             data_result: ListProductBase = ListProductBase(products=[])
 
             for product in products_data:
@@ -788,7 +805,10 @@ class ProductService:
                         title_product=product[0].title_product,
                         brand=product[0].brand,
                         brand_mark=product[0].brand_mark,
-                        models=[model.read_model() for model in product[0].product_models_data],
+                        models=[
+                            model.read_model()
+                            for model in product[0].product_models_data
+                        ],
                         id_sub_category=product[0].id_sub_category,
                         weight_product=product[0].weight_product,
                         is_recommended=product[0].is_recommended,
@@ -796,10 +816,12 @@ class ProductService:
                         quantity_product=product[0].quantity_product,
                         price_product=product[0].price_product,
                         date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,
+                        date_update_information=product[
+                            0
+                        ].date_update_information,
                         product_discount=product[0].product_discount,
                         photo=product[0].photos,
-                        type_pr=product[0].type_pr
+                        type_pr=product[0].type_pr,
                     )
                 )
             return data_result

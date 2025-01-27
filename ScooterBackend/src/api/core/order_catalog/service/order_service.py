@@ -47,7 +47,9 @@ class OrderService:
 
         async with engine:
             # Данные продукта
-            product_data = await engine.product_repository.find_one(new_order.id_product)
+            product_data = await engine.product_repository.find_one(
+                new_order.id_product
+            )
 
             # Создание отзыва
             is_created: bool = await engine.order_repository.add_one(
@@ -55,9 +57,9 @@ class OrderService:
                     date_buy=new_order.date_create,
                     id_user=token_data.get("sub"),
                     id_product=new_order.id_product,
-                    count_product = 0,
-                    type_operation =  OrderTypeOperationsEnum.NO_BUY,
-                    price_result=product_data[0].price_product
+                    count_product=0,
+                    type_operation=OrderTypeOperationsEnum.NO_BUY,
+                    price_result=product_data[0].price_product,
                 )
             )
 
@@ -232,7 +234,7 @@ class OrderService:
             order_data: Union[None, Order] = (
                 await engine.order_repository.find_one(other_id=id_order)
             )
-            print(order_data, token_data.get('sub'))
+            print(order_data, token_data.get("sub"))
             if order_data:
                 if order_data[0].id_user == token_data.get("sub"):
 

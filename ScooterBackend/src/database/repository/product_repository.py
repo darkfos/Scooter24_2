@@ -229,9 +229,13 @@ class ProductRepository(GeneralSQLRepository):
         logging.info(
             msg=f"{self.__class__.__name__} Получение рекомендованных товаров"
         )
-        stmt = select(Product).where(Product.is_recommended == True).options(
-            joinedload(Product.product_models_data),
-            joinedload(Product.photos)
+        stmt = (
+            select(Product)
+            .where(Product.is_recommended is True)
+            .options(
+                joinedload(Product.product_models_data),
+                joinedload(Product.photos),
+            )
         )
         products = (await self.async_session.execute(stmt)).unique().all()
         return products
