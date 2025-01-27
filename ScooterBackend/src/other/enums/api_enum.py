@@ -19,6 +19,7 @@ class APITagsEnum(Enum):
     PRODUCT_MODEL: Final[str] = "ProductModel"
     REVIEW: Final[str] = "Review"
     PHOTO: Final[str] = "Photo"
+    TYPE_MOTO: Final[str] = "TypeMoto"
 
     # Теги связанные с заказами
     ORDER: Final[str] = "Order"
@@ -56,3 +57,4 @@ class APIPrefix(Enum):
     TYPE_WORKER_PREFIX: Final[str] = "/type_worker"
     VACANCIES_PREFIX: Final[str] = "/vacancies"
     PHOTO_PREFIX: Final[str] = "/photo"
+    TYPE_MOTO: Final[str] = "/mt"
