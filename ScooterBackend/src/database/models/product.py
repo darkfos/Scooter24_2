@@ -9,6 +9,7 @@ from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey, Boolean
 # Local
 from src.database.mainbase import MainBase
 from src.database.models.product_photos import ProductPhotos
+from src.database.models.type_moto import TypeMoto
 
 
 class Product(MainBase):
@@ -51,8 +52,10 @@ class Product(MainBase):
     )
 
     # Тип транспорта
-    type_pr: Mapped[str] = mapped_column(
-        type_=String(length=65), nullable=True, index=True
+    type_pr: Mapped[int] = mapped_column(
+        ForeignKey("Typemoto.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
     )
 
     # Подкатегория
@@ -146,6 +149,13 @@ class Product(MainBase):
         back_populates="product_data",
         uselist=True,
         cascade="all, delete",
+    )
+
+    # Данные типа транспорта
+    type_moto_data: Mapped["TypeMoto"] = relationship(
+        "TypeMoto",
+        back_populates="product_data",
+        uselist=False
     )
 
     def read_model(self) -> Dict[str, str]:

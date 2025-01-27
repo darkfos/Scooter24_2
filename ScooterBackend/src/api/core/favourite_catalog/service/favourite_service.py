@@ -60,7 +60,7 @@ class FavouriteService:
             )
 
             if is_created:
-                return
+                return is_created
             logging.critical(
                 msg=f"{FavouriteService.__name__} Не удалось добавить"
                 f" новый товар в избранное"

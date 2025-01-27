@@ -39,14 +39,14 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
     Необходим jwt токен и Bearer в заголовке запроса.
     """,
     summary="Добавление избранного товара",
-    response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=dict,
+    status_code=status.HTTP_201_CREATED,
 )
 async def create_a_new_favourite(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.auth_user)],
     new_favourite: AddFavourite,
-) -> None:
+) -> dict:
     """
     ENDPOINT - Добавление нового товара в избранное
     :param session:
@@ -60,9 +60,9 @@ async def create_a_new_favourite(
         " нового товара в списке избранных (create_a_new_favourite_product)"
     )
 
-    return await FavouriteService.create_favourite_product(
+    return {"id_fav" : await FavouriteService.create_favourite_product(
         engine=session, token=user_data, new_product_in_favourite=new_favourite
-    )
+    )}
 
 
 @favourite_router.get(
