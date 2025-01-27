@@ -3,20 +3,18 @@ from typing import Annotated
 
 
 # Local
-from src.other.enums.api_enum import (
-    APIPrefix,
-    APITagsEnum
-)
+from src.other.enums.api_enum import APIPrefix, APITagsEnum
 from src.api.core.type_moto_catalog.schemas.type_moto_dto import (
-    ListTypeModelBase
+    ListTypeModelBase,
 )
-from src.api.dep.dependencies import (IEngineRepository, EngineRepository)
-from src.api.core.type_moto_catalog.service.type_moto_service import TypeMotoService # noqa
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.core.type_moto_catalog.service.type_moto_service import (
+    TypeMotoService,
+)  # noqa
 
 
 tm_router: APIRouter = APIRouter(
-    prefix=APIPrefix.TYPE_MOTO.value,
-    tags=[APITagsEnum.TYPE_MOTO.value]
+    prefix=APIPrefix.TYPE_MOTO.value, tags=[APITagsEnum.TYPE_MOTO.value]
 )
 
 
@@ -28,10 +26,10 @@ tm_router: APIRouter = APIRouter(
     Доступен всем
     """,
     status_code=status.HTTP_200_OK,
-    summary="Все типы транспорта"
+    summary="Все типы транспорта",
 )
 async def all_moto_types(
-        session: Annotated[IEngineRepository, Depends(EngineRepository)]
+    session: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> ListTypeModelBase:
     """
     Все типы транспорта
@@ -39,4 +37,6 @@ async def all_moto_types(
     :return:
     """
 
-    return await TypeMotoService.all_tm(engine=session, redis_search_data="all_tm")
+    return await TypeMotoService.all_tm(
+        engine=session, redis_search_data="all_tm"
+    )

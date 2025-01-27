@@ -35,7 +35,9 @@ from src.api.core.user_type_catalog.routes.user_type_router import (
     user_type_router,
 )
 from src.api.core.photo_catalog.router.photo_router import photo_router
-from src.api.core.type_moto_catalog.router.type_moto_router import tm_router # noqa
+from src.api.core.type_moto_catalog.router.type_moto_router import (
+    tm_router,
+)  # noqa
 
 
 class GeneralRouter:
@@ -68,7 +70,7 @@ class GeneralRouter:
             favourite_router,
             review_router,
             product_models_router,
-            tm_router
+            tm_router,
         ]
 
         if new_router:
