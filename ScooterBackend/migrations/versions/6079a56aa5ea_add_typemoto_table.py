@@ -217,9 +217,7 @@ def upgrade():
         sa.Column("id_product", sa.Integer(), nullable=False),
         sa.Column("id_model", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["id_model"], ["Model.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(
             ["id_product"], ["Product.id"], ondelete="CASCADE"
         ),

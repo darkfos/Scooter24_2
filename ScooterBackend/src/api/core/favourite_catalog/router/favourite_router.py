@@ -60,9 +60,13 @@ async def create_a_new_favourite(
         " нового товара в списке избранных (create_a_new_favourite_product)"
     )
 
-    return {"id_fav" : await FavouriteService.create_favourite_product(
-        engine=session, token=user_data, new_product_in_favourite=new_favourite
-    )}
+    return {
+        "id_fav": await FavouriteService.create_favourite_product(
+            engine=session,
+            token=user_data,
+            new_product_in_favourite=new_favourite,
+        )
+    }
 
 
 @favourite_router.get(

@@ -153,9 +153,7 @@ class Product(MainBase):
 
     # Данные типа транспорта
     type_moto_data: Mapped["TypeMoto"] = relationship(
-        "TypeMoto",
-        back_populates="product_data",
-        uselist=False
+        "TypeMoto", back_populates="product_data", uselist=False
     )
 
     def read_model(self) -> Dict[str, str]:
