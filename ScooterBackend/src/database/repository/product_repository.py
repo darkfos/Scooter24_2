@@ -210,7 +210,7 @@ class ProductRepository(GeneralSQLRepository):
         """
 
         logging.info(
-            msg="{self.__class__.__name__} Получение всех товаров"
+            msg=f"{self.__class__.__name__} Получение всех товаров"
             " по новым датам"
         )
         stmt = select(Product).order_by(Product.date_create_product.desc())
@@ -219,3 +219,19 @@ class ProductRepository(GeneralSQLRepository):
         if products:
             return products
         return None
+
+    async def get_recommended_products(self) -> Union[List, List[Product]]:
+        """
+        Получение всех рекомендованных товаров
+        :session:
+        """
+
+        logging.info(
+            msg=f"{self.__class__.__name__} Получение рекомендованных товаров"
+        )
+        stmt = select(Product).where(Product.is_recommended == True).options(
+            joinedload(Product.product_models_data),
+            joinedload(Product.photos)
+        )
+        products = (await self.async_session.execute(stmt)).unique().all()
+        return products

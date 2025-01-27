@@ -17,17 +17,20 @@ from src.api.core.subcategory_catalog.schemas.subcategory_dto import (
 
 class ProductBase(BaseModel):
 
+    id_product: Annotated[int, Field()]
+    label_product: Annotated[str, None, Field()]
+    type_pr: Annotated[Union[None, str], Field()]
     article_product: Annotated[str, Field(max_length=300)]
     title_product: Annotated[str, Field(max_length=500)]
     brand: int
     brand_mark: int
     models: List
-    id_s_sub_category: int
+    id_sub_category: Annotated[Union[int, None], Field(default=None)]
     weight_product: Annotated[float, Field(ge=0)]
+    is_recommended: Annotated[Union[bool, None], Field()]
     explanation_product: Annotated[str, Field()]
     quantity_product: Annotated[int, Field(gt=-1)]
     price_product: Annotated[float, Field(gt=-1)]
-    price_with_discount: Annotated[float, Field()]
     date_create_product: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]
@@ -35,7 +38,7 @@ class ProductBase(BaseModel):
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
-    photo: Annotated[Union[str, None], Field(default=None)] = None
+    photo: Annotated[Union[str, None, List], Field(default=None)] = None
 
     @classmethod
     def change_product_discount(cls) -> None:
@@ -46,7 +49,7 @@ class ProductBase(BaseModel):
 
 class ListProductBase(BaseModel):
 
-    products: Annotated[List, Field()]
+    products: Annotated[List[Union[List, Dict, int, str, datetime.date]], Field()]
 
 
 class ProductAllInformation(ProductBase):

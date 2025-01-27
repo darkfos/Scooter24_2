@@ -50,6 +50,11 @@ class Product(MainBase):
         type_=Boolean, nullable=True, default=False
     )
 
+    # Тип транспорта
+    type_pr: Mapped[str] = mapped_column(
+        type_=String(length=65), nullable=True, index=True
+    )
+
     # Подкатегория
     id_sub_category: Mapped[int] = mapped_column(
         ForeignKey("Subcategory.id", ondelete="SET NULL"),

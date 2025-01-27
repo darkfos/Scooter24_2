@@ -197,7 +197,7 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             explanation_product=product[0].explanation_product,
                             article_product=product[0].article_product,
-                            tags=product[0].tags,
+                            tags=product[0].label_product,
                             other_data=product[0].other_data,
                             photo_product=f"{product[0].photo_product}",
                             date_create_product=product[0].date_create_product,
@@ -215,6 +215,48 @@ class ProductService:
                 )
 
             return ListProductBase(products=[])
+
+    @redis
+    @staticmethod
+    async def last_products(
+            engine: IEngineRepository,
+            redis_search_data: str,
+    ) -> ListProductBase:
+        """
+        Получение последних проданных товаров
+        """
+
+        logging.info(msg=f"{ProductService.__name__} получение последних проданных товаров")
+
+        async with engine:
+            products = await engine.order_repository.get_last_products()
+            product_data = ListProductBase(products=[])
+            for product in products:
+                product_data.products.append(
+                    ProductBase(
+                        id_product=product[0].product_info.id,
+                        label_product=product[0].product_info.label_product,
+                        article_product=product[0].product_info.article_product,
+                        title_product=product[0].product_info.title_product,
+                        brand=product[0].product_info.brand,
+                        brand_mark=product[0].product_info.brand_mark,
+                        models=[model.read_model() for model in product[0].product_info.product_models_data],
+                        id_sub_category=product[0].product_info.id_sub_category,
+                        weight_product=product[0].product_info.weight_product,
+                        is_recommended=product[0].product_info.is_recommended,
+                        explanation_product=product[0].product_info.explanation_product,
+                        quantity_product=product[0].product_info.quantity_product,
+                        price_product=product[0].product_info.price_product,
+                        date_create_product=product[0].product_info.date_create_product,
+                        date_update_information=product[0].product_info.date_update_information,
+                        product_discount=product[0].product_info.product_discount,
+                        photo=product[0].product_info.photos,
+                        type_pr=product[0].product_info.type_pr
+                    )
+                )
+
+            return product_data
+
 
     @staticmethod
     async def get_garage_products(
@@ -721,7 +763,7 @@ class ProductService:
     @staticmethod
     async def get_recommended_products(
         engine: IEngineRepository, redis_search_data: str
-    ) -> Union[List, List[ProductBase]]:
+    ) -> Union[List, ListProductBase]:
         """
         Метод сервиса для получения рекомендованных товаров.
         :session:
@@ -734,50 +776,34 @@ class ProductService:
 
         async with engine:
             # Получение всех товаров
-            all_products: Union[List, List[Product]] = (
-                await engine.product_repository.find_all()
-            )
+            products_data: List[Product] = await engine.product_repository.get_recommended_products()
+            data_result: ListProductBase = ListProductBase(products=[])
 
-            if all_products:
-
-                result: list = []
-
-                while len(result) != 7 and all_products:
-
-                    rnd_product: Product = all_products.pop(
-                        randint(0, len(all_products))
+            for product in products_data:
+                data_result.products.append(
+                    ProductBase(
+                        id_product=product[0].id,
+                        label_product=product[0].label_product,
+                        article_product=product[0].article_product,
+                        title_product=product[0].title_product,
+                        brand=product[0].brand,
+                        brand_mark=product[0].brand_mark,
+                        models=[model.read_model() for model in product[0].product_models_data],
+                        id_sub_category=product[0].id_sub_category,
+                        weight_product=product[0].weight_product,
+                        is_recommended=product[0].is_recommended,
+                        explanation_product=product[0].explanation_product,
+                        quantity_product=product[0].quantity_product,
+                        price_product=product[0].price_product,
+                        date_create_product=product[0].date_create_product,
+                        date_update_information=product[0].date_update_information,
+                        product_discount=product[0].product_discount,
+                        photo=product[0].photos,
+                        type_pr=product[0].type_pr
                     )
-                    result.append(
-                        ProductBase(
-                            title_product=rnd_product[0].title_product,
-                            price_product=rnd_product[0].price_product,
-                            quantity_product=rnd_product[0].quantity_product,
-                            explanation_product=rnd_product[
-                                0
-                            ].explanation_product,  # noqa
-                            article_product=rnd_product[0].article_product,
-                            tags=rnd_product[0].tags,
-                            other_data=rnd_product[0].other_data,
-                            photo_product=rnd_product[0].photo_product,
-                            date_create_product=rnd_product[
-                                0
-                            ].date_create_product,  # noqa
-                            date_update_information=rnd_product[
-                                0
-                            ].date_update_information,
-                            price_discount=(
-                                rnd_product[0].product_discount
-                                if rnd_product[0].product_discount
-                                else 0
-                            ),
-                        )
-                    )
-
-                    if len(result) == 7:
-                        break
-
-                return ListProductBase(products=[*result])
-            await ProductHttpError().http_product_not_found()
+                )
+            return data_result
+        await ProductHttpError().http_product_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod

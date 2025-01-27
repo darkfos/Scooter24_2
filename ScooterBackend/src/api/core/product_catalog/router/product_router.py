@@ -242,35 +242,6 @@ async def get_products_by_category_or_id(
     )
 
 
-# @product_router.get(
-#     path="/get_image_product/{photo_product_name}",
-#     description="""
-#     ### Endpoint - Получение картинки продукта по названию.
-#     Данный метод позволяет получить картинку продукта по названию
-#     """,
-#     summary="Получение изображения",
-#     response_class=FileResponse,
-#     status_code=status.HTTP_200_OK,
-# )
-# async def get_image_product(photo_product_name: str) -> FileResponse:
-#     """
-#     ### Endpoint - Получение картинки продукта по названию.
-#     Данный метод позволяет получить картинку продукта по названию
-#     """
-#
-#     logger.info(
-#         msg="Product-Router вызов метода "
-#         "получения картинки товара (get_image_product)"
-#     )
-#
-#     return FileResponse(
-#         path=f"src/static/images/{photo_product_name}",
-#         filename="product_avatar.png",
-#         media_type="image/jpeg",
-#         status_code=status.HTTP_200_OK,
-#     )
-
-
 @product_router.get(
     path="/product_is_exists/{product_name}",
     description="""
@@ -363,7 +334,27 @@ async def get_all_information_about_product(
 
 
 @product_router.get(
-    path="/get_recommended_products",
+    path="/last_sells",
+    description="""
+    ### ENDPOINT - Получение последних проданных товаров.
+    Получаем список последних проданных товаров
+    """,
+    summary="Последние проданные товары",
+    response_model=ListProductBase,
+    status_code=status.HTTP_200_OK
+)
+async def last_selled_products(
+        session: Annotated[IEngineRepository, Depends(EngineRepository)]
+) -> ListProductBase:
+    """
+    Получение последних проданных товаров
+    """
+
+    return await ProductService.last_products(engine=session, redis_search_data="last_selled_products")
+
+
+@product_router.get(
+    path="/recommends_products",
     description="""
     ### Endpoint - Получение рекомендованных товаров.
     Данный метод позволяет получить товары по рекомендации
@@ -453,45 +444,6 @@ async def update_information_about_product(
         data_to_update=data_update,
         token=admin_data,
     )
-
-
-# @product_router.patch(
-#     path="/update_product_photo/{product_id}",
-#     description="""
-#     ### Endpoint - Обновление фотографии продукта.
-#     Данный метод позволяет обновить фотографию продукта.
-#     Доступен только для администратора.
-#     Необходим jwt ключ и Bearer в заголовке запроса.
-#     """,
-#     summary="Обновление фотографии продукта",
-#     status_code=status.HTTP_204_NO_CONTENT,
-#     response_model=None,
-# )
-# async def update_photo_product(
-#     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-#     admin_data: Annotated[str, Depends(auth.jwt_auth)],
-#     product_id: int,
-#     new_photo: str,
-# ) -> None:
-#     """
-#     ENDPOINT - Обновление фотографии товара
-#     :param session:
-#     :param admin_data:
-#     :param new_photo:
-#     :return:
-#     """
-#
-#     logger.info(
-#         msg="Product-Router вызов метода"
-#         " обновления фотографии продукта (update_photo_product)"
-#     )
-#
-#     return await ProductService.update_photo(
-#         engine=session,
-#         photo_data=new_photo,
-#         token=admin_data,
-#         product_id=product_id,
-#     )
 
 
 @product_router.patch(
