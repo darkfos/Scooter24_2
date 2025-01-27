@@ -49,8 +49,6 @@ class OrderService:
             # Данные продукта
             product_data = await engine.product_repository.find_one(new_order.id_product)
 
-            print(product_data)
-
             # Создание отзыва
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
@@ -234,9 +232,9 @@ class OrderService:
             order_data: Union[None, Order] = (
                 await engine.order_repository.find_one(other_id=id_order)
             )
-
+            print(order_data, token_data.get('sub'))
             if order_data:
-                if order_data[0].id_user == token_data.get("id_user"):
+                if order_data[0].id_user == token_data.get("sub"):
 
                     # Удаление заказа
                     is_deleted: bool = await engine.order_repository.delete_one(

@@ -4,7 +4,7 @@ from datetime import date
 
 # Other
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey
+from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey, Boolean
 
 # Local
 from src.database.mainbase import MainBase
@@ -43,6 +43,11 @@ class Product(MainBase):
     # Объемный вес продукта
     weight_product: Mapped[float] = mapped_column(
         type_=Double, nullable=True, default=0.0
+    )
+
+    # Показатель (рекомендованный) товар
+    is_recommended: Mapped[bool] = mapped_column(
+        type_=Boolean, nullable=True, default=False
     )
 
     # Подкатегория

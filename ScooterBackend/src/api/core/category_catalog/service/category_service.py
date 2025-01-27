@@ -143,7 +143,11 @@ class CategoryService:
             )
             result = CategoriesList(
                 categories=[
-                    CategoryBase(name_category=category[0].name_category)
+                    CategoryBase(
+                        name_category=category[0].name_category,
+                        id_category=category[0].id,
+                        icon_category=category[0].icon_category
+                    )
                     for category in categories
                 ]
             )

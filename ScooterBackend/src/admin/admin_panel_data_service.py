@@ -124,9 +124,6 @@ class AdminPanelService:
                     price_product = float(
                         row["Цена до скидки (перечеркнутая цена), ₽"]
                     )
-                    price_with_discount = float(
-                        row["Текущая цена с учетом скидки, ₽"]
-                    )
                     res_to_add = await session.product_repository.add_one(
                         Product(
                             article_product=row["Артикул"],
