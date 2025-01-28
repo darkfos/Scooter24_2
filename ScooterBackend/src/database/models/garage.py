@@ -35,19 +35,19 @@ class Garage(MainBase):
         cascade="all, delete",
     )
     mark_data: Mapped["Mark"] = relationship(
-        "Mark.id",
+        "Mark",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete",
     )
     type_moto_data: Mapped["TypeMoto"] = relationship(
-        "TypeMoto.id",
+        "TypeMoto",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete",
     )
     model_data: Mapped["Model"] = relationship(
-        "Model.id",
+        "Model",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete",

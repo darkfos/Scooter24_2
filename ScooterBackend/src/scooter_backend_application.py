@@ -117,11 +117,3 @@ class ScooterBackendApplication:
             allow_methods=["*"],
             allow_headers=["*"],
         )
-
-    @staticmethod
-    @asynccontextmanager
-    async def connection_db(app: FastAPI) -> None:
-        # lifespan for db
-        # await db_work.create_tables()
-        # yield
-        pass

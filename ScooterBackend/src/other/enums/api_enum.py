@@ -33,6 +33,7 @@ class APITagsEnum(Enum):
     # Другое
     API_V: Final[str] = "API V1"
     AUTH: Final[str] = "Authentication"
+    GARAGE: Final[str] = "Garage"
 
 
 class APIPrefix(Enum):
@@ -58,3 +59,4 @@ class APIPrefix(Enum):
     VACANCIES_PREFIX: Final[str] = "/vacancies"
     PHOTO_PREFIX: Final[str] = "/photo"
     TYPE_MOTO: Final[str] = "/mt"
+    GARAGE_PREFIX: Final[str] = '/garage'

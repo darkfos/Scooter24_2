@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 
 
 # Local
@@ -20,6 +21,10 @@ class GarageRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Garage).where(Garage.id_user == id_user)
+        stmt = select(Garage).options(
+            joinedload(Garage.mark_data),
+            joinedload(Garage.model_data),
+            joinedload(Garage.type_moto_data)
+        ).where(Garage.id_user == id_user)
         result = await self.async_session.execute(stmt)
-        return result.all()
+        return result.unique().all()
