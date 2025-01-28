@@ -13,11 +13,11 @@ from src.database.repository.user_repository import UserRepository
 
 # Local
 from src.settings.engine_settings import Settings
-from src.api.core.auth_catalog.schemas.auth_dto import CreateToken, Tokens
+from src.api.core.auth_app.schemas.auth_dto import CreateToken, Tokens
 from src.other.enums.user_type_enum import UserTypeEnum
 from src.api.authentication.hash_service.hashing import CryptographyScooter
 from src.api.errors.general_exceptions import GeneralExceptions
-from src.api.core.user_catalog.error.http_user_exception import UserHttpError
+from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.database.models.user import User
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum

@@ -3,13 +3,13 @@ from src.api.authentication.secure.authentication_service import (
     AuthenticationEnum,
 )
 from src.api.dep.dependencies import IEngineRepository
-from src.api.core.user_catalog.service.user_service import (
+from src.api.core.user_app.service.user_service import (
     UserService,
     UserHttpError,
 )
 from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
-from src.api.core.user_catalog.schemas.user_dto import AddUser
+from src.api.core.user_app.schemas.user_dto import AddUser
 
 import logging
 
