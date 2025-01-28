@@ -18,7 +18,7 @@ class Garage(MainBase):
     id_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id"), nullable=False)
 
     # Идентификатор типа транспорта
-    id_type_moto: Mapped[int] = mapped_column(ForeignKey("TypeMoto.id"), nullable=False)
+    id_type_moto: Mapped[int] = mapped_column(ForeignKey("Typemoto.id"), nullable=False)
 
     # Идентификатор пользователя
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
@@ -31,19 +31,19 @@ class Garage(MainBase):
         cascade="all, delete"
     )
     mark_data: Mapped["Mark"] = relationship(
-        "Mark",
+        "Mark.id",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete"
     )
     type_moto_data: Mapped["TypeMoto"] = relationship(
-        "TypeMoto",
+        "TypeMoto.id",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete"
     )
     model_data: Mapped["Model"] = relationship(
-        "Model",
+        "Model.id",
         back_populates="garage_data",
         uselist=False,
         cascade="all, delete"
