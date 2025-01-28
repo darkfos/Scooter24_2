@@ -26,6 +26,7 @@ from src.database.repository.product_models_repository import (
 )
 from src.database.repository.photos_repository import PhotosRepository
 from src.database.repository.type_moto_repository import TypeMotoRepository
+from src.database.repository.garage_repository import GarageRepository
 from src.database.db_worker import db_work
 
 
@@ -47,6 +48,7 @@ class IEngineRepository(ABC):
     product_models_repository: Type[ProductModelsRepository]
     photos_repository: Type[PhotosRepository]
     type_moto_repository: Type[TypeMotoRepository]
+    garage_repository: Type[GarageRepository]
 
     @abstractmethod
     def __init__(self):
@@ -129,6 +131,9 @@ class EngineRepository(IEngineRepository):
             session=self.session
         )
         self.type_moto_repository: TypeMotoRepository = TypeMotoRepository(
+            session=self.session
+        )
+        self.garage_repository: GarageRepository = GarageRepository(
             session=self.session
         )
 
