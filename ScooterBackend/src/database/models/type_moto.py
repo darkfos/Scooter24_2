@@ -19,6 +19,11 @@ class TypeMoto(MainBase):
         "Product", back_populates="type_moto_data", uselist=True
     )
 
+    # Данные гаража
+    garage_data: Mapped[List["Garage"]] = relationship(
+        "Garage", back_populates="type_moto_data", uselist=True
+    )
+
     def read_model(self) -> dict:
         return {
             i: self.__dict__[i]

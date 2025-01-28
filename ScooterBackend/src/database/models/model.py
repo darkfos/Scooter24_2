@@ -29,6 +29,11 @@ class Model(MainBase):
         "Mark", back_populates="model_data", uselist=False
     )
 
+    # Данные гаража
+    garage_data: Mapped[List["Garage"]] = relationship(
+        "Garage", back_populates="model_data", uselist=True
+    )
+
     def __str__(self) -> str:
         return str({"Идентификатор": self.id, "Название": self.name_model})
 

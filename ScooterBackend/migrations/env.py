@@ -24,6 +24,7 @@ from src.database.models.subcategory import SubCategory  # noqa
 from src.database.models.product_models import ProductModels  # noqa
 from src.database.models.user_type import UserType  # noqa
 from src.database.models.type_moto import TypeMoto  # noqa
+from src.database.models.garage import Garage # noqa
 
 # Database for migrations
 from src.database.mainbase import MainBase

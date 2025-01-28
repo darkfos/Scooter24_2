@@ -104,6 +104,11 @@ class User(MainBase):
         "UserType", back_populates="user_data", uselist=False
     )
 
+    # Данные гаража
+    garage_data: Mapped[List["Garage"]] = relationship(
+        "Garage", back_populates="user_data", uselist=True
+    )
+
     def read_model(self) -> Dict[str, str]:
         return {
             k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"

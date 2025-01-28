@@ -24,6 +24,11 @@ class Mark(MainBase):
         "Model", back_populates="mark_data", uselist=True, cascade="all, delete"
     )
 
+    # Данные гаража
+    garage_data: Mapped[List["Garage"]] = relationship(
+        "Garage", back_populates="mark_data", uselist=True
+    )
+
     def __str__(self) -> str:
         return str({"Идентификатор": self.id, "Название": self.name_mark})
 
