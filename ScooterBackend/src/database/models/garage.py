@@ -2,6 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 
 from src.database.mainbase import MainBase
+
 # Local
 from src.database.models.model import Model
 from src.database.models.marks import Mark
@@ -12,41 +13,44 @@ from src.database.models.user import User
 class Garage(MainBase):
 
     # Идентификатор модели
-    id_model: Mapped[int] = mapped_column(ForeignKey("Model.id"), nullable=False)
+    id_model: Mapped[int] = mapped_column(
+        ForeignKey("Model.id"), nullable=False
+    )
 
     # Идентификатор марки
     id_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id"), nullable=False)
 
     # Идентификатор типа транспорта
-    id_type_moto: Mapped[int] = mapped_column(ForeignKey("Typemoto.id"), nullable=False)
+    id_type_moto: Mapped[int] = mapped_column(
+        ForeignKey("Typemoto.id"), nullable=False
+    )
 
     # Идентификатор пользователя
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
-
 
     user_data: Mapped["User"] = relationship(
         "User",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete"
+        cascade="all, delete",
     )
     mark_data: Mapped["Mark"] = relationship(
         "Mark.id",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete"
+        cascade="all, delete",
     )
     type_moto_data: Mapped["TypeMoto"] = relationship(
         "TypeMoto.id",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete"
+        cascade="all, delete",
     )
     model_data: Mapped["Model"] = relationship(
         "Model.id",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete"
+        cascade="all, delete",
     )
 
     def read_model(self) -> dict:

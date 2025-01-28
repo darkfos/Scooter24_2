@@ -3,7 +3,9 @@ from sqlalchemy import select
 
 
 # Local
-from src.database.repository.general_repository import GeneralSQLRepository # noqa
+from src.database.repository.general_repository import (
+    GeneralSQLRepository,
+)  # noqa
 from src.database.models.garage import Garage
 
 
