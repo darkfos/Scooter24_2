@@ -67,7 +67,10 @@ class MarkService:
             return (
                 AllMarks(
                     marks=[
-                        MarkBase(name_mark=mark[0].name_mark)
+                        MarkBase(
+                            id_mark=mark[0].id,
+                            name_mark=mark[0].name_mark,
+                        )
                         for mark in all_marks
                     ]
                 )

@@ -18,3 +18,10 @@ class GarageBase(BaseModel):
 
 class ListGarageBase(BaseModel):
     garage: Annotated[Union[List, List[GarageBase]], Field()]
+
+
+class AddNewMotoToGarage(BaseModel):
+
+    id_model: Annotated[int, Field()]
+    id_mark: Annotated[int, Field()]
+    id_moto_type: Annotated[int, Field()]

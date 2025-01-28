@@ -4,6 +4,7 @@ from typing import List, Annotated
 
 class ModelBase(BaseModel):
 
+    id_model: Annotated[int, Field()]
     name_model: Annotated[str, Field(max_length=100)]
 
 

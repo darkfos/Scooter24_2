@@ -86,7 +86,10 @@ class BrandService:
             if brands:
                 return AllBrands(
                     brands=[
-                        BrandBase(name_brand=brand[0].name_brand)
+                        BrandBase(
+                            id_brand=brand[0].id,
+                            name_brand=brand[0].name_brand,
+                        )
                         for brand in brands
                     ]
                 )

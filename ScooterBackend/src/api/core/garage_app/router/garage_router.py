@@ -13,7 +13,7 @@ from src.api.dep.dependencies import (
 )
 from src.api.core.garage_app.schemas.garage_dto import (
     ListGarageBase,
-    GarageBase
+    AddNewMotoToGarage
 )
 from src.api.core.garage_app.service.garage_service import GarageService
 
@@ -23,6 +23,32 @@ garage_router: APIRouter = APIRouter(
     tags=[APITagsEnum.GARAGE.value]
 )
 auth: Authentication = Authentication()
+
+
+@garage_router.post(
+    path="/create",
+    description="""
+    ### ENDPOINT - Добавление транспорта в гараж
+    """,
+    summary="Добавление в гараж",
+    response_model=Dict[str, int],
+    status_code=status.HTTP_201_CREATED
+)
+async def added_garage(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        user_data: Annotated[str, Depends(auth.auth_user)],
+        new_mt: AddNewMotoToGarage
+) -> Dict[str, int]:
+    """
+    Добавление нового транспорта в гараж
+
+    :param engine:
+    :param user_data:
+    :param new_mt:
+    :return:
+    """
+
+    return {"id_garage": await GarageService.create_moto_in_garage(engine=engine, token=user_data, new_moto=new_mt)}
 
 
 @garage_router.get(
