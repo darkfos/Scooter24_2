@@ -8,9 +8,11 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.database.models.garage import Garage
 from src.api.core.garage_app.errors.garage_errors import GarageException
+from src.store.tools import RedisTools
 
 
 auth: Authentication = Authentication()
+redis: RedisTools = RedisTools()
 
 
 class GarageService:
@@ -80,3 +82,28 @@ class GarageService:
                     for mt in user_moto_garage
                 ]
             )
+
+    @staticmethod
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
+    async def delete_mt(
+        token: str, engine: IEngineRepository, id_mt: int, token_data: dict = {}
+    ) -> None:
+        """
+        Метод сервиса Garage для удаления транспорта
+        :param token:
+        :param engine:
+        :param id_mt:
+        :param token_data:
+        :return:
+        """
+
+        async with engine:
+            del_mt = await engine.garage_repository.delete_user_mt(
+                id_user=token_data.get("sub"), id_mt=id_mt
+            )
+            print(del_mt)
+            if del_mt:
+                # Очищаем кэш в redis
+                # await redis.delete_key(key="")
+                return True
+            return False

@@ -71,3 +71,31 @@ async def my_garage(
     return await GarageService.get_user_mt_from_garage(
         engine=engine, token=user_data
     )
+
+
+@garage_router.delete(
+    path="/delete",
+    description="""
+    ## ENDPOINT - Удаление мототранспорта из гаража
+    Доступен только пользователю
+    """,
+    response_model=None,
+    summary="Удаление транспорта с гаража",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete_transport(
+    user_data: Annotated[str, Depends(auth.auth_user)],
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_mt: int,
+) -> None:
+    """
+    Удаление мототранспорта из гаража пользователя
+    :param user_data:
+    :param engine:
+    :param id_mt:
+    :return:
+    """
+
+    return await GarageService.delete_mt(
+        token=user_data, engine=engine, id_mt=id_mt
+    )

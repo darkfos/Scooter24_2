@@ -56,7 +56,7 @@ class APIPrefix(Enum):
     FAVOURITE_PREFIX: Final[str] = "/favourite"
     HISTORY_BUY_PREFIX: Final[str] = "/history_buy"
     TYPE_WORKER_PREFIX: Final[str] = "/type_worker"
-    VACANCIES_PREFIX: Final[str] = "/vacancies"
+    VACANCIES_PREFIX: Final[str] = "/vacancy"
     PHOTO_PREFIX: Final[str] = "/photo"
     TYPE_MOTO: Final[str] = "/mt"
     GARAGE_PREFIX: Final[str] = "/garage"
