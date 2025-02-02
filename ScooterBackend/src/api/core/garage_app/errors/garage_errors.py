@@ -1,4 +1,3 @@
-from fastapi.exceptions import HTTPException
 from fastapi import status
 
 
@@ -11,5 +10,5 @@ class GarageException(APIError):
     async def no_create_moto(cls):
         await cls.api_error(
             code=status.HTTP_409_CONFLICT,
-            detail_inf="Не удалось добавить транспорт гараж"
+            detail_inf="Не удалось добавить транспорт гараж",
         )

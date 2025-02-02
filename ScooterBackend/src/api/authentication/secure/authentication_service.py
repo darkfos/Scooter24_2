@@ -68,7 +68,7 @@ class Authentication:
                 refresh_token_data: dict[str, str | int] = jwt.decode(
                     cookies.get("refresh_key"),
                     Settings.auth_settings.jwt_secret_refresh_key,
-                    algorithms=Settings.auth_settings.algorithm
+                    algorithms=Settings.auth_settings.algorithm,
                 )
 
                 # Создаем новый токен
@@ -76,16 +76,23 @@ class Authentication:
                     {
                         "is_admin": refresh_token_data.get("is_admin"),
                         "sub": refresh_token_data.get("sub"),
-                        "exp": (timedelta(minutes=Settings.auth_settings.time_work_secret_key) + datetime.utcnow())
+                        "exp": (
+                            timedelta(
+                                minutes=Settings.auth_settings.time_work_secret_key  # noqa
+                            )
+                            + datetime.utcnow()  # noqa
+                        ),
                     },
                     Settings.auth_settings.jwt_secret_key,
-                    Settings.auth_settings.algorithm
+                    Settings.auth_settings.algorithm,
                 )
 
                 # Установка нового токена
                 response.set_cookie(
-                    key="access_key", value=new_access_token,
-                    httponly=True, samesite="lax"
+                    key="access_key",
+                    value=new_access_token,
+                    httponly=True,
+                    samesite="lax",
                 )
 
             except (jwt.DecodeError, KeyError):

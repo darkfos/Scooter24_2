@@ -21,10 +21,14 @@ class GarageRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Garage).options(
-            joinedload(Garage.mark_data),
-            joinedload(Garage.model_data),
-            joinedload(Garage.type_moto_data)
-        ).where(Garage.id_user == id_user)
+        stmt = (
+            select(Garage)
+            .options(
+                joinedload(Garage.mark_data),
+                joinedload(Garage.model_data),
+                joinedload(Garage.type_moto_data),
+            )
+            .where(Garage.id_user == id_user)
+        )
         result = await self.async_session.execute(stmt)
         return result.unique().all()

@@ -27,7 +27,9 @@ from src.database.repository.product_models_repository import (
 from src.database.repository.photos_repository import PhotosRepository
 from src.database.repository.type_moto_repository import TypeMotoRepository
 from src.database.repository.garage_repository import GarageRepository
-from src.database.repository.vacancy_req_repository import VacanciesRepository
+from src.database.repository.vacancy_req_repository import (
+    VacanciesReqRepository,
+)  # noqa
 from src.database.db_worker import db_work
 
 
@@ -50,7 +52,7 @@ class IEngineRepository(ABC):
     photos_repository: Type[PhotosRepository]
     type_moto_repository: Type[TypeMotoRepository]
     garage_repository: Type[GarageRepository]
-    vacancies_repository: Type[VacanciesRepository]
+    vacancies_repository: Type[VacanciesReqRepository]
 
     @abstractmethod
     def __init__(self):
@@ -138,8 +140,8 @@ class EngineRepository(IEngineRepository):
         self.garage_repository: GarageRepository = GarageRepository(
             session=self.session
         )
-        self.vacancies_repository: VacanciesRepository = VacanciesRepository(
-            session=self.session
+        self.vacancies_repository: VacanciesReqRepository = (
+            VacanciesReqRepository(session=self.session)
         )
 
         return self

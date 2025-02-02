@@ -7,7 +7,7 @@ from src.database.models.vacancy_request import VacancyRequest
 from src.database.repository.general_repository import GeneralSQLRepository
 
 
-class VacanciesRepository(GeneralSQLRepository):
+class VacanciesReqRepository(GeneralSQLRepository):
 
     def __init__(self, session: AsyncSession):
         self.model: Type[VacancyRequest] = VacancyRequest

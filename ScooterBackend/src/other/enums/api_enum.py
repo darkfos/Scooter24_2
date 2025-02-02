@@ -59,4 +59,4 @@ class APIPrefix(Enum):
     VACANCIES_PREFIX: Final[str] = "/vacancies"
     PHOTO_PREFIX: Final[str] = "/photo"
     TYPE_MOTO: Final[str] = "/mt"
-    GARAGE_PREFIX: Final[str] = '/garage'
+    GARAGE_PREFIX: Final[str] = "/garage"

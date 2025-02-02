@@ -47,7 +47,6 @@ from src.admin.admin_panel import AdminPanel
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
 from typing import List
 
 

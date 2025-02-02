@@ -85,8 +85,7 @@ class ModelService:
                 return AllModelBase(
                     all_models=[
                         ModelBase(
-                            id_model=model[0].id,
-                            name_model=model[0].name_model
+                            id_model=model[0].id, name_model=model[0].name_model
                         )
                         for model in models
                     ]

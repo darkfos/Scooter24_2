@@ -37,8 +37,7 @@ class Vacancies(MainBase):
     )
 
     user_requests: Mapped[List["VacancyRequest"]] = relationship(
-        "VacancyRequest", back_populates="vacancy_data",
-        uselist=True
+        "VacancyRequest", back_populates="vacancy_data", uselist=True
     )
 
     def __str__(self) -> str:
