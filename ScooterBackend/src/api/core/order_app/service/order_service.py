@@ -234,7 +234,6 @@ class OrderService:
             order_data: Union[None, Order] = (
                 await engine.order_repository.find_one(other_id=id_order)
             )
-            print(order_data, token_data.get("sub"))
             if order_data:
                 if order_data[0].id_user == token_data.get("sub"):
 
@@ -244,6 +243,9 @@ class OrderService:
                     )
 
                     if is_deleted:
+                        # Очистка кэша
+                        await redis.delete_key(key=f"orders_by_token_{token}")
+
                         return
                     await OrderHttpError().http_failed_to_delete_order()
             logging.critical(
