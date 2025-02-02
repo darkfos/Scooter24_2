@@ -3,7 +3,7 @@ import jwt
 import logging as logger
 from datetime import timedelta, datetime
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
@@ -44,7 +44,7 @@ class Authentication:
             )
         )
 
-    async def auth_user(self, request: Request) -> None:
+    async def auth_user(self, request: Request, response: Response) -> None:
         """
         Аутентификация пользователя
         :param request:
@@ -52,13 +52,41 @@ class Authentication:
 
         try:
             cookies: dict[str, str] = request.cookies
+
             token_access_data: dict[str, str | int] = jwt.decode(  # noqa
                 cookies.get("access_key"),
                 Settings.auth_settings.jwt_secret_key,
                 algorithms=Settings.auth_settings.algorithm,
             )
+
             return cookies.get("access_key")
         except (KeyError, jwt.PyJWTError, jwt.DecodeError):
+
+            cookies: dict[str, str] = request.cookies
+            refresh_token_data: dict[str, str | int] = jwt.decode(
+                cookies.get("refresh_key"),
+                Settings.auth_settings.jwt_secret_refresh_key,
+                algorithms=Settings.auth_settings.algorithm
+            )
+
+            if refresh_token_data:
+                # Создаем новый токен
+                new_access_token = jwt.encode(
+                    {
+                        "is_admin": refresh_token_data.get("is_admin"),
+                        "sub": refresh_token_data.get("sub"),
+                        "exp": (timedelta(minutes=Settings.auth_settings.time_work_secret_key) + datetime.utcnow())
+                    },
+                    Settings.auth_settings.jwt_secret_key,
+                    Settings.auth_settings.algorithm
+                )
+
+                # Установка нового токена
+                response.set_cookie(
+                    key="access_key", value=new_access_token,
+                    httponly=True, samesite="lax"
+                )
+
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Ошибка авторизации",
