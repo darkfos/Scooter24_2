@@ -90,12 +90,18 @@ class VacanciesService:
         )
         async with engine:
             all_vacancies: Union[List, List[Vacancies]] = (
-                await engine.vacancies_repository.find_all()
+                await engine.vacancies_repository.find_all_with_tp_worker()
             )
             if all_vacancies:
                 vacancies_data: VacanciesGeneralData = VacanciesGeneralData(
                     vacancies=[
-                        {k: v for k, v in vac[0].read_model().items()}
+                        VacanciesBase(
+                            salary_employee=vac.salary_employee,
+                            description_vacancies=vac.description_vacancies,
+                            id_type_worker=vac.id_type_worker,
+                            is_worked=vac.is_worked,
+                            type_work=vac.type_work.read_model(),
+                        )
                         for vac in all_vacancies
                     ]
                 )

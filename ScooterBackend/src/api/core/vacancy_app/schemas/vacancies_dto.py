@@ -11,6 +11,7 @@ class VacanciesBase(BaseModel):
     description_vacancies: Annotated[str, Field(min_length=0)]
     id_type_worker: Annotated[int, Field()]
     is_worked: Annotated[Union[None, str], Field()]
+    type_work: Annotated[Dict, Field()]
 
 
 class UpdateVacancies(BaseModel):
@@ -20,4 +21,4 @@ class UpdateVacancies(BaseModel):
 
 
 class VacanciesGeneralData(BaseModel):
-    vacancies: List[Dict[Union[str, int], Union[int, str]]]
+    vacancies: Annotated[List[VacanciesBase], Field()]

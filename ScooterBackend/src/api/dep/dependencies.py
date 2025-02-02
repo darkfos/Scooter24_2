@@ -52,7 +52,7 @@ class IEngineRepository(ABC):
     photos_repository: Type[PhotosRepository]
     type_moto_repository: Type[TypeMotoRepository]
     garage_repository: Type[GarageRepository]
-    vacancies_repository: Type[VacanciesReqRepository]
+    vacancies_req_repository: Type[VacanciesReqRepository]
 
     @abstractmethod
     def __init__(self):
@@ -140,7 +140,7 @@ class EngineRepository(IEngineRepository):
         self.garage_repository: GarageRepository = GarageRepository(
             session=self.session
         )
-        self.vacancies_repository: VacanciesReqRepository = (
+        self.vacancies_req_repository: VacanciesReqRepository = (
             VacanciesReqRepository(session=self.session)
         )
 

@@ -86,7 +86,6 @@ class Authentication:
                     Settings.auth_settings.jwt_secret_key,
                     Settings.auth_settings.algorithm,
                 )
-
                 # Установка нового токена
                 response.set_cookie(
                     key="access_key",
@@ -94,6 +93,7 @@ class Authentication:
                     httponly=True,
                     samesite="lax",
                 )
+                return new_access_token
 
             except (jwt.DecodeError, KeyError):
                 pass
