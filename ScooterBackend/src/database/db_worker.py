@@ -23,6 +23,7 @@ from src.database.models.vacancies import Vacancies  # noqa
 from src.database.models.subcategory import SubCategory  # noqa
 from src.database.models.product_models import ProductModels  # noqa
 from src.database.models.user_type import UserType  # noqa
+from src.database.models.vacancy_request import VacancyRequest # noqa
 from src.settings.database_settings.database_settings import DatabaseSettings
 
 from src.database.mainbase import MainBase

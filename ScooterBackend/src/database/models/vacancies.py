@@ -1,5 +1,5 @@
 # System
-from typing import Dict, Union
+from typing import Dict, Union, List
 
 
 # Other libraries
@@ -31,8 +31,14 @@ class Vacancies(MainBase):
     id_type_worker: Mapped[int] = mapped_column(
         ForeignKey("Typeworker.id"), type_=Integer
     )
+
     type_work: Mapped["TypeWorker"] = relationship(
         "TypeWorker", uselist=False, back_populates="vacancies"
+    )
+
+    user_requests: Mapped[List["VacancyRequest"]] = relationship(
+        "VacancyRequest", back_populates="vacancy_data",
+        uselist=True
     )
 
     def __str__(self) -> str:
