@@ -27,7 +27,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @vacancies_router.post(
-    path="/create_new_vacancies",
+    path="/create",
     description="""
     ### Endpoint - создание новой вакансии.
     Данный метод позволяет создать новую вакансию.
@@ -62,7 +62,7 @@ async def create_a_new_vacancies(
 
 
 @vacancies_router.get(
-    path="/get_all_vacancies",
+    path="/all",
     description="""
     ### Endpoint - Получение всех вакансий.
     Данный метод позволяет получить все вакансии.
@@ -89,7 +89,7 @@ async def get_all_vacancies(
 
 
 @vacancies_router.get(
-    path="/get_vacancies_by_id/{id_vacancies}",
+    path="/vacancy/{id_vacancies}",
     description="""
     ### Endpoint - Получение вакансии по id.
     Данный метод позволяет информацию о вакансии по id.
@@ -121,7 +121,7 @@ async def get_vacancies_by_id(
 
 
 @vacancies_router.put(
-    path="/update_vacancies",
+    path="/update",
     description="""
     ### Endpoint - Обновление вакансии по id.
     Данный метод позволяет обновить информацию о вакансии по id.
@@ -154,7 +154,7 @@ async def update_vacancies(
 
 
 @vacancies_router.delete(
-    path="/delete_vacancies/{id_vacancies}",
+    path="/del/{id_vacancies}",
     description="""
     ### Endpoint - Удаление вакансии по id.
     Доступен только для администраторов.

@@ -10,6 +10,7 @@ class VacanciesBase(BaseModel):
     salary_employee: Annotated[int, Field(gt=0)]
     description_vacancies: Annotated[str, Field(min_length=0)]
     id_type_worker: Annotated[int, Field()]
+    is_worked: Annotated[Union[None, str], Field()]
 
 
 class UpdateVacancies(BaseModel):

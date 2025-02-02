@@ -4,7 +4,7 @@ from typing import Dict, Union
 
 # Other libraries
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Integer, ForeignKey, Text
+from sqlalchemy import Integer, ForeignKey, Text, String
 
 # Local
 from src.database.mainbase import MainBase
@@ -20,6 +20,11 @@ class Vacancies(MainBase):
     # Описание вакансии
     description_vacancies: Mapped[str] = mapped_column(
         type_=Text, nullable=False, unique=False, index=False
+    )
+
+    # Опыт работы
+    is_worked: Mapped[bool] = mapped_column(
+        type_=String(length=125), nullable=True, unique=False, default=None
     )
 
     # Relations

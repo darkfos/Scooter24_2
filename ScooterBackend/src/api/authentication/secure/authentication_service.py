@@ -63,13 +63,14 @@ class Authentication:
         except (KeyError, jwt.PyJWTError, jwt.DecodeError):
 
             cookies: dict[str, str] = request.cookies
-            refresh_token_data: dict[str, str | int] = jwt.decode(
-                cookies.get("refresh_key"),
-                Settings.auth_settings.jwt_secret_refresh_key,
-                algorithms=Settings.auth_settings.algorithm
-            )
 
-            if refresh_token_data:
+            try:
+                refresh_token_data: dict[str, str | int] = jwt.decode(
+                    cookies.get("refresh_key"),
+                    Settings.auth_settings.jwt_secret_refresh_key,
+                    algorithms=Settings.auth_settings.algorithm
+                )
+
                 # Создаем новый токен
                 new_access_token = jwt.encode(
                     {
@@ -87,6 +88,8 @@ class Authentication:
                     httponly=True, samesite="lax"
                 )
 
+            except (jwt.DecodeError, KeyError):
+                pass
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Ошибка авторизации",
