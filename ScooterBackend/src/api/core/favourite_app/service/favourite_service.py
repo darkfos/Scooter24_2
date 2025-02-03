@@ -275,7 +275,7 @@ class FavouriteService:
                     if is_deleted:
 
                         # Очистка кэша
-                        await redis.delete_key(key=f"all_favourites_by_id_user_{token}")
+                        await redis.delete_key(key=f"all_favourites_by_id_user_{token}") # noqa
 
                         return
                     await FavouriteHttpError().http_failed_to_delete_favourite()

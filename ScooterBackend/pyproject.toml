@@ -35,6 +35,7 @@ aiosqlite = "^0.20.0"
 pytest = "^8.3.3"
 trio = "^0.27.0"
 bcrypt = "^4.2.1"
+aiobotocore = "2.13.0"
 
 [tool.poetry.dev-dependencies]
 

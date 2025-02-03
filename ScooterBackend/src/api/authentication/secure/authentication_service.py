@@ -4,6 +4,7 @@ import logging as logger
 from datetime import timedelta, datetime
 
 from fastapi import HTTPException, status, Response
+from jwt.exceptions import InvalidSubjectError
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
@@ -52,7 +53,6 @@ class Authentication:
 
         try:
             cookies: dict[str, str] = request.cookies
-
             token_access_data: dict[str, str | int] = jwt.decode(  # noqa
                 cookies.get("access_key"),
                 Settings.auth_settings.jwt_secret_key,
@@ -60,8 +60,7 @@ class Authentication:
             )
 
             return cookies.get("access_key")
-        except (KeyError, jwt.PyJWTError, jwt.DecodeError):
-
+        except (KeyError, jwt.PyJWTError, jwt.DecodeError) as e:
             cookies: dict[str, str] = request.cookies
 
             try:
@@ -75,7 +74,7 @@ class Authentication:
                 new_access_token = jwt.encode(
                     {
                         "is_admin": refresh_token_data.get("is_admin"),
-                        "sub": refresh_token_data.get("sub"),
+                        "sub": str(refresh_token_data.get("sub")),
                         "exp": (
                             timedelta(
                                 minutes=Settings.auth_settings.time_work_secret_key  # noqa
@@ -95,7 +94,7 @@ class Authentication:
                 )
                 return new_access_token
 
-            except (jwt.DecodeError, KeyError):
+            except (jwt.DecodeError, KeyError) as e:
                 pass
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -139,7 +138,7 @@ class Authentication:
                             if res_to_find_user.id_type_user == 2
                             else False
                         ),
-                        "sub": res_to_find_user.id,
+                        "sub": str(res_to_find_user.id),
                     }
 
                     data_for_refresh_token: Dict[str, str] = (

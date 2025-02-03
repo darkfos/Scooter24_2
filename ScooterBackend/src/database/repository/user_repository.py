@@ -10,6 +10,7 @@ from sqlalchemy.orm import joinedload
 # Local
 from src.database.models.user import User
 from src.database.repository.general_repository import GeneralSQLRepository
+from src.other.enums.user_type_enum import UserTypeEnum
 
 
 logging = logger.getLogger(__name__)
@@ -197,3 +198,19 @@ class UserRepository(GeneralSQLRepository):
             await self.async_session.commit()
 
         return True
+
+    async def find_admin(self, id_: str) -> bool:
+        """
+        Проверка на администратора
+        :param email:
+        :return:
+        """
+
+        try:
+            stmt = select(User).where(
+                User.id == id_, User.id_type_user == UserTypeEnum.ADMIN.value
+            )
+            result = (await self.async_session.execute(stmt)).fetchone()
+            return True if result else False
+        except Exception:
+            return False

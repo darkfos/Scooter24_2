@@ -2,6 +2,7 @@
 import datetime
 from typing import List, Annotated, Dict, Union
 
+from fastapi import UploadFile
 # Other libraries
 from pydantic import BaseModel, Field
 from src.api.core.product_models_app.schemas.product_models_dto import (
@@ -17,14 +18,14 @@ from src.api.core.subcategory_app.schemas.subcategory_dto import (
 
 class ProductBase(BaseModel):
 
-    id_product: Annotated[int, Field()]
+    id_product: Annotated[Union[int, None], Field()]
     label_product: Annotated[str, None, Field()]
-    type_pr: Annotated[Union[None, str], Field()]
+    type_pr: Annotated[Union[None, str, int], Field()]
     article_product: Annotated[str, Field(max_length=300)]
     title_product: Annotated[str, Field(max_length=500)]
     brand: int
     brand_mark: int
-    models: List
+    models: Union[List, None] = None
     id_sub_category: Annotated[Union[int, None], Field(default=None)]
     weight_product: Annotated[float, Field(ge=0)]
     is_recommended: Annotated[Union[bool, None], Field()]
@@ -38,7 +39,7 @@ class ProductBase(BaseModel):
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
-    photo: Annotated[Union[str, None, List], Field(default=None)] = None
+    photo: Annotated[Union[str, None, List, UploadFile], Field(default=None)] = None
 
     @classmethod
     def change_product_discount(cls) -> None:
@@ -90,7 +91,7 @@ class UpdateProduct(BaseModel):
 class ProductIsCreated(BaseModel):
 
     is_created: Annotated[bool, Field()]
-    product_name: Annotated[str, Field()]
+    product_name: Annotated[Union[str, int], Field()]
 
 
 class UpdateProductDiscount(BaseModel):

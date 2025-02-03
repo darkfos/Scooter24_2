@@ -52,14 +52,13 @@ async def create_product(
     title_product: Annotated[str, Field(max_length=500)],
     brand: int,
     brand_mark: int,
-    model: int,
     id_s_sub_category: int,
     weight_product: Annotated[float, Field(ge=0)],
     explanation_product: Annotated[str, Field()],
     quantity_product: Annotated[int, Field(gt=-1)],
     price_product: Annotated[float, Field(gt=-1)],
-    price_with_discount: Annotated[float, Field()],
     photo_product: Annotated[UploadFile, Field()],
+    type_pr: int,
     product_discount: Annotated[int, Field(lt=100)],
     date_create_product: Annotated[
         datetime.date, Field(default=datetime.date.today())
@@ -67,6 +66,8 @@ async def create_product(
     date_update_information: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ] = datetime.date.today(),
+    model: int = None,
+    is_recommended: bool = False,
 ) -> ProductIsCreated:
     """
     ENDPOINT - Создание продукта
@@ -84,22 +85,24 @@ async def create_product(
         engine=session,
         token=admin_data,
         new_product=ProductBase(
+            id_product=None,
+            label_product="1 год",
+            is_recommended=is_recommended,
+            type_pr=type_pr,
             article_product=article_product,
             title_product=title_product,
             brand=brand,
             brand_mark=brand_mark,
-            model=model,
-            id_s_sub_category=id_s_sub_category,
+            models=model,
+            id_sub_category=id_s_sub_category,
             weight_product=weight_product,
             explanation_product=explanation_product,
             quantity_product=quantity_product,
             price_product=price_product,
-            price_with_discount=price_with_discount,
-            photo_product=photo_product,
+            photo=photo_product,
             date_create_product=date_create_product,
             date_update_information=date_update_information,
-            product_discount=(price_product - price_with_discount)
-            // price_product,  # noqa
+            product_discount=product_discount,  # noqa
         ),
         photo_product=photo_product,
     )

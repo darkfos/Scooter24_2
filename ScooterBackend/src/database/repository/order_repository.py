@@ -11,6 +11,7 @@ from sqlalchemy.orm import joinedload
 from src.database.models.order import Order
 from src.database.models.product import Product
 from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 logging = logger.getLogger(__name__)
@@ -34,6 +35,8 @@ class OrderRepository(GeneralSQLRepository):
             .options(
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
+            ).where(
+                Order.type_operation == OrderTypeOperationsEnum.SUCCESS
             )
             .order_by(desc(Order.date_buy))
             .limit(7)

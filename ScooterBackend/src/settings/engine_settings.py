@@ -6,6 +6,7 @@ from src.settings.other_settings.email_transfer_settings import (
 )
 from src.settings.database_settings.redis_settings import RedisSettings
 from src.settings.other_settings.client_settings import ClientSettings
+from src.settings.other_settings.cloud_settings import CloudSettings
 
 
 class Settings:
@@ -16,3 +17,4 @@ class Settings:
     email_tr_settings: EmailTransferSettings = EmailTransferSettings()
     redis_settings: RedisSettings = RedisSettings()
     client_settings: ClientSettings = ClientSettings()
+    cloud_settings: CloudSettings = CloudSettings()

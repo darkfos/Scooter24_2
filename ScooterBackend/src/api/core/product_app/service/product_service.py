@@ -26,6 +26,8 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
 from src.other.image.image_saver import ImageSaver
 from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.s3_service.file_manager import FileS3Manager
+from src.database.models.product_photos import ProductPhotos
 
 
 # Redis
@@ -62,24 +64,37 @@ class ProductService:
         async with engine:
             # Проверка на администратора
             is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
+                await engine.user_repository.find_admin(
+                    id_=int(token_data.get("sub"))
                 )
             )
+
             if is_admin:
+
+                # Сохраняем фотографию в хранилище
+                file_manager = FileS3Manager()
+                url_file = await file_manager.upload_file_to_storage(
+                    file=photo_product
+                )
+
+                if not url_file:
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail="Не удалось загрузить фотографию продукта",
+                    )
+
                 product = Product(
+                    label_product=new_product.label_product,
                     title_product=new_product.title_product,
                     price_product=new_product.price_product,
                     article_product=new_product.article_product,
                     brand=new_product.brand,
                     brand_mark=new_product.brand_mark,
-                    model=new_product.model,
+                    #model=new_product.model,
                     date_create_product=new_product.date_create_product,
                     date_update_information=new_product.date_update_information,
-                    id_s_sub_category=new_product.id_s_sub_category,
-                    photo_product="None",
+                    id_sub_category=new_product.id_sub_category,
                     product_discount=new_product.product_discount,
-                    price_with_discount=new_product.price_with_discount,
                     quantity_product=new_product.quantity_product,
                 )
                 # Create product
@@ -87,31 +102,19 @@ class ProductService:
                     await engine.product_repository.add_one(data=product)
                 )
 
-                image_saver: Type[ImageSaver] = ImageSaver()
-
                 if product_is_created:
-                    await image_saver.generate_filename(
-                        id_=product_is_created, filename=photo_product.filename
-                    )
-
-                    # Save file
-                    url_save_photo: str = await image_saver.save_file(
-                        file=photo_product
-                    )
-
-                    if url_save_photo:
-
-                        is_updated: bool = (
-                            await engine.product_repository.update_one(
-                                other_id=product_is_created,
-                                data_to_update={
-                                    "photo_product": url_save_photo
-                                },
-                            )
+                    saved_photo_product = await engine.photos_repository.add_one(
+                        ProductPhotos(
+                            id_product=product_is_created,
+                            photo_url=url_file,
                         )
-                        if is_updated:
+                    )
+
+                    if saved_photo_product:
+
+                        if saved_photo_product and product_is_created:
                             return ProductIsCreated(
-                                is_created=True, product_name=url_save_photo
+                                is_created=True, product_name=product_is_created
                             )
 
                     raise HTTPException(
