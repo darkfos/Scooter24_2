@@ -3,6 +3,7 @@ import datetime
 from typing import List, Annotated, Dict, Union
 
 from fastapi import UploadFile
+
 # Other libraries
 from pydantic import BaseModel, Field
 from src.api.core.product_models_app.schemas.product_models_dto import (
@@ -39,7 +40,9 @@ class ProductBase(BaseModel):
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
-    photo: Annotated[Union[str, None, List, UploadFile], Field(default=None)] = None
+    photo: Annotated[
+        Union[str, None, List, UploadFile], Field(default=None)
+    ] = None
 
     @classmethod
     def change_product_discount(cls) -> None:

@@ -4,7 +4,6 @@ import logging as logger
 from datetime import timedelta, datetime
 
 from fastapi import HTTPException, status, Response
-from jwt.exceptions import InvalidSubjectError
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
@@ -60,7 +59,7 @@ class Authentication:
             )
 
             return cookies.get("access_key")
-        except (KeyError, jwt.PyJWTError, jwt.DecodeError) as e:
+        except (KeyError, jwt.PyJWTError, jwt.DecodeError):
             cookies: dict[str, str] = request.cookies
 
             try:
@@ -94,7 +93,7 @@ class Authentication:
                 )
                 return new_access_token
 
-            except (jwt.DecodeError, KeyError) as e:
+            except (jwt.DecodeError, KeyError):
                 pass
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

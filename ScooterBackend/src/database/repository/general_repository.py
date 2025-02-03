@@ -44,7 +44,7 @@ class GeneralSQLRepository:
                     f"Не удалось добавить новую запись"
                 )
                 raise Exception
-        except Exception as ex:
+        except Exception:
             await self.async_session.rollback()
             return False
 

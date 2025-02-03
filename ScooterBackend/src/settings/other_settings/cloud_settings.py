@@ -4,6 +4,7 @@ from os import getenv
 
 from src.settings.descriptor import SettingsDescriptor
 
+
 class CloudSettings:
 
     S3_ACCESS_KEY: SettingsDescriptor = SettingsDescriptor()

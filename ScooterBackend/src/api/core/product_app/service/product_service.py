@@ -63,10 +63,8 @@ class ProductService:
 
         async with engine:
             # Проверка на администратора
-            is_admin: bool = (
-                await engine.user_repository.find_admin(
-                    id_=int(token_data.get("sub"))
-                )
+            is_admin: bool = await engine.user_repository.find_admin(
+                id_=int(token_data.get("sub"))
             )
 
             if is_admin:
@@ -90,7 +88,7 @@ class ProductService:
                     article_product=new_product.article_product,
                     brand=new_product.brand,
                     brand_mark=new_product.brand_mark,
-                    #model=new_product.model,
+                    # model=new_product.model,
                     date_create_product=new_product.date_create_product,
                     date_update_information=new_product.date_update_information,
                     id_sub_category=new_product.id_sub_category,
@@ -103,10 +101,12 @@ class ProductService:
                 )
 
                 if product_is_created:
-                    saved_photo_product = await engine.photos_repository.add_one(
-                        ProductPhotos(
-                            id_product=product_is_created,
-                            photo_url=url_file,
+                    saved_photo_product = (
+                        await engine.photos_repository.add_one(
+                            ProductPhotos(
+                                id_product=product_is_created,
+                                photo_url=url_file,
+                            )
                         )
                     )
 
