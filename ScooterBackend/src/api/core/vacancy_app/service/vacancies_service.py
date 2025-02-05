@@ -13,9 +13,11 @@ from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
+    RequestVacancy
 )
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
+from src.database.models.vacancy_request import VacancyRequest
 
 # Redis
 from src.store.tools import RedisTools
@@ -26,6 +28,34 @@ logging = logger.getLogger(__name__)
 
 
 class VacanciesService:
+
+    @staticmethod
+    async def create_request_on_vacancy(
+            engine: IEngineRepository,
+            req_vac: RequestVacancy
+    ) -> None:
+        """
+        Метод сервиса Vacancies - Создание отклика
+        :param engine:
+        :param req_vac:
+        :return:
+        """
+
+        async with engine:
+            req_vac_is_created = await engine.vacancies_req_repository.add_one(
+                data=VacancyRequest(
+                    email_user=req_vac.email_user,
+                    experience_user=req_vac.experience_user,
+                    name_user=req_vac.name_user,
+                    telephone_user=req_vac.telephone_user,
+                    id_vacancy=req_vac.id_vacancy
+                )
+            )
+
+            if req_vac_is_created:
+                return
+
+            await VacanciesHttpError().http_dont_create_req_vacancy()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
@@ -98,9 +128,9 @@ class VacanciesService:
                         VacanciesBase(
                             salary_employee=vac.salary_employee,
                             description_vacancies=vac.description_vacancies,
-                            id_type_worker=vac.id_type_worker,
                             is_worked=vac.is_worked,
                             type_work=vac.type_work.read_model(),
+                            id_vacancy=vac.id
                         )
                         for vac in all_vacancies
                     ]

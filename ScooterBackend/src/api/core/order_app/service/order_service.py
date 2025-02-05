@@ -96,7 +96,7 @@ class OrderService:
             # Данные заказов пользователя
             orders_data: Union[None, List[Order]] = (
                 await engine.order_repository.get_full_information(
-                    id_user=token_data.get("sub")
+                    id_user=int(token_data.get("sub"))
                 )
             )
 

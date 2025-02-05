@@ -84,21 +84,6 @@ class ScooterBackendApplication:
 
         based_routers: List[APIRouter] = [
             auth_router,
-            user_router,
-            user_type_router,
-            mark_router,
-            model_router,
-            brand_router,
-            product_router,
-            photo_router,
-            pr_m_router,
-            category_router,
-            subcategory_router,
-            favourite_router,
-            order_router,
-            review_router,
-            type_worker_router,
-            vacancies_router,
             api_v1_router.get_api_v1,
         ]
 

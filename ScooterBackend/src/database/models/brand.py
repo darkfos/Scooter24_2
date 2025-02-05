@@ -1,4 +1,4 @@
-from sqlalchemy import String
+from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.mainbase import MainBase
@@ -12,6 +12,11 @@ class Brand(MainBase):
     # Название бренда
     name_brand: Mapped[str] = mapped_column(
         type_=String(length=100), nullable=False, unique=True
+    )
+
+    # Ссылка на фотографию бренда
+    url_photo: Mapped[str] = mapped_column(
+        type_=Text, nullable=True, unique=False
     )
 
     # Связи

@@ -11,6 +11,7 @@ from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
+    RequestVacancy
 )
 from src.api.core.vacancy_app.service.vacancies_service import (
     VacanciesService,
@@ -58,6 +59,32 @@ async def create_a_new_vacancies(
 
     return await VacanciesService.create_vacancies(
         engine=session, token=admin_data, vac_data=new_vacancies
+    )
+
+
+@vacancies_router.post(
+    path="/create/req",
+    description="""
+    ### ENDPOINT - Создание отклика на вакансию
+    Доступен любому пользователю
+    """,
+    summary="Создание отклика",
+    response_model=None,
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def create_req_vacancy(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        vacancy_data: RequestVacancy
+) -> None:
+    """
+    Создание отклика на вакансию
+    :param engine:
+    :param vacancy_data:
+    :return:
+    """
+
+    return await VacanciesService.create_request_on_vacancy(
+        engine=engine, req_vac=vacancy_data
     )
 
 

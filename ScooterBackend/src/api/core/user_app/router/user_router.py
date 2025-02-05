@@ -51,7 +51,7 @@ async def get_information_about_user(
     :param user_data:
     :return:
     """
-
+    
     logger.info(
         msg="User-Router вызов метод получения"
         " краткой информации о пользователе (information_about_user)"

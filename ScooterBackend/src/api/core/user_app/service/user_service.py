@@ -103,7 +103,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_one(
-                    other_id=token_data.get("sub")
+                    other_id=int(token_data.get("sub"))
                 )
             )[0]
             if user_data:

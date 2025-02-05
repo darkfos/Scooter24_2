@@ -54,7 +54,7 @@ class FavouriteService:
             # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
                 data=Favourite(
-                    id_user=token_data.get("sub"),
+                    id_user=int(token_data.get("sub")),
                     id_product=new_product_in_favourite.id_product,
                 )
             )
@@ -93,7 +93,7 @@ class FavouriteService:
             # Получаем список товаров
             all_favourite_products: Union[List, List[Favourite]] = (
                 await engine.favourite_repository.get_all_data_for_id_user(
-                    id_user=token_data.get("sub")
+                    id_user=int(token_data.get("sub"))
                 )
             )
 
@@ -266,7 +266,7 @@ class FavouriteService:
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
 
-                if get_favourite_data.id_user == token_data.get("sub"):
+                if get_favourite_data.id_user == int(token_data.get("sub")):
                     is_deleted: bool = (
                         await engine.favourite_repository.delete_one(
                             other_id=id_favourite

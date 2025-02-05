@@ -39,7 +39,7 @@ class GarageService:
             added_to_garage = await engine.garage_repository.add_one(
                 data=Garage(
                     id_mark=new_moto.id_mark,
-                    id_user=token_data.get("sub"),
+                    id_user=int(token_data.get("sub")),
                     id_model=new_moto.id_model,
                     id_type_moto=new_moto.id_moto_type,
                 )
@@ -65,7 +65,7 @@ class GarageService:
 
         async with engine:
             user_moto_garage = await engine.garage_repository.all_by_id_user(
-                id_user=token_data.get("sub")
+                id_user=int(token_data.get("sub"))
             )
             return ListGarageBase(
                 garage=[
@@ -99,9 +99,10 @@ class GarageService:
 
         async with engine:
             del_mt = await engine.garage_repository.delete_user_mt(
-                id_user=token_data.get("sub"), id_mt=id_mt
+                id_user=int(token_data.get("sub")),
+                id_mt=id_mt
             )
-            print(del_mt)
+
             if del_mt:
                 # Очищаем кэш в redis
                 # await redis.delete_key(key="")
