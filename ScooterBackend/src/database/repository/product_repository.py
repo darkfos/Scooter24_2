@@ -166,7 +166,12 @@ class ProductRepository(GeneralSQLRepository):
         return result
 
     async def find_by_filters(
-        self, id_categories: int, min_price: int, max_price: int, desc: bool
+        self,
+        id_categories: int,
+        min_price: int,
+        max_price: int,
+        desc: bool,
+        title_product: str
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов по фильтру
@@ -183,9 +188,14 @@ class ProductRepository(GeneralSQLRepository):
             f" max_price={max_price};"
             f" desc={desc}"
         )
-        stmt = select(Product, Product.sub_category_data).options(
-            joinedload(Product.sub_category_data)
+        stmt = select(Product).join(Product.sub_category_data).options(
+            joinedload(Product.sub_category_data),
+            joinedload(Product.product_models_data),
+            joinedload(Product.photos)
         )
+
+        if title_product:
+            stmt = stmt.where(Product.title_product.contains(title_product))
 
         if id_categories:
             stmt = stmt.where(Product.id_sub_category == id_categories)

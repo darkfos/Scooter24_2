@@ -725,6 +725,7 @@ class ProductService:
         sorted_by_category: int = None,
         sorted_by_price_min: int = None,
         sorted_by_price_max: int = None,
+        title_product: str = None,
     ) -> ListProductBase:
         """
         Метод сервиса для поиска товаров, а также их сортировки
@@ -750,6 +751,7 @@ class ProductService:
                     id_categories=sorted_by_category,
                     min_price=sorted_by_price_min,
                     max_price=sorted_by_price_max,
+                    title_product=title_product,
                     desc=desc,
                 )
             )
@@ -758,20 +760,25 @@ class ProductService:
                 return ListProductBase(
                     products=[
                         ProductBase(
-                            title_product=product.title_product,
-                            price_product=product.price_product,
-                            quantity_product=product.quantity_product,
-                            explanation_product=product.explanation_product,
+                            id_product=product.id,
+                            label_product=product.label_product,
+                            type_pr=product.type_pr,
                             article_product=product.article_product,
-                            tags=product.tags,
-                            other_data=product.other_data,
-                            photo_product=product.photo_product,
-                            price_discount=(
-                                product.product_discount
-                                if product.product_discount
-                                else 0
-                            ),
-                        )
+                            title_product=product.title_product,
+                            brand=product.brand,
+                            brand_mark=product.brand_mark,
+                            models=[model.read_model() for model in product.product_models_data],
+                            id_sub_category=product.id_sub_category,
+                            weight_product=product.weight_product,
+                            is_recommended=product.is_recommended,
+                            explanation_product=product.explanation_product,
+                            quantity_product=product.quantity_product,
+                            price_product=product.price_product,
+                            date_create_product=product.date_create_product,
+                            date_update_information=product.date_update_information,
+                            product_discount=product.product_discount,
+                            photo=[photo.read_model() for photo in product.photos] if product.photos else []
+                        ).model_dump()
                         for product in products
                     ]
                 )

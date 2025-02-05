@@ -55,7 +55,7 @@ class OrderService:
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
                     date_buy=new_order.date_create,
-                    id_user=token_data.get("sub"),
+                    id_user=int(token_data.get("sub")),
                     id_product=new_order.id_product,
                     count_product=0,
                     type_operation=OrderTypeOperationsEnum.NO_BUY,
@@ -235,7 +235,7 @@ class OrderService:
                 await engine.order_repository.find_one(other_id=id_order)
             )
             if order_data:
-                if order_data[0].id_user == token_data.get("sub"):
+                if order_data[0].id_user == int(token_data.get("sub")):
 
                     # Удаление заказа
                     is_deleted: bool = await engine.order_repository.delete_one(

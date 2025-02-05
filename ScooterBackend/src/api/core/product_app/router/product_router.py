@@ -179,6 +179,7 @@ async def get_all_products(
 )
 async def get_products_by_filters(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    title_product: Union[str, None] = None,
     id_category: int = None,
     min_price: int = None,
     max_price: int = None,
@@ -205,6 +206,7 @@ async def get_products_by_filters(
         sorted_by_price_min=min_price,
         sorted_by_price_max=max_price,
         desc=desc_or_not,
+        title_product=title_product,
         redis_search_data="search_by_filters_%s_%s_%s_%s"
         % (id_category, min_price, max_price, desc_or_not),
     )
