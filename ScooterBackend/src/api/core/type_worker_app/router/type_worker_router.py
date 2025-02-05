@@ -29,7 +29,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @type_worker_router.post(
-    path="/create_new_type_worker",
+    path="/create",
     description="""
     ### Endpoint - Создание нового типа работника для вакансий.
     Необходим jwt ключ и Bearer в заголовке запроса.
@@ -63,7 +63,7 @@ async def create_new_type_worker(
 
 
 @type_worker_router.get(
-    path="/get_all_types_workers",
+    path="/all",
     description="""### Endpoint - Получение всех типов работников.""",
     summary="Все типы работников",
     response_model=TypeWorkerList,
@@ -87,7 +87,7 @@ async def get_all_types_workers(
 
 
 @type_worker_router.get(
-    path="/get_type_worker_by_id",
+    path="/unique",
     description="""Получение типов работников по id.
     Необходимо передать id типа работника в query параметры""",
     summary="Поиск типа работника по id",
@@ -112,7 +112,7 @@ async def get_type_worker_by_id(
 
 
 @type_worker_router.delete(
-    path="/delete_type_worker_by_id",
+    path="/delete",
     description="""
     Endpoint - Удаление типа работника по id.
     Данный метод доступен только для администраторов!

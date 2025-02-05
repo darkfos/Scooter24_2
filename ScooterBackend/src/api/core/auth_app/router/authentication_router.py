@@ -173,7 +173,7 @@ async def update_by_refresh_token(req: Request, response: Response):
 
 
 @auth_router.post(
-    path="/update_password",
+    path="/update/password",
     description="""
     ### ENDPOINT - Для обновления паролей.
     Необходим jwt ключ и Bearer в заголовке запроса.
@@ -209,7 +209,7 @@ async def create_and_send_secret_key(
 
 
 @auth_router.patch(
-    path="/update_password",
+    path="/update/password",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
     description="""

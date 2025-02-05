@@ -20,7 +20,7 @@ product_models_router: APIRouter = APIRouter(
 
 
 @product_models_router.post(
-    path="/create_new_product_models",
+    path="/create",
     response_model=None,
     description="""
     ### ENDPOINT - Добавление новой модели в продукт.
@@ -40,7 +40,7 @@ async def added_new_product_models(
 
 
 @product_models_router.get(
-    path="/get_all_product_models_by_id_product/{id_product}",
+    path="/all/id/{id_product}",
     response_model=AllProductModels,
     description="""
     ### ENDPOINT - Получение все моделей продукта по идентификатору продукта.
@@ -60,7 +60,7 @@ async def get_all_product_models_by_id_pr(
 
 
 @product_models_router.get(
-    path="/get_all_product_models",
+    path="/all",
     response_model=AllProductModels,
     description="""
     ### ENDPOINT - Получение всех моделей продуктов.
@@ -75,7 +75,7 @@ async def get_all_product_models(
 
 
 @product_models_router.delete(
-    path="/delete_product_models_by_id/{id_pr_model}",
+    path="/delete/{id_pr_model}",
     response_model=None,
     description="""
     ### ENDPOINT - Удаление модели продукта по идентификатору

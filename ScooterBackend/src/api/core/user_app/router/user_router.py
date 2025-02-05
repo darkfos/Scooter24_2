@@ -30,7 +30,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @user_router.get(
-    path="/information_about_user",
+    path="/information",
     description="""
     ## Endpoint - Краткая информация о пользователе.\n
     Данный метод необходим для получения краткой информации о пользователе.
@@ -63,7 +63,7 @@ async def get_information_about_user(
 
 
 @user_router.get(
-    path="/full_information_about_user",
+    path="/information/all",
     description="""
     ### Endpoint - Полная информация о пользователе
     Данный метод необходим для получения полной информации о пользователе.\n
@@ -102,7 +102,7 @@ async def get_full_information_about_user(
 
 
 @user_router.get(
-    path="/user_reviews",
+    path="/all/reviews",
     description="""
     ### Endpoint - Отзывы пользователя.
     Данный метод позволяет получить информацию о
@@ -137,7 +137,7 @@ async def get_user_data_and_all_reviews(
 
 
 @user_router.get(
-    path="/user_favourites",
+    path="/all/favourites",
     description="""
     ### Endpoint - Избранные товары пользователя.
     Данный метод позволяет получить информацию о пользователе,
@@ -172,7 +172,7 @@ async def get_user_data_and_all_favourites_product(
 
 
 @user_router.get(
-    path="/user_orders",
+    path="/all/orders",
     description="""
     ### Endpoint - Заказы пользователя.
     Данный метод позволяет узнать информацию о пользователе,
@@ -207,7 +207,7 @@ async def get_user_data_and_all_orders(
 
 
 @user_router.get(
-    path="/other_user_data/{id_user}",
+    path="/information/other/{id_user}",
     description="""
     ### Endpoint - Краткая информация о другом пользователе.
     Данный метод позволяет узнать информацию о других пользователях.
@@ -247,7 +247,7 @@ async def get_information_about_other_users(
 
 
 @user_router.get(
-    path="/other_user_all_data/{id_user}",
+    path="/information/all/other/{id_user}",
     description="""
     ### Endpoint - Полная информация о другом пользователе.
     Данный метод позволяет узнать информацию о других пользователях.
@@ -286,7 +286,7 @@ async def get_all_information_about_other_users(
 
 
 @user_router.put(
-    path="/update_user_information",
+    path="/update",
     description="""
     ### Endpoint - Обновление информации о пользователе.
     Данный метод позволяет обновить информацию о пользователе,
@@ -317,7 +317,7 @@ async def update_user_information(
 
 
 @user_router.put(
-    path="/update_user_address_data",
+    path="/update/address",
     description="""
     ### Endpoint - Обновление адресных данных пользователя.
     Данный метод позволяет обновить адресные данные пользователя
@@ -347,7 +347,7 @@ async def update_address_data(
 
 
 @user_router.delete(
-    path="/delete_user",
+    path="/delete",
     description="""
     ### Endpoint - УДАЛЕНИЕ пользователя.
     Удаление пользователя, безвозвратное удаление данных,

@@ -18,7 +18,7 @@ auth: Authentication = Authentication()
 
 
 @user_type_router.post(
-    path="/create_user_type",
+    path="/create",
     description="""
     ### ENDPOINT - создание типа пользователя,
     Доступен только для администратора
@@ -38,7 +38,7 @@ async def create_new_user_type(
 
 
 @user_type_router.get(
-    path="/get_all_user_types",
+    path="/all",
     description="""
     ### ENDPOINT - получение всех типов пользователей""",
     summary="Все типы пользователей",

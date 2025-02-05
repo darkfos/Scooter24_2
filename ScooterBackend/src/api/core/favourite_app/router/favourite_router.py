@@ -32,7 +32,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @favourite_router.post(
-    path="/create_a_new_favourite_product",
+    path="/create",
     description="""
     ### Endpoint - Добавление нового товара в список избранных.
     Данный метод позволяет добавить продукт в список избранных.
@@ -70,7 +70,7 @@ async def create_a_new_favourite(
 
 
 @favourite_router.get(
-    path="/get_all_favourites_by_user_id",
+    path="/all/user",
     description="""
     ### Endpoint - Все избранные товары пользователя.
     Данный метод предоставляет информацию обо всех
@@ -107,7 +107,7 @@ async def get_all_favourites_products_by_user_id(
 
 
 @favourite_router.get(
-    path="/get_favourite_data_for_id/{id_fav_product}",
+    path="/unique/{id_fav_product}",
     description="""
     ### Endpoint - Получение информации о избранном товаре по id.
     Данный метод позволяет получить полную информацию об избранном товаре.
@@ -145,7 +145,7 @@ async def get_full_information_about_favourite_product_by_id(
 
 
 @favourite_router.get(
-    path="/get_all_favourites",
+    path="/all",
     description="""
     ### Endpoint - Получение всех избранных товаров.
     Данный метод позволяет получить все избранные товары.
@@ -179,7 +179,7 @@ async def get_all_favourites_products(
 
 
 @favourite_router.delete(
-    path="/delete_favourite_product",
+    path="/delete",
     description="""
     ### Endpoint - Удаление избранного товара пользователя.
     Данный метод позволяет удалить товар из избранного списка.

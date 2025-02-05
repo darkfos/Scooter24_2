@@ -33,7 +33,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @product_router.post(
-    path="/create_product",
+    path="/create",
     description="""
     ### Endpoint - Создание продукта.
     Данный метод позволяет создать товар.
@@ -109,7 +109,7 @@ async def create_product(
 
 
 @product_router.post(
-    path="/add_new_category",
+    path="/add/category",
     description="""
     ### Endpoint - Добавление новой категории для товара.
     Данный метод позволяет добавить новую категорию для товара.
@@ -139,7 +139,7 @@ async def add_new_category_to_product(
 
 
 @product_router.get(
-    path="/get_all_products",
+    path="/all",
     description="""
     ### Endpoint - Получение всех товаров.
     Данный метод позволяет получить все имеющиеся товары.
@@ -168,7 +168,7 @@ async def get_all_products(
 
 
 @product_router.get(
-    path="/get_products_by_filter",
+    path="/all/filter",
     description="""
     ### ENDPOINT - Получение продуктов по фильтрам поиска.
     Данный метод позволяет получить список продуктов по фильтрам поиска.
@@ -211,7 +211,7 @@ async def get_products_by_filters(
 
 
 @product_router.get(
-    path="/get_products_by_category",
+    path="/all/category",
     description="""
     ### Endpoint - Получение всех продуктов по определённой категории.
     Данный метод позволяет получить список всех продуктов
@@ -246,7 +246,7 @@ async def get_products_by_category_or_id(
 
 
 @product_router.get(
-    path="/product_is_exists/{product_name}",
+    path="/exists/{product_name}",
     description="""
     ### Endpoint- Проверка существования продукта.
     Необходимо передать в ссылку название продукта.
@@ -275,7 +275,7 @@ async def product_is_created(
 
 
 @product_router.get(
-    path="/garage_filter",
+    path="/all/garage/filter",
     summary="Запчасти гаража",
     description="Товары подходящие под определенную технику из гаража",
     response_model=ListProductBase,
@@ -289,6 +289,7 @@ async def garage_products(
 ) -> ListProductBase:
     """
     Получение списка товаров под определенную модель и бренд
+
     :param user_data:
     :param session:
     :param brand:
@@ -301,7 +302,7 @@ async def garage_products(
 
 
 @product_router.get(
-    path="/get_all_information_about_product",
+    path="/information/full",
     description="""
     ### Endpoint - Получение всей информации о продукте.
     Данный метод позволяет получить всю информацию о продукте.
@@ -337,7 +338,7 @@ async def get_all_information_about_product(
 
 
 @product_router.get(
-    path="/last_sells",
+    path="/last/sells",
     description="""
     ### ENDPOINT - Получение последних проданных товаров.
     Получаем список последних проданных товаров
@@ -359,7 +360,7 @@ async def last_selled_products(
 
 
 @product_router.get(
-    path="/recommends_products",
+    path="/recommends",
     description="""
     ### Endpoint - Получение рекомендованных товаров.
     Данный метод позволяет получить товары по рекомендации
@@ -387,7 +388,7 @@ async def recommended_products(
 
 
 @product_router.get(
-    path="/new_products",
+    path="/new",
     description="""
     ### Endpoint - Получение новых продуктов.
     Данный метод позволяет получить список из <8 новых продуктов
@@ -415,7 +416,7 @@ async def get_new_products(
 
 
 @product_router.put(
-    path="/update_product_data",
+    path="/update",
     description="""
     ### Endpoint - Обновление информации о продукте.
     Данный метод позволяет обновить несколько или 1 поле о продукте.
@@ -452,7 +453,7 @@ async def update_information_about_product(
 
 
 @product_router.patch(
-    path="/update_product_discount",
+    path="/update/discount",
     description="""
     ### Endpoint - Обновление скидки товара.
     Данный метод позволяет обновить скидку на товаре.
@@ -489,7 +490,7 @@ async def update_product_discount(
 
 
 @product_router.delete(
-    path="/delete_product/{id_product}",
+    path="/delete/{id_product}",
     description="""
     ### Endpoint - Удаление товара по id.
     Данный метод позволяет удалить товар, необходимо передать

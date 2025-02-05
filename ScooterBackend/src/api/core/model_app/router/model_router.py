@@ -14,7 +14,7 @@ model_router: APIRouter = APIRouter(
 
 
 @model_router.post(
-    path="/create_new_model",
+    path="/create",
     response_model=None,
     description="""
     ### ENDPOINT - Метод для создания новой модели.
@@ -34,7 +34,7 @@ async def create_new_model(
 
 
 @model_router.get(
-    path="/get_model_by_id/{id_model}",
+    path="/unique/{id_model}",
     response_model=ModelBase,
     description="""
     ### ENDPOINT - Метод для получения данных о модели по идентификатору.
@@ -50,7 +50,7 @@ async def get_model_by_id(
 
 
 @model_router.get(
-    path="/get_all_models",
+    path="/all",
     response_model=AllModelBase,
     description="""
     ### ENDPOINT - Метод для получения всех моделей.
@@ -67,7 +67,7 @@ async def get_all_models(
 
 
 @model_router.delete(
-    path="/delete_model_by_id/{id_model}",
+    path="/delete/{id_model}",
     response_model=None,
     description="""
     ### ENDPOINT - Метод для удаления модели.

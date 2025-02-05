@@ -14,7 +14,7 @@ auth: Authentication = Authentication()
 
 
 @mark_router.post(
-    path="/create_a_new_mark",
+    path="/create",
     description="""
     ### ENDPOINT - Создание марки.
     Доступен только для администратора
@@ -33,7 +33,7 @@ async def create_a_new_mark(
 
 
 @mark_router.get(
-    path="/get_all_marks",
+    path="/all",
     response_model=Union[List, AllMarks],
     description="""
     ### ENDPOINT - Получение списка всех имеющихся марок.
@@ -50,7 +50,7 @@ async def get_all_marks(
 
 
 @mark_router.get(
-    path="/get_mark_by_id/{id_mark}",
+    path="/unique/{id_mark}",
     description="""
     ### ENDPOINT - Получение марки по id.
     """,
@@ -70,7 +70,7 @@ async def get_mark_by_id(
 
 
 @mark_router.delete(
-    path="/delete_mark_by_id/{id_mark}",
+    path="/delete/{id_mark}",
     description="""
     ### ENDPOINT - Удаление марки по id.
     Доступен только для администратора.

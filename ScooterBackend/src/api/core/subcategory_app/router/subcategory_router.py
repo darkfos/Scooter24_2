@@ -20,7 +20,7 @@ subcategory_router: APIRouter = APIRouter(
 
 
 @subcategory_router.post(
-    path="/create_new_subcategory",
+    path="/create",
     response_model=None,
     description="""
     ### ENDPOINT - Добавление новой подкатегории.
@@ -40,12 +40,12 @@ async def added_new_subcategory(
 
 
 @subcategory_router.get(
-    path="/get_subcategory_by_id_category/{id_product}",
+    path="/all/category/{id_product}",
     response_model=AllSubCategories,
     description="""
     ### ENDPOINT - Получение все моделей продукта по идентификатору продукта.
     """,
-    summary="Полученеи всех моделей продукта по id product",
+    summary="Получение всех моделей продукта по id product",
     status_code=status.HTTP_200_OK,
 )
 async def get_all_subcategories_by_id_category(
@@ -60,7 +60,7 @@ async def get_all_subcategories_by_id_category(
 
 
 @subcategory_router.get(
-    path="/get_all_product_models",
+    path="/all",
     response_model=AllSubCategories,
     description="""
     ### ENDPOINT - Получение всех подкатегорий.
@@ -75,7 +75,7 @@ async def get_all_product_models(
 
 
 @subcategory_router.delete(
-    path="/delete_subcategory_by_id/{id_subcategory}",
+    path="/delete/{id_subcategory}",
     response_model=None,
     description="""
     ### ENDPOINT - Удаление подкатегори по идентификатору

@@ -27,7 +27,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @review_router.post(
-    path="/create_new_review",
+    path="/create",
     description="""
     ### Endpoint - Создание отзыва.
     Данный метод позволяет создать новый отзыв.
@@ -60,7 +60,7 @@ async def create_review(
 
 
 @review_router.get(
-    path="/get_all_reviews/{id_product}",
+    path="/all/product/{id_product}",
     description="""
     ### Endpoint - Получение всех отзывов для товара.
     Данный метод позволяет получить список всех отзывов по id продукта.
@@ -94,7 +94,7 @@ async def get_all_reviews_by_id_product(
 
 
 @review_router.get(
-    path="/get_all_reviews",
+    path="/all",
     description="""
     ### Endpoint - Получение всех отзывов.
     Данный метод возвращает все отзывы продуктов.
@@ -121,7 +121,7 @@ async def get_all_reviews(
 
 
 @review_router.get(
-    path="/get_review_by_id/{review_id}",
+    path="/unique/{review_id}",
     description="""
     ### Endpoint - Получение отзыва по id.
     Данный метод позволяет получить данные с отзыва по id.
@@ -155,7 +155,7 @@ async def get_review_data_by_id(
 
 
 @review_router.delete(
-    path="/delete_my_review/{id_review}",
+    path="/delete/{id_review}",
     description="""
     ### Endpoint - Удаление отзыва.
     Данный метод позволяет удалить отзыв.

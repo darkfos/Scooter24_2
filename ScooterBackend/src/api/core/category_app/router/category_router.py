@@ -32,7 +32,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @category_router.post(
-    path="/create_new_category",
+    path="/create",
     description="""
     ### Endpoint - Создание новой категории товара.
     Данный метод позволяет создать новую категорию товара.
@@ -67,7 +67,7 @@ async def create_new_category(
 
 
 @category_router.get(
-    path="/get_icon_category/{id_category}",
+    path="/icon/{id_category}",
     description="""
     ### Endpoint - Получение иконки категории.
     Метод для получения иконки категории по идентификатору.
@@ -84,7 +84,7 @@ async def get_icon_category(
 
 
 @category_router.get(
-    path="/find_category_by_name/{category_name}",
+    path="/find/{category_name}",
     description="""
     ### Endpoint - Поиск категории по названию.
     Необходимо передать в ссылке название категории
@@ -116,7 +116,7 @@ async def find_category_by_name(
 
 
 @category_router.get(
-    path="/get_all_category",
+    path="/all",
     description="""
     ### Endpoint - Получение всех категорий.
     Данный метод позволяет получить все имеющиеся категории.
@@ -145,7 +145,7 @@ async def get_all_categories(
 
 
 @category_router.get(
-    path="/find_category_by_id/{id_category}",
+    path="/find/id/{id_category}",
     description="""
     ### Endpoint - Поиск категории по id.
     Данный метод осуществляет поиск категории по id.
@@ -177,7 +177,7 @@ async def find_category_by_id(
 
 
 @category_router.patch(
-    path="/update_category_name",
+    path="/update/name",
     description="""
     ### Endpoint - Обновление названия категории.
     Данный метод позволяет обновить название категории.
@@ -211,7 +211,7 @@ async def update_category_name(
 
 
 @category_router.delete(
-    path="/delete_category/{id_category}",
+    path="/delete/{id_category}",
     description="""
     ### Endpoint - Удаление категории.
     Данный метод позволяет удалять категории.

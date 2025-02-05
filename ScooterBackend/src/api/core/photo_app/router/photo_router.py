@@ -12,7 +12,7 @@ photo_router: APIRouter = APIRouter(
 
 
 @photo_router.get(
-    path="/un_photo/{id_photo)",
+    path="/unique/{id_photo)",
     description="""
     Получение фотографии по идентификатору
     """,
@@ -36,7 +36,7 @@ async def get_photo_by_id(
 
 
 @photo_router.get(
-    path="/un_photo/product/{id_product}",
+    path="/unique/product/{id_product}",
     description="""
     Получение всех фотографий продукта
     """,

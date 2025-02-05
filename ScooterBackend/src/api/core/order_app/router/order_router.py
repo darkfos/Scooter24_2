@@ -25,7 +25,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 
 
 @order_router.post(
-    path="/create_order",
+    path="/create",
     description="""
     ### Endpoint - Создание заказа.
     Данный метод позволяет создать заказ.
@@ -58,7 +58,7 @@ async def create_a_new_order(
 
 
 @order_router.get(
-    path="/get_orders_by_id_user",
+    path="/all/user",
     description="""
     ### Endpoint - Получение всех заказов пользователя.
     Данный метод позволяет получить все заказы пользователя.
@@ -94,7 +94,7 @@ async def get_orders_by_id_user(
 
 
 @order_router.get(
-    path="/get_order_by_id/{id_order}",
+    path="/unique/{id_order}",
     description="""
     ### Endpoint - Получение полной информации о заказе по id.
     Данный метод позволяет получить полную информацию о заказе по id.
@@ -131,7 +131,7 @@ async def get_information_about_order_by_id(
 
 
 @order_router.delete(
-    path="/delete_order/{id_order}",
+    path="/delete/{id_order}",
     description="""
     ### Endpoint - Удаление заказа по id.
     Данный метод позволяет удалить заказ по id.
