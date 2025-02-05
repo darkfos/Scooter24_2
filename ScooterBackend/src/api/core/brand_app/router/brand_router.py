@@ -1,9 +1,4 @@
-from fastapi import (
-    APIRouter,
-    status,
-    Depends,
-    UploadFile
-)
+from fastapi import APIRouter, status, Depends, UploadFile
 from src.api.core.brand_app.service.brand_service import BrandService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.authentication.secure.authentication_service import Authentication
@@ -36,7 +31,7 @@ async def create_a_new_brand(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.auth_user)],
     name_brand: Annotated[str, Field(max_length=100)],
-    photo: UploadFile
+    photo: UploadFile,
 ) -> None:
     await BrandService.add_a_new_brand(
         engine=engine, token=admin_data, name_brand=name_brand, photo=photo

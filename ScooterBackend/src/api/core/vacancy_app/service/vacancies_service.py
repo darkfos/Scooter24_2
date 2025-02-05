@@ -13,7 +13,7 @@ from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
-    RequestVacancy
+    RequestVacancy,
 )
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
@@ -31,8 +31,7 @@ class VacanciesService:
 
     @staticmethod
     async def create_request_on_vacancy(
-            engine: IEngineRepository,
-            req_vac: RequestVacancy
+        engine: IEngineRepository, req_vac: RequestVacancy
     ) -> None:
         """
         Метод сервиса Vacancies - Создание отклика
@@ -48,7 +47,7 @@ class VacanciesService:
                     experience_user=req_vac.experience_user,
                     name_user=req_vac.name_user,
                     telephone_user=req_vac.telephone_user,
-                    id_vacancy=req_vac.id_vacancy
+                    id_vacancy=req_vac.id_vacancy,
                 )
             )
 
@@ -130,7 +129,7 @@ class VacanciesService:
                             description_vacancies=vac.description_vacancies,
                             is_worked=vac.is_worked,
                             type_work=vac.type_work.read_model(),
-                            id_vacancy=vac.id
+                            id_vacancy=vac.id,
                         )
                         for vac in all_vacancies
                     ]

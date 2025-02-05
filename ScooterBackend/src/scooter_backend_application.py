@@ -1,44 +1,7 @@
 # ROUTES
-from src.api.core.user_app.router.user_router import (
-    user_router as user_router,
-)
 from src.api.core.auth_app.router.authentication_router import (
     auth_router as auth_router,
 )
-from src.api.core.category_app.router.category_router import (
-    category_router as category_router,
-)
-from src.api.core.review_app.router.review_router import (
-    review_router as review_router,
-)
-from src.api.core.product_app.router.product_router import (
-    product_router as product_router,
-)
-from src.api.core.order_app.router.order_router import (
-    order_router as order_router,
-)
-from src.api.core.favourite_app.router.favourite_router import (
-    favourite_router as favourite_router,
-)
-from src.api.core.type_worker_app.router.type_worker_router import (
-    type_worker_router as type_worker_router,
-)
-from src.api.core.vacancy_app.router.vacancies_router import (
-    vacancies_router as vacancies_router,
-)
-from src.api.core.mark_app.router.mark_router import mark_router
-from src.api.core.brand_app.router.brand_router import brand_router
-from src.api.core.model_app.router.model_router import model_router
-from src.api.core.product_models_app.router.product_models_router import (
-    product_models_router as pr_m_router,
-)
-from src.api.core.subcategory_app.router.subcategory_router import (
-    subcategory_router,
-)
-from src.api.core.user_type_app.routes.user_type_router import (
-    user_type_router,
-)
-from src.api.core.photo_app.router.photo_router import photo_router
 from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 

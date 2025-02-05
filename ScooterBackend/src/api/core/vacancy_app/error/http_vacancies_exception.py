@@ -54,5 +54,5 @@ class VacanciesHttpError(APIError):
 
         return await self.api_error(
             code=status.HTTP_400_BAD_REQUEST,
-            detail_inf="Не удалось создать отклик на вакансию"
+            detail_inf="Не удалось создать отклик на вакансию",
         )

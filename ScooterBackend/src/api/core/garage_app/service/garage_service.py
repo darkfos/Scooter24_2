@@ -99,8 +99,7 @@ class GarageService:
 
         async with engine:
             del_mt = await engine.garage_repository.delete_user_mt(
-                id_user=int(token_data.get("sub")),
-                id_mt=id_mt
+                id_user=int(token_data.get("sub")), id_mt=id_mt
             )
 
             if del_mt:

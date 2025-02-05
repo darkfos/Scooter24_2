@@ -64,7 +64,11 @@ class FileS3Manager:
                         Body=await file.read(),
                     )
 
-                return Settings.cloud_settings.S3_STORAGE_URL + f"/{directory}%2F" + file_name # noqa
+                return (
+                    Settings.cloud_settings.S3_STORAGE_URL
+                    + f"/{directory}%2F"  # noqa
+                    + file_name  # noqa
+                )  # noqa
         except Exception:
             return False
         else:

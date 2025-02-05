@@ -40,10 +40,8 @@ class BrandService:
         async with engine:
 
             # Проверка на администратора
-            is_admin = (
-                await engine.user_repository.find_admin(
-                    id_=int(token_data.get("sub"))
-                )
+            is_admin = await engine.user_repository.find_admin(
+                id_=int(token_data.get("sub"))
             )
 
             if is_admin:
@@ -51,14 +49,12 @@ class BrandService:
                 s3_manager = FileS3Manager()
 
                 created_photo = await s3_manager.upload_file_to_storage(
-                    file=photo,
-                    directory=S3EnumStorage.BRANDS.value
+                    file=photo, directory=S3EnumStorage.BRANDS.value
                 )
 
                 if created_photo:
                     new_brand = Brand(
-                        name_brand=name_brand,
-                        url_photo=created_photo
+                        name_brand=name_brand, url_photo=created_photo
                     )
                     is_created = await engine.brand_repository.add_one(
                         data=new_brand
@@ -105,7 +101,7 @@ class BrandService:
                         BrandBase(
                             id_brand=brand[0].id,
                             name_brand=brand[0].name_brand,
-                            url_brand=brand[0].url_photo
+                            url_brand=brand[0].url_photo,
                         )
                         for brand in brands
                     ]

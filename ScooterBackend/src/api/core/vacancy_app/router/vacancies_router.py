@@ -11,7 +11,7 @@ from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
-    RequestVacancy
+    RequestVacancy,
 )
 from src.api.core.vacancy_app.service.vacancies_service import (
     VacanciesService,
@@ -70,11 +70,11 @@ async def create_a_new_vacancies(
     """,
     summary="Создание отклика",
     response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 async def create_req_vacancy(
-        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-        vacancy_data: RequestVacancy
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    vacancy_data: RequestVacancy,
 ) -> None:
     """
     Создание отклика на вакансию
