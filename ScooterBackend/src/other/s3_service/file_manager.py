@@ -4,6 +4,7 @@ from aiobotocore.session import ClientCreatorContext, AioSession, get_session
 
 # Local
 from src.settings.engine_settings import Settings
+from src.other.enums.s3_storage_enums import S3EnumStorage
 
 
 class FileS3Manager:
@@ -37,7 +38,7 @@ class FileS3Manager:
             yield cl_session
 
     async def upload_file_to_storage(
-        self, file, is_saved: bool = False
+        self, file, directory: S3EnumStorage, is_saved: bool = False
     ) -> bool:
         """
         Загрузка файла в хранилище
@@ -52,18 +53,18 @@ class FileS3Manager:
                     with open(file, "rb") as fl:
                         await cl_session.put_object(
                             Bucket=self.__bucket_name,
-                            Key="products/" + file_name,
+                            Key=directory + "/" + file_name,
                             Body=fl,
                         )
                 else:
                     file_name = file.filename
                     await cl_session.put_object(
                         Bucket=self.__bucket_name,
-                        Key=f"products/{file_name}",
+                        Key=f"{directory}/{file_name}",
                         Body=await file.read(),
                     )
 
-                return f"https://5e3cd16e-1044-41ad-a814-7534a2520dd6.selstorage.ru/products%2F{file_name}"  # noqa
+                return Settings.cloud_settings.S3_STORAGE_URL + f"/{directory}%2F" + file_name # noqa
         except Exception:
             return False
         else:

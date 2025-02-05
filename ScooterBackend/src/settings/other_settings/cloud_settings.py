@@ -11,6 +11,7 @@ class CloudSettings:
     S3_SECRET_KEY: SettingsDescriptor = SettingsDescriptor()
     SELECTEL_URL: SettingsDescriptor = SettingsDescriptor()
     CLOUD_NAME: SettingsDescriptor = SettingsDescriptor()
+    S3_STORAGE_URL: SettingsDescriptor = SettingsDescriptor()
 
     def __init__(self) -> None:
         load_dotenv()
@@ -18,6 +19,7 @@ class CloudSettings:
         self.S3_SECRET_KEY: str = getenv("S3_SECRET_KEY")
         self.SELECTEL_URL: str = getenv("SELECTEL_URL")
         self.CLOUD_NAME: str = getenv("CLOUD_NAME")
+        self.S3_STORAGE_URL: str = getenv("S3_STORAGE_URL")
 
     def __str__(self):
         return str(type(self))

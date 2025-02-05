@@ -1,8 +1,17 @@
-from fastapi import APIRouter, status, Depends
+from fastapi import (
+    APIRouter,
+    status,
+    Depends,
+    UploadFile
+)
 from src.api.core.brand_app.service.brand_service import BrandService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.api.authentication.secure.authentication_service import Authentication
-from src.api.core.brand_app.schemas.brand_dto import BrandBase, AllBrands
+from pydantic import Field
+from src.api.core.brand_app.schemas.brand_dto import (
+    BrandBase,
+    AllBrands,
+)
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
@@ -14,7 +23,7 @@ auth: Authentication = Authentication()
 
 
 @brand_router.post(
-    path="/create_a_new_brand",
+    path="/create",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
@@ -26,15 +35,16 @@ auth: Authentication = Authentication()
 async def create_a_new_brand(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.auth_user)],
-    new_brand: BrandBase,
+    name_brand: Annotated[str, Field(max_length=100)],
+    photo: UploadFile
 ) -> None:
     await BrandService.add_a_new_brand(
-        engine=engine, token=admin_data, new_brand=new_brand
+        engine=engine, token=admin_data, name_brand=name_brand, photo=photo
     )
 
 
 @brand_router.get(
-    path="/get_brand_by_id/{id_brand}",
+    path="/one/{id_brand}",
     response_model=BrandBase,
     status_code=status.HTTP_200_OK,
     description="""
@@ -54,7 +64,7 @@ async def get_brand_by_id(
 
 
 @brand_router.get(
-    path="/get_all_brands",
+    path="/all",
     response_model=AllBrands,
     status_code=status.HTTP_200_OK,
     description="""
@@ -71,7 +81,7 @@ async def get_all_brands(
 
 
 @brand_router.delete(
-    path="/delete_brand_by_id/{id_brand}",
+    path="/delete/{id_brand}",
     response_model=None,
     description="""
     ### ENDPOINT - Удаление бренда по идентификатору.

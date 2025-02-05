@@ -6,6 +6,7 @@ class BrandBase(BaseModel):
 
     id_brand: Annotated[int, Field()]
     name_brand: Annotated[str, Field()]
+    url_brand: Annotated[Union[str, None], Field()]
 
 
 class AllBrands(BaseModel):

@@ -1,3 +1,7 @@
+from typing import NoReturn
+
+from fastapi import UploadFile
+
 from src.database.repository.brand_repository import Brand
 from src.api.authentication.secure.authentication_service import (
     Authentication,
@@ -10,7 +14,8 @@ from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.api.core.brand_app.error.http_brand_exceptions import (
     BrandException,
 )
-from typing import NoReturn
+from src.other.s3_service.file_manager import FileS3Manager
+from src.other.enums.s3_storage_enums import S3EnumStorage
 
 
 auth: Authentication = Authentication()
@@ -24,7 +29,8 @@ class BrandService:
     async def add_a_new_brand(
         engine: IEngineRepository,
         token: str,
-        new_brand: BrandBase,
+        name_brand: str,
+        photo: UploadFile,
         token_data: dict = dict(),
     ) -> NoReturn:
         """
@@ -35,18 +41,28 @@ class BrandService:
 
             # Проверка на администратора
             is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
+                await engine.user_repository.find_admin(
+                    id_=int(token_data.get("sub"))
                 )
             )
 
             if is_admin:
 
-                new_brand = Brand(name_brand=new_brand.name_brand)
+                s3_manager = FileS3Manager()
 
-                is_created = await engine.brand_repository.add_one(
-                    data=new_brand
+                created_photo = await s3_manager.upload_file_to_storage(
+                    file=photo,
+                    directory=S3EnumStorage.BRANDS.value
                 )
+
+                if created_photo:
+                    new_brand = Brand(
+                        name_brand=name_brand,
+                        url_photo=created_photo
+                    )
+                    is_created = await engine.brand_repository.add_one(
+                        data=new_brand
+                    )
 
                 if is_created:
                     return
@@ -89,6 +105,7 @@ class BrandService:
                         BrandBase(
                             id_brand=brand[0].id,
                             name_brand=brand[0].name_brand,
+                            url_brand=brand[0].url_photo
                         )
                         for brand in brands
                     ]
