@@ -66,27 +66,23 @@ class ProductRepository(GeneralSQLRepository):
             stmt = select(Product).where(
                 Product.id_s_sub_category == how_to_find
             )
+
             all_products = (await self.async_session.execute(stmt)).fetchall()
             return all_products
         elif isinstance(how_to_find, str):
-            # Поиск категории
-            stmt = select(Category).where(Category.name_category == how_to_find)
-            category_data = (
+            # Поиск товаров
+            stmt = select(Product).options(
+                joinedload(Product.sub_category_data)
+            ).where(
+                Product.sub_category_data.has(SubCategory.name.contains(how_to_find))
+            )
+            all_products = (
                 await self.async_session.execute(stmt)
-            ).one_or_none()
+            ).fetchall()
 
-            if category_data:
-                category_data: Category = category_data[0]
+            return all_products
 
-                # Поиск товаров
-                stmt = select(Product).where(
-                    Product.id_category == category_data.id
-                )
-                all_products = (
-                    await self.async_session.execute(stmt)
-                ).fetchall()
-                return all_products
-            return []
+        return []
 
     async def find_product_by_name(
         self, name_product: str

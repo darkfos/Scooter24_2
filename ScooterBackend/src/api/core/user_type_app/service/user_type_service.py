@@ -6,6 +6,7 @@ from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.api.core.user_type_app.schemas.user_type_dto import (
     NewUserType,
     AllUserType,
+    UserTypeBase
 )
 from src.api.authentication.secure.authentication_service import (
     Authentication,
@@ -52,7 +53,7 @@ class UserTypeService:
             if result:
                 return AllUserType(
                     user_types=[
-                        UserType(id=data[0].id, name_type=data[0].name_type)
+                        UserTypeBase(id=data[0].id, name_type=data[0].name_type)
                         for data in result
                     ]
                 )

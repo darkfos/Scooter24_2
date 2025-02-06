@@ -141,5 +141,3 @@ class AllDataUser(BaseModel):
     orders: Union[List, List[Dict]]
     favourite: Union[List, List[Dict]]
     reviews: Union[List, List[Dict]]
-
-    address: UpdateAddressDate

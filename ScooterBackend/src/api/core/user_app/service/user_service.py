@@ -152,18 +152,20 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin: bool = await engine.user_repository.find_one(
-                other_id=token_data.get("sub")
+            is_admin = await engine.user_repository.find_one(
+                other_id=int(token_data.get("sub"))
             )
 
-            if is_admin and token_data.get("is_admin"):
+            if is_admin:
                 user_data: dict = is_admin[0]
                 return InformationAboutUser(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
+                    address=user_data.address,
+                    telephone=user_data.telephone,
+                    date_birthday=user_data.date_birthday
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -197,7 +199,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_reviews(
-                    user_id=token_data.get("sub")
+                    user_id=int(token_data.get("sub"))
                 )
             )
 
@@ -205,9 +207,11 @@ class UserService:
                 return UserReviewData(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
+                    address=user_data.address,
+                    telephone=user_data.telephone,
+                    date_birthday=user_data.date_birthday,
                     reviews=[
                         review.read_model() for review in user_data.reviews
                     ],
@@ -246,7 +250,7 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_favourites(
-                    user_id=token_data.get("sub")
+                    user_id=int(token_data.get("sub"))
                 )
             )
 
@@ -254,10 +258,12 @@ class UserService:
                 return UserFavouritesData(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
-                    favourites=user_data.favourites_user,
+                    favourites=[favourite.read_model() for favourite in user_data.favourites_user],
+                    date_birthday=user_data.date_birthday,
+                    telephone=user_data.telephone,
+                    address=user_data.address
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -293,14 +299,13 @@ class UserService:
         async with engine:
             user_data: Union[User, None] = (
                 await engine.user_repository.find_user_and_get_orders(
-                    user_id=token_data.get("sub")
+                    user_id=int(token_data.get("sub"))
                 )
             )
             if user_data:
                 return UserOrdersData(
                     email_user=user_data.email_user,
                     name_user=user_data.name_user,
-                    surname_user=user_data.surname_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
                     orders=[
@@ -311,6 +316,9 @@ class UserService:
                         }
                         for order in user_data.orders_user
                     ],
+                    address=user_data.address,
+                    telephone=user_data.telephone,
+                    date_birthday=user_data.date_birthday
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -340,7 +348,7 @@ class UserService:
         logging.info(msg="Получение полной информации о пользователе")
 
         # Getting user id
-        user_id: int = token_data.get("sub")
+        user_id: int = int(token_data.get("sub"))
 
         async with engine:
             user_all_information: Union[User, None] = (
@@ -354,9 +362,11 @@ class UserService:
                     general_user_info=InformationAboutUser(
                         email_user=user_all_information.email_user,
                         name_user=user_all_information.name_user,
-                        surname_user=user_all_information.surname_user,
                         main_name_user=user_all_information.main_name_user,
                         date_registration=user_all_information.date_registration,  # noqa
+                        date_birthday=user_all_information.date_birthday,
+                        address=user_all_information.address,
+                        telephone=user_all_information.telephone
                     ),
                     orders=[
                         order.read_model()
@@ -369,19 +379,7 @@ class UserService:
                     reviews=[
                         review.read_model()
                         for review in user_all_information.reviews
-                    ],
-                    address=UpdateAddressDate(
-                        name_user_address=user_all_information.name_user_address,  # noqa
-                        surname_user_address=user_all_information.surname_user_address,  # noqa
-                        name_company_address=user_all_information.name_company_address,  # noqa
-                        country_address=user_all_information.country_address,
-                        address_street=user_all_information.address_street,
-                        address_rl_et_home=user_all_information.address_rl_et_home,  # noqa
-                        address_locality=user_all_information.address_locality,
-                        address_area=user_all_information.address_area,
-                        address_index=user_all_information.address_index,
-                        address_phone_number=user_all_information.address_phone_number,  # noqa
-                    ),
+                    ]
                 )
 
             logging.critical(
@@ -414,8 +412,8 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin: bool = await engine.user_repository.find_one(
-                other_id=token_data.get("sub")
+            is_admin: bool = await engine.user_repository.find_admin(
+                id_=int(token_data.get("sub"))
             )
 
             if is_admin and token_data.get("is_admin"):
@@ -427,27 +425,18 @@ class UserService:
 
                 if user_all_information:
                     return AllDataUser(
-                        email_user=user_all_information.email_user,
-                        name_user=user_all_information.name_user,
-                        surname_user=user_all_information.surname_user,  # noqa
-                        main_name_user=user_all_information.main_name_user,  # noqa
-                        date_registration=user_all_information.date_registration,  # noqa
-                        orders=user_all_information.orders_user,
-                        favourite=user_all_information.favourites_user,  # noqa
-                        history=user_all_information.history_buy_user,  # noqa
-                        reviews=user_all_information.reviews,
-                        address=UpdateAddressDate(
-                            name_user_address=user_all_information.name_user_address,  # noqa
-                            surname_user_address=user_all_information.surname_user_address,  # noqa
-                            name_company_address=user_all_information.name_company_address,  # noqa
-                            country_address=user_all_information.country_address,  # noqa
-                            address_street=user_all_information.address_street,
-                            address_rl_et_home=user_all_information.address_rl_et_home,  # noqa
-                            address_locality=user_all_information.address_locality,  # noqa
-                            address_area=user_all_information.address_area,
-                            address_index=user_all_information.address_index,
-                            address_phone_number=user_all_information.address_phone_number,  # noqa
+                        general_user_info=InformationAboutUser(
+                            address=user_all_information.address,
+                            telephone=user_all_information.telephone,
+                            date_birthday=user_all_information.date_birthday,
+                            email_user=user_all_information.email_user,
+                            name_user=user_all_information.name_user,
+                            main_name_user=user_all_information.main_name_user,  # noqa
+                            date_registration=user_all_information.date_registration,  # noqa
                         ),
+                        orders=[order.read_model() for order in user_all_information.orders_user],
+                        favourite=[fav.read_model() for fav in user_all_information.favourites_user],  # noqa
+                        reviews=[review.read_model() for review in user_all_information.reviews]
                     )
 
             logging.critical(
@@ -511,7 +500,7 @@ class UserService:
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
-                    other_id=token_data.get("sub"),
+                    other_id=int(token_data.get("sub")),
                     data_to_update=to_update.model_dump(),
                 )
             )
@@ -548,7 +537,7 @@ class UserService:
             # Проверка на совпадение пароля
             get_user_data: Union[User, None] = (
                 await engine.user_repository.find_one(
-                    other_id=token_data.get("sub")
+                    other_id=int(token_data.get("sub"))
                 )
             )
 
@@ -600,7 +589,7 @@ class UserService:
 
         async with engine:
             res_del = await engine.user_repository.delete_one(
-                other_id=token_data.get("id_user")
+                other_id=int(token_data.get("sub"))
             )
             if res_del:
                 return UserIsDeleted(is_deleted=res_del)

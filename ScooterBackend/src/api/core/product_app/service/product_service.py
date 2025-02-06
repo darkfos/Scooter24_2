@@ -195,23 +195,34 @@ class ProductService:
                 return ListProductBase(
                     products=[
                         ProductBase(
-                            title_product=product[0].title_product,
-                            price_product=product[0].price_product,
-                            quantity_product=product[0].quantity_product,
-                            explanation_product=product[0].explanation_product,
+                            id_product=product[0].id,
+                            label_product=product[0].label_product,
                             article_product=product[0].article_product,
-                            tags=product[0].label_product,
-                            other_data=product[0].other_data,
-                            photo_product=f"{product[0].photo_product}",
-                            date_create_product=product[0].date_create_product,
+                            title_product=product[0].title_product,
+                            brand=product[0].brand,
+                            brand_mark=product[0].brand_mark,
+                            models=[],
+                            id_sub_category=product[0].id_sub_category,
+                            weight_product=product[0].weight_product,
+                            is_recommended=product[0].is_recommended,
+                            explanation_product=product[
+                                0
+                            ].explanation_product,
+                            quantity_product=product[
+                                0
+                            ].quantity_product,
+                            price_product=product[0].price_product,
+                            date_create_product=product[
+                                0
+                            ].date_create_product,
                             date_update_information=product[
                                 0
-                            ].date_update_information,  # noqa
-                            price_discount=(
-                                product[0].product_discount
-                                if product[0].product_discount
-                                else 0
-                            ),
+                            ].date_update_information,
+                            product_discount=product[
+                                0
+                            ].product_discount,
+                            type_pr=product[0].type_pr,
+                            photo=[]
                         )
                         for product in all_products
                     ]
@@ -330,23 +341,34 @@ class ProductService:
                 return ListProductBase(
                     products=[
                         ProductBase(
-                            title_product=product[0].title_product,
-                            price_product=product[0].price_product,
-                            quantity_product=product[0].quantity_product,
-                            explanation_product=product[0].explanation_product,
+                            id_product=product[0].id,
+                            label_product=product[0].label_product,
                             article_product=product[0].article_product,
-                            tags=product[0].tags,
-                            other_data=product[0].other_data,
-                            date_create_product=product[0].date_create_product,
+                            title_product=product[0].title_product,
+                            brand=product[0].brand,
+                            brand_mark=product[0].brand_mark,
+                            models=[],
+                            id_sub_category=product[0].id_sub_category,
+                            weight_product=product[0].weight_product,
+                            is_recommended=product[0].is_recommended,
+                            explanation_product=product[
+                                0
+                            ].explanation_product,
+                            quantity_product=product[
+                                0
+                            ].quantity_product,
+                            price_product=product[0].price_product,
+                            date_create_product=product[
+                                0
+                            ].date_create_product,
                             date_update_information=product[
                                 0
-                            ].date_update_information,  # noqa
-                            photo_product=f"{product[0].photo_product}",
-                            price_discount=(
-                                product[0].product_discount
-                                if product[0].product_discount
-                                else 0
-                            ),
+                            ].date_update_information,
+                            product_discount=product[
+                                0
+                            ].product_discount,
+                            photo=[],
+                            type_pr=product[0].type_pr,
                         )
                         for product in all_products
                     ]
@@ -376,24 +398,36 @@ class ProductService:
 
             if product_data:
                 return ProductBase(
-                    title_product=product_data[0].title_product,
-                    price_product=product_data[0].price_product,
-                    quantity_product=product_data[0].quantity_product,
-                    explanation_product=product_data[0].explanation_product,
-                    article_product=product_data[0].article_product,
-                    tags=product_data[0].tags,
-                    other_data=product_data[0].other_data,
-                    date_create_product=product_data[0].date_create_product,
-                    date_update_information=product_data[
-                        0
-                    ].date_update_information,  # noqa
-                    photo_product=f"{product_data[0].photo_product}",
-                    price_discount=(
-                        product_data[0].product_discount
-                        if product_data[0].product_discount
-                        else 0
-                    ),
-                )
+                        id_product=product_data[0].id,
+                        label_product=product_data[0].label_product,
+                        article_product=product_data[0].article_product,
+                        title_product=product_data[0].title_product,
+                        brand=product_data[0].brand,
+                        brand_mark=product_data[0].brand_mark,
+                        models=[],
+                        id_sub_category=product_data[0].id_sub_category,
+                        weight_product=product_data[0].weight_product,
+                        is_recommended=product_data[0].is_recommended,
+                        explanation_product=product_data[
+                            0
+                        ].explanation_product,
+                        quantity_product=product_data[
+                            0
+                        ].quantity_product,
+                        price_product=product_data[0].price_product,
+                        date_create_product=product_data[
+                            0
+                        ].date_create_product,
+                        date_update_information=product_data[
+                            0
+                        ].date_update_information,
+                        product_discount=product_data[
+                            0
+                        ].product_discount,
+                        photo=[],
+                        type_pr=product_data[0].type_pr
+                    )
+
             logging.critical(
                 msg=f"{ProductService.__name__} "
                 f"Не удалось удалить продукт по "
@@ -425,24 +459,35 @@ class ProductService:
 
             if product_data:
                 return ProductBase(
-                    title_product=product_data[0].title_product,
-                    price_product=product_data[0].price_product,
-                    quantity_product=product_data[0].quantity_product,
-                    explanation_product=product_data[0].explanation_product,
-                    article_product=product_data[0].article_product,
-                    tags=product_data[0].tags,
-                    other_data=product_data[0].other_data,
-                    date_create_product=product_data[0].date_create_product,
-                    date_update_information=product_data[
-                        0
-                    ].date_update_information,  # noqa
-                    photo_product=f"{product_data[0].photo_product}",
-                    price_discount=(
-                        product_data[0].product_discount
-                        if product_data[0].product_discount
-                        else 0
-                    ),
-                )
+                        id_product=product_data[0].id,
+                        label_product=product_data[0].label_product,
+                        article_product=product_data[0].article_product,
+                        title_product=product_data[0].title_product,
+                        brand=product_data[0].brand,
+                        brand_mark=product_data[0].brand_mark,
+                        models=[],
+                        id_sub_category=product_data[0].id_sub_category,
+                        weight_product=product_data[0].weight_product,
+                        is_recommended=product_data[0].is_recommended,
+                        explanation_product=product_data[
+                            0
+                        ].explanation_product,
+                        quantity_product=product_data[
+                            0
+                        ].quantity_product,
+                        price_product=product_data[0].price_product,
+                        date_create_product=product_data[
+                            0
+                        ].date_create_product,
+                        date_update_information=product_data[
+                            0
+                        ].date_update_information,
+                        product_discount=product_data[
+                            0
+                        ].product_discount,
+                        photo=[],
+                        type_pr=product_data[0].type_pr
+                    )
 
             logging.critical(
                 msg=f"{ProductService.__name__} " f"Не удалось найти продукт"
