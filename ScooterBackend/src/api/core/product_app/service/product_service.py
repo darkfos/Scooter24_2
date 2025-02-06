@@ -5,6 +5,7 @@ from typing import Union, List, Type
 from fastapi import status, HTTPException, UploadFile
 
 from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+
 # Local
 from src.database.models.product import Product
 from src.api.core.product_app.error.http_product_exception import (
@@ -205,24 +206,16 @@ class ProductService:
                             id_sub_category=product[0].id_sub_category,
                             weight_product=product[0].weight_product,
                             is_recommended=product[0].is_recommended,
-                            explanation_product=product[
-                                0
-                            ].explanation_product,
-                            quantity_product=product[
-                                0
-                            ].quantity_product,
+                            explanation_product=product[0].explanation_product,
+                            quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
-                            date_create_product=product[
-                                0
-                            ].date_create_product,
+                            date_create_product=product[0].date_create_product,
                             date_update_information=product[
                                 0
                             ].date_update_information,
-                            product_discount=product[
-                                0
-                            ].product_discount,
+                            product_discount=product[0].product_discount,
                             type_pr=product[0].type_pr,
-                            photo=[]
+                            photo=[],
                         )
                         for product in all_products
                     ]
@@ -351,22 +344,14 @@ class ProductService:
                             id_sub_category=product[0].id_sub_category,
                             weight_product=product[0].weight_product,
                             is_recommended=product[0].is_recommended,
-                            explanation_product=product[
-                                0
-                            ].explanation_product,
-                            quantity_product=product[
-                                0
-                            ].quantity_product,
+                            explanation_product=product[0].explanation_product,
+                            quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
-                            date_create_product=product[
-                                0
-                            ].date_create_product,
+                            date_create_product=product[0].date_create_product,
                             date_update_information=product[
                                 0
                             ].date_update_information,
-                            product_discount=product[
-                                0
-                            ].product_discount,
+                            product_discount=product[0].product_discount,
                             photo=[],
                             type_pr=product[0].type_pr,
                         )
@@ -398,35 +383,27 @@ class ProductService:
 
             if product_data:
                 return ProductBase(
-                        id_product=product_data[0].id,
-                        label_product=product_data[0].label_product,
-                        article_product=product_data[0].article_product,
-                        title_product=product_data[0].title_product,
-                        brand=product_data[0].brand,
-                        brand_mark=product_data[0].brand_mark,
-                        models=[],
-                        id_sub_category=product_data[0].id_sub_category,
-                        weight_product=product_data[0].weight_product,
-                        is_recommended=product_data[0].is_recommended,
-                        explanation_product=product_data[
-                            0
-                        ].explanation_product,
-                        quantity_product=product_data[
-                            0
-                        ].quantity_product,
-                        price_product=product_data[0].price_product,
-                        date_create_product=product_data[
-                            0
-                        ].date_create_product,
-                        date_update_information=product_data[
-                            0
-                        ].date_update_information,
-                        product_discount=product_data[
-                            0
-                        ].product_discount,
-                        photo=[],
-                        type_pr=product_data[0].type_pr
-                    )
+                    id_product=product_data[0].id,
+                    label_product=product_data[0].label_product,
+                    article_product=product_data[0].article_product,
+                    title_product=product_data[0].title_product,
+                    brand=product_data[0].brand,
+                    brand_mark=product_data[0].brand_mark,
+                    models=[],
+                    id_sub_category=product_data[0].id_sub_category,
+                    weight_product=product_data[0].weight_product,
+                    is_recommended=product_data[0].is_recommended,
+                    explanation_product=product_data[0].explanation_product,
+                    quantity_product=product_data[0].quantity_product,
+                    price_product=product_data[0].price_product,
+                    date_create_product=product_data[0].date_create_product,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
+                    product_discount=product_data[0].product_discount,
+                    photo=[],
+                    type_pr=product_data[0].type_pr,
+                )
 
             logging.critical(
                 msg=f"{ProductService.__name__} "
@@ -459,35 +436,27 @@ class ProductService:
 
             if product_data:
                 return ProductBase(
-                        id_product=product_data[0].id,
-                        label_product=product_data[0].label_product,
-                        article_product=product_data[0].article_product,
-                        title_product=product_data[0].title_product,
-                        brand=product_data[0].brand,
-                        brand_mark=product_data[0].brand_mark,
-                        models=[],
-                        id_sub_category=product_data[0].id_sub_category,
-                        weight_product=product_data[0].weight_product,
-                        is_recommended=product_data[0].is_recommended,
-                        explanation_product=product_data[
-                            0
-                        ].explanation_product,
-                        quantity_product=product_data[
-                            0
-                        ].quantity_product,
-                        price_product=product_data[0].price_product,
-                        date_create_product=product_data[
-                            0
-                        ].date_create_product,
-                        date_update_information=product_data[
-                            0
-                        ].date_update_information,
-                        product_discount=product_data[
-                            0
-                        ].product_discount,
-                        photo=[],
-                        type_pr=product_data[0].type_pr
-                    )
+                    id_product=product_data[0].id,
+                    label_product=product_data[0].label_product,
+                    article_product=product_data[0].article_product,
+                    title_product=product_data[0].title_product,
+                    brand=product_data[0].brand,
+                    brand_mark=product_data[0].brand_mark,
+                    models=[],
+                    id_sub_category=product_data[0].id_sub_category,
+                    weight_product=product_data[0].weight_product,
+                    is_recommended=product_data[0].is_recommended,
+                    explanation_product=product_data[0].explanation_product,
+                    quantity_product=product_data[0].quantity_product,
+                    price_product=product_data[0].price_product,
+                    date_create_product=product_data[0].date_create_product,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
+                    product_discount=product_data[0].product_discount,
+                    photo=[],
+                    type_pr=product_data[0].type_pr,
+                )
 
             logging.critical(
                 msg=f"{ProductService.__name__} " f"Не удалось найти продукт"
@@ -558,30 +527,22 @@ class ProductService:
                     brand_mark=product_data[0].brand_mark,
                     models=[
                         model.read_model()
-                        for model in product_data[
-                            0
-                        ].product_models_data
+                        for model in product_data[0].product_models_data
                     ],
                     id_sub_category=product_data[0].id_sub_category,
                     weight_product=product_data[0].weight_product,
                     is_recommended=product_data[0].is_recommended,
-                    explanation_product=product_data[
-                        0
-                    ].explanation_product,
-                    quantity_product=product_data[
-                        0
-                    ].quantity_product,
+                    explanation_product=product_data[0].explanation_product,
+                    quantity_product=product_data[0].quantity_product,
                     price_product=product_data[0].price_product,
-                    date_create_product=product_data[
-                        0
-                    ].date_create_product,
+                    date_create_product=product_data[0].date_create_product,
                     date_update_information=product_data[
                         0
                     ].date_update_information,
-                    product_discount=product_data[
-                        0
-                    ].product_discount,
-                    photo=[photo.read_model() for photo in product_data[0].photos],
+                    product_discount=product_data[0].product_discount,
+                    photo=[
+                        photo.read_model() for photo in product_data[0].photos
+                    ],
                     type_pr=product_data[0].type_pr,
                     reviews=[
                         review_p.read_model()
@@ -597,12 +558,11 @@ class ProductService:
                     ],
                     categories=SubCategoryBase(
                         name=product_data[0].sub_category_data.name,
-                        id_subcategory=product_data[0].sub_category_data.id
+                        id_subcategory=product_data[0].sub_category_data.id,
                     ),
                 )
             logging.critical(
-                msg=f"{ProductService.__name__} "
-                f"Не удалось найти продукт"
+                msg=f"{ProductService.__name__} " f"Не удалось найти продукт"
             )
             await ProductHttpError().http_product_not_found()
         logging.critical(
@@ -806,7 +766,7 @@ class ProductService:
                     max_price=sorted_by_price_max,
                     title_product=title_product,
                     desc=desc,
-                    availability=availability
+                    availability=availability,
                 )
             )
 
@@ -821,7 +781,10 @@ class ProductService:
                             title_product=product.title_product,
                             brand=product.brand,
                             brand_mark=product.brand_mark,
-                            models=[model.read_model() for model in product.product_models_data],
+                            models=[
+                                model.read_model()
+                                for model in product.product_models_data
+                            ],
                             id_sub_category=product.id_sub_category,
                             weight_product=product.weight_product,
                             is_recommended=product.is_recommended,
@@ -829,9 +792,13 @@ class ProductService:
                             quantity_product=product.quantity_product,
                             price_product=product.price_product,
                             date_create_product=product.date_create_product,
-                            date_update_information=product.date_update_information,
+                            date_update_information=product.date_update_information,  # noqa
                             product_discount=product.product_discount,
-                            photo=[photo.read_model() for photo in product.photos] if product.photos else []
+                            photo=(
+                                [photo.read_model() for photo in product.photos]
+                                if product.photos
+                                else []
+                            ),
                         ).model_dump()
                         for product in products
                     ]
@@ -982,9 +949,14 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[0].date_update_information, # noqa
+                            date_update_information=product[
+                                0
+                            ].date_update_information,  # noqa
                             product_discount=product[0].product_discount,
-                            photo=[photo.read_model() for photo in product[0].photos],
+                            photo=[
+                                photo.read_model()
+                                for photo in product[0].photos
+                            ],
                             type_pr=product[0].type_pr,
                         )
                     )

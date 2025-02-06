@@ -1,17 +1,11 @@
 # System
 import datetime
-from typing import List, Annotated, Dict, Union
+from typing import List, Annotated, Union
 
 from fastapi import UploadFile
 
 # Other libraries
 from pydantic import BaseModel, Field
-from src.api.core.product_models_app.schemas.product_models_dto import (
-    AllProductModels,
-)
-from src.api.core.brand_app.schemas.brand_dto import BrandBase
-from src.api.core.mark_app.schemas.mark_dto import MarkBase
-from src.api.core.category_app.schemas.category_dto import CategoryBase
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryBase,
 )
@@ -53,9 +47,7 @@ class ProductBase(BaseModel):
 
 class ListProductBase(BaseModel):
 
-    products: Annotated[
-        List[ProductBase], Field()
-    ]
+    products: Annotated[List[ProductBase], Field()]
 
 
 class ProductAllInformation(ProductBase):

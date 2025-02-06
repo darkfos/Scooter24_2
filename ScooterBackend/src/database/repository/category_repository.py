@@ -61,9 +61,7 @@ class CategoryRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Category).options(
-            joinedload(Category.subcategory_data)
-        )
+        stmt = select(Category).options(joinedload(Category.subcategory_data))
 
         result = await self.async_session.execute(stmt)
 

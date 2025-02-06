@@ -186,7 +186,7 @@ async def get_products_by_filters(
     min_price: int = None,
     max_price: int = None,
     desc_or_not: FilteredDescProduct = FilteredDescProduct.DEFAULT,
-    availability: bool = False
+    availability: bool = False,
 ) -> ListProductBase:
     """
     ENDPOINT - Получение списка продуктов по фильтру.

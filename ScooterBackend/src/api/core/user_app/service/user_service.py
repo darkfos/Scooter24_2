@@ -165,7 +165,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     address=user_data.address,
                     telephone=user_data.telephone,
-                    date_birthday=user_data.date_birthday
+                    date_birthday=user_data.date_birthday,
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -260,10 +260,13 @@ class UserService:
                     name_user=user_data.name_user,
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
-                    favourites=[favourite.read_model() for favourite in user_data.favourites_user],
+                    favourites=[
+                        favourite.read_model()
+                        for favourite in user_data.favourites_user
+                    ],
                     date_birthday=user_data.date_birthday,
                     telephone=user_data.telephone,
-                    address=user_data.address
+                    address=user_data.address,
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -318,7 +321,7 @@ class UserService:
                     ],
                     address=user_data.address,
                     telephone=user_data.telephone,
-                    date_birthday=user_data.date_birthday
+                    date_birthday=user_data.date_birthday,
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -366,7 +369,7 @@ class UserService:
                         date_registration=user_all_information.date_registration,  # noqa
                         date_birthday=user_all_information.date_birthday,
                         address=user_all_information.address,
-                        telephone=user_all_information.telephone
+                        telephone=user_all_information.telephone,
                     ),
                     orders=[
                         order.read_model()
@@ -379,7 +382,7 @@ class UserService:
                     reviews=[
                         review.read_model()
                         for review in user_all_information.reviews
-                    ]
+                    ],
                 )
 
             logging.critical(
@@ -434,9 +437,18 @@ class UserService:
                             main_name_user=user_all_information.main_name_user,  # noqa
                             date_registration=user_all_information.date_registration,  # noqa
                         ),
-                        orders=[order.read_model() for order in user_all_information.orders_user],
-                        favourite=[fav.read_model() for fav in user_all_information.favourites_user],  # noqa
-                        reviews=[review.read_model() for review in user_all_information.reviews]
+                        orders=[
+                            order.read_model()
+                            for order in user_all_information.orders_user
+                        ],
+                        favourite=[
+                            fav.read_model()
+                            for fav in user_all_information.favourites_user
+                        ],  # noqa
+                        reviews=[
+                            review.read_model()
+                            for review in user_all_information.reviews
+                        ],
                     )
 
             logging.critical(

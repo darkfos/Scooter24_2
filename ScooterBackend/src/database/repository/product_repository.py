@@ -15,7 +15,6 @@ from src.database.models.product import Product
 from src.database.models.product_models import ProductModels
 from src.database.models.subcategory import SubCategory
 from src.database.repository.general_repository import GeneralSQLRepository
-from src.database.models.category import Category
 from src.other.enums.product_enum import FilteredDescProduct
 
 logging = logger.getLogger(__name__)
@@ -71,14 +70,16 @@ class ProductRepository(GeneralSQLRepository):
             return all_products
         elif isinstance(how_to_find, str):
             # Поиск товаров
-            stmt = select(Product).options(
-                joinedload(Product.sub_category_data)
-            ).where(
-                Product.sub_category_data.has(SubCategory.name.contains(how_to_find))
+            stmt = (
+                select(Product)
+                .options(joinedload(Product.sub_category_data))
+                .where(
+                    Product.sub_category_data.has(
+                        SubCategory.name.contains(how_to_find)
+                    )
+                )
             )
-            all_products = (
-                await self.async_session.execute(stmt)
-            ).fetchall()
+            all_products = (await self.async_session.execute(stmt)).fetchall()
 
             return all_products
 
@@ -124,7 +125,7 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.order),
                 joinedload(Product.sub_category_data),
                 joinedload(Product.product_models_data),
-                joinedload(Product.photos)
+                joinedload(Product.photos),
             )
         )
         product_data = (
@@ -164,7 +165,7 @@ class ProductRepository(GeneralSQLRepository):
         result = (await self.async_session.execute(stmt)).all()
         return result
 
-    async def find_by_filters(
+    async def find_by_filters(  # noqa
         self,
         id_categories: int,
         id_sub_category: int,
@@ -172,7 +173,7 @@ class ProductRepository(GeneralSQLRepository):
         max_price: int,
         desc: FilteredDescProduct,
         title_product: str,
-        availability: bool
+        availability: bool,
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов по фильтру
@@ -194,14 +195,18 @@ class ProductRepository(GeneralSQLRepository):
             joinedload(Product.sub_category_data),
             joinedload(Product.product_models_data),
             joinedload(Product.photos),
-            joinedload(Product.sub_category_data)
+            joinedload(Product.sub_category_data),
         )
 
         if title_product:
             stmt = stmt.filter(Product.title_product.contains(title_product))
 
         if id_categories:
-            stmt = stmt.filter(Product.sub_category_data.has(SubCategory.id_category == id_categories))
+            stmt = stmt.filter(
+                Product.sub_category_data.has(
+                    SubCategory.id_category == id_categories
+                )
+            )
 
         if id_sub_category:
             stmt = stmt.filter(Product.id_sub_category == id_sub_category)
@@ -239,10 +244,14 @@ class ProductRepository(GeneralSQLRepository):
             msg=f"{self.__class__.__name__} Получение всех товаров"
             " по новым датам"
         )
-        stmt = select(Product).options(
-            joinedload(Product.product_models_data),
-            joinedload(Product.photos)
-        ).order_by(Product.date_create_product.desc())
+        stmt = (
+            select(Product)
+            .options(
+                joinedload(Product.product_models_data),
+                joinedload(Product.photos),
+            )
+            .order_by(Product.date_create_product.desc())
+        )
         products = (await self.async_session.execute(stmt)).unique().all()
 
         if products:

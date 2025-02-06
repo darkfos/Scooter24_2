@@ -6,7 +6,7 @@ from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.api.core.user_type_app.schemas.user_type_dto import (
     NewUserType,
     AllUserType,
-    UserTypeBase
+    UserTypeBase,
 )
 from src.api.authentication.secure.authentication_service import (
     Authentication,

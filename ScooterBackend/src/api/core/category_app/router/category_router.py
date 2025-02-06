@@ -9,7 +9,6 @@ from fastapi.responses import FileResponse
 # Local
 from src.api.core.category_app.schemas.category_dto import (
     CategoryIsUpdated,
-    CategoryIsFinded,
     CategoriesList,
     CategoryBase,
     CategoryIsCreated,

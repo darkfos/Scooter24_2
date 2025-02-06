@@ -38,11 +38,9 @@ class Category(MainBase):
 
     def __str__(self):
         # Возвращает строковый объект класса
-        return str({
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_")
-        })
+        return str(
+            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        )
 
     def __repr__(self) -> str:
         # Возвращает строковый объект класса

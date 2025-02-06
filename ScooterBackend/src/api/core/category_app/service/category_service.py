@@ -128,9 +128,9 @@ class CategoryService:
                             SubCategoryBase(
                                 name=sb.name,
                                 id_subcategory=sb.id_category,
-
-                            ) for sb in category[0].subcategory_data
-                        ]
+                            )
+                            for sb in category[0].subcategory_data
+                        ],
                     )
                     for category in categories
                 ]
