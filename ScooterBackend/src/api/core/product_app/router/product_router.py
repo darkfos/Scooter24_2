@@ -22,6 +22,7 @@ from src.database.db_worker import db_work
 from src.api.core.product_app.service.product_service import ProductService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.enums.product_enum import FilteredDescProduct
 
 
 product_router: APIRouter = APIRouter(
@@ -181,9 +182,11 @@ async def get_products_by_filters(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     title_product: Union[str, None] = None,
     id_category: int = None,
+    id_sub_category: int = None,
     min_price: int = None,
     max_price: int = None,
-    desc_or_not: bool = False,
+    desc_or_not: FilteredDescProduct = FilteredDescProduct.DEFAULT,
+    availability: bool = False
 ) -> ListProductBase:
     """
     ENDPOINT - Получение списка продуктов по фильтру.
@@ -203,10 +206,12 @@ async def get_products_by_filters(
     return await ProductService.get_products_by_sorted(
         engine=session,
         sorted_by_category=id_category,
+        sorted_by_sub_category=id_sub_category,
         sorted_by_price_min=min_price,
         sorted_by_price_max=max_price,
         desc=desc_or_not,
         title_product=title_product,
+        availability=availability,
         redis_search_data="search_by_filters_%s_%s_%s_%s"
         % (id_category, min_price, max_price, desc_or_not),
     )

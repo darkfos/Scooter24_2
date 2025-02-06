@@ -54,7 +54,7 @@ class ProductBase(BaseModel):
 class ListProductBase(BaseModel):
 
     products: Annotated[
-        List[Union[List, Dict, int, str, datetime.date]], Field()
+        List[ProductBase], Field()
     ]
 
 

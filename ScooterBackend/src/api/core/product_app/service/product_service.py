@@ -24,6 +24,7 @@ from src.api.core.product_app.schemas.product_dto import (
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.product_enum import FilteredDescProduct
 from src.other.image.image_saver import ImageSaver
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.other.s3_service.file_manager import FileS3Manager
@@ -720,12 +721,14 @@ class ProductService:
     @staticmethod
     async def get_products_by_sorted(
         engine: IEngineRepository,
-        desc: bool,
+        desc: FilteredDescProduct,
         redis_search_data: str,
         sorted_by_category: int = None,
+        sorted_by_sub_category: int = None,
         sorted_by_price_min: int = None,
         sorted_by_price_max: int = None,
         title_product: str = None,
+        availability: bool = False,
     ) -> ListProductBase:
         """
         Метод сервиса для поиска товаров, а также их сортировки
@@ -749,10 +752,12 @@ class ProductService:
             products: Union[List, List[ProductBase]] = (
                 await engine.product_repository.find_by_filters(
                     id_categories=sorted_by_category,
+                    id_sub_category=sorted_by_sub_category,
                     min_price=sorted_by_price_min,
                     max_price=sorted_by_price_max,
                     title_product=title_product,
                     desc=desc,
+                    availability=availability
                 )
             )
 
@@ -885,7 +890,6 @@ class ProductService:
             )
             await UserHttpError().http_user_not_found()
 
-    # TODO: Refactor
     @redis
     @staticmethod
     async def get_new_products(
@@ -910,28 +914,31 @@ class ProductService:
                 for product in all_products:
                     if len(result) >= 7:
                         break
-
                     result.append(
                         ProductBase(
-                            title_product=product[0].title_product,
-                            price_product=product[0].price_product,
-                            quantity_product=product[0].quantity_product,
-                            explanation_product=product[0].explanation_product,
+                            id_product=product[0].id,
+                            label_product=product[0].label_product,
                             article_product=product[0].article_product,
-                            tags=product[0].tags,
-                            other_data=product[0].other_data,
-                            photo_product=product[0].photo_product,
+                            title_product=product[0].title_product,
+                            brand=product[0].brand,
+                            brand_mark=product[0].brand_mark,
+                            models=[
+                                model.read_model()
+                                for model in product[0].product_models_data
+                            ],
+                            id_sub_category=product[0].id_sub_category,
+                            weight_product=product[0].weight_product,
+                            is_recommended=product[0].is_recommended,
+                            explanation_product=product[0].explanation_product,
+                            quantity_product=product[0].quantity_product,
+                            price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[
-                                0
-                            ].date_update_information,  # noqa
-                            price_discount=(
-                                product[0].product_discount
-                                if product[0].product_discount
-                                else 0
-                            ),
+                            date_update_information=product[0].date_update_information, # noqa
+                            product_discount=product[0].product_discount,
+                            photo=[photo.read_model() for photo in product[0].photos],
+                            type_pr=product[0].type_pr,
                         )
                     )
-
-                return ListProductBase(products=[*result])
+                print(result)
+                return ListProductBase(products=result)
             await ProductHttpError().http_product_not_found()

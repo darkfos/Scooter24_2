@@ -13,9 +13,10 @@ from src.database.models.model import Model
 # Local
 from src.database.models.product import Product
 from src.database.models.product_models import ProductModels
+from src.database.models.subcategory import SubCategory
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.category import Category
-
+from src.other.enums.product_enum import FilteredDescProduct
 
 logging = logger.getLogger(__name__)
 
@@ -168,10 +169,12 @@ class ProductRepository(GeneralSQLRepository):
     async def find_by_filters(
         self,
         id_categories: int,
+        id_sub_category: int,
         min_price: int,
         max_price: int,
-        desc: bool,
-        title_product: str
+        desc: FilteredDescProduct,
+        title_product: str,
+        availability: bool
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов по фильтру
@@ -188,6 +191,7 @@ class ProductRepository(GeneralSQLRepository):
             f" max_price={max_price};"
             f" desc={desc}"
         )
+
         stmt = select(Product).options(
             joinedload(Product.sub_category_data),
             joinedload(Product.product_models_data),
@@ -199,19 +203,32 @@ class ProductRepository(GeneralSQLRepository):
             stmt = stmt.filter(Product.title_product.contains(title_product))
 
         if id_categories:
-            stmt = stmt.filter(Product.id_sub_category == id_categories)
+            stmt = stmt.filter(Product.sub_category_data.has(SubCategory.id_category == id_categories))
+
+        if id_sub_category:
+            stmt = stmt.filter(Product.id_sub_category == id_sub_category)
 
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)
+
         if max_price:
             stmt = stmt.filter(Product.price_product <= max_price)
 
-        if desc:
-            stmt = stmt.order_by(Product.price_product.desc())
+        if availability:
+            stmt = stmt.filter(Product.quantity_product > 0)
+
+        match desc:
+            case FilteredDescProduct.NOT_DESC:
+                stmt = stmt.order_by(Product.price_product.asc())
+            case FilteredDescProduct.DEFAULT:
+                pass
+            case FilteredDescProduct.DESC:
+                stmt = stmt.order_by(Product.price_product.desc())
 
         products: Union[List, List[Product]] = (
             (await self.async_session.execute(stmt)).unique().scalars().all()
         )
+
         return products
 
     async def get_products_by_date(self) -> Union[None, List[Product]]:
@@ -224,8 +241,11 @@ class ProductRepository(GeneralSQLRepository):
             msg=f"{self.__class__.__name__} Получение всех товаров"
             " по новым датам"
         )
-        stmt = select(Product).order_by(Product.date_create_product.desc())
-        products = (await self.async_session.execute(stmt)).fetchall()
+        stmt = select(Product).options(
+            joinedload(Product.product_models_data),
+            joinedload(Product.photos)
+        ).order_by(Product.date_create_product.desc())
+        products = (await self.async_session.execute(stmt)).unique().all()
 
         if products:
             return products
