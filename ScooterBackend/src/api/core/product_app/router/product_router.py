@@ -320,7 +320,6 @@ async def garage_products(
 )
 async def get_all_information_about_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    admin_data: Annotated[str, Depends(auth.auth_user)],
     id_product: int,
 ) -> ProductAllInformation:
     """
@@ -337,7 +336,6 @@ async def get_all_information_about_product(
 
     return await ProductService.get_all_information_about_product(
         engine=session,
-        token=admin_data,
         id_product=id_product,
         redis_search_data="full_information_about_product_by_id_%s"
         % id_product,  # noqa

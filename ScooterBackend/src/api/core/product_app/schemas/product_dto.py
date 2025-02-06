@@ -63,13 +63,7 @@ class ProductAllInformation(ProductBase):
     reviews: Annotated[List[dict], Field()]
     orders: Annotated[List[dict], Field]
     favourites: Annotated[List[dict], Field()]
-    bicycle_data: Annotated[
-        Dict[str, Union[BrandBase, MarkBase, AllProductModels]], Field()
-    ]
-    categories: Annotated[
-        Dict[str, Union[CategoryBase, SubCategoryBase]],
-        Field(),
-    ]
+    categories: Annotated[SubCategoryBase, Field()]
 
 
 class DeleteProduct(BaseModel):

@@ -4,7 +4,7 @@ import logging as logger
 from typing import Union, List, Type
 from fastapi import status, HTTPException, UploadFile
 
-
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
 # Local
 from src.database.models.product import Product
 from src.api.core.product_app.error.http_product_exception import (
@@ -477,15 +477,12 @@ class ProductService:
             )
             await ProductHttpError().http_product_not_found()
 
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
     @staticmethod
     async def get_all_information_about_product(
         engine: IEngineRepository,
-        token: str,
         id_product: int,
         redis_search_data: str,
-        token_data: dict = dict(),
     ) -> ProductAllInformation:
         """
         Метод сервиса для получения полной информации о продукте
@@ -500,68 +497,75 @@ class ProductService:
         )
 
         async with engine:
-            # Is admin
-            is_admin: bool = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
+            product_data: Union[None, Product] = (
+                await engine.product_repository.get_all_info(
+                    id_product=id_product
                 )
             )
 
-            if is_admin:
-                product_data: Union[None, Product] = (
-                    await engine.product_repository.get_all_info(
-                        id_product=id_product
-                    )
-                )
-                if product_data:
-                    return ProductAllInformation(
-                        title_product=product_data[0].title_product,
-                        price_product=product_data[0].price_product,
-                        quantity_product=product_data[0].quantity_product,
-                        explanation_product=product_data[0].explanation_product,
-                        article_product=product_data[0].article_product,
-                        tags=product_data[0].tags,
-                        other_data=product_data[0].other_data,
-                        date_create_product=product_data[0].date_create_product,
-                        date_update_information=product_data[
+            if product_data:
+                return ProductAllInformation(
+                    id_product=product_data[0].id,
+                    label_product=product_data[0].label_product,
+                    article_product=product_data[0].article_product,
+                    title_product=product_data[0].title_product,
+                    brand=product_data[0].brand,
+                    brand_mark=product_data[0].brand_mark,
+                    models=[
+                        model.read_model()
+                        for model in product_data[
                             0
-                        ].date_update_information,  # noqa
-                        photo_product=f"{product_data[0].photo_product}",
-                        price_discount=(
-                            product_data[0].product_discount
-                            if product_data[0].product_discount
-                            else 0
-                        ),
-                        reviews=[
-                            review_p.read_model()
-                            for review_p in product_data[0].reviews
-                        ],
-                        orders=[
-                            order_pr.read_model()
-                            for order_pr in product_data[0].order
-                        ],  # noqa
-                        favourites=[
-                            fav_p.read_model()
-                            for fav_p in product_data[0].product_info_for_fav
-                        ],
-                        categories=[
-                            cat_data.read_model()
-                            for cat_data in product_data[
-                                0
-                            ].product_all_categories
-                        ],  # noqa
-                    )
-                logging.critical(
-                    msg=f"{ProductService.__name__} "
-                    f"Не удалось найти продукт"
+                        ].product_models_data
+                    ],
+                    id_sub_category=product_data[0].id_sub_category,
+                    weight_product=product_data[0].weight_product,
+                    is_recommended=product_data[0].is_recommended,
+                    explanation_product=product_data[
+                        0
+                    ].explanation_product,
+                    quantity_product=product_data[
+                        0
+                    ].quantity_product,
+                    price_product=product_data[0].price_product,
+                    date_create_product=product_data[
+                        0
+                    ].date_create_product,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
+                    product_discount=product_data[
+                        0
+                    ].product_discount,
+                    photo=[photo.read_model() for photo in product_data[0].photos],
+                    type_pr=product_data[0].type_pr,
+                    reviews=[
+                        review_p.read_model()
+                        for review_p in product_data[0].reviews
+                    ],
+                    orders=[
+                        order_pr.read_model()
+                        for order_pr in product_data[0].order
+                    ],  # noqa
+                    favourites=[
+                        fav_p.read_model()
+                        for fav_p in product_data[0].product_info_for_fav
+                    ],
+                    categories=SubCategoryBase(
+                        name=product_data[0].sub_category_data.name,
+                        id_subcategory=product_data[0].sub_category_data.id
+                    ),
                 )
-                await ProductHttpError().http_product_not_found()
             logging.critical(
                 msg=f"{ProductService.__name__} "
-                f"Не удалось найти продукт, "
-                f"пользователь не был найден"
+                f"Не удалось найти продукт"
             )
-            await UserHttpError().http_user_not_found()
+            await ProductHttpError().http_product_not_found()
+        logging.critical(
+            msg=f"{ProductService.__name__} "
+            f"Не удалось найти продукт, "
+            f"пользователь не был найден"
+        )
+        await UserHttpError().http_user_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod

@@ -126,7 +126,9 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.reviews),
                 joinedload(Product.product_info_for_fav),
                 joinedload(Product.order),
-                joinedload(Product.product_all_categories),
+                joinedload(Product.sub_category_data),
+                joinedload(Product.product_models_data),
+                joinedload(Product.photos)
             )
         )
         product_data = (
