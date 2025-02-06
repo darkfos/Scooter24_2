@@ -5,6 +5,7 @@ import logging as logger
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
+from sqlalchemy.orm import joinedload
 
 # Local
 from src.database.models.category import Category
@@ -53,6 +54,20 @@ class CategoryRepository(GeneralSQLRepository):
             f" type_find={type_find}"
         )
         return False
+
+    async def find_all_with_sb(self):
+        """
+        Получение всех категорий с данными о подкатегориях
+        :return:
+        """
+
+        stmt = select(Category).options(
+            joinedload(Category.subcategory_data)
+        )
+
+        result = await self.async_session.execute(stmt)
+
+        return result.unique().fetchall()
 
     async def del_more(
         self, session: AsyncSession, id_categories: List[int]

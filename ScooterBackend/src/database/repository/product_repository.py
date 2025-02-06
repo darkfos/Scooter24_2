@@ -188,17 +188,18 @@ class ProductRepository(GeneralSQLRepository):
             f" max_price={max_price};"
             f" desc={desc}"
         )
-        stmt = select(Product).join(Product.sub_category_data).options(
+        stmt = select(Product).options(
             joinedload(Product.sub_category_data),
             joinedload(Product.product_models_data),
-            joinedload(Product.photos)
+            joinedload(Product.photos),
+            joinedload(Product.sub_category_data)
         )
 
         if title_product:
-            stmt = stmt.where(Product.title_product.contains(title_product))
+            stmt = stmt.filter(Product.title_product.contains(title_product))
 
         if id_categories:
-            stmt = stmt.where(Product.id_sub_category == id_categories)
+            stmt = stmt.filter(Product.id_sub_category == id_categories)
 
         if min_price:
             stmt = stmt.filter(Product.price_product >= min_price)

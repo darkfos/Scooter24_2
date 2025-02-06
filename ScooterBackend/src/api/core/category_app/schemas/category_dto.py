@@ -3,7 +3,7 @@ from pydantic import Field, BaseModel
 from typing import List, Annotated
 
 # Local
-...
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
 
 
 class CategoryBase(BaseModel):
@@ -14,6 +14,7 @@ class CategoryBase(BaseModel):
     name_category: Annotated[str, Field(max_length=150)]
     id_category: Annotated[int, Field()]
     icon_category: Annotated[str, Field()]
+    subcategory: Annotated[List[SubCategoryBase], Field()]
 
 
 class CategoryIsCreated(BaseModel):

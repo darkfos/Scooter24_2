@@ -17,7 +17,7 @@ class Category(MainBase):
         type_=String(150), nullable=False, unique=True, index=True
     )
 
-    icon_category: Mapped[str] = mapped_column(  # Убрать3
+    icon_category: Mapped[str] = mapped_column(
         type_=Text,
         nullable=True,
         index=False,
@@ -38,7 +38,11 @@ class Category(MainBase):
 
     def __str__(self):
         # Возвращает строковый объект класса
-        return str({"Идентификатор": self.id, "Название": self.name_category})
+        return str({
+            k: v
+            for k, v in self.__dict__.items()
+            if not k.startswith("_")
+        })
 
     def __repr__(self) -> str:
         # Возвращает строковый объект класса

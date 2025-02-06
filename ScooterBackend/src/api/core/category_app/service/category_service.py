@@ -13,9 +13,9 @@ from src.api.core.category_app.schemas.category_dto import (
     DataCategoryToUpdate,
     CategoryBase,
     CategoryIsCreated,
-    CategoryIsFinded,
     CategoryIsUpdated,
 )
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.api.core.category_app.error.http_category_exception import (
@@ -103,29 +103,6 @@ class CategoryService:
 
     @redis
     @staticmethod
-    async def find_category_by_name(
-        engine: IEngineRepository, name_category: str, redis_search_data: str
-    ) -> CategoryIsFinded:
-        """
-        Метод сервиса для поиска категории по названию
-        :param session:
-        :param name_category:
-        :return:
-        """
-
-        logging.info(
-            msg=f"{CategoryService.__name__} "
-            f"Поиск категории по названию name_category={name_category}"
-        )
-        async with engine:
-            # Find category
-            is_found: bool = await engine.category_repository.find_by_name(
-                category_name=name_category
-            )
-            return CategoryIsFinded(is_find=is_found)
-
-    @redis
-    @staticmethod
     async def find_all_categories(
         engine: IEngineRepository, redis_search_data: str
     ):
@@ -139,7 +116,7 @@ class CategoryService:
         async with engine:
             # Get categories
             categories: List[CategoryBase] = (
-                await engine.category_repository.find_all()
+                await engine.category_repository.find_all_with_sb()
             )
             result = CategoriesList(
                 categories=[
@@ -147,6 +124,13 @@ class CategoryService:
                         name_category=category[0].name_category,
                         id_category=category[0].id,
                         icon_category=category[0].icon_category,
+                        subcategory=[
+                            SubCategoryBase(
+                                name=sb.name,
+                                id_subcategory=sb.id_category,
+
+                            ) for sb in category[0].subcategory_data
+                        ]
                     )
                     for category in categories
                 ]

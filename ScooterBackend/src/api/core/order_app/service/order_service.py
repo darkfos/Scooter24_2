@@ -245,7 +245,6 @@ class OrderService:
                     if is_deleted:
                         # Очистка кэша
                         await redis.delete_key(key=f"orders_by_token_{token}")
-
                         return
                     await OrderHttpError().http_failed_to_delete_order()
             logging.critical(

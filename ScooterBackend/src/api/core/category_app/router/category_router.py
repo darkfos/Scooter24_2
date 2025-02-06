@@ -84,38 +84,6 @@ async def get_icon_category(
 
 
 @category_router.get(
-    path="/find/{category_name}",
-    description="""
-    ### Endpoint - Поиск категории по названию.
-    Необходимо передать в ссылке название категории
-    """,
-    summary="Поиск категории",
-    response_model=CategoryIsFinded,
-    status_code=status.HTTP_200_OK,
-)
-async def find_category_by_name(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    category_name: str,
-) -> CategoryIsFinded:
-    """
-    ENDPOINT - Поиск категории
-    :param session:
-    :return:
-    """
-
-    logger.info(
-        msg="Category-Router вызов метода получения"
-        " категории по названию (find_category_by_name)"
-    )
-
-    return await CategoryService.find_category_by_name(
-        engine=session,
-        name_category=category_name,
-        redis_search_data="category_by_name_%s" % category_name,
-    )
-
-
-@category_router.get(
     path="/all",
     description="""
     ### Endpoint - Получение всех категорий.
