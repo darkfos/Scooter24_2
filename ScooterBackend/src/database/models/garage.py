@@ -14,43 +14,39 @@ class Garage(MainBase):
 
     # Идентификатор модели
     id_model: Mapped[int] = mapped_column(
-        ForeignKey("Model.id"), nullable=False
+        ForeignKey("Model.id", ondelete="CASCADE"), nullable=False
     )
 
     # Идентификатор марки
-    id_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id"), nullable=False)
+    id_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id", ondelete="CASCADE"), nullable=False)
 
     # Идентификатор типа транспорта
     id_type_moto: Mapped[int] = mapped_column(
-        ForeignKey("Typemoto.id"), nullable=False
+        ForeignKey("Typemoto.id", ondelete="CASCADE"), nullable=False
     )
 
     # Идентификатор пользователя
-    id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
+    id_user: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="CASCADE"), nullable=False)
 
     user_data: Mapped["User"] = relationship(
         "User",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete",
     )
     mark_data: Mapped["Mark"] = relationship(
         "Mark",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete",
     )
     type_moto_data: Mapped["TypeMoto"] = relationship(
         "TypeMoto",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete",
     )
     model_data: Mapped["Model"] = relationship(
         "Model",
         back_populates="garage_data",
         uselist=False,
-        cascade="all, delete",
     )
 
     def read_model(self) -> dict:

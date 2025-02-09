@@ -31,7 +31,8 @@ class Model(MainBase):
 
     # Данные гаража
     garage_data: Mapped[List["Garage"]] = relationship(
-        "Garage", back_populates="model_data", uselist=True
+        "Garage", back_populates="model_data", uselist=True,
+        cascade="all, delete-orphan"
     )
 
     def __str__(self) -> str:

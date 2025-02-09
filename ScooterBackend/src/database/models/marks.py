@@ -21,7 +21,7 @@ class Mark(MainBase):
         uselist=False,
     )
     model_data: Mapped[List["Model"]] = relationship(
-        "Model", back_populates="mark_data", uselist=True, cascade="all, delete"
+        "Model", back_populates="mark_data", uselist=True, cascade="all, delete-orphan"
     )
 
     # Данные гаража

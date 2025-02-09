@@ -10,6 +10,7 @@ from src.database.models.product import Product
 from src.database.models.category import Category
 from src.database.models.marks import Mark
 from src.database.models.subcategory import SubCategory
+from src.database.models.type_moto import TypeMoto
 
 
 class AdminPanelService:
@@ -35,26 +36,6 @@ class AdminPanelService:
             session: EngineRepository = session
             try:
                 for index, row in file.iterrows():
-                    category_data = id_subcat_1 = None  # Initial data for fk
-
-                    # Find fk in other tables
-                    if str(row["Категория"]) not in (None, "nan"):
-                        category_data: Category = (
-                            await session.category_repository.find_by_name(
-                                category_name=row["Категория"], type_find=True
-                            )
-                        )
-
-                        if not category_data:
-                            create_category = (
-                                await session.category_repository.add_one(
-                                    Category(
-                                        name_category=row.get("Категория"),
-                                        icon_category="icon",
-                                    )
-                                )
-                            )
-                            category_data = create_category
 
                     if str(row["Подкатегория первого уровня"]) not in (
                         None,
@@ -68,6 +49,10 @@ class AdminPanelService:
                             )
                         )
 
+
+                        if id_subcat_1:
+                            id_subcat_1 = id_subcat_1[0].id
+
                         if not id_subcat_1:
                             create_subcat_1 = (
                                 await session.subcategory_repository.add_one(
@@ -75,7 +60,7 @@ class AdminPanelService:
                                         name=row.get(
                                             "Подкатегория первого уровня"
                                         ),
-                                        id_category=category_data,
+                                        id_category=row['Категория'] if pandas.notna(row.get("Категория")) else None,
                                     )
                                 )
                             )
@@ -114,19 +99,31 @@ class AdminPanelService:
                             id_mark=id_mark,
                         )
 
+                    if pandas.notna(row.get("Тип")):
+                        type_moto = await session.type_moto_repository.find_name(row.get("Тип"))
+                        if type_moto:
+                            type_moto = type_moto[0].id
+                        else:
+                            create_type_moto = await session.type_moto_repository.add_one(
+                                data=TypeMoto(
+                                    name_moto_type=row.get("Тип")
+                                )
+                            )
+                            type_moto = create_type_moto
+
                     # replace type of object
                     weight_product = float(
                         str(row["Объемный вес, кг"]).replace("'", "")
                     )
                     quantity_product = int(
                         row["Доступно к продаже по схеме FBS, шт."]
-                    )
+                    ) if str(row["Доступно к продаже по схеме FBS, шт."]).isdigit() else 0
                     price_product = float(
-                        row["Цена до скидки (перечеркнутая цена), ₽"]
+                        row["Цена до скидки (перечеркнутая цена), ₽"] if str(row["Цена до скидки (перечеркнутая цена), ₽"]).isdigit() else 0
                     )
-                    res_to_add = await session.product_repository.add_one(
-                        Product(
-                            article_product=row["Артикул"],
+
+                    new_product = Product(
+                            article_product=row["Артикул"] if pandas.notna(row["Артикул"]) else "Неопределен",
                             title_product=row["Наименование товара"],
                             brand=id_brand,
                             weight_product=weight_product,
@@ -144,14 +141,18 @@ class AdminPanelService:
                             quantity_product=quantity_product,
                             price_product=price_product,
                             product_discount=0,
+                            type_pr=type_moto
                         )
+
+                    res_to_add = await session.product_repository.add_one(
+                        new_product
                     )
 
                     if res_to_add:
 
                         if str(row["Фото"]) not in (None, "nan"):
                             # Add rows in photo table
-                            pass
+                            print(row["Фото"])
 
                         # Создание моделей продукта
                         AdminPanelService.id_product = res_to_add
@@ -161,7 +162,7 @@ class AdminPanelService:
 
                         cnt_to_add += 1
                     cnt_row += 1
-            except KeyError:
+            except KeyError as k:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -212,7 +213,8 @@ class AdminPanelService:
                     if res_to_add:
                         cnt_to_add += 1
                     cnt_row += 1
-            except KeyError:
+            except KeyError as k:
+                print(k, 2)
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -269,7 +271,8 @@ class AdminPanelService:
                 if res_to_add:
                     cnt_to_add += 1
                 cnt_row += 1
-            except KeyError:
+            except KeyError as k:
+                print(k, 3)
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -425,7 +428,8 @@ class AdminPanelService:
                             cnt_to_update += 1
                     cnt_row += 1
 
-            except KeyError:
+            except KeyError as k:
+                print(k, 4)
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )

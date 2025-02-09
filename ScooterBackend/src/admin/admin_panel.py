@@ -105,7 +105,7 @@ class AdminPanel(AdminPanelService):
                 # Decode data file
                 file_data = (await file.read()).decode("UTF-8")
                 file_object = StringIO(file_data)
-                file_data = pandas.read_csv(file_object, comment="#", sep=";")
+                file_data = pandas.read_csv(file_object, comment="#", sep=",")
                 df = pandas.DataFrame(file_data)
 
                 # Session

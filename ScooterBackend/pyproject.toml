@@ -36,6 +36,7 @@ pytest = "^8.3.3"
 trio = "^0.27.0"
 bcrypt = "^4.2.1"
 aiobotocore = "2.13.0"
+selenium = "^4.28.1"
 
 [tool.poetry.dev-dependencies]
 
