@@ -30,6 +30,8 @@ from src.other.image.image_saver import ImageSaver
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.other.s3_service.file_manager import FileS3Manager
 from src.database.models.product_photos import ProductPhotos
+from src.api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
+from src.api.core.mark_app.schemas.mark_dto import ProductMarks
 
 
 # Redis
@@ -201,7 +203,7 @@ class ProductService:
                             article_product=product[0].article_product,
                             title_product=product[0].title_product,
                             brand=product[0].brand,
-                            brand_mark=product[0].brand_mark,
+                            brand_mark=[],
                             models=[],
                             id_sub_category=product[0].id_sub_category,
                             weight_product=product[0].weight_product,
@@ -214,7 +216,7 @@ class ProductService:
                                 0
                             ].date_update_information,
                             product_discount=product[0].product_discount,
-                            type_pr=product[0].type_pr,
+                            type_pr=[],
                             photo=[],
                         )
                         for product in all_products
@@ -248,7 +250,7 @@ class ProductService:
                         article_product=product[0].product_info.article_product,
                         title_product=product[0].product_info.title_product,
                         brand=product[0].product_info.brand,
-                        brand_mark=product[0].product_info.brand_mark,
+                        brand_mark=[mark.read_model() for mark in product[0].product_info.brand_mark],
                         models=[
                             model.read_model()
                             for model in product[
@@ -274,8 +276,8 @@ class ProductService:
                         product_discount=product[
                             0
                         ].product_info.product_discount,
-                        photo=product[0].product_info.photos,
-                        type_pr=product[0].product_info.type_pr,
+                        photo=[photo.read_model() for photo in product[0].product_info.photos],
+                        type_pr=[type_pr.read_model() for type_pr in product[0].product_info.type_pr],
                     )
                 )
 
@@ -339,7 +341,10 @@ class ProductService:
                             article_product=product[0].article_product,
                             title_product=product[0].title_product,
                             brand=product[0].brand,
-                            brand_mark=product[0].brand_mark,
+                            brand_mark=[ProductMarks(
+                                id_product=mark.id_product,
+                                id_mark=mark.id_mark
+                            ) for mark in product[0].brand_mark],
                             models=[],
                             id_sub_category=product[0].id_sub_category,
                             weight_product=product[0].weight_product,
@@ -352,8 +357,14 @@ class ProductService:
                                 0
                             ].date_update_information,
                             product_discount=product[0].product_discount,
-                            photo=[],
-                            type_pr=product[0].type_pr,
+                            photo=[
+                                photo.read_model()
+                                for photo in product[0].photos
+                            ],
+                            type_pr=[ProductTypeModels(
+                                id_product=product.id_product,
+                                id_moto_type=product.id_type_model
+                            ) for product in product[0].type_models],
                         )
                         for product in all_products
                     ]
@@ -776,11 +787,17 @@ class ProductService:
                         ProductBase(
                             id_product=product.id,
                             label_product=product.label_product,
-                            type_pr=product.type_pr,
+                            type_pr=[ProductTypeModels(
+                                id_moto_type=tp.id_type_model,
+                                id_product=tp.id_product
+                            ) for tp in product.type_models],
                             article_product=product.article_product,
                             title_product=product.title_product,
                             brand=product.brand,
-                            brand_mark=product.brand_mark,
+                            brand_mark=[ProductMarks(
+                                id_mark=mark.id_mark,
+                                id_product=mark.id_product
+                            ) for mark in product.brand_mark],
                             models=[
                                 model.read_model()
                                 for model in product.product_models_data

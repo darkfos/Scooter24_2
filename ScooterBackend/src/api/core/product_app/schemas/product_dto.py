@@ -6,20 +6,24 @@ from fastapi import UploadFile
 
 # Other libraries
 from pydantic import BaseModel, Field
+
+from src.api.core.photo_app.dto.photo_dto import PhotoBase
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryBase,
 )
+from src.api.core.mark_app.schemas.mark_dto import ProductMarks
+from src.api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
 
 
 class ProductBase(BaseModel):
 
     id_product: Annotated[Union[int, None], Field()]
     label_product: Annotated[str, None, Field()]
-    type_pr: Annotated[Union[None, str, int], Field()]
+    type_pr: Annotated[List[ProductTypeModels], Field()]
     article_product: Annotated[str, Field(max_length=300)]
     title_product: Annotated[str, Field(max_length=500)]
     brand: int
-    brand_mark: int
+    brand_mark: Annotated[List[ProductMarks], Field()]
     models: Union[List, None] = None
     id_sub_category: Annotated[Union[int, None], Field(default=None)]
     weight_product: Annotated[float, Field(ge=0)]
@@ -35,7 +39,7 @@ class ProductBase(BaseModel):
     ]
     product_discount: Annotated[int, Field(lt=100)]
     photo: Annotated[
-        Union[str, None, List, UploadFile], Field(default=None)
+        List[PhotoBase], Field(default=None)
     ] = None
 
     @classmethod

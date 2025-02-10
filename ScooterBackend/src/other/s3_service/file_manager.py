@@ -1,6 +1,8 @@
+import io
 from contextlib import asynccontextmanager
-
+from aiohttp import ClientSession
 from aiobotocore.session import ClientCreatorContext, AioSession, get_session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 # Local
 from src.settings.engine_settings import Settings
@@ -73,3 +75,39 @@ class FileS3Manager:
             return False
         else:
             return True
+
+    async def upload_file_from_url(
+            self,
+            url_file: str,
+            file_name: str,
+            directory: S3EnumStorage
+    ) -> str:
+        """
+        Загрузка файла из сторонней ссылки
+        :param url_file:
+        :param file_name:
+        :return:
+        """
+
+        try:
+            async with self.get_client_session() as cl_session:
+                # Получаем файл
+                async with ClientSession() as req:
+                    async with req.get(url_file) as ai_req:
+                        file = io.BytesIO(await ai_req.read())
+                        file.seek(0)
+
+                    await cl_session.put_object(
+                        Bucket=self.__bucket_name,
+                        Key=f"{directory}/{file_name}",
+                        Body=file.read(),
+                    )
+
+                return (
+                        Settings.cloud_settings.S3_STORAGE_URL
+                        + f"/{directory}%2F"  # noqa
+                        + file_name  # noqa
+                )  # noqa
+        except Exception as ex:
+            print(ex, "#"*15)
+            return None

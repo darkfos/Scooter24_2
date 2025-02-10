@@ -63,20 +63,43 @@ class ProductRepository(GeneralSQLRepository):
         )
         if isinstance(how_to_find, int):
             stmt = select(Product).where(
-                Product.id_s_sub_category == how_to_find
+                Product.id_sub_category == how_to_find
+            ).options(
+                joinedload(
+                    Product.photos
+                ),
+                joinedload(
+                    Product.brand_mark
+                ),
+                joinedload(
+                    Product.type_models
+                ),
+                joinedload(
+                    Product.product_models_data
+                )
             )
 
-            all_products = (await self.async_session.execute(stmt)).fetchall()
-            return all_products
+            all_products = (await self.async_session.execute(stmt)).unique()
+            return all_products.all()
+
         elif isinstance(how_to_find, str):
             # Поиск товаров
-            stmt = (
-                select(Product)
-                .options(joinedload(Product.sub_category_data))
-                .where(
-                    Product.sub_category_data.has(
-                        SubCategory.name.contains(how_to_find)
-                    )
+            stmt = select(Product).where(
+                Product.sub_category_data.has(
+                    SubCategory.name == how_to_find
+                )
+            ).options(
+                joinedload(
+                    Product.photos
+                ),
+                joinedload(
+                    Product.brand_mark
+                ),
+                joinedload(
+                    Product.type_models
+                ),
+                joinedload(
+                    Product.product_models_data
                 )
             )
             all_products = (await self.async_session.execute(stmt)).fetchall()
@@ -196,6 +219,8 @@ class ProductRepository(GeneralSQLRepository):
             joinedload(Product.product_models_data),
             joinedload(Product.photos),
             joinedload(Product.sub_category_data),
+            joinedload(Product.brand_mark),
+            joinedload(Product.type_models)
         )
 
         if title_product:

@@ -32,7 +32,7 @@ class ProductModelView(ModelView, model=Product):
         Product.photos,
         Product.label_product,
         Product.brand_mark,
-        Product.type_models
+        Product.type_models,
     ]
 
     column_labels: dict = {
@@ -51,11 +51,11 @@ class ProductModelView(ModelView, model=Product):
         Product.date_update_information: "Дата обновления",
         Product.sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
-        Product.photos: "Фотографии",
         Product.label_product: "Метка продукта",
         Product.product_models_data: "Модели продукта",
         Product.brand_mark: "Марки",
         Product.type_models: "Типы мототранспорта",
+        Product.photos: "Фотографии"
     }
 
     # Operation's
@@ -78,7 +78,8 @@ class ProductModelView(ModelView, model=Product):
         "date_create_product",
         "date_update_information",
         "label_product",
-        "type_models"
+        "type_models",
+        "photos"
     ]
 
     form_edit_rules = [
@@ -92,6 +93,7 @@ class ProductModelView(ModelView, model=Product):
         "price_product",
         "sub_category_data",
         "label_product",
+        "photos"
     ]
 
     # Form's for FK

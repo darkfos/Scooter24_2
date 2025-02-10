@@ -1,3 +1,5 @@
+import random
+
 from starlette.responses import Response, RedirectResponse
 from fastapi import status
 from starlette.requests import Request
@@ -10,9 +12,11 @@ from src.database.models.product_models import ProductModels
 from src.database.models.product import Product
 from src.database.models.category import Category
 from src.database.models.marks import Mark
+from src.database.models.product_photos import ProductPhotos
 from src.database.models.product_type_models import ProductTypeModels
 from src.database.models.subcategory import SubCategory
 from src.database.models.type_moto import TypeMoto
+from src.other.s3_service.file_manager import S3EnumStorage, FileS3Manager
 
 
 class AdminPanelService:
@@ -178,9 +182,28 @@ class AdminPanelService:
                                 )
                             )
 
-                        if str(row["Фото"]) not in (None, "nan"):
-                            # Add rows in photo table
-                            print(row["Фото"])
+                        if pandas.notna(row["Фото"]):
+                            row["Фото"] = row["Фото"].replace("[", "")
+                            row["Фото"] = row["Фото"].replace("]", "")
+                            row["Фото"] = row["Фото"].replace("'", "")
+                            photos = row["Фото"].split(", ")
+                            for photo in photos:
+                                filename = photo.split("/")[-2]
+                                # Сохранение фотографии в хранилище
+                                is_saved = await FileS3Manager().upload_file_from_url(
+                                    url_file=photo,
+                                    file_name=filename+"".join([str(random.randint(1, 100)) for _ in range(1, random.randint(5, 30))])+".jpeg",
+                                    directory=S3EnumStorage.PRODUCTS.value
+                                )
+
+                                if is_saved:
+                                    # Сохранение фотографии в таблице
+                                    await session.photos_repository.add_one(
+                                        data=ProductPhotos(
+                                            photo_url=is_saved,
+                                            id_product=res_to_add
+                                        )
+                                    )
 
                         # Создание моделей продукта
                         AdminPanelService.id_product = res_to_add
@@ -242,7 +265,6 @@ class AdminPanelService:
                         cnt_to_add += 1
                     cnt_row += 1
             except KeyError as k:
-                print(k, 2)
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -300,7 +322,6 @@ class AdminPanelService:
                     cnt_to_add += 1
                 cnt_row += 1
             except KeyError as k:
-                print(k, 3)
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )

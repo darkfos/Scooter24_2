@@ -4,6 +4,8 @@ from sqlalchemy import select, update, delete, insert
 from typing import Type
 import logging as logger
 
+from sqlalchemy.orm import joinedload
+
 # Local
 ...
 
@@ -73,7 +75,7 @@ class GeneralSQLRepository:
         logging.info(
             msg=f"{self.model.__class__.__name__} " f"Получение всех записей"
         )
-        stmt = select(self.model)
+        stmt = select(self.model).options()
         all_info = await self.async_session.execute(stmt)
         return all_info.fetchall()
 
