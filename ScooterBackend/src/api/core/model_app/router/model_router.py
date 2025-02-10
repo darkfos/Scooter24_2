@@ -66,6 +66,29 @@ async def get_all_models(
     )
 
 
+@model_router.get(
+    path="/all/by/mark",
+    response_model=AllModelBase,
+    description="""
+    Получение всех моделей по марке
+    """,
+    summary="Все модели по марке",
+    status_code=status.HTTP_200_OK
+)
+async def all_models_by_mark(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        id_mark: int
+) -> AllModelBase:
+    """
+    Получение всех моделей по марке
+    :param engine:
+    :param id_mark:
+    :return:
+    """
+
+    return await ModelService.find_by_mark(engine=engine, id_mark=id_mark)
+
+
 @model_router.delete(
     path="/delete/{id_model}",
     response_model=None,

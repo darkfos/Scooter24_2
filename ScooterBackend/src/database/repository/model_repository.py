@@ -15,3 +15,8 @@ class ModelRepository(GeneralSQLRepository):
         if data_result:
             return data_result[0].id
         return data_result
+
+    async def find_all_by_mark(self, id_mark: int):
+        stmt = select(Model).where(Model.id_mark == id_mark)
+        result = await self.async_session.execute(stmt)
+        return result.all()
