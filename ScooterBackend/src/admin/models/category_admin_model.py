@@ -33,4 +33,4 @@ class CategoryModelView(ModelView, model=Category):
     form_create_rules = ["name_category", "icon_category"]
     form_edit_rules = form_create_rules.copy()
     column_sortable_list = [Category.name_category]
-    form_columns: list = [Category.id, Category.name_category]
+    form_columns: list = [Category.id, Category.name_category, Category.icon_category]

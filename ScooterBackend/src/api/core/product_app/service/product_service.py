@@ -251,7 +251,10 @@ class ProductService:
                         title_product=product[0].product_info.title_product,
                         brand=product[0].product_info.brand,
                         brand_mark=[
-                            mark.read_model()
+                            ProductMarks(
+                                id_product=mark.id_product,
+                                id_mark=mark.id_mark
+                            )
                             for mark in product[0].product_info.brand_mark
                         ],
                         models=[
@@ -284,8 +287,11 @@ class ProductService:
                             for photo in product[0].product_info.photos
                         ],
                         type_pr=[
-                            type_pr.read_model()
-                            for type_pr in product[0].product_info.type_pr
+                            ProductTypeModels(
+                                id_product=type_pr.id_product,
+                                id_moto_type=type_pr.id_type_models
+                            )
+                            for type_pr in product[0].product_info.type_models
                         ],
                     )
                 )
@@ -309,6 +315,60 @@ class ProductService:
             )
             return ListProductBase(
                 products=[product[0].read_model() for product in req]
+            )
+
+
+    @staticmethod
+    async def search_products(
+            engine: IEngineRepository,
+            id_mark: str = None,
+            id_model: str = None
+    ) -> ListProductBase:
+
+        async with engine:
+            products = await engine.product_repository.search(id_mark=id_mark, id_model=id_model)
+
+            return ListProductBase(
+                products=[
+                    ProductBase(
+                        id_product=product[0].id,
+                        label_product=product[0].label_product,
+                        article_product=product[0].article_product,
+                        title_product=product[0].title_product,
+                        brand=product[0].brand,
+                        brand_mark=[
+                            ProductMarks(
+                                id_product=mark.id_product,
+                                id_mark=mark.id_mark,
+                            )
+                            for mark in product[0].brand_mark
+                        ],
+                        models=[],
+                        id_sub_category=product[0].id_sub_category,
+                        weight_product=product[0].weight_product,
+                        is_recommended=product[0].is_recommended,
+                        explanation_product=product[0].explanation_product,
+                        quantity_product=product[0].quantity_product,
+                        price_product=product[0].price_product,
+                        date_create_product=product[0].date_create_product,
+                        date_update_information=product[
+                            0
+                        ].date_update_information,
+                        product_discount=product[0].product_discount,
+                        photo=[
+                            photo.read_model()
+                            for photo in product[0].photos
+                        ],
+                        type_pr=[
+                            ProductTypeModels(
+                                id_product=product.id_product,
+                                id_moto_type=product.id_type_model,
+                            )
+                            for product in product[0].type_models
+                        ],
+                    )
+                    for product in products
+                ]
             )
 
     @redis
@@ -403,9 +463,11 @@ class ProductService:
             f"Поиск продукта по id={id_product}"
         )
         async with engine:
+            print(id_product)
             product_data = await engine.product_repository.find_one(
                 other_id=id_product
             )
+
 
             if product_data:
                 return ProductBase(
@@ -414,7 +476,7 @@ class ProductService:
                     article_product=product_data[0].article_product,
                     title_product=product_data[0].title_product,
                     brand=product_data[0].brand,
-                    brand_mark=product_data[0].brand_mark,
+                    brand_mark=[],
                     models=[],
                     id_sub_category=product_data[0].id_sub_category,
                     weight_product=product_data[0].weight_product,
@@ -428,7 +490,7 @@ class ProductService:
                     ].date_update_information,
                     product_discount=product_data[0].product_discount,
                     photo=[],
-                    type_pr=product_data[0].type_pr,
+                    type_pr=[],
                 )
 
             logging.critical(
@@ -503,6 +565,7 @@ class ProductService:
         logging.info(
             msg=f"{ProductService.__name__} " f"Проверка существования продукта"
         )
+
         async with engine:
             product_is_created = (
                 await engine.product_repository.find_product_by_name(
@@ -550,7 +613,10 @@ class ProductService:
                     article_product=product_data[0].article_product,
                     title_product=product_data[0].title_product,
                     brand=product_data[0].brand,
-                    brand_mark=product_data[0].brand_mark,
+                    brand_mark=[ProductMarks(
+                        id_product=mark.id_product,
+                        id_mark=mark.id_mark
+                    ) for mark in product_data[0].brand_mark],
                     models=[
                         model.read_model()
                         for model in product_data[0].product_models_data
@@ -569,7 +635,10 @@ class ProductService:
                     photo=[
                         photo.read_model() for photo in product_data[0].photos
                     ],
-                    type_pr=product_data[0].type_pr,
+                    type_pr=[ProductTypeModels(
+                        id_product=tp.id_product,
+                        id_moto_type=tp.id_type_model
+                    ) for tp in product_data[0].type_models],
                     reviews=[
                         review_p.read_model()
                         for review_p in product_data[0].reviews

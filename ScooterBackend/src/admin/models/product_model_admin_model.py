@@ -33,19 +33,22 @@ class ProductModelsModelView(ModelView, model=ProductModels):
     can_export: bool = True
     can_view_details: bool = True
 
+    form_create_rules = ["model_data", "product_data"]
+    form_edit_rules = ["model_data", "product_data"]
+
     form_ajax_refs: Dict[str, dict] = {
         "model_data": {
             "fields": (
                 "id",
                 "name_model",
             ),
-            "order_by": ("id", "name_model"),
+            "order_by": ("name_model"),
         },
         "product_data": {
             "fields": (
                 "id",
                 "title_product",
             ),
-            "order_by": ("id", "title_product"),
+            "order_by": ("title_product")
         },
     }

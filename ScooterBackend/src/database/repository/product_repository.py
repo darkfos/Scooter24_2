@@ -12,6 +12,7 @@ from src.database.models.model import Model
 
 # Local
 from src.database.models.product import Product
+from src.database.models.product_marks import ProductMarks
 from src.database.models.product_models import ProductModels
 from src.database.models.subcategory import SubCategory
 from src.database.repository.general_repository import GeneralSQLRepository
@@ -112,8 +113,8 @@ class ProductRepository(GeneralSQLRepository):
             f"Поиск продукта по"
             f" названию name_product={name_product}"
         )
-        stmt = select(Product).where(Product.title_product == name_product)
-        product_data = (await self.async_session.execute(stmt)).one_or_none()
+        stmt = select(Product).where(Product.title_product.contains(name_product))
+        product_data = (await self.async_session.execute(stmt)).all()
 
         return product_data
 
@@ -139,6 +140,8 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.sub_category_data),
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
+                joinedload(Product.brand_mark),
+                joinedload(Product.type_models)
             )
         )
         product_data = (
@@ -292,3 +295,29 @@ class ProductRepository(GeneralSQLRepository):
         )
         products = (await self.async_session.execute(stmt)).unique().all()
         return products
+
+
+    async def search(self, id_mark: int | None, id_model: int | None):
+        """
+        Получение всех товаров по марке - модели
+        :param id_mark:
+        :param id_model:
+        :return:
+        """
+
+        stmt = select(Product).options(
+            joinedload(Product.photos),
+            joinedload(Product.type_models),
+            joinedload(Product.brand_mark),
+            joinedload(Product.product_models_data),
+        )
+
+        if id_model:
+            stmt = stmt.filter(Product.product_models_data.any(ProductModels.id_model == id_model))
+
+        if id_mark:
+            stmt = stmt.filter(Product.brand_mark.any(ProductMarks.id_mark == id_mark))
+
+        result = await self.async_session.execute(stmt)
+
+        return result.unique().all()

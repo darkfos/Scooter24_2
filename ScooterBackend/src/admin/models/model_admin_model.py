@@ -26,7 +26,8 @@ class ModelModelView(ModelView, model=Model):
         Model.mark_data: "Данные марки",
     }
 
-    form_create_rules = {"name_model"}
+    form_create_rules: List[str] = ["name_model", "mark_data"]
+    form_edit_rules: List[str] = form_create_rules.copy()
 
     # Operation's
     can_create: bool = True

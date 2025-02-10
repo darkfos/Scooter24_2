@@ -393,6 +393,30 @@ async def recommended_products(
 
 
 @product_router.get(
+    path="/all/search",
+    description="""
+    Поиск всех товаров по марке и модели
+    """,
+    summary="Поиск товаров",
+    response_model=ListProductBase,
+    status_code=status.HTTP_200_OK
+)
+async def search_products(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        mark: int = None,
+        model: int = None
+) -> ListProductBase:
+    """
+    Поиск товаров по марке и модели
+    :param engine:
+    :param mark:
+    :param model:
+    :return:
+    """
+
+    return await ProductService.search_products(engine=engine, id_mark=mark, id_model=model)
+
+@product_router.get(
     path="/new",
     description="""
     ### Endpoint - Получение новых продуктов.
