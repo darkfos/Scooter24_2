@@ -15,7 +15,7 @@ class ProductMarks(MainBase):
 
     # Связи
     product_data: Mapped["Product"] = relationship(
-        "Product", back_populates="mark_data", uselist=False
+        "Product", back_populates="brand_mark", uselist=False
     )
 
     mark_data: Mapped["Mark"] = relationship(

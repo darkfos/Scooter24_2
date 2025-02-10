@@ -45,7 +45,6 @@ class GeneralSQLRepository:
                 )
                 raise Exception
         except Exception as ex:
-            print(ex, 38239)
             await self.async_session.rollback()
             return False
 

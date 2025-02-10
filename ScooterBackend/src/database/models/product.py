@@ -118,11 +118,6 @@ class Product(MainBase):
         uselist=False,
     )
 
-    # Марка
-    mark_data: Mapped["Mark"] = relationship(
-        "Mark", back_populates="product_data", uselist=False
-    )
-
     # Модели продукта
     product_models_data: Mapped[List["ProductModels"]] = relationship(
         "ProductModels",

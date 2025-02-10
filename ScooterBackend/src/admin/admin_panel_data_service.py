@@ -5,6 +5,7 @@ import pandas
 from src.api.dep.dependencies import EngineRepository
 from src.database.models.brand import Brand
 from src.database.models.model import Model
+from src.database.models.product_marks import ProductMarks
 from src.database.models.product_models import ProductModels
 from src.database.models.product import Product
 from src.database.models.category import Category
@@ -81,16 +82,22 @@ class AdminPanelService:
 
                     # Создание марок, моделей, бренда
                     if str(row.get("Марка")) not in (None, "nan"):
-                        id_mark = await session.mark_repository.find_by_name(
-                            name_mark=row.get("Марка")
-                        )
+                        all_marks: list[int] = []
+                        marks = row.get("Марка").split(", ")
 
-                        if not id_mark:
-                            create_mark = await session.mark_repository.add_one(
-                                data=Mark(name_mark=row.get("Марка"))
+                        for mark in marks:
+                            id_mark = await session.mark_repository.find_by_name(
+                                name_mark=mark
                             )
 
-                            id_mark = create_mark
+                            if not id_mark:
+                                create_mark = await session.mark_repository.add_one(
+                                    data=Mark(name_mark=mark)
+                                )
+
+                                id_mark = create_mark
+
+                            all_marks.append(id_mark)
 
                     if str(row.get("Модель")) not in (None, "nan"):
                         await AdminPanelService.add_new_model(
@@ -137,7 +144,6 @@ class AdminPanelService:
                                 if str(row["Описание"]) not in (None, "nan")
                                 else "Неопределен"
                             ),
-                            brand_mark=id_mark,
                             quantity_product=quantity_product,
                             price_product=price_product,
                             product_discount=0,
@@ -149,6 +155,16 @@ class AdminPanelService:
                     )
 
                     if res_to_add:
+
+                        print(res_to_add, 23213)
+                        # Добавление марок к продукту
+                        for mark in all_marks:
+                            session.product_marks_repository.add_one(
+                                data=ProductMarks(
+                                    id_mark=mark,
+                                    id_product=res_to_add
+                                )
+                            )
 
                         if str(row["Фото"]) not in (None, "nan"):
                             # Add rows in photo table

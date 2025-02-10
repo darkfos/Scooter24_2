@@ -25,22 +25,21 @@ class ProductModelView(ModelView, model=Product):
         Product.date_update_information,
         Product.sub_category_data,
         Product.brand_data,
-        Product.mark_data,
         Product.product_models_data,
         Product.order,
         Product.reviews,
         Product.product_info_for_fav,
         Product.photos,
         Product.label_product,
+        Product.brand_mark
     ]
 
     column_labels: dict = {
         Product.id: "Идентификатор продукта",
         Product.id_sub_category: "Идентификатор подкатегории",
         Product.brand: "Бренд",
-        Product.brand_mark: "Марка",
+        Product.brand_mark: "Марки",
         Product.brand_data: "Данные бренда",
-        Product.mark_data: "Данные марки",
         Product.title_product: "Заголовок",
         Product.article_product: "Артикл",
         Product.explanation_product: "Описание",
@@ -54,6 +53,8 @@ class ProductModelView(ModelView, model=Product):
         Product.product_info_for_fav: "Избранные",
         Product.photos: "Фотографии",
         Product.label_product: "Метка продукта",
+        Product.product_models_data: "Модели продукта",
+        Product.brand_mark: "Марки продукта"
     }
 
     # Operation's
@@ -66,7 +67,6 @@ class ProductModelView(ModelView, model=Product):
     form_create_rules: list = [
         "sub_category_data",
         "brand_data",
-        "mark_data",
         "title_product",
         "article_product",
         "explanation_product",
@@ -81,7 +81,6 @@ class ProductModelView(ModelView, model=Product):
 
     form_edit_rules = [
         "brand_data",
-        "mark_data",
         "title_product",
         "article_product",
         "explanation_product",
@@ -99,7 +98,7 @@ class ProductModelView(ModelView, model=Product):
             "fields": ("id", "name_brand"),
             "order_by": "name_brand",
         },
-        "mark_data": {"fields": ("id", "name_mark"), "order_by": "name_mark"},
+        "brand_mark": {"fields": ("id", "id_product"), "order_by": ("id", "id_product")},
         "reviews": {
             "fields": (
                 "id",
