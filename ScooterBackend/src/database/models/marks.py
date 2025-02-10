@@ -20,8 +20,14 @@ class Mark(MainBase):
         back_populates="mark_data",
         uselist=False,
     )
+
     model_data: Mapped[List["Model"]] = relationship(
         "Model", back_populates="mark_data", uselist=True, cascade="all, delete-orphan"
+    )
+
+    product_marks_data: Mapped["ProductMarks"] = relationship(
+        "ProductMarks", back_populates="mark_data", uselist=True,
+        cascade="all, delete-orphan"
     )
 
     # Данные гаража

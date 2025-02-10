@@ -36,11 +36,6 @@ class Product(MainBase):
         nullable=True,
     )
 
-    # Марка
-    brand_mark: Mapped[int] = mapped_column(
-        ForeignKey("Mark.id", ondelete="SET NULL"), type_=Integer, nullable=True
-    )
-
     # Объемный вес продукта
     weight_product: Mapped[float] = mapped_column(
         type_=Double, nullable=True, default=0.0
@@ -141,6 +136,12 @@ class Product(MainBase):
         "SubCategory",
         back_populates="product_data",
         uselist=False,
+    )
+
+    # Марка
+    brand_mark: Mapped[List["ProductMarks"]] = relationship(
+        "ProductMarks", back_populates="product_data",
+        uselist=True, cascade="all, delete-orphan"
     )
 
     # Фотографии продукта

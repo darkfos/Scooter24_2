@@ -30,6 +30,7 @@ from src.database.repository.garage_repository import GarageRepository
 from src.database.repository.vacancy_req_repository import (
     VacanciesReqRepository,
 )  # noqa
+from src.database.repository.product_marks_repository import ProductMarksRepository
 from src.database.db_worker import db_work
 
 
@@ -53,6 +54,7 @@ class IEngineRepository(ABC):
     type_moto_repository: Type[TypeMotoRepository]
     garage_repository: Type[GarageRepository]
     vacancies_req_repository: Type[VacanciesReqRepository]
+    product_marks_repository: Type[ProductMarksRepository]
 
     @abstractmethod
     def __init__(self):
@@ -142,6 +144,9 @@ class EngineRepository(IEngineRepository):
         )
         self.vacancies_req_repository: VacanciesReqRepository = (
             VacanciesReqRepository(session=self.session)
+        )
+        self.product_marks_repository: ProductMarksRepository = ProductMarksRepository(
+            session=self.session
         )
 
         return self
