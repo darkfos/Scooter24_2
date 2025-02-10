@@ -156,10 +156,9 @@ class AdminPanelService:
 
                     if res_to_add:
 
-                        print(res_to_add, 23213)
                         # Добавление марок к продукту
                         for mark in all_marks:
-                            session.product_marks_repository.add_one(
+                            await session.product_marks_repository.add_one(
                                 data=ProductMarks(
                                     id_mark=mark,
                                     id_product=res_to_add

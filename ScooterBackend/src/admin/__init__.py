@@ -16,6 +16,8 @@ from src.admin.models.model_admin_model import ModelModelView
 from src.admin.models.product_model_admin_model import ProductModelsModelView
 from src.admin.models.product_photos_admin_model import ProductPhotosAdminModel
 from src.admin.models.user_type_admin_model import UserTypeAdminModel
+from src.admin.models.product_marks_admin_model import ProductMarksAdminModel
+from src.admin.models.garage_admin_model import GarageAdminModel
 
 
 all_models: List = [
@@ -34,4 +36,6 @@ all_models: List = [
     ProductModelsModelView,
     UserTypeAdminModel,
     ProductPhotosAdminModel,
+    ProductMarksAdminModel,
+    GarageAdminModel
 ]
