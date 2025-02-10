@@ -10,6 +10,7 @@ from src.database.models.product_models import ProductModels
 from src.database.models.product import Product
 from src.database.models.category import Category
 from src.database.models.marks import Mark
+from src.database.models.product_type_models import ProductTypeModels
 from src.database.models.subcategory import SubCategory
 from src.database.models.type_moto import TypeMoto
 
@@ -38,15 +39,12 @@ class AdminPanelService:
             try:
                 for index, row in file.iterrows():
 
-                    if str(row["Подкатегория первого уровня"]) not in (
-                        None,
-                        "nan",
-                    ):
+                    if pandas.notna(row["Подкатегория первого уровня"]):
                         id_subcat_1: SubCategory = (
                             await session.subcategory_repository.find_by_name(
-                                name_subcategory=row[
+                                name_subcategory=str(row[
                                     "Подкатегория первого уровня"
-                                ]
+                                ]).strip()
                             )
                         )
 
@@ -60,7 +58,7 @@ class AdminPanelService:
                                     SubCategory(
                                         name=row.get(
                                             "Подкатегория первого уровня"
-                                        ),
+                                        ).strip(),
                                         id_category=row['Категория'] if pandas.notna(row.get("Категория")) else None,
                                     )
                                 )
@@ -69,7 +67,7 @@ class AdminPanelService:
 
                     if str(row.get("Бренд")) not in (None, "nan"):
                         id_brand = await session.brand_repository.find_by_name(
-                            name_brand_to_find=row.get("Бренд"),
+                            name_brand_to_find=str(row.get("Бренд")).strip(),
                         )
 
                         if not id_brand:
@@ -107,26 +105,33 @@ class AdminPanelService:
                         )
 
                     if pandas.notna(row.get("Тип")):
-                        type_moto = await session.type_moto_repository.find_name(row.get("Тип"))
-                        if type_moto:
-                            type_moto = type_moto[0].id
-                        else:
-                            create_type_moto = await session.type_moto_repository.add_one(
-                                data=TypeMoto(
-                                    name_moto_type=row.get("Тип")
+                        all_type_motos: list[int] = []
+                        type_motos = str(row.get("Тип")).split(", ")
+
+                        for tp_moto in type_motos:
+                            type_moto = await session.type_moto_repository.find_name(tp_moto)
+
+                            if type_moto:
+                                type_moto = type_moto[0].id
+                                all_type_motos.append(type_moto)
+                            else:
+                                create_type_moto = await session.type_moto_repository.add_one(
+                                    data=TypeMoto(
+                                        name_moto_type=tp_moto
+                                    )
                                 )
-                            )
-                            type_moto = create_type_moto
+
+                                all_type_motos.append(create_type_moto)
 
                     # replace type of object
                     weight_product = float(
-                        str(row["Объемный вес, кг"]).replace("'", "")
-                    )
+                        row["Объемный вес, кг"]
+                    ) if pandas.notna(row["Объемный вес, кг"]) else 0
                     quantity_product = int(
                         row["Доступно к продаже по схеме FBS, шт."]
-                    ) if str(row["Доступно к продаже по схеме FBS, шт."]).isdigit() else 0
+                    ) if pandas.notna(row["Доступно к продаже по схеме FBS, шт."]) else 0
                     price_product = float(
-                        row["Цена до скидки (перечеркнутая цена), ₽"] if str(row["Цена до скидки (перечеркнутая цена), ₽"]).isdigit() else 0
+                        row["Цена до скидки (перечеркнутая цена), ₽"] if pandas.notna(row["Цена до скидки (перечеркнутая цена), ₽"]) else 0
                     )
 
                     new_product = Product(
@@ -142,12 +147,11 @@ class AdminPanelService:
                             explanation_product=(
                                 row["Описание"]
                                 if str(row["Описание"]) not in (None, "nan")
-                                else "Неопределен"
+                                else "Неопределено"
                             ),
                             quantity_product=quantity_product,
                             price_product=price_product,
                             product_discount=0,
-                            type_pr=type_moto
                         )
 
                     res_to_add = await session.product_repository.add_one(
@@ -161,6 +165,15 @@ class AdminPanelService:
                             await session.product_marks_repository.add_one(
                                 data=ProductMarks(
                                     id_mark=mark,
+                                    id_product=res_to_add
+                                )
+                            )
+
+                        # Добавление типа транспорта к продукту
+                        for tp_mt in all_type_motos:
+                            await session.product_type_models_repository.add_one(
+                                data=ProductTypeModels(
+                                    id_type_model=tp_mt,
                                     id_product=res_to_add
                                 )
                             )

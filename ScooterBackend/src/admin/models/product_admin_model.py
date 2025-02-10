@@ -31,14 +31,14 @@ class ProductModelView(ModelView, model=Product):
         Product.product_info_for_fav,
         Product.photos,
         Product.label_product,
-        Product.brand_mark
+        Product.brand_mark,
+        Product.type_models
     ]
 
     column_labels: dict = {
         Product.id: "Идентификатор продукта",
         Product.id_sub_category: "Идентификатор подкатегории",
         Product.brand: "Бренд",
-        Product.brand_mark: "Марки",
         Product.brand_data: "Данные бренда",
         Product.title_product: "Заголовок",
         Product.article_product: "Артикл",
@@ -54,7 +54,8 @@ class ProductModelView(ModelView, model=Product):
         Product.photos: "Фотографии",
         Product.label_product: "Метка продукта",
         Product.product_models_data: "Модели продукта",
-        Product.brand_mark: "Марки продукта"
+        Product.brand_mark: "Марки",
+        Product.type_models: "Типы мототранспорта",
     }
 
     # Operation's
@@ -77,6 +78,7 @@ class ProductModelView(ModelView, model=Product):
         "date_create_product",
         "date_update_information",
         "label_product",
+        "type_models"
     ]
 
     form_edit_rules = [
@@ -119,4 +121,5 @@ class ProductModelView(ModelView, model=Product):
         "sub_category_data": {"fields": ("id", "name"), "order_by": ("id")},
         "product_models_data": {"fields": ("id",), "order_by": ("id")},
         "photos": {"fields": ("id", "photo_url"), "order_by": ("id")},
+        "type_models": {"fields": ("id", "id_type_model"), "order_by": ("id")}
     }

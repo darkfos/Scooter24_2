@@ -15,8 +15,8 @@ class TypeMoto(MainBase):
     )
 
     # Данные продуктов
-    product_data: Mapped[List["Product"]] = relationship(
-        "Product", back_populates="type_moto_data", uselist=True
+    product_type_models: Mapped[List["ProductTypeModels"]] = relationship(
+        "ProductTypeModels", back_populates="type_models_data", uselist=True, cascade="all, delete-orphan"
     )
 
     # Данные гаража

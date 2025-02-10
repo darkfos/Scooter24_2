@@ -46,13 +46,6 @@ class Product(MainBase):
         type_=Boolean, nullable=True, default=False
     )
 
-    # Тип транспорта
-    type_pr: Mapped[int] = mapped_column(
-        ForeignKey("Typemoto.id", ondelete="SET NULL"),
-        nullable=True,
-        index=True,
-    )
-
     # Подкатегория
     id_sub_category: Mapped[int] = mapped_column(
         ForeignKey("Subcategory.id", ondelete="SET NULL"),
@@ -148,8 +141,8 @@ class Product(MainBase):
     )
 
     # Данные типа транспорта
-    type_moto_data: Mapped["TypeMoto"] = relationship(
-        "TypeMoto", back_populates="product_data", uselist=False
+    type_models: Mapped[List["ProductTypeModels"]] = relationship(
+        "ProductTypeModels", back_populates="product_data", uselist=True, cascade="all, delete-orphan"
     )
 
     def read_model(self) -> Dict[str, str]:

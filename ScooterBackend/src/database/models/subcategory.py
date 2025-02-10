@@ -9,10 +9,12 @@ class SubCategory(MainBase):
     name: Mapped[str] = mapped_column(
         type_=String(length=225), nullable=False, unique=True
     )
+
     id_category: Mapped[int] = mapped_column(
         ForeignKey("Category.id", ondelete="CASCADE"),
         type_=Integer,
         nullable=True,
+        unique=False
     )
 
     # Связи
