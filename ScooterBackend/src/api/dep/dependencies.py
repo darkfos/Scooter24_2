@@ -30,8 +30,12 @@ from src.database.repository.garage_repository import GarageRepository
 from src.database.repository.vacancy_req_repository import (
     VacanciesReqRepository,
 )  # noqa
-from src.database.repository.product_marks_repository import ProductMarksRepository
-from src.database.repository.product_type_models_repository import ProductTypeModelsRepository
+from src.database.repository.product_marks_repository import (
+    ProductMarksRepository,
+)
+from src.database.repository.product_type_models_repository import (
+    ProductTypeModelsRepository,
+)
 from src.database.db_worker import db_work
 
 
@@ -147,11 +151,11 @@ class EngineRepository(IEngineRepository):
         self.vacancies_req_repository: VacanciesReqRepository = (
             VacanciesReqRepository(session=self.session)
         )
-        self.product_marks_repository: ProductMarksRepository = ProductMarksRepository(
-            session=self.session
+        self.product_marks_repository: ProductMarksRepository = (
+            ProductMarksRepository(session=self.session)
         )
-        self.product_type_models_repository: ProductTypeModelsRepository = ProductTypeModelsRepository(
-            session=self.session
+        self.product_type_models_repository: ProductTypeModelsRepository = (
+            ProductTypeModelsRepository(session=self.session)
         )
 
         return self

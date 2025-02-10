@@ -14,14 +14,14 @@ class TypeMotoAdminModel(ModelView, model=TypeMoto):
         TypeMoto.id,
         TypeMoto.name_moto_type,
         TypeMoto.product_type_models,
-        TypeMoto.garage_data
+        TypeMoto.garage_data,
     ]
 
     column_labels: dict = {
         TypeMoto.id: "Идентификатор",
         TypeMoto.name_moto_type: "Название",
         TypeMoto.product_type_models: "Товары",
-        TypeMoto.garage_data: "Гараж"
+        TypeMoto.garage_data: "Гараж",
     }
 
     # Operation's
@@ -44,5 +44,8 @@ class TypeMotoAdminModel(ModelView, model=TypeMoto):
             "fields": ("id", "id_product"),
             "order_by": ("id", "id_product"),
         },
-        "garage_data": {"fields": ("id", "id_mark", "id_model"), "order_by": ("id", "id_mark")}
+        "garage_data": {
+            "fields": ("id", "id_mark", "id_model"),
+            "order_by": ("id", "id_mark"),
+        },
     }

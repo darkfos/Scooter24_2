@@ -6,7 +6,9 @@ from sqlalchemy import Integer, ForeignKey
 class ProductMarks(MainBase):
 
     id_product: Mapped[int] = mapped_column(
-        ForeignKey("Product.id", ondelete="CASCADE"), type_=Integer, nullable=False,
+        ForeignKey("Product.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
 
     id_mark: Mapped[int] = mapped_column(
@@ -23,18 +25,12 @@ class ProductMarks(MainBase):
     )
 
     def read_model(self):
-        return {
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_")
-        }
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
 
     def __str__(self):
-        return str({
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_")
-        })
+        return str(
+            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        )
 
     def __repr__(self):
         return self.__str__()

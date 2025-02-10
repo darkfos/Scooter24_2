@@ -17,7 +17,9 @@ from src.admin.models.product_model_admin_model import ProductModelsModelView
 from src.admin.models.user_type_admin_model import UserTypeAdminModel
 from src.admin.models.product_marks_admin_model import ProductMarksAdminModel
 from src.admin.models.garage_admin_model import GarageAdminModel
-from src.admin.models.product_type_model_admin_model import ProductTypeModelAdminModel
+from src.admin.models.product_type_model_admin_model import (
+    ProductTypeModelAdminModel,
+)
 from src.admin.models.type_models_admin_model import TypeMotoAdminModel
 from src.admin.models.product_photos_admin_model import ProductPhotosAdminModel
 
@@ -42,5 +44,5 @@ all_models: List = [
     GarageAdminModel,
     ProductTypeModelAdminModel,
     TypeMotoAdminModel,
-    ProductPhotosAdminModel
+    ProductPhotosAdminModel,
 ]

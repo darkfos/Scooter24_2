@@ -18,7 +18,9 @@ class Garage(MainBase):
     )
 
     # Идентификатор марки
-    id_mark: Mapped[int] = mapped_column(ForeignKey("Mark.id", ondelete="CASCADE"), nullable=False)
+    id_mark: Mapped[int] = mapped_column(
+        ForeignKey("Mark.id", ondelete="CASCADE"), nullable=False
+    )
 
     # Идентификатор типа транспорта
     id_type_moto: Mapped[int] = mapped_column(
@@ -26,7 +28,9 @@ class Garage(MainBase):
     )
 
     # Идентификатор пользователя
-    id_user: Mapped[int] = mapped_column(ForeignKey("User.id", ondelete="CASCADE"), nullable=False)
+    id_user: Mapped[int] = mapped_column(
+        ForeignKey("User.id", ondelete="CASCADE"), nullable=False
+    )
 
     user_data: Mapped["User"] = relationship(
         "User",

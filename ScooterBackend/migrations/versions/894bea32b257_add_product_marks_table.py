@@ -30,9 +30,7 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    op.drop_constraint(
-        "Garage_id_type_moto_fkey", "Garage", type_="foreignkey"
-    )
+    op.drop_constraint("Garage_id_type_moto_fkey", "Garage", type_="foreignkey")
     op.create_foreign_key(
         None,
         "Garage",
@@ -41,9 +39,7 @@ def upgrade():
         ["id"],
         ondelete="CASCADE",
     )
-    op.drop_constraint(
-        "Product_brand_mark_fkey", "Product", type_="foreignkey"
-    )
+    op.drop_constraint("Product_brand_mark_fkey", "Product", type_="foreignkey")
     op.drop_column("Product", "brand_mark")
     # ### end Alembic commands ###
 

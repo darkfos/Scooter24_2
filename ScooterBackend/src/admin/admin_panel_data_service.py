@@ -46,12 +46,11 @@ class AdminPanelService:
                     if pandas.notna(row["Подкатегория первого уровня"]):
                         id_subcat_1: SubCategory = (
                             await session.subcategory_repository.find_by_name(
-                                name_subcategory=str(row[
-                                    "Подкатегория первого уровня"
-                                ]).strip()
+                                name_subcategory=str(
+                                    row["Подкатегория первого уровня"]
+                                ).strip()
                             )
                         )
-
 
                         if id_subcat_1:
                             id_subcat_1 = id_subcat_1[0].id
@@ -63,7 +62,13 @@ class AdminPanelService:
                                         name=row.get(
                                             "Подкатегория первого уровня"
                                         ).strip(),
-                                        id_category=row['Категория'] if pandas.notna(row.get("Категория")) else None,
+                                        id_category=(
+                                            row["Категория"]
+                                            if pandas.notna(
+                                                row.get("Категория")
+                                            )
+                                            else None
+                                        ),
                                     )
                                 )
                             )
@@ -88,13 +93,17 @@ class AdminPanelService:
                         marks = row.get("Марка").split(", ")
 
                         for mark in marks:
-                            id_mark = await session.mark_repository.find_by_name(
-                                name_mark=mark
+                            id_mark = (
+                                await session.mark_repository.find_by_name(
+                                    name_mark=mark
+                                )
                             )
 
                             if not id_mark:
-                                create_mark = await session.mark_repository.add_one(
-                                    data=Mark(name_mark=mark)
+                                create_mark = (
+                                    await session.mark_repository.add_one(
+                                        data=Mark(name_mark=mark)
+                                    )
                                 )
 
                                 id_mark = create_mark
@@ -113,50 +122,68 @@ class AdminPanelService:
                         type_motos = str(row.get("Тип")).split(", ")
 
                         for tp_moto in type_motos:
-                            type_moto = await session.type_moto_repository.find_name(tp_moto)
+                            type_moto = (
+                                await session.type_moto_repository.find_name(
+                                    tp_moto
+                                )
+                            )
 
                             if type_moto:
                                 type_moto = type_moto[0].id
                                 all_type_motos.append(type_moto)
                             else:
-                                create_type_moto = await session.type_moto_repository.add_one(
-                                    data=TypeMoto(
-                                        name_moto_type=tp_moto
+                                create_type_moto = (
+                                    await session.type_moto_repository.add_one(
+                                        data=TypeMoto(name_moto_type=tp_moto)
                                     )
                                 )
 
                                 all_type_motos.append(create_type_moto)
 
                     # replace type of object
-                    weight_product = float(
-                        row["Объемный вес, кг"]
-                    ) if pandas.notna(row["Объемный вес, кг"]) else 0
-                    quantity_product = int(
-                        row["Доступно к продаже по схеме FBS, шт."]
-                    ) if pandas.notna(row["Доступно к продаже по схеме FBS, шт."]) else 0
+                    weight_product = (
+                        float(row["Объемный вес, кг"])
+                        if pandas.notna(row["Объемный вес, кг"])
+                        else 0
+                    )
+                    quantity_product = (
+                        int(row["Доступно к продаже по схеме FBS, шт."])
+                        if pandas.notna(
+                            row["Доступно к продаже по схеме FBS, шт."]
+                        )
+                        else 0
+                    )
                     price_product = float(
-                        row["Цена до скидки (перечеркнутая цена), ₽"] if pandas.notna(row["Цена до скидки (перечеркнутая цена), ₽"]) else 0
+                        row["Цена до скидки (перечеркнутая цена), ₽"]
+                        if pandas.notna(
+                            row["Цена до скидки (перечеркнутая цена), ₽"]
+                        )
+                        else 0
                     )
 
                     new_product = Product(
-                            article_product=row["Артикул"] if pandas.notna(row["Артикул"]) else "Неопределен",
-                            title_product=row["Наименование товара"],
-                            brand=id_brand,
-                            weight_product=weight_product,
-                            id_sub_category=(
-                                id_subcat_1[0].id
-                                if isinstance(id_subcat_1, dict)
-                                else id_subcat_1
-                            ),  # Noqa
-                            explanation_product=(
-                                row["Описание"]
-                                if str(row["Описание"]) not in (None, "nan")
-                                else "Неопределено"
-                            ),
-                            quantity_product=quantity_product,
-                            price_product=price_product,
-                            product_discount=0,
-                        )
+                        article_product=(
+                            row["Артикул"]
+                            if pandas.notna(row["Артикул"])
+                            else "Неопределен"
+                        ),
+                        title_product=row["Наименование товара"],
+                        brand=id_brand,
+                        weight_product=weight_product,
+                        id_sub_category=(
+                            id_subcat_1[0].id
+                            if isinstance(id_subcat_1, dict)
+                            else id_subcat_1
+                        ),  # Noqa
+                        explanation_product=(
+                            row["Описание"]
+                            if str(row["Описание"]) not in (None, "nan")
+                            else "Неопределено"
+                        ),
+                        quantity_product=quantity_product,
+                        price_product=price_product,
+                        product_discount=0,
+                    )
 
                     res_to_add = await session.product_repository.add_one(
                         new_product
@@ -168,17 +195,15 @@ class AdminPanelService:
                         for mark in all_marks:
                             await session.product_marks_repository.add_one(
                                 data=ProductMarks(
-                                    id_mark=mark,
-                                    id_product=res_to_add
+                                    id_mark=mark, id_product=res_to_add
                                 )
                             )
 
                         # Добавление типа транспорта к продукту
                         for tp_mt in all_type_motos:
-                            await session.product_type_models_repository.add_one(
+                            await session.product_type_models_repository.add_one( # noqa
                                 data=ProductTypeModels(
-                                    id_type_model=tp_mt,
-                                    id_product=res_to_add
+                                    id_type_model=tp_mt, id_product=res_to_add
                                 )
                             )
 
@@ -190,10 +215,21 @@ class AdminPanelService:
                             for photo in photos:
                                 filename = photo.split("/")[-2]
                                 # Сохранение фотографии в хранилище
-                                is_saved = await FileS3Manager().upload_file_from_url(
-                                    url_file=photo,
-                                    file_name=filename+"".join([str(random.randint(1, 100)) for _ in range(1, random.randint(5, 30))])+".jpeg",
-                                    directory=S3EnumStorage.PRODUCTS.value
+                                is_saved = (
+                                    await FileS3Manager().upload_file_from_url(
+                                        url_file=photo,
+                                        file_name=filename
+                                        + "".join( # noqa
+                                            [
+                                                str(random.randint(1, 100))
+                                                for _ in range(
+                                                    1, random.randint(5, 30)
+                                                )
+                                            ]
+                                        )
+                                        + ".jpeg", # noqa
+                                        directory=S3EnumStorage.PRODUCTS.value,
+                                    )
                                 )
 
                                 if is_saved:
@@ -201,7 +237,7 @@ class AdminPanelService:
                                     await session.photos_repository.add_one(
                                         data=ProductPhotos(
                                             photo_url=is_saved,
-                                            id_product=res_to_add
+                                            id_product=res_to_add,
                                         )
                                     )
 
@@ -213,7 +249,7 @@ class AdminPanelService:
 
                         cnt_to_add += 1
                     cnt_row += 1
-            except KeyError as k:
+            except KeyError:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -264,7 +300,7 @@ class AdminPanelService:
                     if res_to_add:
                         cnt_to_add += 1
                     cnt_row += 1
-            except KeyError as k:
+            except KeyError:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )
@@ -321,7 +357,7 @@ class AdminPanelService:
                 if res_to_add:
                     cnt_to_add += 1
                 cnt_row += 1
-            except KeyError as k:
+            except KeyError:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )

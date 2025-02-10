@@ -16,14 +16,14 @@ class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):
         ProductTypeModels.id_type_model,
         ProductTypeModels.id_product,
         ProductTypeModels.product_data,
-        ProductTypeModels.type_models_data
+        ProductTypeModels.type_models_data,
     ]
     column_labels: Dict[Any, str] = {
         ProductTypeModels.id: "Идентификатор",
         ProductTypeModels.id_type_model: "Идентификатор мототранспорта",
         ProductTypeModels.id_product: "Идентификатор товара",
         ProductTypeModels.product_data: "Товары",
-        ProductTypeModels.type_models_data: "Модели транспорта"
+        ProductTypeModels.type_models_data: "Модели транспорта",
     }
 
     # Operation's
@@ -43,10 +43,7 @@ class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):
             "order_by": ("id", "title_product"),
         },
         "type_models_data": {
-            "fields": (
-                "id",
-                "name_moto_type"
-            ),
-            "order_by": ("id", "name_moto_type")
-        }
+            "fields": ("id", "name_moto_type"),
+            "order_by": ("id", "name_moto_type"),
+        },
     }

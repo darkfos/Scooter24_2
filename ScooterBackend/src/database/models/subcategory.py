@@ -14,7 +14,7 @@ class SubCategory(MainBase):
         ForeignKey("Category.id", ondelete="CASCADE"),
         type_=Integer,
         nullable=True,
-        unique=False
+        unique=False,
     )
 
     # Связи

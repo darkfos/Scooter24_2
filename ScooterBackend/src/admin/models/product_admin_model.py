@@ -55,7 +55,7 @@ class ProductModelView(ModelView, model=Product):
         Product.product_models_data: "Модели продукта",
         Product.brand_mark: "Марки",
         Product.type_models: "Типы мототранспорта",
-        Product.photos: "Фотографии"
+        Product.photos: "Фотографии",
     }
 
     # Operation's
@@ -79,7 +79,7 @@ class ProductModelView(ModelView, model=Product):
         "date_update_information",
         "label_product",
         "type_models",
-        "photos"
+        "photos",
     ]
 
     form_edit_rules = [
@@ -93,7 +93,7 @@ class ProductModelView(ModelView, model=Product):
         "price_product",
         "sub_category_data",
         "label_product",
-        "photos"
+        "photos",
     ]
 
     # Form's for FK
@@ -102,7 +102,10 @@ class ProductModelView(ModelView, model=Product):
             "fields": ("id", "name_brand"),
             "order_by": "name_brand",
         },
-        "brand_mark": {"fields": ("id", "id_product"), "order_by": ("id", "id_product")},
+        "brand_mark": {
+            "fields": ("id", "id_product"),
+            "order_by": ("id", "id_product"),
+        },
         "reviews": {
             "fields": (
                 "id",
@@ -123,5 +126,5 @@ class ProductModelView(ModelView, model=Product):
         "sub_category_data": {"fields": ("id", "name"), "order_by": ("id")},
         "product_models_data": {"fields": ("id",), "order_by": ("id")},
         "photos": {"fields": ("id", "photo_url"), "order_by": ("id")},
-        "type_models": {"fields": ("id", "id_type_model"), "order_by": ("id")}
+        "type_models": {"fields": ("id", "id_type_model"), "order_by": ("id")},
     }

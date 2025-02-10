@@ -1,13 +1,11 @@
 """upd: garage table
-
 Revision ID: dfaa5120804b
-Revises: 
+Revises:
 Create Date: 2025-02-10 02:46:08.911844
-
 """
 
-from alembic import op
-import sqlalchemy as sa
+from alembic import op # noqa
+import sqlalchemy as sa # noqa
 
 
 # revision identifiers, used by Alembic.

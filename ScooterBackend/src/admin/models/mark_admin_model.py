@@ -43,13 +43,10 @@ class MarkModelView(ModelView, model=Mark):
                 "id",
                 "id_product",
             ),
-            "order_by": ("id", "id_product")
+            "order_by": ("id", "id_product"),
         },
         "garage_data": {
-            "fields": (
-                "id",
-                "id_type_moto"
-            ),
-            "order_by": ("id", "id_type_moto")
-        }
+            "fields": ("id", "id_type_moto"),
+            "order_by": ("id", "id_type_moto"),
+        },
     }

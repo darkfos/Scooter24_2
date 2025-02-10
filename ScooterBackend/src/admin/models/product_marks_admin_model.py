@@ -16,14 +16,14 @@ class ProductMarksAdminModel(ModelView, model=ProductMarks):
         ProductMarks.id_mark,
         ProductMarks.id_product,
         ProductMarks.mark_data,
-        ProductMarks.product_data
+        ProductMarks.product_data,
     ]
     column_labels: dict = {
         ProductMarks.id: "Идентификатор",
         ProductMarks.id_mark: "Идентификатор марки",
         ProductMarks.id_product: "Идентификатор продукта",
         ProductMarks.mark_data: "Марки",
-        ProductMarks.product_data: "Товары"
+        ProductMarks.product_data: "Товары",
     }
 
     can_create: bool = True
@@ -34,7 +34,11 @@ class ProductMarksAdminModel(ModelView, model=ProductMarks):
 
     form_create_rules = ["name_category", "icon_category"]
     form_edit_rules = form_create_rules.copy()
-    form_columns: list = [ProductMarks.id, ProductMarks.id_product, ProductMarks.id_mark]
+    form_columns: list = [
+        ProductMarks.id,
+        ProductMarks.id_product,
+        ProductMarks.id_mark,
+    ]
 
     form_ajax_refs: Dict[str, dict] = {
         "mark_data": {

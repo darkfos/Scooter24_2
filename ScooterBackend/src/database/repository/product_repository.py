@@ -62,20 +62,14 @@ class ProductRepository(GeneralSQLRepository):
             msg=f"{self.__class__.__name__} " f"Поиск товаров по категории"
         )
         if isinstance(how_to_find, int):
-            stmt = select(Product).where(
-                Product.id_sub_category == how_to_find
-            ).options(
-                joinedload(
-                    Product.photos
-                ),
-                joinedload(
-                    Product.brand_mark
-                ),
-                joinedload(
-                    Product.type_models
-                ),
-                joinedload(
-                    Product.product_models_data
+            stmt = (
+                select(Product)
+                .where(Product.id_sub_category == how_to_find)
+                .options(
+                    joinedload(Product.photos),
+                    joinedload(Product.brand_mark),
+                    joinedload(Product.type_models),
+                    joinedload(Product.product_models_data),
                 )
             )
 
@@ -84,22 +78,18 @@ class ProductRepository(GeneralSQLRepository):
 
         elif isinstance(how_to_find, str):
             # Поиск товаров
-            stmt = select(Product).where(
-                Product.sub_category_data.has(
-                    SubCategory.name == how_to_find
+            stmt = (
+                select(Product)
+                .where(
+                    Product.sub_category_data.has(
+                        SubCategory.name == how_to_find
+                    )
                 )
-            ).options(
-                joinedload(
-                    Product.photos
-                ),
-                joinedload(
-                    Product.brand_mark
-                ),
-                joinedload(
-                    Product.type_models
-                ),
-                joinedload(
-                    Product.product_models_data
+                .options(
+                    joinedload(Product.photos),
+                    joinedload(Product.brand_mark),
+                    joinedload(Product.type_models),
+                    joinedload(Product.product_models_data),
                 )
             )
             all_products = (await self.async_session.execute(stmt)).fetchall()
@@ -220,7 +210,7 @@ class ProductRepository(GeneralSQLRepository):
             joinedload(Product.photos),
             joinedload(Product.sub_category_data),
             joinedload(Product.brand_mark),
-            joinedload(Product.type_models)
+            joinedload(Product.type_models),
         )
 
         if title_product:

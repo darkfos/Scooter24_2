@@ -2,8 +2,6 @@
 import datetime
 from typing import List, Annotated, Union
 
-from fastapi import UploadFile
-
 # Other libraries
 from pydantic import BaseModel, Field
 
@@ -38,9 +36,7 @@ class ProductBase(BaseModel):
         datetime.date, Field(default=datetime.date.today())
     ]
     product_discount: Annotated[int, Field(lt=100)]
-    photo: Annotated[
-        List[PhotoBase], Field(default=None)
-    ] = None
+    photo: Annotated[List[PhotoBase], Field(default=None)] = None
 
     @classmethod
     def change_product_discount(cls) -> None:

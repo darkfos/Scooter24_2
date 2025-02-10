@@ -4,8 +4,6 @@ from sqlalchemy import select, update, delete, insert
 from typing import Type
 import logging as logger
 
-from sqlalchemy.orm import joinedload
-
 # Local
 ...
 
@@ -46,7 +44,7 @@ class GeneralSQLRepository:
                     f"Не удалось добавить новую запись"
                 )
                 raise Exception
-        except Exception as ex:
+        except Exception:
             await self.async_session.rollback()
             return False
 

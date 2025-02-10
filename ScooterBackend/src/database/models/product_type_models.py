@@ -6,11 +6,19 @@ from src.database.mainbase import MainBase
 class ProductTypeModels(MainBase):
 
     id_product: Mapped[int] = mapped_column(
-        ForeignKey("Product.id", ondelete="CASCADE"), type_=Integer, nullable=False, unique=False, index=False
+        ForeignKey("Product.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
+        unique=False,
+        index=False,
     )
 
     id_type_model: Mapped[int] = mapped_column(
-        ForeignKey("Typemoto.id", ondelete="CASCADE"), type_=Integer, nullable=False, unique=False, index=False
+        ForeignKey("Typemoto.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
+        unique=False,
+        index=False,
     )
 
     # Связи
@@ -23,18 +31,12 @@ class ProductTypeModels(MainBase):
     )
 
     def read_model(self) -> dict:
-        return {
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_")
-        }
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
 
     def __str__(self):
-        return str({
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_")
-        })
+        return str(
+            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        )
 
     def __repr__(self) -> str:
         return self.__str__()
