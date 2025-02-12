@@ -399,12 +399,12 @@ async def recommended_products(
     """,
     summary="Поиск товаров",
     response_model=ListProductBase,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def search_products(
-        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-        mark: int = None,
-        model: int = None
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    mark: int = None,
+    model: int = None,
 ) -> ListProductBase:
     """
     Поиск товаров по марке и модели
@@ -414,7 +414,10 @@ async def search_products(
     :return:
     """
 
-    return await ProductService.search_products(engine=engine, id_mark=mark, id_model=model)
+    return await ProductService.search_products(
+        engine=engine, id_mark=mark, id_model=model
+    )
+
 
 @product_router.get(
     path="/new",

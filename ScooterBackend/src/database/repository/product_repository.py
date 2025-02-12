@@ -113,7 +113,9 @@ class ProductRepository(GeneralSQLRepository):
             f"Поиск продукта по"
             f" названию name_product={name_product}"
         )
-        stmt = select(Product).where(Product.title_product.contains(name_product))
+        stmt = select(Product).where(
+            Product.title_product.contains(name_product)
+        )
         product_data = (await self.async_session.execute(stmt)).all()
 
         return product_data
@@ -141,7 +143,7 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
                 joinedload(Product.brand_mark),
-                joinedload(Product.type_models)
+                joinedload(Product.type_models),
             )
         )
         product_data = (
@@ -296,7 +298,6 @@ class ProductRepository(GeneralSQLRepository):
         products = (await self.async_session.execute(stmt)).unique().all()
         return products
 
-
     async def search(self, id_mark: int | None, id_model: int | None):
         """
         Получение всех товаров по марке - модели
@@ -313,10 +314,16 @@ class ProductRepository(GeneralSQLRepository):
         )
 
         if id_model:
-            stmt = stmt.filter(Product.product_models_data.any(ProductModels.id_model == id_model))
+            stmt = stmt.filter(
+                Product.product_models_data.any(
+                    ProductModels.id_model == id_model
+                )
+            )
 
         if id_mark:
-            stmt = stmt.filter(Product.brand_mark.any(ProductMarks.id_mark == id_mark))
+            stmt = stmt.filter(
+                Product.brand_mark.any(ProductMarks.id_mark == id_mark)
+            )
 
         result = await self.async_session.execute(stmt)
 

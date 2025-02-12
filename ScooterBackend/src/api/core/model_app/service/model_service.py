@@ -121,7 +121,9 @@ class ModelService:
             await UserHttpError().http_user_not_found()
 
     @staticmethod
-    async def find_by_mark(engine: IEngineRepository, id_mark: int) -> AllModelBase:
+    async def find_by_mark(
+        engine: IEngineRepository, id_mark: int
+    ) -> AllModelBase:
         """
         Получение всех моделей по id_mark
         :param engine:
@@ -130,12 +132,13 @@ class ModelService:
         """
 
         async with engine:
-            all_models = await engine.model_repository.find_all_by_mark(id_mark=id_mark)
+            all_models = await engine.model_repository.find_all_by_mark(
+                id_mark=id_mark
+            )
             return AllModelBase(
                 all_models=[
                     ModelBase(
-                        id_model=model[0].id,
-                        name_model=model[0].name_model
+                        id_model=model[0].id, name_model=model[0].name_model
                     )
                     for model in all_models
                 ]

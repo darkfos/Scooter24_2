@@ -36,7 +36,7 @@ class OrderRepository(GeneralSQLRepository):
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
                 joinedload(Product.brand_mark),
-                joinedload(Product.type_models)
+                joinedload(Product.type_models),
             )
             .where(Order.type_operation == OrderTypeOperationsEnum.SUCCESS)
             .order_by(desc(Order.date_buy))

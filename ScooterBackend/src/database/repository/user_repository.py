@@ -8,6 +8,7 @@ from sqlalchemy import select, delete, Result
 from sqlalchemy.orm import joinedload
 
 from src.database.models.product import Product
+
 # Local
 from src.database.models.user import User
 from src.database.models.order import Order
@@ -147,16 +148,18 @@ class UserRepository(GeneralSQLRepository):
             f" id_user={user_id}"
         )
         stmt = (
-            select(Order).where(Order.id_user == user_id).options(
-                joinedload(Order.product_info),
-                joinedload(Product.photos)
-            ).where(Order.type_operation.in_([
-                OrderTypeOperationsEnum.NO_BUY,
-            ]))
+            select(Order)
+            .where(Order.id_user == user_id)
+            .options(joinedload(Order.product_info), joinedload(Product.photos))
+            .where(
+                Order.type_operation.in_(
+                    [
+                        OrderTypeOperationsEnum.NO_BUY,
+                    ]
+                )
+            )
         )
-        user_data = (
-            (await self.async_session.execute(stmt)).unique()
-        ).all()
+        user_data = ((await self.async_session.execute(stmt)).unique()).all()
         return user_data
 
     async def success_user_orders(self, user_id: int):
@@ -166,13 +169,18 @@ class UserRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = select(Order).options(
-            joinedload(Order.product_info)
-        ).where(
-            Order.id_user == user_id
-            and
-            (Order.type_operation == OrderTypeOperationsEnum.SUCCESS.value or
-             Order.type_operation == OrderTypeOperationsEnum.IN_PROCESS.value)
+        stmt = (
+            select(Order)
+            .options(joinedload(Order.product_info))
+            .where(
+                Order.id_user == user_id
+                and ( # noqa
+                    Order.type_operation # noqa
+                    == OrderTypeOperationsEnum.SUCCESS.value # noqa
+                    or Order.type_operation # noqa
+                    == OrderTypeOperationsEnum.IN_PROCESS.value # noqa
+                )
+            )
         )
 
         result = await self.async_session.execute(stmt)

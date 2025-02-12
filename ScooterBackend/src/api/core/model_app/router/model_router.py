@@ -73,11 +73,11 @@ async def get_all_models(
     Получение всех моделей по марке
     """,
     summary="Все модели по марке",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def all_models_by_mark(
-        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-        id_mark: int
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_mark: int,
 ) -> AllModelBase:
     """
     Получение всех моделей по марке

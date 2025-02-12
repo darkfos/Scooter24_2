@@ -12,11 +12,11 @@ from src.api.core.user_app.schemas.user_dto import (
     AllDataUser,
     UserReviewData,
     UserFavouritesData,
-    UserOrdersData,
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
-    UpdateAddressDate, BuyingOrders,
+    UpdateAddressDate,
+    BuyingOrders,
 )
 from src.api.core.user_app.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
@@ -205,6 +205,7 @@ async def get_user_data_and_all_orders(
         redis_search_data="user_orders_by_token_%s" % user_data,
     )
 
+
 @user_router.get(
     path="/success/orders",
     response_model=BuyingOrders,
@@ -215,8 +216,8 @@ async def get_user_data_and_all_orders(
     summary="Оплаченные заказы",
 )
 async def user_success_orders(
-        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-        user_data: Annotated[str, Depends(auth.auth_user)]
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
 ) -> BuyingOrders:
     """
     Оплаченные пользователем заказы

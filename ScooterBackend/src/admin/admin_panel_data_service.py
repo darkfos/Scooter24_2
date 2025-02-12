@@ -201,7 +201,7 @@ class AdminPanelService:
 
                         # Добавление типа транспорта к продукту
                         for tp_mt in all_type_motos:
-                            await session.product_type_models_repository.add_one( # noqa
+                            await session.product_type_models_repository.add_one(  # noqa
                                 data=ProductTypeModels(
                                     id_type_model=tp_mt, id_product=res_to_add
                                 )
@@ -219,7 +219,7 @@ class AdminPanelService:
                                     await FileS3Manager().upload_file_from_url(
                                         url_file=photo,
                                         file_name=filename
-                                        + "".join( # noqa
+                                        + "".join(  # noqa
                                             [
                                                 str(random.randint(1, 100))
                                                 for _ in range(
@@ -227,7 +227,7 @@ class AdminPanelService:
                                                 )
                                             ]
                                         )
-                                        + ".jpeg", # noqa
+                                        + ".jpeg",  # noqa
                                         directory=S3EnumStorage.PRODUCTS.value,
                                     )
                                 )

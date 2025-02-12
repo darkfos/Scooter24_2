@@ -49,6 +49,6 @@ class ProductModelsModelView(ModelView, model=ProductModels):
                 "id",
                 "title_product",
             ),
-            "order_by": ("title_product")
+            "order_by": ("title_product"),
         },
     }

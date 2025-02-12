@@ -123,7 +123,11 @@ class CategoryService:
                     CategoryBase(
                         name_category=category[0].name_category,
                         id_category=category[0].id,
-                        icon_category=category[0].icon_category if category[0].icon_category is not None else "",
+                        icon_category=(
+                            category[0].icon_category
+                            if category[0].icon_category is not None
+                            else ""
+                        ),
                         subcategory=[
                             SubCategoryBase(
                                 name=sb.name,

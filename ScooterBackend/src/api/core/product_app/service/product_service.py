@@ -252,8 +252,7 @@ class ProductService:
                         brand=product[0].product_info.brand,
                         brand_mark=[
                             ProductMarks(
-                                id_product=mark.id_product,
-                                id_mark=mark.id_mark
+                                id_product=mark.id_product, id_mark=mark.id_mark
                             )
                             for mark in product[0].product_info.brand_mark
                         ],
@@ -289,7 +288,7 @@ class ProductService:
                         type_pr=[
                             ProductTypeModels(
                                 id_product=type_pr.id_product,
-                                id_moto_type=type_pr.id_type_models
+                                id_moto_type=type_pr.id_type_models,
                             )
                             for type_pr in product[0].product_info.type_models
                         ],
@@ -317,16 +316,15 @@ class ProductService:
                 products=[product[0].read_model() for product in req]
             )
 
-
     @staticmethod
     async def search_products(
-            engine: IEngineRepository,
-            id_mark: str = None,
-            id_model: str = None
+        engine: IEngineRepository, id_mark: str = None, id_model: str = None
     ) -> ListProductBase:
 
         async with engine:
-            products = await engine.product_repository.search(id_mark=id_mark, id_model=id_model)
+            products = await engine.product_repository.search(
+                id_mark=id_mark, id_model=id_model
+            )
 
             return ListProductBase(
                 products=[
@@ -356,8 +354,7 @@ class ProductService:
                         ].date_update_information,
                         product_discount=product[0].product_discount,
                         photo=[
-                            photo.read_model()
-                            for photo in product[0].photos
+                            photo.read_model() for photo in product[0].photos
                         ],
                         type_pr=[
                             ProductTypeModels(
@@ -467,7 +464,6 @@ class ProductService:
             product_data = await engine.product_repository.find_one(
                 other_id=id_product
             )
-
 
             if product_data:
                 return ProductBase(
@@ -613,10 +609,12 @@ class ProductService:
                     article_product=product_data[0].article_product,
                     title_product=product_data[0].title_product,
                     brand=product_data[0].brand,
-                    brand_mark=[ProductMarks(
-                        id_product=mark.id_product,
-                        id_mark=mark.id_mark
-                    ) for mark in product_data[0].brand_mark],
+                    brand_mark=[
+                        ProductMarks(
+                            id_product=mark.id_product, id_mark=mark.id_mark
+                        )
+                        for mark in product_data[0].brand_mark
+                    ],
                     models=[
                         model.read_model()
                         for model in product_data[0].product_models_data
@@ -635,10 +633,13 @@ class ProductService:
                     photo=[
                         photo.read_model() for photo in product_data[0].photos
                     ],
-                    type_pr=[ProductTypeModels(
-                        id_product=tp.id_product,
-                        id_moto_type=tp.id_type_model
-                    ) for tp in product_data[0].type_models],
+                    type_pr=[
+                        ProductTypeModels(
+                            id_product=tp.id_product,
+                            id_moto_type=tp.id_type_model,
+                        )
+                        for tp in product_data[0].type_models
+                    ],
                     reviews=[
                         review_p.read_model()
                         for review_p in product_data[0].reviews
