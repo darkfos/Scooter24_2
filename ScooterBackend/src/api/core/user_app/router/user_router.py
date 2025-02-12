@@ -16,7 +16,7 @@ from src.api.core.user_app.schemas.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
-    UpdateAddressDate,
+    UpdateAddressDate, BuyingOrders,
 )
 from src.api.core.user_app.service.user_service import UserService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
@@ -180,13 +180,13 @@ async def get_user_data_and_all_favourites_product(
     Необходим jwt ключ и Bearer в заголовке запроса.
     """,
     summary="Заказы пользователя",
-    response_model=UserOrdersData,
+    response_model=BuyingOrders,
     status_code=status.HTTP_200_OK,
 )
 async def get_user_data_and_all_orders(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.auth_user)],
-) -> UserOrdersData:
+) -> BuyingOrders:
     """
     ENDPOINT - Получение информации о пользователе + заказы
     :param session:
@@ -204,6 +204,25 @@ async def get_user_data_and_all_orders(
         token=user_data,
         redis_search_data="user_orders_by_token_%s" % user_data,
     )
+
+@user_router.get(
+    path="/success/orders",
+    response_model=BuyingOrders,
+    status_code=status.HTTP_200_OK,
+    description="""
+    Получение всех оплаченных пользователем заказов
+    """,
+    summary="Оплаченные заказы",
+)
+async def user_success_orders(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        user_data: Annotated[str, Depends(auth.auth_user)]
+) -> BuyingOrders:
+    """
+    Оплаченные пользователем заказы
+    """
+
+    return await UserService.user_success_orders(engine=engine, token=user_data)
 
 
 @user_router.get(

@@ -7,10 +7,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, Result
 from sqlalchemy.orm import joinedload
 
+from src.database.models.product import Product
 # Local
 from src.database.models.user import User
+from src.database.models.order import Order
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.other.enums.user_type_enum import UserTypeEnum
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 logging = logger.getLogger(__name__)
@@ -144,14 +147,37 @@ class UserRepository(GeneralSQLRepository):
             f" id_user={user_id}"
         )
         stmt = (
-            select(User)
-            .where(User.id == user_id)
-            .options(joinedload(User.orders_user))
+            select(Order).where(Order.id_user == user_id).options(
+                joinedload(Order.product_info),
+                joinedload(Product.photos)
+            ).where(Order.type_operation.in_([
+                OrderTypeOperationsEnum.NO_BUY,
+            ]))
         )
         user_data = (
             (await self.async_session.execute(stmt)).unique()
-        ).scalar_one_or_none()
+        ).all()
         return user_data
+
+    async def success_user_orders(self, user_id: int):
+        """
+        Получение всех оплаченных пользователем заказов
+        :param user_id:
+        :return:
+        """
+
+        stmt = select(Order).options(
+            joinedload(Order.product_info)
+        ).where(
+            Order.id_user == user_id
+            and
+            (Order.type_operation == OrderTypeOperationsEnum.SUCCESS.value or
+             Order.type_operation == OrderTypeOperationsEnum.IN_PROCESS.value)
+        )
+
+        result = await self.async_session.execute(stmt)
+
+        return result.unique().all()
 
     async def find_user_and_get_history(
         self, user_id: int

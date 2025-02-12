@@ -4,6 +4,7 @@ from typing import Union, Type, Callable
 
 from fastapi import BackgroundTasks
 
+from src.api.core.order_app.schemas.order_dto import OrderBase
 # Local
 from src.api.core.user_app.schemas.user_dto import (
     AddUser,
@@ -16,6 +17,7 @@ from src.api.core.user_app.schemas.user_dto import (
     DataToUpdate,
     UserIsDeleted,
     UpdateAddressDate,
+    BuyingOrders
 )
 from src.api.core.auth_app.schemas.auth_dto import UpdateUserPassword
 from src.api.core.auth_app.schemas.auth_dto import RegistrationUser
@@ -26,6 +28,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.other.enums.user_type_enum import UserTypeEnum
+from src.api.core.order_app.error.http_order_exception import OrderHttpError
 import logging as logger
 
 # Redis
@@ -300,28 +303,29 @@ class UserService:
         )
 
         async with engine:
-            user_data: Union[User, None] = (
+            orders: Union[list[tuple[User]], None] = (
                 await engine.user_repository.find_user_and_get_orders(
                     user_id=int(token_data.get("sub"))
                 )
             )
-            if user_data:
-                return UserOrdersData(
-                    email_user=user_data.email_user,
-                    name_user=user_data.name_user,
-                    main_name_user=user_data.main_name_user,
-                    date_registration=user_data.date_registration,
+
+
+            if orders:
+                return BuyingOrders(
                     orders=[
-                        {
-                            "id_user": order.id_user,
-                            "id_product": order.id_product,
-                            "date_buy": order.date_buy,
-                        }
-                        for order in user_data.orders_user
-                    ],
-                    address=user_data.address,
-                    telephone=user_data.telephone,
-                    date_birthday=user_data.date_birthday,
+                        OrderBase(
+                            product_data={
+                                "id": order[0].id,
+                                "title_product": order[0].product_info.title_product,
+                                "price": order[0].price_result,
+                                "count_buy": order[0].count_product,
+                                "date_buy": order[0].date_buy,
+                                "type_operation": order[0].type_operation,
+                                "photos": [photo.read_model() for photo in order[0].product_info.photos]
+                            }
+                        )
+                        for order in orders
+                    ]
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -330,7 +334,49 @@ class UserService:
                 f" и его заказах, пользователь не"
                 f" был найден"
             )
-            await UserHttpError().http_user_not_found()
+
+            return BuyingOrders(orders=[])
+
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
+    @staticmethod
+    async def user_success_orders(
+            engine: IEngineRepository,
+            token: str,
+            token_data: dict = {}
+    ) -> BuyingOrders:
+        """
+        Метод сервиса для получения всех успешных (оплаченных) заказов пользователя
+        :param engine:
+        :param token:
+        :param token_data:
+        :return:
+        """
+
+        async with engine:
+            user_orders = await engine.user_repository.success_user_orders(
+                user_id=int(token_data.get("sub"))
+            )
+
+            if user_orders:
+                return BuyingOrders(
+                    orders=[
+                        OrderBase(
+                            product_data={
+                                "id": order[0].id,
+                                "title_product": order[0].product_info.title_product,
+                                "price": order[0].price_result,
+                                "count_buy": order[0].count_product,
+                                "date_buy": order[0].date_buy,
+                                "type_operation": order[0].type_operation
+                            }
+                        )
+                        for order in user_orders
+                    ]
+                )
+            else:
+                return BuyingOrders(
+                    orders=[]
+                )
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @redis
@@ -513,7 +559,7 @@ class UserService:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
                     other_id=int(token_data.get("sub")),
-                    data_to_update=to_update.model_dump(),
+                    data_to_update={k: v for k, v in to_update.dict().items() if v not in ("", None)},
                 )
             )
 

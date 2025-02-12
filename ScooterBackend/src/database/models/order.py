@@ -24,7 +24,7 @@ class Order(MainBase):
         type_=Enum(OrderTypeOperationsEnum),
         unique=False,
         nullable=False,
-        default=OrderTypeOperationsEnum.IN_PROCESS.value,
+        default=OrderTypeOperationsEnum.NO_BUY.value,
     )
 
     # Количество товаров

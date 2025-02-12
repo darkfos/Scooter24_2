@@ -3,6 +3,7 @@ import datetime
 
 from pydantic import BaseModel, Field, EmailStr
 from typing import Annotated, Union, List, Dict
+from src.api.core.order_app.schemas.order_dto import OrderBase
 
 
 class UserBase(BaseModel):
@@ -141,3 +142,7 @@ class AllDataUser(BaseModel):
     orders: Union[List, List[Dict]]
     favourite: Union[List, List[Dict]]
     reviews: Union[List, List[Dict]]
+
+
+class BuyingOrders(BaseModel):
+    orders: Annotated[List[OrderBase], Field()]
