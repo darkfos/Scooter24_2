@@ -10,6 +10,7 @@ from sqlalchemy.orm import joinedload
 # Local
 from src.database.models.order import Order
 from src.database.models.product import Product
+from src.database.models.product_photos import ProductPhotos
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
@@ -86,19 +87,20 @@ class OrderRepository(GeneralSQLRepository):
 
         if id_user:
             stmt = (
-                select(Order)
-                .where(Order.id_user == id_user)
-                .options(
-                    joinedload(Order.ord_user), joinedload(Order.product_info)
+                select(Order).where(Order.id_user == id_user).options(
+                    joinedload(Order.ord_user),
+                    joinedload(Order.product_info),
+                    joinedload(Order.product_info).joinedload(
+                        Product.photos
+                    ),
                 )
             )
         else:
             stmt = (
                 select(Order)
                 .where(Order.id == id_order)
-                .options(
-                    joinedload(Order.ord_user), joinedload(Order.product_info)
-                )
+                .join(Product, Product.id == Order.id_product)
+                .join(ProductPhotos, ProductPhotos.id_product == Product.id)
             )
 
         if type_find:

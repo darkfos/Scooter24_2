@@ -301,8 +301,9 @@ class ProductService:
     async def get_garage_products(
         token: str,
         engine: IEngineRepository,
-        brand=None,
-        model=None,
+        id_brand: int = None,
+        id_model: int = None,
+        id_moto_type: int = None
     ) -> ListProductBase:
         """
         Получение всех товаров для гаража по модели и бренду
@@ -310,10 +311,48 @@ class ProductService:
 
         async with engine:
             req = await engine.product_repository.find_to_garage(
-                brand=brand, model=model
+                id_brand=id_brand, id_model=id_model, id_moto_type=id_moto_type
             )
+
             return ListProductBase(
-                products=[product[0].read_model() for product in req]
+                products=[
+                    ProductBase(
+                        id_product=product[0].id,
+                        label_product=product[0].label_product,
+                        article_product=product[0].article_product,
+                        title_product=product[0].title_product,
+                        brand=product[0].brand,
+                        brand_mark=[
+                            ProductMarks(
+                                id_product=mark.id_product,
+                                id_mark=mark.id_mark,
+                            )
+                            for mark in product[0].brand_mark
+                        ],
+                        models=[],
+                        id_sub_category=product[0].id_sub_category,
+                        weight_product=product[0].weight_product,
+                        is_recommended=product[0].is_recommended,
+                        explanation_product=product[0].explanation_product,
+                        quantity_product=product[0].quantity_product,
+                        price_product=product[0].price_product,
+                        date_create_product=product[0].date_create_product,
+                        date_update_information=product[
+                            0
+                        ].date_update_information,
+                        product_discount=product[0].product_discount,
+                        photo=[
+                            photo.read_model() for photo in product[0].photos
+                        ],
+                        type_pr=[
+                            ProductTypeModels(
+                                id_product=product.id_product,
+                                id_moto_type=product.id_type_model,
+                            )
+                            for product in product[0].type_models
+                        ]
+                    )
+                    for product in req]
             )
 
     @staticmethod
@@ -939,10 +978,23 @@ class ProductService:
                     ProductBase(
                         id_product=product[0].id,
                         label_product=product[0].label_product,
+                        type_pr=[
+                            ProductTypeModels(
+                                id_moto_type=tp.id_type_model,
+                                id_product=tp.id_product,
+                            )
+                            for tp in product[0].type_models
+                        ],
                         article_product=product[0].article_product,
                         title_product=product[0].title_product,
                         brand=product[0].brand,
-                        brand_mark=product[0].brand_mark,
+                        brand_mark=[
+                            ProductMarks(
+                                id_mark=mark.id_mark,
+                                id_product=mark.id_product,
+                            )
+                            for mark in product[0].brand_mark
+                        ],
                         models=[
                             model.read_model()
                             for model in product[0].product_models_data
@@ -954,12 +1006,13 @@ class ProductService:
                         quantity_product=product[0].quantity_product,
                         price_product=product[0].price_product,
                         date_create_product=product[0].date_create_product,
-                        date_update_information=product[
-                            0
-                        ].date_update_information,
+                        date_update_information=product[0].date_update_information,  # noqa
                         product_discount=product[0].product_discount,
-                        photo=product[0].photos,
-                        type_pr=product[0].type_pr,
+                        photo=(
+                            [photo.read_model() for photo in product[0].photos]
+                            if product[0].photos
+                            else []
+                        ),
                     )
                 )
             return data_result
@@ -1042,10 +1095,23 @@ class ProductService:
                         ProductBase(
                             id_product=product[0].id,
                             label_product=product[0].label_product,
+                            type_pr=[
+                                ProductTypeModels(
+                                    id_moto_type=tp.id_type_model,
+                                    id_product=tp.id_product,
+                                )
+                                for tp in product[0].type_models
+                            ],
                             article_product=product[0].article_product,
                             title_product=product[0].title_product,
                             brand=product[0].brand,
-                            brand_mark=product[0].brand_mark,
+                            brand_mark=[
+                                ProductMarks(
+                                    id_mark=mark.id_mark,
+                                    id_product=mark.id_product,
+                                )
+                                for mark in product[0].brand_mark
+                            ],
                             models=[
                                 model.read_model()
                                 for model in product[0].product_models_data
@@ -1057,17 +1123,14 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[
-                                0
-                            ].date_update_information,  # noqa
+                            date_update_information=product[0].date_update_information,  # noqa
                             product_discount=product[0].product_discount,
-                            photo=[
-                                photo.read_model()
-                                for photo in product[0].photos
-                            ],
-                            type_pr=product[0].type_pr,
+                            photo=(
+                                [photo.read_model() for photo in product[0].photos]
+                                if product[0].photos
+                                else []
+                            ),
                         )
                     )
-                print(result)
                 return ListProductBase(products=result)
             await ProductHttpError().http_product_not_found()

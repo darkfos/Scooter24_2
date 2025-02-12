@@ -16,6 +16,7 @@ from src.database.models.product_marks import ProductMarks
 from src.database.models.product_models import ProductModels
 from src.database.models.subcategory import SubCategory
 from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product_type_models import ProductTypeModels
 from src.other.enums.product_enum import FilteredDescProduct
 
 logging = logger.getLogger(__name__)
@@ -153,34 +154,40 @@ class ProductRepository(GeneralSQLRepository):
         return product_data
 
     async def find_to_garage(
-        self, brand: str = None, model: str = None
+        self, id_brand: int = None, id_model: int = None, id_moto_type: int = None
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов для гаража по модели и бренду
         """
 
         logging.info(
-            msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам BRAND: {brand}; MODEL: {model}"  # noqa
+            msg=f"{self.__class__.__name__} Поиск продуктов по фильтрам BRAND: {id_brand}; MODEL: {id_model}"  # noqa
         )
 
-        stmt = (
-            select(Product)
-            .join(Mark, Product.brand_mark == Mark.id)
-            .join(
-                ProductModels,
-                ProductModels.id_product == Product.id,
-                isouter=True,
+        stmt = select(Product).options(
+            joinedload(Product.photos),
+            joinedload(Product.type_models),
+            joinedload(Product.product_models_data),
+            joinedload(Product.brand_mark),
+            joinedload(Product.photos)
+        )
+
+        if id_model:
+            stmt = stmt.join(ProductModels, ProductModels.id_product == Product.id).where(
+                ProductModels.id_model == id_model
             )
-            .join(Model, Model.id == ProductModels.id_model, isouter=True)
-        )
 
-        if model:
-            stmt = stmt.filter(Model.name_model == model)
+        if id_brand:
+            stmt = stmt.join(ProductMarks, ProductMarks.id_product == Product.id).where(
+                ProductMarks.id_mark == id_brand
+            )
 
-        if brand:
-            stmt = stmt.filter(Mark.name_mark == brand)
+        if id_moto_type:
+            stmt = stmt.join(ProductTypeModels, ProductTypeModels.id_product == Product.id).where(
+                ProductTypeModels.id_type_model == id_moto_type
+            )
 
-        result = (await self.async_session.execute(stmt)).all()
+        result = (await self.async_session.execute(stmt)).unique().all()
         return result
 
     async def find_by_filters(  # noqa
@@ -269,6 +276,8 @@ class ProductRepository(GeneralSQLRepository):
             .options(
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
+                joinedload(Product.type_models),
+                joinedload(Product.brand_mark)
             )
             .order_by(Product.date_create_product.desc())
         )
@@ -293,6 +302,8 @@ class ProductRepository(GeneralSQLRepository):
             .options(
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
+                joinedload(Product.type_models),
+                joinedload(Product.brand_mark)
             )
         )
         products = (await self.async_session.execute(stmt)).unique().all()

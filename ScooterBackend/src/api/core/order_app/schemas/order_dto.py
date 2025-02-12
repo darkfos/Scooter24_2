@@ -11,7 +11,7 @@ from typing import Union, Annotated, List, Dict
 class OrderBase(BaseModel):
 
     product_data: Annotated[
-        Dict[str, Union[str, int, datetime.date, None, dict]], Field()
+        Dict[str, Union[str, int, datetime.date, None, dict, list[dict[str, Union[int, str]]]]], Field()
     ]
 
 
