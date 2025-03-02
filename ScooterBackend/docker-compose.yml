@@ -36,6 +36,31 @@ services:
       - .env
     networks:
       - scooter_bridge
+  broker:
+    container_name: broker_rabbit
+    image: rabbitmq:3.13.7-management-alpine
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+    ports:
+      - "5675:5672"
+    networks:
+      - scooter_bridge
+
+  backend_brock:
+    container_name: scooter_brocker
+    build:
+      context: .
+      dockerfile: Dockerfile.broker
+    restart: always
+    depends_on:
+      - broker
+    ports:
+      - "5680:5680"
+    networks:
+      - scooter_bridge
+
 
 networks:
   scooter_bridge:
