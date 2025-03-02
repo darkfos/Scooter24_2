@@ -2682,6 +2682,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "python-email"
+version = "0.0.1"
+description = ""
+optional = false
+python-versions = "*"
+files = [
+    {file = "python_email-0.0.1-py2.py3-none-any.whl", hash = "sha256:da52b5148abfc0cdbcc6c0092f2170e5eef8cb3fd1149d222afd066d3433bb61"},
+    {file = "python_email-0.0.1.tar.gz", hash = "sha256:6fbce6d56f39af57830b7c4da34db61a24621e6961631086e0d6f01e587b4bc2"},
+]
+
+[[package]]
 name = "python-jose"
 version = "3.4.0"
 description = "JOSE implementation in Python"
@@ -3829,4 +3840,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3c23acebfabd1d3d7e6a2bc53337a3472aaea77b79d2e943c05e23a08b92705c"
+content-hash = "146517f448e6182a6d2cdfb429960f0a2af8c80cb5e2d628219cb838af3365d2"

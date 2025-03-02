@@ -10,7 +10,8 @@ from src.api.core.user_app.service.user_service import (
 from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.core.user_app.schemas.user_dto import AddUser
-
+from src.other.broker.producer.producer import send_message_email
+from src.other.broker.dto.email_dto import EmailData
 import logging
 
 logging.getLogger()
@@ -46,17 +47,10 @@ class EmailService:
                     data_to_update={"secret_create_key": secret_key},
                 )
                 if is_updated:
-                    await email_transfer.send_message(
-                        text_to_message="Ваша ссылка для подтверждения"
-                        " регистрации,"
-                        " пожалуйста никому её не передавайте. "
-                        "http://0.0.0.0:5678/auth/"
-                        "access_create_account"
-                        "?secret_key="
-                        f"{secret_key}&email="
-                        f"{new_user.email_user}",
-                        whom_email=new_user.email_user,
-                    )
+                    await send_message_email(email_data=EmailData(
+                        email=new_user.email_user,
+                        secret_key=secret_key
+                    ))
 
     @staticmethod
     async def access_user_account(

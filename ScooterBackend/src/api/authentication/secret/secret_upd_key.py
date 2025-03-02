@@ -16,13 +16,12 @@ logging = logger.getLogger(__name__)
 
 class SecretKey:
 
-    def __init__(self, len_password=80):
+    def __init__(self, len_password=6):
         self.len_password: int = len_password
         self.symbols: List[Union[int, str]] = [
-            chr(numb) for numb in range(97, 126)
+            chr(numb) for numb in range(97, 122)
         ]
         self.symbols.extend([chr(numb) for numb in range(65, 91)])
-        self.symbols.extend(Settings.email_tr_settings.secret_symbols)
 
     def generate_password(self) -> str:
         """
@@ -33,9 +32,7 @@ class SecretKey:
             msg="Генерация пароля для пользователя"
             " (Система восстановления пароля)"
         )
-        size_key: int = randint(
-            int(Settings.email_tr_settings.min_length_key), self.len_password
-        )
+        size_key: int = Settings.email_tr_settings.min_length_key
         secret_key: str = ""
 
         while len(secret_key) != size_key:

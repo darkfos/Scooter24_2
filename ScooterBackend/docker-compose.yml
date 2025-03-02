@@ -48,6 +48,20 @@ services:
     networks:
       - scooter_bridge
 
+  backend_brock:
+    container_name: scooter_brocker
+    build:
+      context: .
+      dockerfile: Dockerfile.broker
+    restart: always
+    depends_on:
+      - broker
+    ports:
+      - "5680:5680"
+    networks:
+      - scooter_bridge
+
+
 networks:
   scooter_bridge:
     driver: bridge

@@ -1,0 +1,17 @@
+FROM python:3.12
+
+WORKDIR /brocker_scooter
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+COPY requirements.txt ./
+COPY . /brocker_scooter
+
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+ENV PYTHONPATH=/brocker_scooter
+
+CMD ["python", "src/other/broker/rabbit.py"]
