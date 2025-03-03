@@ -1,0 +1,64 @@
+# Other
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_sessionmaker,
+    AsyncSession,
+    AsyncEngine,
+)
+
+# System
+from typing import Union
+
+# Local
+
+# Модели
+from database.models.product import Product  # noqa
+from database.models.category import Category  # noqa
+from database.models.order import Order  # noqa
+from database.models.user import User  # noqa
+from database.models.review import Review  # noqa
+from database.models.favourite import Favourite  # noqa
+from database.models.type_worker import TypeWorker  # noqa
+from database.models.vacancies import Vacancies  # noqa
+from database.models.subcategory import SubCategory  # noqa
+from database.models.product_models import ProductModels  # noqa
+from database.models.user_type import UserType  # noqa
+from database.models.vacancy_request import VacancyRequest  # noqa
+from settings.database_settings.database_settings import DatabaseSettings
+
+from database.mainbase import MainBase
+
+
+class DatabaseEngine:
+
+    __instance: Union[None, "DatabaseEngine"] = None
+
+    def __new__(cls, *args, **kwargs) -> "DatabaseEngine":
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
+
+    def __init__(self):
+        self.db_engine: AsyncEngine = create_async_engine(
+            url=DatabaseSettings().db_url, echo=True
+        )
+        self.async_session: async_sessionmaker = async_sessionmaker(
+            bind=self.db_engine,
+            autoflush=False,
+            autocommit=False,
+            expire_on_commit=False,
+            class_=AsyncSession,
+        )
+
+    async def create_tables(self):
+        # Создание таблиц
+        async with self.db_engine.begin() as session:
+            await session.run_sync(MainBase.metadata.create_all)
+
+    async def get_session(self) -> AsyncSession:
+        # Получение сесиии
+        async with self.async_session.begin() as session:
+            return session
+
+
+db_work: DatabaseEngine = DatabaseEngine()
