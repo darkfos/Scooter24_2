@@ -1,5 +1,20 @@
 version: "3.9"
 services:
+  backend:
+    container_name: backend_scooter
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:8000"
+    restart: always
+    depends_on:
+      - postgres
+      - broker
+    env_file:
+      - .env
+    networks:
+      - scooter_bridge
   postgres:
     container_name: database
     image: postgres:13.3
@@ -20,21 +35,6 @@ services:
     restart: always
     depends_on:
       - backend
-    networks:
-      - scooter_bridge
-  backend:
-    container_name: backend_scooter
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "5678:8000"
-    restart: always
-    depends_on:
-      - postgres
-      - broker
-    env_file:
-      - .env
     networks:
       - scooter_bridge
   broker:
