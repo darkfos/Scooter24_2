@@ -6,8 +6,8 @@ WORKDIR /backend_scooter
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY . /backend_scooter
+COPY ./src/. /backend_scooter
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]
