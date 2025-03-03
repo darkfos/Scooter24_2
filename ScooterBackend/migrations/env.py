@@ -4,33 +4,33 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import AsyncEngine
-from settings.database_settings.database_settings import DatabaseSettings
+from src.settings.database_settings.database_settings import DatabaseSettings
 
 
 # Tables
-from database.models.subcategory import SubCategory  # noqa
-from database.models.user import User  # noqa
-from database.models.order import Order  # noqa
-from database.models.product import Product  # noqa
-from database.models.review import Review  # noqa
-from database.models.favourite import Favourite  # noqa
-from database.models.category import Category  # noqa
-from database.models.type_worker import TypeWorker  # noqa
-from database.models.vacancies import Vacancies  # noqa
-from database.models.brand import Brand  # noqa
-from database.models.marks import Mark  # noqa
-from database.models.model import Model  # noqa
-from database.models.subcategory import SubCategory  # noqa
-from database.models.product_models import ProductModels  # noqa
-from database.models.user_type import UserType  # noqa
-from database.models.type_moto import TypeMoto  # noqa
-from database.models.product_type_models import ProductTypeModels  # noqa
-from database.models.garage import Garage  # noqa
-from database.models.vacancy_request import VacancyRequest  # noqa
-from database.models.product_marks import ProductMarks  # noqa
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.user import User  # noqa
+from src.database.models.order import Order  # noqa
+from src.database.models.product import Product  # noqa
+from src.database.models.review import Review  # noqa
+from src.database.models.favourite import Favourite  # noqa
+from src.database.models.category import Category  # noqa
+from src.database.models.type_worker import TypeWorker  # noqa
+from src.database.models.vacancies import Vacancies  # noqa
+from src.database.models.brand import Brand  # noqa
+from src.database.models.marks import Mark  # noqa
+from src.database.models.model import Model  # noqa
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.product_models import ProductModels  # noqa
+from src.database.models.user_type import UserType  # noqa
+from src.database.models.type_moto import TypeMoto  # noqa
+from src.database.models.product_type_models import ProductTypeModels  # noqa
+from src.database.models.garage import Garage  # noqa
+from src.database.models.vacancy_request import VacancyRequest  # noqa
+from src.database.models.product_marks import ProductMarks  # noqa
 
 # Database for migrations
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 from alembic import context
 
