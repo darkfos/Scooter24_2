@@ -12,4 +12,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 ENV PYTHONPATH=/brocker_scooter
 
-CMD ["python", "-m", "src/other/broker/rabbit"]
+CMD ["python", "-m", "/other/broker/rabbit"]
