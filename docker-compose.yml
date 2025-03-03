@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "9000:8000"
+      - "8050:8050"
     restart: always
     depends_on:
       - postgres
@@ -23,20 +23,22 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5588:5432"
+      - "5432:5432"
     restart: always
     networks:
       - scooter_bridge
+
   redis:
     container_name: redis_db
     image: redis:7.4.1-alpine3.20
     ports:
-      - "6788:6379"
+      - "6379:6379"
     restart: always
     depends_on:
       - backend
     networks:
       - scooter_bridge
+
   broker:
     container_name: broker_rabbit
     image: rabbitmq:3.13.7-management-alpine
@@ -45,7 +47,7 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
     ports:
-      - "5675:5672"
+      - "5672:5672"
     networks:
       - scooter_bridge
     healthcheck:
