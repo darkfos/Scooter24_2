@@ -4,18 +4,18 @@ import logging as logger
 from typing import Union, List, Type
 from fastapi import status, HTTPException, UploadFile
 
-from api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
 
 # Local
-from database.models.product import Product
-from api.core.product_app.error.http_product_exception import (
+from src.database.models.product import Product
+from src.api.core.product_app.error.http_product_exception import (
     ProductHttpError,
 )
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.core.category_app.error.http_category_exception import (
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.core.category_app.error.http_category_exception import (
     CategoryHttpError,
 )
-from api.core.product_app.schemas.product_dto import (
+from src.api.core.product_app.schemas.product_dto import (
     ListProductBase,
     ProductBase,
     ProductAllInformation,
@@ -23,19 +23,19 @@ from api.core.product_app.schemas.product_dto import (
     UpdateProduct,
     UpdateProductDiscount,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository
-from other.enums.product_enum import FilteredDescProduct
-from other.image.image_saver import ImageSaver
-from other.enums.auth_enum import AuthenticationEnum
-from other.s3_service.file_manager import FileS3Manager
-from database.models.product_photos import ProductPhotos
-from api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
-from api.core.mark_app.schemas.mark_dto import ProductMarks
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.product_enum import FilteredDescProduct
+from src.other.image.image_saver import ImageSaver
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.s3_service.file_manager import FileS3Manager
+from src.database.models.product_photos import ProductPhotos
+from src.api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
+from src.api.core.mark_app.schemas.mark_dto import ProductMarks
 
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()

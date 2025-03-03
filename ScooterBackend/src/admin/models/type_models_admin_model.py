@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.type_moto import TypeMoto
+from src.database.models.type_moto import TypeMoto
 
 
 class TypeMotoAdminModel(ModelView, model=TypeMoto):

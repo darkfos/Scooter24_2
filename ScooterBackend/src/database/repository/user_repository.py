@@ -7,14 +7,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, Result
 from sqlalchemy.orm import joinedload
 
-from database.models.product import Product
+from src.database.models.product import Product
 
 # Local
-from database.models.user import User
-from database.models.order import Order
-from database.repository.general_repository import GeneralSQLRepository
-from other.enums.user_type_enum import UserTypeEnum
-from database.models.enums.order_enum import OrderTypeOperationsEnum
+from src.database.models.user import User
+from src.database.models.order import Order
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.other.enums.user_type_enum import UserTypeEnum
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 logging = logger.getLogger(__name__)

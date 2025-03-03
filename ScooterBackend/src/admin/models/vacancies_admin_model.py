@@ -1,5 +1,5 @@
 from sqladmin.models import ModelView
-from database.models.vacancies import Vacancies
+from src.database.models.vacancies import Vacancies
 from typing import List, Any
 
 

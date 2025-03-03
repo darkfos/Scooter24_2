@@ -1,5 +1,5 @@
 from sqladmin.models import ModelView
-from database.models.type_worker import TypeWorker
+from src.database.models.type_worker import TypeWorker
 from typing import List, Any
 
 

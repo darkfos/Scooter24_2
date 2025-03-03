@@ -12,21 +12,21 @@ from typing import Union
 # Local
 
 # Модели
-from database.models.product import Product  # noqa
-from database.models.category import Category  # noqa
-from database.models.order import Order  # noqa
-from database.models.user import User  # noqa
-from database.models.review import Review  # noqa
-from database.models.favourite import Favourite  # noqa
-from database.models.type_worker import TypeWorker  # noqa
-from database.models.vacancies import Vacancies  # noqa
-from database.models.subcategory import SubCategory  # noqa
-from database.models.product_models import ProductModels  # noqa
-from database.models.user_type import UserType  # noqa
-from database.models.vacancy_request import VacancyRequest  # noqa
-from settings.database_settings.database_settings import DatabaseSettings
+from src.database.models.product import Product  # noqa
+from src.database.models.category import Category  # noqa
+from src.database.models.order import Order  # noqa
+from src.database.models.user import User  # noqa
+from src.database.models.review import Review  # noqa
+from src.database.models.favourite import Favourite  # noqa
+from src.database.models.type_worker import TypeWorker  # noqa
+from src.database.models.vacancies import Vacancies  # noqa
+from src.database.models.subcategory import SubCategory  # noqa
+from src.database.models.product_models import ProductModels  # noqa
+from src.database.models.user_type import UserType  # noqa
+from src.database.models.vacancy_request import VacancyRequest  # noqa
+from src.settings.database_settings.database_settings import DatabaseSettings
 
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class DatabaseEngine:

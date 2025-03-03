@@ -5,8 +5,8 @@ from sqlalchemy.orm import joinedload
 from typing import Type, Sequence
 
 # Local
-from database.models.vacancies import Vacancies
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.models.vacancies import Vacancies
+from src.database.repository.general_repository import GeneralSQLRepository
 
 
 class VacanciesRepository(GeneralSQLRepository):

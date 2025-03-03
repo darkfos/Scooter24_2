@@ -7,7 +7,7 @@ import logging as logger
 from random import choice
 
 # Local
-from settings.engine_settings import Settings
+from src.settings.engine_settings import Settings
 
 
 logging = logger.getLogger(__name__)

@@ -6,7 +6,7 @@ from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class Favourite(MainBase):

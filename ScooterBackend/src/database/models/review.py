@@ -6,7 +6,7 @@ from sqlalchemy import Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class Review(MainBase):

@@ -1,13 +1,14 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from sqlalchemy import ForeignKey
 
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 # Local
-from database.models.model import Model
-from database.models.marks import Mark
-from database.models.type_moto import TypeMoto
-from database.models.user import User
+from src.database.models.model import Model
+from src.database.models.marks import Mark
+from src.database.models.type_moto import TypeMoto
+from src.database.models.user import User
 
 
 class Garage(MainBase):

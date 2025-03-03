@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class ProductTypeModels(MainBase):

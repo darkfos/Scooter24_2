@@ -5,7 +5,7 @@ from fastapi import status, FastAPI
 from typing import Type
 import uvicorn
 from logger import set_logger
-from settings.engine_settings import Settings
+from src.settings.engine_settings import Settings
 
 set_logger()
 

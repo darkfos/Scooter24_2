@@ -7,20 +7,20 @@ from starlette.staticfiles import StaticFiles
 from sqladmin.authentication import login_required
 from typing import Type, List, override
 
-from database.db_worker import db_work
+from src.database.db_worker import db_work
 from fastapi import FastAPI, Request
 
-from settings.engine_settings import Settings
+from src.settings.engine_settings import Settings
 from io import StringIO
 
 # Models
-from admin import all_models
+from src.admin import all_models
 
 # Admin Authentication
-from admin.admin_auth import AdminPanelAuthentication
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import EngineRepository
-from admin.admin_panel_data_service import AdminPanelService
+from src.admin.admin_auth import AdminPanelAuthentication
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import EngineRepository
+from src.admin.admin_panel_data_service import AdminPanelService
 import pandas
 
 

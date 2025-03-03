@@ -3,7 +3,7 @@ from pydantic import Field, BaseModel
 from typing import List, Annotated
 
 # Local
-from api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
 
 
 class CategoryBase(BaseModel):

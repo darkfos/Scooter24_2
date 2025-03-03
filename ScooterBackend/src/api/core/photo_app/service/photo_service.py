@@ -1,7 +1,7 @@
-from api.dep.dependencies import IEngineRepository
-from api.core.photo_app.dto.photo_dto import AllPhotos, PhotoBase
-from store.tools import RedisTools
-from api.core.photo_app.exception.photo_excp import PhotoAPIError
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.photo_app.dto.photo_dto import AllPhotos, PhotoBase
+from src.store.tools import RedisTools
+from src.api.core.photo_app.exception.photo_excp import PhotoAPIError
 
 
 redis: RedisTools = RedisTools()

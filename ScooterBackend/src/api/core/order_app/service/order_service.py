@@ -3,22 +3,22 @@ from typing import List, Union, Type
 import logging as logger
 
 # Local
-from database.models.order import Order
-from database.models.category import Category
-from api.core.order_app.error.http_order_exception import OrderHttpError
-from api.core.order_app.schemas.order_dto import (
+from src.database.models.order import Order
+from src.database.models.category import Category
+from src.api.core.order_app.error.http_order_exception import OrderHttpError
+from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     ListOrderAndUserInformation,
     AddOrder,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
-from database.models.enums.order_enum import OrderTypeOperationsEnum
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()

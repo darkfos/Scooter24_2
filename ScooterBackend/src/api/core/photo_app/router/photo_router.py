@@ -1,9 +1,9 @@
 from fastapi import APIRouter, status, Depends
 from typing import Annotated
-from api.core.photo_app.dto.photo_dto import AllPhotos, PhotoBase
-from api.core.photo_app.service.photo_service import PhotoService
-from api.dep.dependencies import EngineRepository, IEngineRepository
-from other.enums.api_enum import APIPrefix, APITagsEnum
+from src.api.core.photo_app.dto.photo_dto import AllPhotos, PhotoBase
+from src.api.core.photo_app.service.photo_service import PhotoService
+from src.api.dep.dependencies import EngineRepository, IEngineRepository
+from src.other.enums.api_enum import APIPrefix, APITagsEnum
 
 
 photo_router: APIRouter = APIRouter(

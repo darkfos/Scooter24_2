@@ -1,5 +1,5 @@
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.marks import Mark
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.marks import Mark
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 

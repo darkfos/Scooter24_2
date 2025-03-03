@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Text, ForeignKey
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class ProductPhotos(MainBase):

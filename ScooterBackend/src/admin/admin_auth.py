@@ -4,9 +4,9 @@ from fastapi.responses import RedirectResponse
 from starlette.responses import Response
 from typing import Type, Union
 
-from api.authentication.secure.authentication_service import Authentication
-from database.db_worker import db_work
-from api.core.auth_app.schemas.auth_dto import Tokens
+from src.api.authentication.secure.authentication_service import Authentication
+from src.database.db_worker import db_work
+from src.api.core.auth_app.schemas.auth_dto import Tokens
 
 
 class AdminPanelAuthentication(AuthenticationBackend):

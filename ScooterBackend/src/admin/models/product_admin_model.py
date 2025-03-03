@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.product import Product
+from src.database.models.product import Product
 
 
 class ProductModelView(ModelView, model=Product):

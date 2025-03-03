@@ -8,11 +8,11 @@ from sqlalchemy import select, delete, Row, desc
 from sqlalchemy.orm import joinedload
 
 # Local
-from database.models.order import Order
-from database.models.product import Product
-from database.models.product_photos import ProductPhotos
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.enums.order_enum import OrderTypeOperationsEnum
+from src.database.models.order import Order
+from src.database.models.product import Product
+from src.database.models.product_photos import ProductPhotos
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
 
 logging = logger.getLogger(__name__)

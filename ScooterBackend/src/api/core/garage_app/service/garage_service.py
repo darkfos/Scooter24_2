@@ -1,14 +1,14 @@
-from api.dep.dependencies import IEngineRepository
-from api.core.garage_app.schemas.garage_dto import (
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.garage_app.schemas.garage_dto import (
     ListGarageBase,
     GarageBase,
     AddNewMotoToGarage,
 )
-from api.authentication.secure.authentication_service import Authentication
-from other.enums.auth_enum import AuthenticationEnum
-from database.models.garage import Garage
-from api.core.garage_app.errors.garage_errors import GarageException
-from store.tools import RedisTools
+from src.api.authentication.secure.authentication_service import Authentication
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.database.models.garage import Garage
+from src.api.core.garage_app.errors.garage_errors import GarageException
+from src.store.tools import RedisTools
 
 
 auth: Authentication = Authentication()

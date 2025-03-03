@@ -1,7 +1,7 @@
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.repository.general_repository import GeneralSQLRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Row, select, Sequence
-from database.models.product_photos import ProductPhotos
+from src.database.models.product_photos import ProductPhotos
 from typing import Type
 
 

@@ -3,22 +3,22 @@ from typing import List, Union, Type
 import logging as logger
 
 # Local
-from database.repository.type_worker_repository import TypeWorker
-from api.core.type_worker_app.schemas.type_worker_dto import (
+from src.database.repository.type_worker_repository import TypeWorker
+from src.api.core.type_worker_app.schemas.type_worker_dto import (
     TypeWorkerBase,
     TypeWorkerList,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.core.type_worker_app.error.http_type_worker_exceptions import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.type_worker_app.error.http_type_worker_exceptions import (
     TypeWorkerExceptions,
 )
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 
 redis: Type[RedisTools] = RedisTools()

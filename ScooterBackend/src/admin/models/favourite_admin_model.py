@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.favourite import Favourite
+from src.database.models.favourite import Favourite
 from typing import List, Any
 
 

@@ -6,16 +6,16 @@ import logging
 from fastapi import Depends, status, APIRouter
 
 # Local
-from api.core.review_app.schemas.review_dto import (
+from src.api.core.review_app.schemas.review_dto import (
     ReviewBase,
     ReviewMessage,
     ListReviewMessageForProduct,
     ReviewIsCreated,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.core.review_app.service.review_service import ReviewService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.review_app.service.review_service import ReviewService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 review_router: APIRouter = APIRouter(

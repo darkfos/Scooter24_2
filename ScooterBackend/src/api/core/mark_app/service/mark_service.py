@@ -1,14 +1,14 @@
-from api.dep.dependencies import IEngineRepository
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.core.mark_app.schemas.mark_dto import MarkBase, AllMarks
-from database.models.marks import Mark
-from api.core.mark_app.errors.http_mark_exception import MarkException
-from api.authentication.secure.authentication_service import Authentication
-from api.authentication.secure.authentication_service import (
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.core.mark_app.schemas.mark_dto import MarkBase, AllMarks
+from src.database.models.marks import Mark
+from src.api.core.mark_app.errors.http_mark_exception import MarkException
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.authentication.secure.authentication_service import (
     AuthenticationEnum,
 )
-from api.authentication.hash_service.hashing import CryptographyScooter
-from store.tools import RedisTools
+from src.api.authentication.hash_service.hashing import CryptographyScooter
+from src.store.tools import RedisTools
 from typing import NoReturn, List, Union
 
 

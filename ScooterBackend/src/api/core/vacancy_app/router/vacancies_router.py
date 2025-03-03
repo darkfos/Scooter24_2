@@ -6,18 +6,18 @@ import logging
 from fastapi import status, Depends, APIRouter
 
 # Local
-from api.authentication.secure.authentication_service import Authentication
-from api.core.vacancy_app.schemas.vacancies_dto import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
     RequestVacancy,
 )
-from api.core.vacancy_app.service.vacancies_service import (
+from src.api.core.vacancy_app.service.vacancies_service import (
     VacanciesService,
 )
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()

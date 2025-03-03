@@ -4,10 +4,10 @@ from typing import Union, Type, Callable
 
 from fastapi import BackgroundTasks
 
-from api.core.order_app.schemas.order_dto import OrderBase
+from src.api.core.order_app.schemas.order_dto import OrderBase
 
 # Local
-from api.core.user_app.schemas.user_dto import (
+from src.api.core.user_app.schemas.user_dto import (
     AddUser,
     InformationAboutUser,
     AllDataUser,
@@ -20,19 +20,19 @@ from api.core.user_app.schemas.user_dto import (
     UpdateAddressDate,
     BuyingOrders,
 )
-from api.core.auth_app.schemas.auth_dto import UpdateUserPassword
-from api.core.auth_app.schemas.auth_dto import RegistrationUser
-from database.models.user import User
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.authentication.hash_service.hashing import CryptographyScooter
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
-from other.enums.user_type_enum import UserTypeEnum
+from src.api.core.auth_app.schemas.auth_dto import UpdateUserPassword
+from src.api.core.auth_app.schemas.auth_dto import RegistrationUser
+from src.database.models.user import User
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.authentication.hash_service.hashing import CryptographyScooter
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.enums.user_type_enum import UserTypeEnum
 import logging as logger
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()

@@ -8,9 +8,9 @@ from sqlalchemy import select, delete, Result
 from sqlalchemy.orm import joinedload, selectinload
 
 # Local
-from database.models.favourite import Favourite
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.product import Product
+from src.database.models.favourite import Favourite
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product import Product
 
 
 logging = logger.getLogger(__name__)

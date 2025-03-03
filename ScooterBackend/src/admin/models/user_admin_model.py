@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.user import User
+from src.database.models.user import User
 from typing import List, Any
 
 

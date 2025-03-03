@@ -1,8 +1,8 @@
 # ROUTES
-from api.core.auth_app.router.authentication_router import (
+from src.api.core.auth_app.router.authentication_router import (
     auth_router as auth_router,
 )
-from api.general_router import api_v1_router
+from src.api.general_router import api_v1_router
 from admin.admin_panel import AdminPanel
 
 

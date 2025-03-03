@@ -3,7 +3,7 @@ import datetime
 
 from pydantic import BaseModel, Field, EmailStr
 from typing import Annotated, Union, List, Dict
-from api.core.order_app.schemas.order_dto import OrderBase
+from src.api.core.order_app.schemas.order_dto import OrderBase
 
 
 class UserBase(BaseModel):

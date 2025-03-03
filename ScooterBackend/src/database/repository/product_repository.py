@@ -8,13 +8,13 @@ from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
 # Local
-from database.models.product import Product
-from database.models.product_marks import ProductMarks
-from database.models.product_models import ProductModels
-from database.models.subcategory import SubCategory
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.product_type_models import ProductTypeModels
-from other.enums.product_enum import FilteredDescProduct
+from src.database.models.product import Product
+from src.database.models.product_marks import ProductMarks
+from src.database.models.product_models import ProductModels
+from src.database.models.subcategory import SubCategory
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product_type_models import ProductTypeModels
+from src.other.enums.product_enum import FilteredDescProduct
 
 logging = logger.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 from sqladmin import ModelView
 from typing import Dict, List, Any
-from database.models.product_type_models import ProductTypeModels
+from src.database.models.product_type_models import ProductTypeModels
 
 
 class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):

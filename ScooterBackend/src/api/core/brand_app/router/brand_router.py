@@ -1,13 +1,13 @@
 from fastapi import APIRouter, status, Depends, UploadFile
-from api.core.brand_app.service.brand_service import BrandService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from api.authentication.secure.authentication_service import Authentication
+from src.api.core.brand_app.service.brand_service import BrandService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.authentication.secure.authentication_service import Authentication
 from pydantic import Field
-from api.core.brand_app.schemas.brand_dto import (
+from src.api.core.brand_app.schemas.brand_dto import (
     BrandBase,
     AllBrands,
 )
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 

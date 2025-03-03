@@ -9,19 +9,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 # Local
-from api.core.favourite_app.schemas.favourite_dto import (
+from src.api.core.favourite_app.schemas.favourite_dto import (
     FavouriteInformation,
     FavouriteSmallData,
     AddFavourite,
     ListFavouriteBase,
 )
 
-from api.authentication.secure.authentication_service import Authentication
-from api.core.favourite_app.service.favourite_service import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.favourite_app.service.favourite_service import (
     FavouriteService,
 )
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()

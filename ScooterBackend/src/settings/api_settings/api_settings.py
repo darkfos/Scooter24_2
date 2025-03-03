@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 # Local
-from settings.descriptor import SettingsDescriptor
+from src.settings.descriptor import SettingsDescriptor
 
 
 class APISettings:

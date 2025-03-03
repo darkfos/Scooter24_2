@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.category import Category
+from src.database.models.category import Category
 from typing import List, Any
 
 

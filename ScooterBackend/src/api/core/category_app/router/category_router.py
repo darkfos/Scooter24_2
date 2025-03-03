@@ -7,19 +7,19 @@ from fastapi import APIRouter, status, Depends
 from fastapi.responses import FileResponse
 
 # Local
-from api.core.category_app.schemas.category_dto import (
+from src.api.core.category_app.schemas.category_dto import (
     CategoryIsUpdated,
     CategoriesList,
     CategoryBase,
     CategoryIsCreated,
     DataCategoryToUpdate,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.core.category_app.service.category_service import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.category_app.service.category_service import (
     CategoryService,
 )
-from api.dep.dependencies import EngineRepository, IEngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import EngineRepository, IEngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 category_router = APIRouter(
     prefix=APIPrefix.CATEGORY_PREFIX.value,

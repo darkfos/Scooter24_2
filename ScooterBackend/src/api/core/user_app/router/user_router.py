@@ -6,8 +6,8 @@ import logging
 from fastapi import APIRouter, status, Depends
 
 # Local
-from api.authentication.secure.authentication_service import Authentication
-from api.core.user_app.schemas.user_dto import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.user_app.schemas.user_dto import (
     InformationAboutUser,
     AllDataUser,
     UserReviewData,
@@ -18,9 +18,9 @@ from api.core.user_app.schemas.user_dto import (
     UpdateAddressDate,
     BuyingOrders,
 )
-from api.core.user_app.service.user_service import UserService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.core.user_app.service.user_service import UserService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 user_router: APIRouter = APIRouter(
     prefix=APIPrefix.USER_PREFIX.value, tags=[APITagsEnum.USER.value]

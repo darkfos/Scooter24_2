@@ -1,4 +1,4 @@
-from api.errors.global_excp import APIError
+from src.api.errors.global_excp import APIError
 from fastapi import status
 
 

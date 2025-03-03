@@ -11,18 +11,18 @@ import logging
 from starlette.responses import RedirectResponse
 
 # Local
-from api.core.auth_app.schemas.auth_dto import (
+from src.api.core.auth_app.schemas.auth_dto import (
     CreateToken,
     AccessToken,
     UpdateUserPassword,
 )
-from api.core.user_app.schemas.user_dto import AddUser
-from api.authentication.secure.authentication_service import Authentication
-from api.core.user_app.service.user_service import UserService
-from api.authentication.email_service import EmailService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
-from settings.engine_settings import Settings
+from src.api.core.user_app.schemas.user_dto import AddUser
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.user_app.service.user_service import UserService
+from src.api.authentication.email_service import EmailService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.settings.engine_settings import Settings
 
 
 auth_router: APIRouter = APIRouter(

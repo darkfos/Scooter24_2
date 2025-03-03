@@ -2,20 +2,20 @@ from typing import NoReturn
 
 from fastapi import UploadFile
 
-from database.repository.brand_repository import Brand
-from api.authentication.secure.authentication_service import (
+from src.database.repository.brand_repository import Brand
+from src.api.authentication.secure.authentication_service import (
     Authentication,
     AuthenticationEnum,
 )
-from store.tools import RedisTools
-from api.dep.dependencies import IEngineRepository
-from api.core.brand_app.schemas.brand_dto import BrandBase, AllBrands
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.core.brand_app.error.http_brand_exceptions import (
+from src.store.tools import RedisTools
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.brand_app.schemas.brand_dto import BrandBase, AllBrands
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.core.brand_app.error.http_brand_exceptions import (
     BrandException,
 )
-from other.s3_service.file_manager import FileS3Manager
-from other.enums.s3_storage_enums import S3EnumStorage
+from src.other.s3_service.file_manager import FileS3Manager
+from src.other.enums.s3_storage_enums import S3EnumStorage
 
 
 auth: Authentication = Authentication()

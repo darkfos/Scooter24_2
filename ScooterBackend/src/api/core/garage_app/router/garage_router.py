@@ -3,14 +3,14 @@ from typing import Annotated, Dict
 
 
 # Local
-from other.enums.api_enum import APITagsEnum, APIPrefix
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from api.core.garage_app.schemas.garage_dto import (
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.core.garage_app.schemas.garage_dto import (
     ListGarageBase,
     AddNewMotoToGarage,
 )
-from api.core.garage_app.service.garage_service import GarageService
+from src.api.core.garage_app.service.garage_service import GarageService
 
 
 garage_router: APIRouter = APIRouter(

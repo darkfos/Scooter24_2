@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.model import Model
+from src.database.models.model import Model
 from typing import List, Any, Dict
 
 

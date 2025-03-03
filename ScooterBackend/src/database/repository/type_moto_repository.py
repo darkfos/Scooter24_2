@@ -3,8 +3,8 @@ from sqlalchemy import select
 
 
 # Local
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.type_moto import TypeMoto
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.type_moto import TypeMoto
 
 
 class TypeMotoRepository(GeneralSQLRepository):

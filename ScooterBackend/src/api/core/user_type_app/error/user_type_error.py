@@ -1,5 +1,5 @@
 from fastapi import status
-from api.errors.general_exceptions import APIError
+from src.api.errors.general_exceptions import APIError
 
 
 class UserTypeException(APIError):

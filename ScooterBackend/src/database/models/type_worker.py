@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class TypeWorker(MainBase):

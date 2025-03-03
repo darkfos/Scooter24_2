@@ -4,7 +4,7 @@ from typing import Union, Type
 from dotenv import load_dotenv
 
 # Local
-from settings.descriptor import SettingsDescriptor
+from src.settings.descriptor import SettingsDescriptor
 
 
 class DatabaseSettings:

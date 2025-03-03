@@ -1,7 +1,7 @@
 from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class Brand(MainBase):

@@ -1,9 +1,9 @@
-from api.dep.dependencies import IEngineRepository
-from api.core.type_moto_app.schemas.type_moto_dto import (
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.type_moto_app.schemas.type_moto_dto import (
     ListTypeModelBase,
     TypeModelBase,
 )
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 
 redis: RedisTools = RedisTools()

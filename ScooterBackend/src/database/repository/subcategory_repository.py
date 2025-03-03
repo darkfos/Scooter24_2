@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.subcategory import SubCategory
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.subcategory import SubCategory
 from typing import Union, List
 from sqlalchemy import select, Result
 

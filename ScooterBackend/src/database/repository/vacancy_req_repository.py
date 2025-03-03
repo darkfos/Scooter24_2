@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Type
 
 # Local
-from database.models.vacancy_request import VacancyRequest
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.models.vacancy_request import VacancyRequest
+from src.database.repository.general_repository import GeneralSQLRepository
 
 
 class VacanciesReqRepository(GeneralSQLRepository):

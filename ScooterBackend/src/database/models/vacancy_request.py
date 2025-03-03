@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey, String, Integer, Text
 
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class VacancyRequest(MainBase):

@@ -7,8 +7,8 @@ import logging
 from fastapi import APIRouter, Depends, UploadFile
 
 # Local
-from api.core.product_app.error.http_product_exception import status
-from api.core.product_app.schemas.product_dto import (
+from src.api.core.product_app.error.http_product_exception import status
+from src.api.core.product_app.schemas.product_dto import (
     UpdateProduct,
     ProductBase,
     ProductAllInformation,
@@ -17,12 +17,12 @@ from api.core.product_app.schemas.product_dto import (
     ProductIsCreated,
     Field,
 )
-from api.authentication.secure.authentication_service import Authentication
-from database.db_worker import db_work
-from api.core.product_app.service.product_service import ProductService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
-from other.enums.product_enum import FilteredDescProduct
+from src.api.authentication.secure.authentication_service import Authentication
+from src.database.db_worker import db_work
+from src.api.core.product_app.service.product_service import ProductService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.enums.product_enum import FilteredDescProduct
 
 
 product_router: APIRouter = APIRouter(

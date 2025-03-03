@@ -1,14 +1,14 @@
 from fastapi import APIRouter, status, Depends
-from api.core.subcategory_app.service.subcategory_service import (
+from src.api.core.subcategory_app.service.subcategory_service import (
     SubCategoryService,
 )
-from api.core.subcategory_app.schemas.subcategory_dto import (
+from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryBase,
     AllSubCategories,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 

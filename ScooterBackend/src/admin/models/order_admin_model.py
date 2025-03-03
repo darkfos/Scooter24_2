@@ -1,6 +1,6 @@
 from sqladmin.models import ModelView
 from typing import List, Any
-from database.models.order import Order
+from src.database.models.order import Order
 
 
 class OrderModelView(ModelView, model=Order):

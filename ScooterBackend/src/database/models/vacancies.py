@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, ForeignKey, Text, String
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class Vacancies(MainBase):

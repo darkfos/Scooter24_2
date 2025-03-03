@@ -8,16 +8,16 @@ from fastapi import APIRouter, status, Depends
 
 
 # Local
-from api.core.type_worker_app.service.type_worker_service import (
+from src.api.core.type_worker_app.service.type_worker_service import (
     TypeWorkerService,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.core.type_worker_app.schemas.type_worker_dto import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.type_worker_app.schemas.type_worker_dto import (
     TypeWorkerBase,
     TypeWorkerList,
 )
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()

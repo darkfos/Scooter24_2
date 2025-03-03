@@ -1,5 +1,5 @@
-from api.errors.global_excp import APIError
-from api.errors.enum_message_for_excp import HeaderMessage
+from src.api.errors.global_excp import APIError
+from src.api.errors.enum_message_for_excp import HeaderMessage
 from fastapi import status
 
 

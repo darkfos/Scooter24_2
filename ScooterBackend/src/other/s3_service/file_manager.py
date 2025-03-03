@@ -4,8 +4,8 @@ from aiohttp import ClientSession
 from aiobotocore.session import ClientCreatorContext, AioSession, get_session
 
 # Local
-from settings.engine_settings import Settings
-from other.enums.s3_storage_enums import S3EnumStorage
+from src.settings.engine_settings import Settings
+from src.other.enums.s3_storage_enums import S3EnumStorage
 
 
 class FileS3Manager:

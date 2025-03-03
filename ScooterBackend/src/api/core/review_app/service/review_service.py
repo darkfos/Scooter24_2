@@ -4,23 +4,23 @@ import logging as logger
 
 
 # Local
-from database.models.review import Review
-from api.core.review_app.schemas.review_dto import (
+from src.database.models.review import Review
+from src.api.core.review_app.schemas.review_dto import (
     ReviewMessage,
     ReviewBase,
     ReviewIsCreated,
     ListReviewMessageForProduct,
 )
-from api.core.review_app.error.http_review_exception import (
+from src.api.core.review_app.error.http_review_exception import (
     ReviewHttpError,
 )
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()

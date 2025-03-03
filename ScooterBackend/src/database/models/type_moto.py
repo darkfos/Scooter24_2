@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class TypeMoto(MainBase):

@@ -1,4 +1,4 @@
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import Integer, String, ForeignKey
 from typing import List

@@ -3,12 +3,12 @@ from typing import Annotated
 
 
 # Local
-from other.enums.api_enum import APIPrefix, APITagsEnum
-from api.core.type_moto_app.schemas.type_moto_dto import (
+from src.other.enums.api_enum import APIPrefix, APITagsEnum
+from src.api.core.type_moto_app.schemas.type_moto_dto import (
     ListTypeModelBase,
 )
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from api.core.type_moto_app.service.type_moto_service import (
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.core.type_moto_app.service.type_moto_service import (
     TypeMotoService,
 )  # noqa
 

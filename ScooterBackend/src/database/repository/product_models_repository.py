@@ -1,5 +1,5 @@
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.product_models import ProductModels
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product_models import ProductModels
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import List

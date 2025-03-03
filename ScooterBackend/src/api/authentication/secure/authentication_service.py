@@ -9,19 +9,19 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable
 from fastapi.requests import Request
 
-from database.repository.user_repository import UserRepository
+from src.database.repository.user_repository import UserRepository
 
 # Local
-from settings.engine_settings import Settings
-from api.core.auth_app.schemas.auth_dto import CreateToken, Tokens
-from other.enums.user_type_enum import UserTypeEnum
-from api.authentication.hash_service.hashing import CryptographyScooter
-from api.errors.general_exceptions import GeneralExceptions
-from api.core.user_app.error.http_user_exception import UserHttpError
-from database.models.user import User
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
-from other.enums.api_enum import APIPrefix
+from src.settings.engine_settings import Settings
+from src.api.core.auth_app.schemas.auth_dto import CreateToken, Tokens
+from src.other.enums.user_type_enum import UserTypeEnum
+from src.api.authentication.hash_service.hashing import CryptographyScooter
+from src.api.errors.general_exceptions import GeneralExceptions
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.database.models.user import User
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.other.enums.api_enum import APIPrefix
 
 
 logging = logger.getLogger(__name__)

@@ -1,6 +1,6 @@
 from sqladmin import ModelView
 from typing import List, Any
-from database.models.product_photos import ProductPhotos
+from src.database.models.product_photos import ProductPhotos
 
 
 class ProductPhotosAdminModel(ModelView, model=ProductPhotos):

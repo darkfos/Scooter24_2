@@ -1,14 +1,14 @@
 from fastapi import APIRouter, status, Depends
-from api.core.product_models_app.service.product_models_service import (
+from src.api.core.product_models_app.service.product_models_service import (
     ProductModelsService,
 )
-from api.core.product_models_app.schemas.product_models_dto import (
+from src.api.core.product_models_app.schemas.product_models_dto import (
     ProductModelsBase,
     AllProductModels,
 )
-from api.authentication.secure.authentication_service import Authentication
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 

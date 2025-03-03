@@ -7,8 +7,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey, Boolean
 
 # Local
-from database.mainbase import MainBase
-from database.models.product_photos import ProductPhotos
+from src.database.mainbase import MainBase
+from src.database.models.product_photos import ProductPhotos
 
 
 class Product(MainBase):

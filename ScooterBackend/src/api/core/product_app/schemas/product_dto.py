@@ -5,12 +5,12 @@ from typing import List, Annotated, Union
 # Other libraries
 from pydantic import BaseModel, Field
 
-from api.core.photo_app.dto.photo_dto import PhotoBase
-from api.core.subcategory_app.schemas.subcategory_dto import (
+from src.api.core.photo_app.dto.photo_dto import PhotoBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryBase,
 )
-from api.core.mark_app.schemas.mark_dto import ProductMarks
-from api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
+from src.api.core.mark_app.schemas.mark_dto import ProductMarks
+from src.api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
 
 
 class ProductBase(BaseModel):

@@ -2,8 +2,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Local
-from database.repository.general_repository import GeneralSQLRepository
-from database.models.type_worker import TypeWorker
+from src.database.repository.general_repository import GeneralSQLRepository
+from src.database.models.type_worker import TypeWorker
 from typing import Type
 
 

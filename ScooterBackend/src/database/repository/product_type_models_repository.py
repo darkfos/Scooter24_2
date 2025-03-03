@@ -1,5 +1,5 @@
-from database.models.product_type_models import ProductTypeModels
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.models.product_type_models import ProductTypeModels
+from src.database.repository.general_repository import GeneralSQLRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 
 

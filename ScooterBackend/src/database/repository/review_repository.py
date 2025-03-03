@@ -8,8 +8,8 @@ from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
 # Local
-from database.models.review import Review
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.models.review import Review
+from src.database.repository.general_repository import GeneralSQLRepository
 
 
 logging = logger.getLogger(__name__)

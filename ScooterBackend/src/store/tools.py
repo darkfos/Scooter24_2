@@ -4,7 +4,7 @@ import json
 import logging
 
 # Settings
-from settings.engine_settings import Settings
+from src.settings.engine_settings import Settings
 
 
 class RedisTools:

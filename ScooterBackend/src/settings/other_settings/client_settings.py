@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from typing import Union
 from os import getenv
-from settings.descriptor import SettingsDescriptor
+from src.settings.descriptor import SettingsDescriptor
 
 load_dotenv()
 

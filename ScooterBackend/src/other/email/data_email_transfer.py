@@ -5,8 +5,8 @@ from email.mime.text import MIMEText
 import logging
 
 # Local
-from settings.engine_settings import Settings
-from settings.other_settings.email_transfer_settings import (
+from src.settings.engine_settings import Settings
+from src.settings.other_settings.email_transfer_settings import (
     EmailTransferSettings,
 )
 

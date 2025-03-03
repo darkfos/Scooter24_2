@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.garage import Garage
+from src.database.models.garage import Garage
 from typing import List, Any, Dict
 
 

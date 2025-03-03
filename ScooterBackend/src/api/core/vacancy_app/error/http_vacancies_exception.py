@@ -2,7 +2,7 @@
 from fastapi import status
 
 # Local
-from api.errors.global_excp import APIError
+from src.api.errors.global_excp import APIError
 
 
 class VacanciesHttpError(APIError):

@@ -8,35 +8,35 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 # Local
-from database.repository.user_repository import UserRepository
-from database.repository.user_type_repository import UserTypeRepository
-from database.repository.category_repository import CategoryRepository
-from database.repository.product_repository import ProductRepository
-from database.repository.vacancies_repository import VacanciesRepository
-from database.repository.type_worker_repository import TypeWorkerRepository
-from database.repository.favourite_repository import FavouriteRepository
-from database.repository.order_repository import OrderRepository
-from database.repository.review_repository import ReviewRepository
-from database.repository.subcategory_repository import SubCategoryRepository
-from database.repository.brand_repository import BrandRepository
-from database.repository.model_repository import ModelRepository
-from database.repository.mark_repository import MarkRepository
-from database.repository.product_models_repository import (
+from src.database.repository.user_repository import UserRepository
+from src.database.repository.user_type_repository import UserTypeRepository
+from src.database.repository.category_repository import CategoryRepository
+from src.database.repository.product_repository import ProductRepository
+from src.database.repository.vacancies_repository import VacanciesRepository
+from src.database.repository.type_worker_repository import TypeWorkerRepository
+from src.database.repository.favourite_repository import FavouriteRepository
+from src.database.repository.order_repository import OrderRepository
+from src.database.repository.review_repository import ReviewRepository
+from src.database.repository.subcategory_repository import SubCategoryRepository
+from src.database.repository.brand_repository import BrandRepository
+from src.database.repository.model_repository import ModelRepository
+from src.database.repository.mark_repository import MarkRepository
+from src.database.repository.product_models_repository import (
     ProductModelsRepository,
 )
-from database.repository.photos_repository import PhotosRepository
-from database.repository.type_moto_repository import TypeMotoRepository
-from database.repository.garage_repository import GarageRepository
-from database.repository.vacancy_req_repository import (
+from src.database.repository.photos_repository import PhotosRepository
+from src.database.repository.type_moto_repository import TypeMotoRepository
+from src.database.repository.garage_repository import GarageRepository
+from src.database.repository.vacancy_req_repository import (
     VacanciesReqRepository,
 )  # noqa
-from database.repository.product_marks_repository import (
+from src.database.repository.product_marks_repository import (
     ProductMarksRepository,
 )
-from database.repository.product_type_models_repository import (
+from src.database.repository.product_type_models_repository import (
     ProductTypeModelsRepository,
 )
-from database.db_worker import db_work
+from src.database.db_worker import db_work
 
 
 class IEngineRepository(ABC):

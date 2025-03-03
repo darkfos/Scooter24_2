@@ -1,12 +1,12 @@
 from fastapi import APIRouter, status, Depends
-from api.authentication.secure.authentication_service import Authentication
-from api.core.user_type_app.service.user_type_service import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.user_type_app.service.user_type_service import (
     UserTypeService,
     NewUserType,
     AllUserType,
 )
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 
 

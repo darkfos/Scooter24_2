@@ -1,6 +1,6 @@
-from database.models.user_type import UserType
+from src.database.models.user_type import UserType
 from sqlalchemy.ext.asyncio import AsyncSession
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.repository.general_repository import GeneralSQLRepository
 
 
 class UserTypeRepository(GeneralSQLRepository):

@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.brand import Brand
+from src.database.models.brand import Brand
 from typing import List, Any, Dict
 
 

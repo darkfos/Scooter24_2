@@ -1,9 +1,9 @@
 from fastapi import APIRouter, status, Depends
-from api.core.mark_app.schemas.mark_dto import MarkBase, AllMarks
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from api.core.mark_app.service.mark_service import MarkService
-from api.authentication.secure.authentication_service import Authentication
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.core.mark_app.schemas.mark_dto import MarkBase, AllMarks
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.core.mark_app.service.mark_service import MarkService
+from src.api.authentication.secure.authentication_service import Authentication
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated, Dict, Union, List
 
 

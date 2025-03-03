@@ -1,18 +1,18 @@
-from api.dep.dependencies import IEngineRepository
-from database.models.product_models import ProductModels
-from api.core.product_models_app.errors.http_product_models_exception import (  # noqa
+from src.api.dep.dependencies import IEngineRepository
+from src.database.models.product_models import ProductModels
+from src.api.core.product_models_app.errors.http_product_models_exception import (  # noqa
     ProductModelsException,
 )
-from api.core.product_models_app.schemas.product_models_dto import (
+from src.api.core.product_models_app.schemas.product_models_dto import (
     ProductModelsBase,
     AllProductModels,
 )
-from api.authentication.secure.authentication_service import (
+from src.api.authentication.secure.authentication_service import (
     Authentication,
     AuthenticationEnum,
 )
-from api.core.user_app.error.http_user_exception import UserHttpError
-from store.tools import RedisTools
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.store.tools import RedisTools
 
 
 redis: RedisTools = RedisTools()

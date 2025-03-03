@@ -1,17 +1,17 @@
-from api.authentication.secure.authentication_service import (
+from src.api.authentication.secure.authentication_service import (
     Authentication,
     AuthenticationEnum,
 )
-from api.dep.dependencies import IEngineRepository
-from api.core.user_app.service.user_service import (
+from src.api.dep.dependencies import IEngineRepository
+from src.api.core.user_app.service.user_service import (
     UserService,
     UserHttpError,
 )
-from other.email.data_email_transfer import email_transfer
-from api.authentication.secret.secret_upd_key import SecretKey
-from api.core.user_app.schemas.user_dto import AddUser
-from other.broker.producer.producer import send_message_email
-from other.broker.dto.email_dto import EmailData
+from src.other.email.data_email_transfer import email_transfer
+from src.api.authentication.secret.secret_upd_key import SecretKey
+from src.api.core.user_app.schemas.user_dto import AddUser
+from src.other.broker.producer.producer import send_message_email
+from src.other.broker.dto.email_dto import EmailData
 import logging
 
 logging.getLogger()

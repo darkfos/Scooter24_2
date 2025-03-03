@@ -1,4 +1,4 @@
-from settings.descriptor import SettingsDescriptor
+from src.settings.descriptor import SettingsDescriptor
 from os import getenv
 from dotenv import load_dotenv
 

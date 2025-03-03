@@ -1,8 +1,8 @@
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from api.authentication.secure.authentication_service import Authentication
-from api.core.model_app.schemas.model_dto import ModelBase, AllModelBase
-from api.core.model_app.service.model_service import ModelService
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.model_app.schemas.model_dto import ModelBase, AllModelBase
+from src.api.core.model_app.service.model_service import ModelService
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from typing import Annotated
 from fastapi import APIRouter, status, Depends
 

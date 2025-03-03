@@ -3,25 +3,25 @@ from typing import List, Union
 import logging as logger
 
 # Local
-from api.authentication.secure.authentication_service import Authentication
-from api.core.favourite_app.error.http_favourite_exception import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.favourite_app.error.http_favourite_exception import (
     FavouriteHttpError,
 )
-from api.core.user_app.error.http_user_exception import UserHttpError
-from database.models.favourite import Favourite
-from api.core.favourite_app.schemas.favourite_dto import (
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.database.models.favourite import Favourite
+from src.api.core.favourite_app.schemas.favourite_dto import (
     FavouriteInformation,
     FavouriteSmallData,
     ListFavouriteBase,
     FavouriteBase,
     AddFavourite,
 )
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
 
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: RedisTools = RedisTools()
 auth: Authentication = Authentication()

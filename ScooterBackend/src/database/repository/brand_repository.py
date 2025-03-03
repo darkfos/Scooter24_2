@@ -1,5 +1,5 @@
-from database.models.brand import Brand
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.models.brand import Brand
+from src.database.repository.general_repository import GeneralSQLRepository
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 

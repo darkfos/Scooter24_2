@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.user_type import UserType
+from src.database.models.user_type import UserType
 from typing import List, Any
 
 

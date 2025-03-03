@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from database.models.marks import Mark
+from src.database.models.marks import Mark
 from typing import List, Dict, Any
 
 

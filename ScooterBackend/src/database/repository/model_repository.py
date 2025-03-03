@@ -1,7 +1,7 @@
-from database.repository.general_repository import GeneralSQLRepository
+from src.database.repository.general_repository import GeneralSQLRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from database.models.model import Model
+from src.database.models.model import Model
 
 
 class ModelRepository(GeneralSQLRepository):

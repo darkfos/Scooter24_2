@@ -1,6 +1,6 @@
 from sqladmin import ModelView
 
-from database.models.subcategory import SubCategory
+from src.database.models.subcategory import SubCategory
 from typing import Any, List
 
 

@@ -4,7 +4,7 @@ from typing import Union, Type
 import os
 
 # Local
-from settings.descriptor import SettingsDescriptor
+from src.settings.descriptor import SettingsDescriptor
 
 
 class Authentication:

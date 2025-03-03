@@ -3,24 +3,24 @@ from typing import List, Union, Type
 import logging as logger
 
 # Local
-from api.core.user_app.error.http_user_exception import UserHttpError
-from api.core.vacancy_app.error.http_vacancies_exception import (
+from src.api.core.user_app.error.http_user_exception import UserHttpError
+from src.api.core.vacancy_app.error.http_vacancies_exception import (
     VacanciesHttpError,
 )
-from api.authentication.secure.authentication_service import Authentication
-from database.repository.vacancies_repository import Vacancies
-from api.core.vacancy_app.schemas.vacancies_dto import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.database.repository.vacancies_repository import Vacancies
+from src.api.core.vacancy_app.schemas.vacancies_dto import (
     VacanciesBase,
     UpdateVacancies,
     VacanciesGeneralData,
     RequestVacancy,
 )
-from api.dep.dependencies import IEngineRepository
-from other.enums.auth_enum import AuthenticationEnum
-from database.models.vacancy_request import VacancyRequest
+from src.api.dep.dependencies import IEngineRepository
+from src.other.enums.auth_enum import AuthenticationEnum
+from src.database.models.vacancy_request import VacancyRequest
 
 # Redis
-from store.tools import RedisTools
+from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()

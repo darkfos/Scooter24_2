@@ -4,19 +4,19 @@ from starlette.responses import Response, RedirectResponse
 from fastapi import status
 from starlette.requests import Request
 import pandas
-from api.dep.dependencies import EngineRepository
-from database.models.brand import Brand
-from database.models.model import Model
-from database.models.product_marks import ProductMarks
-from database.models.product_models import ProductModels
-from database.models.product import Product
-from database.models.category import Category
-from database.models.marks import Mark
-from database.models.product_photos import ProductPhotos
-from database.models.product_type_models import ProductTypeModels
-from database.models.subcategory import SubCategory
-from database.models.type_moto import TypeMoto
-from other.s3_service.file_manager import S3EnumStorage, FileS3Manager
+from src.api.dep.dependencies import EngineRepository
+from src.database.models.brand import Brand
+from src.database.models.model import Model
+from src.database.models.product_marks import ProductMarks
+from src.database.models.product_models import ProductModels
+from src.database.models.product import Product
+from src.database.models.category import Category
+from src.database.models.marks import Mark
+from src.database.models.product_photos import ProductPhotos
+from src.database.models.product_type_models import ProductTypeModels
+from src.database.models.subcategory import SubCategory
+from src.database.models.type_moto import TypeMoto
+from src.other.s3_service.file_manager import S3EnumStorage, FileS3Manager
 
 
 class AdminPanelService:

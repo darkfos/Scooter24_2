@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Text
 
 # Local
-from database.mainbase import MainBase
+from src.database.mainbase import MainBase
 
 
 class Category(MainBase):

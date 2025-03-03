@@ -6,15 +6,15 @@ import logging
 from fastapi import Depends, status, APIRouter
 
 # Local
-from api.authentication.secure.authentication_service import Authentication
-from api.core.order_app.schemas.order_dto import (
+from src.api.authentication.secure.authentication_service import Authentication
+from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     AddOrder,
     ListOrderAndUserInformation,
 )
-from api.core.order_app.service.order_service import OrderService
-from api.dep.dependencies import IEngineRepository, EngineRepository
-from other.enums.api_enum import APITagsEnum, APIPrefix
+from src.api.core.order_app.service.order_service import OrderService
+from src.api.dep.dependencies import IEngineRepository, EngineRepository
+from src.other.enums.api_enum import APITagsEnum, APIPrefix
 
 
 auth: Authentication = Authentication()

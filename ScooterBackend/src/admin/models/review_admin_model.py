@@ -1,5 +1,5 @@
 from sqladmin.models import ModelView
-from database.models.review import Review
+from src.database.models.review import Review
 from typing import List, Any
 
 

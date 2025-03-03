@@ -4,10 +4,10 @@ from sqlalchemy.orm import joinedload
 
 
 # Local
-from database.repository.general_repository import (
+from src.database.repository.general_repository import (
     GeneralSQLRepository,
 )  # noqa
-from database.models.garage import Garage
+from src.database.models.garage import Garage
 
 
 class GarageRepository(GeneralSQLRepository):
