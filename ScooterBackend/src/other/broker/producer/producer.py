@@ -1,5 +1,5 @@
-from other.broker.rabbit import broker
-from other.broker.dto.email_dto import EmailData
+from src.other.broker.rabbit import broker
+from src.other.broker.dto.email_dto import EmailData
 
 
 async def send_message_email(email_data: EmailData):

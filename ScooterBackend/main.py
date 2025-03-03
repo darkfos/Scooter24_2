@@ -1,5 +1,5 @@
 import logging.config
-from scooter_backend_application import ScooterBackendApplication
+from src.scooter_backend_application import ScooterBackendApplication
 from fastapi.responses import RedirectResponse
 from fastapi import status, FastAPI
 from typing import Type

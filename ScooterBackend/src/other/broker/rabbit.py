@@ -1,7 +1,7 @@
 import asyncio
 from faststream.rabbit import RabbitQueue, RabbitBroker
-from other.broker.dto.email_dto import EmailData
-from other.email.data_email_transfer import EmailTransfer
+from src.other.broker.dto.email_dto import EmailData
+from src.other.email.data_email_transfer import EmailTransfer
 from faststream import FastStream
 from os import getenv
 from dotenv import load_dotenv
