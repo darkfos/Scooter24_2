@@ -56,19 +56,14 @@ class AdminPanelService:
                             id_subcat_1 = id_subcat_1[0].id
 
                         if not id_subcat_1:
+
                             create_subcat_1 = (
                                 await session.subcategory_repository.add_one(
                                     SubCategory(
                                         name=row.get(
                                             "Подкатегория первого уровня"
                                         ).strip(),
-                                        id_category=(
-                                            row["Категория"]
-                                            if pandas.notna(
-                                                row.get("Категория")
-                                            )
-                                            else None
-                                        ),
+                                        id_category=int(row.get("Категория")),
                                     )
                                 )
                             )
