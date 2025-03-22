@@ -24,7 +24,7 @@ class EmailService:
     @staticmethod
     async def send_secret_key_for_register(
         engine: IEngineRepository, new_user: AddUser
-    ) -> None:
+    ) -> str | None:
         """
         Метод сервиса EmailService - отправка ссылки на почту
         """
@@ -47,10 +47,7 @@ class EmailService:
                     data_to_update={"secret_create_key": secret_key},
                 )
                 if is_updated:
-                    await send_message_email(email_data=EmailData(
-                        email=new_user.email_user,
-                        secret_key=secret_key
-                    ))
+                    return secret_key
 
     @staticmethod
     async def access_user_account(
@@ -71,8 +68,9 @@ class EmailService:
                     other_id=user_data.id,
                     data_to_update={"secret_create_key": "", "is_active": True},
                 )
+
                 if is_updated:
-                    return
+                    return True
                 await UserHttpError().http_failed_to_update_user_information()
             await UserHttpError().http_user_not_found()
 

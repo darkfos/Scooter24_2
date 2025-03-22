@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated
+from typing import Annotated, Any
 import logging
 
 from starlette.responses import RedirectResponse
@@ -23,7 +23,7 @@ from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from src.settings.engine_settings import Settings
-
+from src.other.broker.producer.producer import send_message_email
 
 auth_router: APIRouter = APIRouter(
     prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
@@ -106,7 +106,6 @@ async def login_user(
 async def registration_user(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     new_user: AddUser,
-    back_task: BackgroundTasks,
 ):
     """
     Создание нового пользователя
@@ -125,7 +124,7 @@ async def registration_user(
     await UserService.create_a_new_user(
         engine,
         new_user,
-        bt=back_task,
+        bt=send_message_email,
         func_to_bt=EmailService.send_secret_key_for_register,
     )
 
@@ -254,10 +253,11 @@ async def access_user(
     secret_key: str,
     email: str,
 ) -> None:
-    await EmailService.access_user_account(
+
+    result = await EmailService.access_user_account(
         engine=engine, user_email=email, secret_key=secret_key
     )
 
-    return RedirectResponse(
-        url=Settings.client_settings.front_url, status_code=307
-    )
+    if result:
+
+        return None

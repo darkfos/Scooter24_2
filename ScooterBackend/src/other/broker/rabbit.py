@@ -11,7 +11,7 @@ load_dotenv()
 
 
 broker: RabbitBroker = RabbitBroker(
-    url=f"amqp://{getenv('RABBIT_USER')}:{getenv('RABBIT_PASSWORD')}@broker_rabbit:5672/"
+    url=f"amqp://{getenv("RABBIT_USER")}:{getenv("RABBIT_PASSWORD")}@broker_rabbit:5672/"
 )
 faststream_app: FastStream = FastStream(broker=broker)
 

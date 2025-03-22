@@ -20,7 +20,7 @@ class EmailTransfer:
 
     async def _connect(self) -> None:
         self.smtp_server = smtp.SMTP_SSL("smtp.timeweb.ru", 465)
-        self.smtp_server.login("scooter24-email@xn--24-6kcl0a.xn--p1ai", self.__password)
+        self.smtp_server.login(self.__email_from, self.__password)
 
     async def send_message(
         self,
@@ -34,27 +34,25 @@ class EmailTransfer:
         :whom_email:
         :title_message:
         """
-        try:
-            # Connect
-            await self._connect()
-            new_message = MIMEMultipart()
-            new_message["From"] = self.__email_from
-            new_message["To"] = whom_email
-            new_message["Subject"] = title_message
 
-            # Текст для сообщения
-            new_message.attach(MIMEText(text_to_message, "plain"))
+        # Connect
+        await self._connect()
+        new_message = MIMEMultipart()
+        new_message["From"] = self.__email_from
+        new_message["To"] = whom_email
+        new_message["Subject"] = title_message
 
-            # Logging
-            logging.info(
-                msg="Email отправка сообщения {} по почте"
-                "".format(text_to_message)
-            )
+        # Текст для сообщения
+        new_message.attach(MIMEText(text_to_message, "plain"))
 
-            # Отправка
-            self.smtp_server.send_message(new_message)
-            self.smtp_server.quit()
-        except Exception as ex:
-            print(ex, "Ошибка")
+        # Logging
+        logging.info(
+            msg="Email отправка сообщения {} по почте"
+            "".format(text_to_message)
+        )
+
+        # Отправка
+        self.smtp_server.send_message(new_message)
+        self.smtp_server.quit()
 
 email_transfer: EmailTransfer = EmailTransfer()
