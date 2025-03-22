@@ -20,7 +20,7 @@ class EmailTransfer:
 
     async def _connect(self) -> None:
         self.smtp_server = smtp.SMTP_SSL("smtp.timeweb.ru", 465)
-        self.smtp_server.login(self.__email_from, self.__password)
+        self.smtp_server.login("scooter24-email@xn--24-6kcl0a.xn--p1ai", self.__password)
 
     async def send_message(
         self,
