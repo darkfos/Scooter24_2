@@ -34,26 +34,27 @@ class EmailTransfer:
         :whom_email:
         :title_message:
         """
+        try:
+            # Connect
+            await self._connect()
+            new_message = MIMEMultipart()
+            new_message["From"] = self.__email_from
+            new_message["To"] = whom_email
+            new_message["Subject"] = title_message
 
-        # Connect
-        await self._connect()
-        new_message = MIMEMultipart()
-        new_message["From"] = self.__email_from
-        new_message["To"] = whom_email
-        new_message["Subject"] = title_message
+            # Текст для сообщения
+            new_message.attach(MIMEText(text_to_message, "plain"))
 
-        # Текст для сообщения
-        new_message.attach(MIMEText(text_to_message, "plain"))
+            # Logging
+            logging.info(
+                msg="Email отправка сообщения {} по почте"
+                "".format(text_to_message)
+            )
 
-        # Logging
-        logging.info(
-            msg="Email отправка сообщения {} по почте"
-            "".format(text_to_message)
-        )
-
-        # Отправка
-        self.smtp_server.send_message(new_message)
-        self.smtp_server.quit()
-
+            # Отправка
+            self.smtp_server.send_message(new_message)
+            self.smtp_server.quit()
+        except Exception as ex:
+            print(ex, "Ошибка")
 
 email_transfer: EmailTransfer = EmailTransfer()
