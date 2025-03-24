@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: 'scooter24-prom'
+    static_configs:
+      - targets: ["web:8000"]

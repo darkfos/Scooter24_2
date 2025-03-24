@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 class ScooterBackendApplication:
@@ -42,6 +43,9 @@ class ScooterBackendApplication:
 
         self.include_router()
         self.added_middleware()
+
+        # Интеграция с Prometheus
+        Instrumentator().instrument(self.scooter24_app).expose(self.scooter24_app)
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
