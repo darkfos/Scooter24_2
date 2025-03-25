@@ -83,6 +83,40 @@ services:
     networks:
       - scooter_bridge
 
+  # Метрики
+  grafana:
+    container_name: grafana_metrics
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - scooter_bridge
+
+  prometheus:
+    container_name: prometheus_metrics
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus_data/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - scooter_bridge
+
+volumes:
+  prometheus_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./prometheus_data
+  grafana_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./grafana_data
 
 networks:
   scooter_bridge:
