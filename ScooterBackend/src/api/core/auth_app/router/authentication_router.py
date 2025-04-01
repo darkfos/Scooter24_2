@@ -73,22 +73,22 @@ async def login_user(
     )
 
     # Set cookie's
-    response.set_cookie(
-        key="access_token",
-        value=tokens.token,
-        httponly=True,
-        samesite="lax"
-    )
-
-    response.set_cookie(
-        key="refresh_key",
-        value=tokens.refresh_token,
-        httponly=True,
-        samesite="lax",
-    )
-    response.set_cookie(
-        key="token_type", value="bearer", httponly=True, samesite="none"
-    )
+    # response.set_cookie(
+    #     key="access_token",
+    #     value=tokens.token,
+    #     httponly=True,
+    #     samesite="lax"
+    # )
+    #
+    # response.set_cookie(
+    #     key="refresh_key",
+    #     value=tokens.refresh_token,
+    #     httponly=True,
+    #     samesite="lax",
+    # )
+    # response.set_cookie(
+    #     key="token_type", value="bearer", httponly=True, samesite="none"
+    # )
 
     return AccessToken(
         access_token=tokens.token,
@@ -162,12 +162,9 @@ async def update_by_refresh_token(req: Request, response: Response):
             refresh_token=req.cookies.get("refresh_key")
         )
 
-        # Установка cookie
-        response.set_cookie(
-            key="access_key", value=data_tokens, httponly=True, samesite="lax"
-        )
-
-        return None
+        return {
+            "access_token": data_tokens
+        }
     except KeyError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
