@@ -73,19 +73,24 @@ async def login_user(
     )
 
     # Set cookie's
-    # response.set_cookie(
-    #     key="access_key", value=tokens.token, httponly=True, samesite="none", secure=True
-    # )
-    # response.set_cookie(
-    #     key="refresh_key",
-    #     value=tokens.refresh_token,
-    #     httponly=True,
-    #     secure=True,
-    #     samesite="none",
-    # )
-    # response.set_cookie(
-    #     key="token_type", value="bearer", httponly=True, samesite="none", secure=True
-    # )
+    response.set_cookie(
+        key="access_token",
+        value=tokens.token,
+        httponly=True,
+        secure=True,
+        samesite="lax"
+    )
+
+    response.set_cookie(
+        key="refresh_key",
+        value=tokens.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="lax",
+    )
+    response.set_cookie(
+        key="token_type", value="bearer", httponly=True, samesite="none", secure=True
+    )
 
     return AccessToken(
         access_token=tokens.token,
