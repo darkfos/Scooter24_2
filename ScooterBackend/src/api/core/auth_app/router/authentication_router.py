@@ -144,7 +144,7 @@ async def registration_user(
     summary="Обновление токена",
     status_code=status.HTTP_201_CREATED,
 )
-async def update_by_refresh_token(req: Request, response: Response):
+async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
     """
     Обновление существующего токена
     :param session:
@@ -159,12 +159,13 @@ async def update_by_refresh_token(req: Request, response: Response):
 
     try:
         data_tokens: str = await authentication_app.update_token(
-            refresh_token=req.cookies.get("refresh_key")
+            refresh_token=refresh_token
         )
 
         return {
             "access_token": data_tokens
         }
+
     except KeyError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
