@@ -77,7 +77,6 @@ async def login_user(
         key="access_token",
         value=tokens.token,
         httponly=True,
-        secure=True,
         samesite="lax"
     )
 
@@ -85,11 +84,10 @@ async def login_user(
         key="refresh_key",
         value=tokens.refresh_token,
         httponly=True,
-        secure=True,
         samesite="lax",
     )
     response.set_cookie(
-        key="token_type", value="bearer", httponly=True, samesite="none", secure=True
+        key="token_type", value="bearer", httponly=True, samesite="none"
     )
 
     return AccessToken(
