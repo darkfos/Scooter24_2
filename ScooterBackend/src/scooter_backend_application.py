@@ -38,8 +38,6 @@ class ScooterBackendApplication:
 
         self.origins: List[str] = [
             "http://37.77.105.239",
-            "localhost",
-            "127.0.0.1",
             "*",
         ]
 
