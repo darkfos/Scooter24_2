@@ -623,15 +623,17 @@ class UserService:
                     hash_password = crypt.hashed_password(
                         password=to_update.new_password
                     )
-                    return UserIsUpdated(
-                        is_updated=await engine.user_repository.update_one(
-                            other_id=token_data.get("sub"),
-                            data_to_update={
-                                "password_user": hash_password,
-                                "date_update": datetime.date.today(),
-                            },
-                        )
+                    is_updated=await engine.user_repository.update_one(
+                        other_id=token_data.get("sub"),
+                        data_to_update={
+                            "password_user": hash_password,
+                            "date_update": datetime.date.today(),
+                        },
                     )
+
+                    if is_updated:
+                        return True
+
                 logging.critical(
                     msg=f"{UserService.__name__} "
                     f"Не удалось обновить "
