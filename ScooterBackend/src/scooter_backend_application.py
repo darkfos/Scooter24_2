@@ -39,6 +39,7 @@ class ScooterBackendApplication:
         self.origins: List[str] = [
             "http://37.77.105.239",
             "http://localhost:3000",
+            "*"
         ]
 
         self.include_router()
