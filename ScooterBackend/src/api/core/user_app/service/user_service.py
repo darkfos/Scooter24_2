@@ -624,7 +624,7 @@ class UserService:
                         password=to_update.new_password
                     )
                     is_updated=await engine.user_repository.update_one(
-                        other_id=token_data.get("sub"),
+                        other_id=int(token_data.get("sub")),
                         data_to_update={
                             "password_user": hash_password,
                             "date_update": datetime.date.today(),

@@ -55,12 +55,12 @@ class ReviewService:
                 data=Review(
                     text_review=new_review.text_review,
                     estimation_review=new_review.estimation_review,
-                    id_user=token_data.get("id_user"),
+                    id_user=int(token_data.get("sub")),
                     id_product=new_review.id_product,
                 )
             )
 
-            return ReviewIsCreated(is_created=is_created)
+            return ReviewIsCreated(is_created=True if is_created else False)
 
     @redis
     @staticmethod

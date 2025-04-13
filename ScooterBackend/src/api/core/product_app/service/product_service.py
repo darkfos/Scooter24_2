@@ -288,7 +288,7 @@ class ProductService:
                         type_pr=[
                             ProductTypeModels(
                                 id_product=type_pr.id_product,
-                                id_moto_type=type_pr.id_type_models,
+                                id_moto_type=type_pr.id_type_model,
                             )
                             for type_pr in product[0].product_info.type_models
                         ],
