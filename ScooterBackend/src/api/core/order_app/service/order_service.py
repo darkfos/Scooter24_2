@@ -72,7 +72,6 @@ class OrderService:
             await OrderHttpError().http_failed_to_create_a_new_order()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @redis
     @staticmethod
     async def get_full_information_by_user_id(
         engine: IEngineRepository,
