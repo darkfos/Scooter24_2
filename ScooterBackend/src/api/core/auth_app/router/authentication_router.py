@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated
+from typing import Annotated, Any
 import logging
 
 from starlette.responses import RedirectResponse
@@ -23,7 +23,7 @@ from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
 from src.settings.engine_settings import Settings
-
+from src.other.broker.producer.producer import send_message_email
 
 auth_router: APIRouter = APIRouter(
     prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
@@ -73,18 +73,22 @@ async def login_user(
     )
 
     # Set cookie's
-    response.set_cookie(
-        key="access_key", value=tokens.token, httponly=True, samesite="lax"
-    )
-    response.set_cookie(
-        key="refresh_key",
-        value=tokens.refresh_token,
-        httponly=True,
-        samesite="lax",
-    )
-    response.set_cookie(
-        key="token_type", value="bearer", httponly=True, samesite="lax"
-    )
+    # response.set_cookie(
+    #     key="access_token",
+    #     value=tokens.token,
+    #     httponly=True,
+    #     samesite="lax"
+    # )
+    #
+    # response.set_cookie(
+    #     key="refresh_key",
+    #     value=tokens.refresh_token,
+    #     httponly=True,
+    #     samesite="lax",
+    # )
+    # response.set_cookie(
+    #     key="token_type", value="bearer", httponly=True, samesite="none"
+    # )
 
     return AccessToken(
         access_token=tokens.token,
@@ -106,7 +110,6 @@ async def login_user(
 async def registration_user(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     new_user: AddUser,
-    back_task: BackgroundTasks,
 ):
     """
     Создание нового пользователя
@@ -125,7 +128,7 @@ async def registration_user(
     await UserService.create_a_new_user(
         engine,
         new_user,
-        bt=back_task,
+        bt=send_message_email,
         func_to_bt=EmailService.send_secret_key_for_register,
     )
 
@@ -141,7 +144,7 @@ async def registration_user(
     summary="Обновление токена",
     status_code=status.HTTP_201_CREATED,
 )
-async def update_by_refresh_token(req: Request, response: Response):
+async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
     """
     Обновление существующего токена
     :param session:
@@ -156,15 +159,13 @@ async def update_by_refresh_token(req: Request, response: Response):
 
     try:
         data_tokens: str = await authentication_app.update_token(
-            refresh_token=req.cookies.get("refresh_key")
+            refresh_token=refresh_token
         )
 
-        # Установка cookie
-        response.set_cookie(
-            key="access_key", value=data_tokens, httponly=True, samesite="lax"
-        )
+        return {
+            "access_token": data_tokens
+        }
 
-        return None
     except KeyError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -254,10 +255,11 @@ async def access_user(
     secret_key: str,
     email: str,
 ) -> None:
-    await EmailService.access_user_account(
+
+    result = await EmailService.access_user_account(
         engine=engine, user_email=email, secret_key=secret_key
     )
 
-    return RedirectResponse(
-        url=Settings.client_settings.front_url, status_code=307
-    )
+    if result:
+
+        return None

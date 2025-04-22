@@ -102,7 +102,6 @@ async def get_all_favourites_products_by_user_id(
     return await FavouriteService.get_all_favourite_product_by_user_id(
         engine=session,
         token=user_data,
-        redis_search_data="all_favourites_by_id_user_%s" % user_data,
     )
 
 

@@ -7,9 +7,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from sqlalchemy.orm import joinedload
 
-from src.database.models.marks import Mark
-from src.database.models.model import Model
-
 # Local
 from src.database.models.product import Product
 from src.database.models.product_marks import ProductMarks

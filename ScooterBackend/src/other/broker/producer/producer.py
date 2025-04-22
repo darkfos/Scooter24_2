@@ -1,4 +1,3 @@
-from faststream.rabbit import RabbitBroker
 from src.other.broker.rabbit import broker
 from src.other.broker.dto.email_dto import EmailData
 

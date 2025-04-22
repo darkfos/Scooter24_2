@@ -68,12 +68,10 @@ class FavouriteService:
             await FavouriteHttpError().http_failed_to_create_a_new_favourite()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @redis
     @staticmethod
     async def get_all_favourite_product_by_user_id(
         engine: IEngineRepository,
         token: str,
-        redis_search_data: str,
         token_data: dict = dict(),
     ) -> FavouriteBase:
         """
@@ -127,7 +125,6 @@ class FavouriteService:
             return ListFavouriteBase(favourites=[])
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @redis
     @staticmethod
     async def get_information_about_fav_product_by_id(
         engine: IEngineRepository,

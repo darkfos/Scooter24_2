@@ -105,5 +105,4 @@ class FileS3Manager:
                     + file_name  # noqa
                 )  # noqa
         except Exception as ex:
-            print(ex, "#" * 15)
             return None

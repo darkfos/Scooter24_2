@@ -29,6 +29,7 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.other.enums.user_type_enum import UserTypeEnum
+from src.other.broker.dto.email_dto import EmailData
 import logging as logger
 
 # Redis
@@ -45,7 +46,7 @@ class UserService:
     async def create_a_new_user(
         engine: IEngineRepository,
         new_user: AddUser,
-        bt: BackgroundTasks,
+        bt: Callable,
         func_to_bt: Callable,
     ) -> RegistrationUser:
         """
@@ -66,7 +67,7 @@ class UserService:
 
         async with engine:
             # Create a new user
-            res_to_add_new_user = await engine.user_repository.add_one(
+            res_to_add_new_user: User = await engine.user_repository.add_one(
                 User(
                     is_active=False,
                     id_type_user=UserTypeEnum.USER.value,
@@ -79,8 +80,14 @@ class UserService:
                 )
             )
             if res_to_add_new_user:
-                bt.add_task(func_to_bt, engine, new_user)
-                return
+
+                # Сохранение секретного ключа
+                secret_user_key: str | None = await func_to_bt(engine=engine, new_user=new_user)
+
+                if secret_user_key:
+                    await bt(EmailData(email=new_user.email_user, secret_key=secret_user_key))
+                    return
+
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось создать пользователя"
@@ -616,15 +623,17 @@ class UserService:
                     hash_password = crypt.hashed_password(
                         password=to_update.new_password
                     )
-                    return UserIsUpdated(
-                        is_updated=await engine.user_repository.update_one(
-                            other_id=token_data.get("sub"),
-                            data_to_update={
-                                "password_user": hash_password,
-                                "date_update": datetime.date.today(),
-                            },
-                        )
+                    is_updated=await engine.user_repository.update_one(
+                        other_id=int(token_data.get("sub")),
+                        data_to_update={
+                            "password_user": hash_password,
+                            "date_update": datetime.date.today(),
+                        },
                     )
+
+                    if is_updated:
+                        return True
+
                 logging.critical(
                     msg=f"{UserService.__name__} "
                     f"Не удалось обновить "

@@ -5,9 +5,9 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 from httpx import AsyncClient, ASGITransport
-from src.database.mainbase import MainBase
-from src.scooter_backend_application import ScooterBackendApplication
-from src.database.db_worker import db_work
+from database.mainbase import MainBase
+from scooter_backend_application import ScooterBackendApplication
+from database.db_worker import db_work
 from typing import Final, Generator, AsyncGenerator
 import pytest
 

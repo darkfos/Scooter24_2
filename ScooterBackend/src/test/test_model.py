@@ -1,7 +1,7 @@
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert
-from src.database.models.model import Model
+from database.models.model import Model
 import pytest
 
 

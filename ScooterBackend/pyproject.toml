@@ -39,6 +39,7 @@ aiobotocore = "2.13.0"
 selenium = "^4.28.1"
 faststream = {extras = ["rabbit"], version = "^0.5.35"}
 python-email = "^0.0.1"
+prometheus-fastapi-instrumentator = "^7.1.0"
 
 [tool.poetry.dev-dependencies]
 

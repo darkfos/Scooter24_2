@@ -3,9 +3,9 @@ from httpx import AsyncClient
 from sqlalchemy.dialects.sqlite import insert
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.database.models.user_type import UserType
-from src.database.models.user import User
-from src.api.authentication.hash_service.hashing import CryptographyScooter
+from database.models.user_type import UserType
+from database.models.user import User
+from api.authentication.hash_service.hashing import CryptographyScooter
 import pytest
 
 

@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert
-from src.database.models.marks import Mark
-from src.store.tools import RedisTools
+from database.models.marks import Mark
+from store.tools import RedisTools
 from httpx import AsyncClient
 
 

@@ -1,6 +1,7 @@
 # System
 from typing import Dict
 
+
 # Other
 from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric
 from sqlalchemy.orm import relationship, Mapped, mapped_column

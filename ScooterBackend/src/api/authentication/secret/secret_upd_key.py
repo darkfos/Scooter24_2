@@ -4,8 +4,7 @@ import logging as logger
 
 
 # Other libraries
-from random import choice, randint
-
+from random import choice
 
 # Local
 from src.settings.engine_settings import Settings

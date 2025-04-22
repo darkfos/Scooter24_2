@@ -19,8 +19,7 @@ class EmailTransfer:
         self.__password: str = self.__email_data.password
 
     async def _connect(self) -> None:
-        self.smtp_server = smtp.SMTP("smtp.gmail.com", 587)
-        self.smtp_server.starttls()
+        self.smtp_server = smtp.SMTP_SSL("smtp.timeweb.ru", 465)
         self.smtp_server.login(self.__email_from, self.__password)
 
     async def send_message(
@@ -55,6 +54,5 @@ class EmailTransfer:
         # Отправка
         self.smtp_server.send_message(new_message)
         self.smtp_server.quit()
-
 
 email_transfer: EmailTransfer = EmailTransfer()
