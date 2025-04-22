@@ -89,7 +89,6 @@ async def get_orders_by_id_user(
     return await OrderService.get_full_information_by_user_id(
         engine=session,
         token=user_data,
-        redis_search_data="orders_by_token_%s" % user_data,
     )
 
 

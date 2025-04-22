@@ -77,7 +77,6 @@ class OrderService:
     async def get_full_information_by_user_id(
         engine: IEngineRepository,
         token: str,
-        redis_search_data: str,
         token_data: dict = dict(),
     ) -> Union[List, List[OrderAndUserInformation]]:
         """
