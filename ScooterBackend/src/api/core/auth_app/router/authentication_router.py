@@ -2,13 +2,11 @@
 import datetime
 
 from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
-from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated, Any
+from typing import Annotated
 import logging
 
-from starlette.responses import RedirectResponse
 
 # Local
 from src.api.core.auth_app.schemas.auth_dto import (
@@ -22,7 +20,6 @@ from src.api.core.user_app.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
-from src.settings.engine_settings import Settings
 from src.other.broker.producer.producer import send_message_email
 
 auth_router: APIRouter = APIRouter(
@@ -72,22 +69,26 @@ async def login_user(
         engine=session,
     )
 
-    # Set cookie's
+    # # Set cookie's
     # response.set_cookie(
     #     key="access_token",
     #     value=tokens.token,
     #     httponly=True,
-    #     samesite="lax"
+    #     samesite="none",
+    #     secure=False,
+    #     path="/"
     # )
     #
     # response.set_cookie(
     #     key="refresh_key",
     #     value=tokens.refresh_token,
     #     httponly=True,
-    #     samesite="lax",
+    #     samesite="none",
+    #     secure=False,
+    #     path="/"
     # )
     # response.set_cookie(
-    #     key="token_type", value="bearer", httponly=True, samesite="none"
+    #     key="token_type", value="bearer", httponly=True, samesite="none", secure=False
     # )
 
     return AccessToken(
@@ -261,5 +262,9 @@ async def access_user(
     )
 
     if result:
-
         return None
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Не удалось подвердить аккаунт"
+    )
