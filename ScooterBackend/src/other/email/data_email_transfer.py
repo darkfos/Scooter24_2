@@ -55,4 +55,5 @@ class EmailTransfer:
         self.smtp_server.send_message(new_message)
         self.smtp_server.quit()
 
+
 email_transfer: EmailTransfer = EmailTransfer()

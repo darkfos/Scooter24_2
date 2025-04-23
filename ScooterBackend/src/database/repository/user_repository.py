@@ -174,11 +174,11 @@ class UserRepository(GeneralSQLRepository):
             .options(joinedload(Order.product_info))
             .where(
                 Order.id_user == user_id
-                and ( # noqa
-                    Order.type_operation # noqa
-                    == OrderTypeOperationsEnum.SUCCESS.value # noqa
-                    or Order.type_operation # noqa
-                    == OrderTypeOperationsEnum.IN_PROCESS.value # noqa
+                and (  # noqa
+                    Order.type_operation  # noqa
+                    == OrderTypeOperationsEnum.SUCCESS.value  # noqa
+                    or Order.type_operation  # noqa
+                    == OrderTypeOperationsEnum.IN_PROCESS.value  # noqa
                 )
             )
         )

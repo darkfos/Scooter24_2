@@ -109,14 +109,21 @@ class OrderService:
                         OrderAndUserInformation(
                             product_data={
                                 "id_product": order_product_data.get("id"),
-                                "photos": [photo.read_model() for photo in order_product_data.get("photos")],
+                                "photos": [
+                                    photo.read_model()
+                                    for photo in order_product_data.get(
+                                        "photos"
+                                    )
+                                ],
                                 "name_product": order_product_data.get(
                                     "title_product"
                                 ),
                                 "price_product": order_product_data.get(
                                     "price_product"
                                 ),
-                                "category_product": order_product_data.get("id_sub_category")
+                                "category_product": order_product_data.get(
+                                    "id_sub_category"
+                                ),
                             },
                             order_data={
                                 "status": order[0].type_operation,

@@ -104,5 +104,5 @@ class FileS3Manager:
                     + f"/{directory}%2F"  # noqa
                     + file_name  # noqa
                 )  # noqa
-        except Exception as ex:
+        except Exception:
             return None

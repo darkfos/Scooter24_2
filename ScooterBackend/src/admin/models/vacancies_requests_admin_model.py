@@ -16,7 +16,7 @@ class VacanciesRequestsAdminModel(ModelView, model=VacancyRequest):
         VacancyRequest.email_user,
         VacancyRequest.telephone_user,
         VacancyRequest.experience_user,
-        VacancyRequest.vacancy_data
+        VacancyRequest.vacancy_data,
     ]
 
     column_labels: Dict[str, str] = {
@@ -26,13 +26,15 @@ class VacanciesRequestsAdminModel(ModelView, model=VacancyRequest):
         VacancyRequest.email_user: "Электронная почта пользователя",
         VacancyRequest.telephone_user: "Номер телефона пользователя",
         VacancyRequest.experience_user: "Опыт пользователя",
-        VacancyRequest.vacancy_data: "Данные вакансии"
+        VacancyRequest.vacancy_data: "Данные вакансии",
     }
 
     form_create_rules: List[str] = [
-        "name_user", "email_user",
-        "telephone_user", "experience_user",
-        "vacancy_data"
+        "name_user",
+        "email_user",
+        "telephone_user",
+        "experience_user",
+        "vacancy_data",
     ]
 
     column_select_related_list: List[str] = ["vacancy_data"]

@@ -69,28 +69,6 @@ async def login_user(
         engine=session,
     )
 
-    # # Set cookie's
-    # response.set_cookie(
-    #     key="access_token",
-    #     value=tokens.token,
-    #     httponly=True,
-    #     samesite="none",
-    #     secure=False,
-    #     path="/"
-    # )
-    #
-    # response.set_cookie(
-    #     key="refresh_key",
-    #     value=tokens.refresh_token,
-    #     httponly=True,
-    #     samesite="none",
-    #     secure=False,
-    #     path="/"
-    # )
-    # response.set_cookie(
-    #     key="token_type", value="bearer", httponly=True, samesite="none", secure=False
-    # )
-
     return AccessToken(
         access_token=tokens.token,
         token_type="bearer",
@@ -163,9 +141,7 @@ async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
             refresh_token=refresh_token
         )
 
-        return {
-            "access_token": data_tokens
-        }
+        return {"access_token": data_tokens}
 
     except KeyError:
         raise HTTPException(
@@ -266,5 +242,5 @@ async def access_user(
 
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Не удалось подвердить аккаунт"
+        detail="Не удалось подвердить аккаунт",
     )

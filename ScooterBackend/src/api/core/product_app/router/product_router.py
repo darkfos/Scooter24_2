@@ -293,7 +293,7 @@ async def garage_products(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_brand: Annotated[int, Field(gt=-1)] = None,
     id_model: Annotated[int, Field(gt=-1)] = None,
-    id_moto_type: Annotated[int, Field(gt=-1)] = None
+    id_moto_type: Annotated[int, Field(gt=-1)] = None,
 ) -> ListProductBase:
     """
     Получение списка товаров под определенную модель и бренд
@@ -305,7 +305,11 @@ async def garage_products(
     """
 
     return await ProductService.get_garage_products(
-        token=user_data, engine=session, id_brand=id_brand, id_model=id_model, id_moto_type=id_moto_type
+        token=user_data,
+        engine=session,
+        id_brand=id_brand,
+        id_model=id_model,
+        id_moto_type=id_moto_type,
     )
 
 

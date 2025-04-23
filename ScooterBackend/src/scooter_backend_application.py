@@ -17,6 +17,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 statics_dir = os.path.join(BASE_DIR, "statics")
 
+
 class ScooterBackendApplication:
 
     def __init__(self) -> None:
@@ -42,14 +43,16 @@ class ScooterBackendApplication:
         self.origins: List[str] = [
             "http://37.77.105.239",
             "http://127.0.0.1:3000",
-            "http://localhost:3000"
+            "http://localhost:3000",
         ]
 
         self.include_router()
         self.added_middleware()
 
         # Интеграция с Prometheus
-        Instrumentator().instrument(self.scooter24_app).expose(self.scooter24_app)
+        Instrumentator().instrument(self.scooter24_app).expose(
+            self.scooter24_app
+        )
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 

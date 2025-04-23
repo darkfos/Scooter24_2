@@ -22,7 +22,9 @@ from src.admin.models.product_type_model_admin_model import (
 )
 from src.admin.models.type_models_admin_model import TypeMotoAdminModel
 from src.admin.models.product_photos_admin_model import ProductPhotosAdminModel
-from src.admin.models.vacancies_requests_admin_model import VacanciesRequestsAdminModel
+from src.admin.models.vacancies_requests_admin_model import (
+    VacanciesRequestsAdminModel,
+)
 
 
 all_models: List = [
@@ -46,5 +48,5 @@ all_models: List = [
     ProductTypeModelAdminModel,
     TypeMotoAdminModel,
     ProductPhotosAdminModel,
-    VacanciesRequestsAdminModel
+    VacanciesRequestsAdminModel,
 ]

@@ -87,12 +87,12 @@ class OrderRepository(GeneralSQLRepository):
 
         if id_user:
             stmt = (
-                select(Order).where(Order.id_user == id_user).options(
+                select(Order)
+                .where(Order.id_user == id_user)
+                .options(
                     joinedload(Order.ord_user),
                     joinedload(Order.product_info),
-                    joinedload(Order.product_info).joinedload(
-                        Product.photos
-                    ),
+                    joinedload(Order.product_info).joinedload(Product.photos),
                 )
             )
         else:

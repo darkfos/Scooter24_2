@@ -31,8 +31,8 @@ class Authentication:
     __instance: Union[None, "Authentication"] = None
     jwt_auth: OAuth2PasswordBearer = OAuth2PasswordBearer(
         tokenUrl=(
-                (APIPrefix.API_V_PREFIX.value + APIPrefix.AUTH_PREFIX.value)
-                + "/login"  # noqa
+            (APIPrefix.API_V_PREFIX.value + APIPrefix.AUTH_PREFIX.value)
+            + "/login"  # noqa
         )
     )
 

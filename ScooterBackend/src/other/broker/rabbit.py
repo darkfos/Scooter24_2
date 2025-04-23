@@ -1,7 +1,6 @@
 import asyncio
 from faststream.rabbit import RabbitQueue, RabbitBroker
 from faststream import FastStream
-from os import getenv
 from dotenv import load_dotenv
 
 from src.other.broker.dto.email_dto import EmailData
@@ -13,7 +12,7 @@ load_dotenv()
 
 
 broker: RabbitBroker = RabbitBroker(
-    url=f"amqp://{Settings.broker_settings.RABBIT_USER}:{Settings.broker_settings.RABBIT_PASSWORD}@{Settings.broker_settings.RABBIT_QUEUE_HOST}:5672/",
+    url=f"amqp://{Settings.broker_settings.RABBIT_USER}:{Settings.broker_settings.RABBIT_PASSWORD}@{Settings.broker_settings.RABBIT_QUEUE_HOST}:5672/", # noqa
 )
 faststream_app: FastStream = FastStream(broker=broker)
 
@@ -26,9 +25,9 @@ async def email_queue(message: EmailData) -> None:
     """
 
     await EmailTransfer().send_message(
-        text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.secret_key}\n"
-                        f"Пожалуйста никому не сообщайте его",
-        whom_email=message.email
+        text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.secret_key}\n" # noqa
+        f"Пожалуйста никому не сообщайте его", # noqa
+        whom_email=message.email,
     )
 
 

@@ -2,8 +2,6 @@
 import datetime
 from typing import Union, Type, Callable
 
-from fastapi import BackgroundTasks
-
 from src.api.core.order_app.schemas.order_dto import OrderBase
 
 # Local
@@ -82,10 +80,17 @@ class UserService:
             if res_to_add_new_user:
 
                 # Сохранение секретного ключа
-                secret_user_key: str | None = await func_to_bt(engine=engine, new_user=new_user)
+                secret_user_key: str | None = await func_to_bt(
+                    engine=engine, new_user=new_user
+                )
 
                 if secret_user_key:
-                    await bt(EmailData(email=new_user.email_user, secret_key=secret_user_key))
+                    await bt(
+                        EmailData(
+                            email=new_user.email_user,
+                            secret_key=secret_user_key,
+                        )
+                    )
                     return
 
             logging.critical(
@@ -623,7 +628,7 @@ class UserService:
                     hash_password = crypt.hashed_password(
                         password=to_update.new_password
                     )
-                    is_updated=await engine.user_repository.update_one(
+                    is_updated = await engine.user_repository.update_one(
                         other_id=int(token_data.get("sub")),
                         data_to_update={
                             "password_user": hash_password,

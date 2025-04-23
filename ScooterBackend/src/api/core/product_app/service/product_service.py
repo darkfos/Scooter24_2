@@ -303,7 +303,7 @@ class ProductService:
         engine: IEngineRepository,
         id_brand: int = None,
         id_model: int = None,
-        id_moto_type: int = None
+        id_moto_type: int = None,
     ) -> ListProductBase:
         """
         Получение всех товаров для гаража по модели и бренду
@@ -350,9 +350,10 @@ class ProductService:
                                 id_moto_type=product.id_type_model,
                             )
                             for product in product[0].type_models
-                        ]
+                        ],
                     )
-                    for product in req]
+                    for product in req
+                ]
             )
 
     @staticmethod
@@ -1006,7 +1007,9 @@ class ProductService:
                         quantity_product=product[0].quantity_product,
                         price_product=product[0].price_product,
                         date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,  # noqa
+                        date_update_information=product[
+                            0
+                        ].date_update_information,  # noqa
                         product_discount=product[0].product_discount,
                         photo=(
                             [photo.read_model() for photo in product[0].photos]
@@ -1123,10 +1126,15 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[0].date_update_information,  # noqa
+                            date_update_information=product[
+                                0
+                            ].date_update_information,  # noqa
                             product_discount=product[0].product_discount,
                             photo=(
-                                [photo.read_model() for photo in product[0].photos]
+                                [
+                                    photo.read_model()
+                                    for photo in product[0].photos
+                                ]
                                 if product[0].photos
                                 else []
                             ),
