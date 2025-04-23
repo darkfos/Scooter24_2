@@ -4,7 +4,7 @@ from typing import List, Any, Dict
 from src.database.models.vacancy_request import VacancyRequest
 
 
-class VacanciesRequestsAdminModel(ModelView):
+class VacanciesRequestsAdminModel(ModelView, model=VacancyRequest):
 
     name: str = "Отклики"
     name_plural: str = "Отклик"

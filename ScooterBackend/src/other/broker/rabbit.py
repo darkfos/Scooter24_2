@@ -1,17 +1,19 @@
 import asyncio
 from faststream.rabbit import RabbitQueue, RabbitBroker
-from src.other.broker.dto.email_dto import EmailData
-from src.other.email.data_email_transfer import EmailTransfer
 from faststream import FastStream
 from os import getenv
 from dotenv import load_dotenv
+
+from src.other.broker.dto.email_dto import EmailData
+from src.other.email.data_email_transfer import EmailTransfer
+from src.settings.engine_settings import Settings
 
 
 load_dotenv()
 
 
 broker: RabbitBroker = RabbitBroker(
-    url=f"amqp://{getenv("RABBIT_USER")}:{getenv("RABBIT_PASSWORD")}@broker_rabbit:5672/",
+    url=f"amqp://{Settings.broker_settings.RABBIT_USER}:{Settings.broker_settings.RABBIT_PASSWORD}@{Settings.broker_settings.RABBIT_QUEUE_HOST}:5672/",
 )
 faststream_app: FastStream = FastStream(broker=broker)
 

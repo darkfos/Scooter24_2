@@ -7,12 +7,15 @@ from src.admin.admin_panel import AdminPanel
 
 
 # Other libraries
+import os
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from prometheus_fastapi_instrumentator import Instrumentator
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+statics_dir = os.path.join(BASE_DIR, "statics")
 
 class ScooterBackendApplication:
 
@@ -25,7 +28,7 @@ class ScooterBackendApplication:
         )
 
         # Static's
-        self.statics: StaticFiles = StaticFiles(directory="src/statics")
+        self.statics: StaticFiles = StaticFiles(directory=statics_dir)
         self.scooter24_app.mount(
             path="/static", app=self.statics, name="static"
         )
