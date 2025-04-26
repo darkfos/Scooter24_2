@@ -7,7 +7,7 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_get_all_models(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/model/get_all_models")
+    req = await async_client.get(url="/api/v1/model/all")
 
     assert req.status_code == 200 and len(req.json()["all_models"]) == 0
 

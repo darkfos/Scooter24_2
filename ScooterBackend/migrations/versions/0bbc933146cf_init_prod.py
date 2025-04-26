@@ -138,9 +138,7 @@ def upgrade():
         sa.Column("id_user", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(["id_mark"], ["Mark.id"], ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(
-            ["id_model"], ["Model.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(
             ["id_type_moto"], ["Typemoto.id"], ondelete="CASCADE"
         ),
@@ -249,9 +247,7 @@ def upgrade():
         sa.Column("id_product", sa.Integer(), nullable=False),
         sa.Column("id_model", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["id_model"], ["Model.id"], ondelete="CASCADE"
-        ),
+        sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(
             ["id_product"], ["Product.id"], ondelete="CASCADE"
         ),
