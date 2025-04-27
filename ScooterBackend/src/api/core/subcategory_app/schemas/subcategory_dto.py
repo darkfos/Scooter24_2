@@ -6,6 +6,7 @@ class SubCategoryBase(BaseModel):
 
     name: Annotated[str, Field(max_length=225)]
     id_subcategory: Annotated[int, Field()]
+    id_category: Annotated[int, Field()]
 
 
 class AllSubCategories(BaseModel):

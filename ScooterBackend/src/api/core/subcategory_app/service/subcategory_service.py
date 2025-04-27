@@ -73,7 +73,9 @@ class SubCategoryService:
                 return AllSubCategories(
                     all_subcategory=[
                         SubCategoryBase(
-                            name=model[0].name, id_category=model[0].name
+                            id_category=model[0].id_category,
+                            id_subcategroy=model[0].id_subcategory,
+                            name=model[0].name
                         )
                         for model in all_models_by_id_category
                     ]
@@ -95,7 +97,9 @@ class SubCategoryService:
                 return AllSubCategories(
                     all_subcategory=[
                         SubCategoryBase(
-                            name=model[0].name, id_category=model[0].name
+                            id_category=model[0].id_category,
+                            id_subcategory=model[0].id,
+                            name=model[0].name
                         )
                         for model in all_subcategory_models
                     ]
