@@ -13,6 +13,7 @@ from src.api.core.category_app.schemas.category_dto import (
     CategoryBase,
     CategoryIsCreated,
     DataCategoryToUpdate,
+    CreateCategory
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.category_app.service.category_service import (
@@ -46,7 +47,7 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
 async def create_new_category(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     admin_data: Annotated[str, Depends(auth.auth_user)],
-    new_category: CategoryBase,
+    new_category: CreateCategory,
 ) -> CategoryIsCreated:
     """
     ENDPOINT - Создание новой категории

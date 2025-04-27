@@ -41,9 +41,9 @@ class ScooterBackendApplication:
         self.admin.initialize_models_view(models=[])
 
         self.origins: List[str] = [
-            "http://37.77.105.239",
+            "http://37.77.105.239:3000",
             "http://127.0.0.1:3000",
-            "http://localhost:3000",
+            "http://localhost:3001",
         ]
 
         self.include_router()

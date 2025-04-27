@@ -4,7 +4,7 @@ from src.api.core.subcategory_app.service.subcategory_service import (
 )
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryBase,
-    AllSubCategories,
+    AllSubCategories
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository, EngineRepository

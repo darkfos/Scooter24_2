@@ -212,8 +212,8 @@ async def get_products_by_filters(
         desc=desc_or_not,
         title_product=title_product,
         availability=availability,
-        redis_search_data="search_by_filters_%s_%s_%s_%s"
-        % (id_category, min_price, max_price, desc_or_not),
+        redis_search_data="search_by_filters_%s_%s_%s_%s_%s"
+        % (id_category, min_price, max_price, desc_or_not, id_sub_category),
     )
 
 

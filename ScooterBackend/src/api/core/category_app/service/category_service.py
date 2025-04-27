@@ -15,7 +15,7 @@ from src.api.core.category_app.schemas.category_dto import (
     CategoryIsCreated,
     CategoryIsUpdated,
 )
-from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryAllData
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.user_app.error.http_user_exception import UserHttpError
 from src.api.core.category_app.error.http_category_exception import (
@@ -129,9 +129,10 @@ class CategoryService:
                             else ""
                         ),
                         subcategory=[
-                            SubCategoryBase(
+                            SubCategoryAllData(
                                 name=sb.name,
-                                id_subcategory=sb.id_category,
+                                id_category=sb.id_category,
+                                id_subcategory=sb.id
                             )
                             for sb in category[0].subcategory_data
                         ],
