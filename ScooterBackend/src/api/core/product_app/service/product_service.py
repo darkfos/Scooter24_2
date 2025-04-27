@@ -4,7 +4,7 @@ import logging as logger
 from typing import Union, List, Type
 from fastapi import status, HTTPException, UploadFile
 
-from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryAllData
 
 # Local
 from src.database.models.product import Product
@@ -500,7 +500,6 @@ class ProductService:
             f"Поиск продукта по id={id_product}"
         )
         async with engine:
-            print(id_product)
             product_data = await engine.product_repository.find_one(
                 other_id=id_product
             )
@@ -692,9 +691,10 @@ class ProductService:
                         fav_p.read_model()
                         for fav_p in product_data[0].product_info_for_fav
                     ],
-                    categories=SubCategoryBase(
+                    categories=SubCategoryAllData(
                         name=product_data[0].sub_category_data.name,
                         id_subcategory=product_data[0].sub_category_data.id,
+                        id_category=product_data[0].sub_category_data.id_category
                     ),
                 )
             logging.critical(

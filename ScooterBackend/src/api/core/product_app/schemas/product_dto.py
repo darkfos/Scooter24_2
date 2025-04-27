@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from src.api.core.photo_app.dto.photo_dto import PhotoBase
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
-    SubCategoryBase,
+    SubCategoryAllData,
 )
 from src.api.core.mark_app.schemas.mark_dto import ProductMarks
 from src.api.core.type_moto_app.schemas.type_moto_dto import ProductTypeModels
@@ -55,7 +55,7 @@ class ProductAllInformation(ProductBase):
     reviews: Annotated[List[dict], Field()]
     orders: Annotated[List[dict], Field]
     favourites: Annotated[List[dict], Field()]
-    categories: Annotated[SubCategoryBase, Field()]
+    categories: Annotated[SubCategoryAllData, Field()]
 
 
 class DeleteProduct(BaseModel):
