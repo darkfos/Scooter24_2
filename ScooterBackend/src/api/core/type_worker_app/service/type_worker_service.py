@@ -43,7 +43,8 @@ class TypeWorkerService:
         """
 
         logging.info(
-            msg=f"{TypeWorkerService.__name__}" f" Создание нового типа работника"
+            msg=f"{TypeWorkerService.__name__}"
+            f" Создание нового типа работника"
         )
         async with engine:
             # Проверка на администратора
@@ -80,7 +81,8 @@ class TypeWorkerService:
         """
 
         logging.info(
-            msg=f"{TypeWorkerService.__name__} " f"Получение всех категорий работников"
+            msg=f"{TypeWorkerService.__name__} "
+            f"Получение всех категорий работников"
         )
         async with engine:
             all_types_workers: Union[List, List[TypeWorkerBase]] = (
@@ -115,7 +117,9 @@ class TypeWorkerService:
         )
         async with engine:
             type_worker: Union[None, List[TypeWorker]] = (
-                await engine.type_worker_repository.find_one(other_id=id_type_worker)
+                await engine.type_worker_repository.find_one(
+                    other_id=id_type_worker
+                )
             )
 
             if type_worker:
@@ -141,7 +145,9 @@ class TypeWorkerService:
         :id_type_worker:
         """
 
-        logging.info(msg=f"{TypeWorkerService.__name__} " f"Удаление типа работника")
+        logging.info(
+            msg=f"{TypeWorkerService.__name__} " f"Удаление типа работника"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -152,8 +158,10 @@ class TypeWorkerService:
             )
 
             if is_admin:
-                is_deleted: bool = await engine.type_worker_repository.delete_one(
-                    other_id=id_type_worker
+                is_deleted: bool = (
+                    await engine.type_worker_repository.delete_one(
+                        other_id=id_type_worker
+                    )
                 )
                 if is_deleted:
                     return

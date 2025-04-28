@@ -47,7 +47,8 @@ class FavouriteService:
         """
 
         logging.info(
-            msg=f"{FavouriteService.__name__} Добавление нового" f" товара в избранное"
+            msg=f"{FavouriteService.__name__} Добавление нового"
+            f" товара в избранное"
         )
         async with engine:
             # Проверка на добавление в избранное
@@ -102,7 +103,9 @@ class FavouriteService:
                             product_info={
                                 "id_favourite": product[0].id,
                                 "id_product": product[0].product_info.id,
-                                "quantity": product[0].product_info.quantity_product,
+                                "quantity": product[
+                                    0
+                                ].product_info.quantity_product,
                                 "product_name": product[
                                     0
                                 ].product_info.title_product,  # noqa
@@ -255,15 +258,19 @@ class FavouriteService:
         async with engine:
             # Проверка на пользователя
             get_favourite_data: Union[None, Favourite] = (
-                await engine.favourite_repository.find_one(other_id=id_favourite)
+                await engine.favourite_repository.find_one(
+                    other_id=id_favourite
+                )
             )
 
             if get_favourite_data:
                 get_favourite_data = get_favourite_data[0]
 
                 if get_favourite_data.id_user == int(token_data.get("sub")):
-                    is_deleted: bool = await engine.favourite_repository.delete_one(
-                        other_id=id_favourite
+                    is_deleted: bool = (
+                        await engine.favourite_repository.delete_one(
+                            other_id=id_favourite
+                        )
                     )
                     if is_deleted:
 

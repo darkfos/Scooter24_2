@@ -47,7 +47,8 @@ class EmailTransfer:
 
         # Logging
         logging.info(
-            msg="Email отправка сообщения {} по почте" "".format(text_to_message)
+            msg="Email отправка сообщения {} по почте"
+            "".format(text_to_message)
         )
 
         # Отправка

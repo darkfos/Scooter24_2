@@ -57,7 +57,9 @@ class UserService:
         logging.info(msg=f"{UserService.__name__} Создание пользователя")
 
         # Hash password
-        hashed_password: CryptographyScooter = CryptographyScooter().hashed_password(
+        hashed_password: (
+            CryptographyScooter
+        ) = CryptographyScooter().hashed_password(
             password=new_user.password_user
         )
 
@@ -92,7 +94,8 @@ class UserService:
                     return
 
             logging.critical(
-                msg=f"{UserService.__name__} " f"Не удалось создать пользователя"
+                msg=f"{UserService.__name__} "
+                f"Не удалось создать пользователя"
             )
             await UserHttpError().http_failed_to_create_a_new_user()
 
@@ -121,7 +124,9 @@ class UserService:
             if user_data:
                 information = InformationAboutUser(
                     email_user=user_data.email_user,
-                    name_user=(user_data.name_user if user_data.name_user else ""),
+                    name_user=(
+                        user_data.name_user if user_data.name_user else ""
+                    ),
                     main_name_user=user_data.main_name_user,
                     date_registration=user_data.date_registration,
                     date_birthday=user_data.date_birthday,
@@ -156,7 +161,8 @@ class UserService:
         """
 
         logging.info(
-            msg=f"{UserService.__name__} " f"Получение информации о пользователе"
+            msg=f"{UserService.__name__} "
+            f"Получение информации о пользователе"
         )
 
         async with engine:
@@ -221,7 +227,9 @@ class UserService:
                     address=user_data.address,
                     telephone=user_data.telephone,
                     date_birthday=user_data.date_birthday,
-                    reviews=[review.read_model() for review in user_data.reviews],
+                    reviews=[
+                        review.read_model() for review in user_data.reviews
+                    ],
                 )
             logging.critical(
                 msg=f"{UserService.__name__} "
@@ -319,7 +327,9 @@ class UserService:
                         OrderBase(
                             product_data={
                                 "id": order[0].id,
-                                "title_product": order[0].product_info.title_product,
+                                "title_product": order[
+                                    0
+                                ].product_info.title_product,
                                 "price": order[0].price_result,
                                 "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
@@ -368,7 +378,9 @@ class UserService:
                         OrderBase(
                             product_data={
                                 "id": order[0].id,
-                                "title_product": order[0].product_info.title_product,
+                                "title_product": order[
+                                    0
+                                ].product_info.title_product,
                                 "price": order[0].price_result,
                                 "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
@@ -421,13 +433,16 @@ class UserService:
                         telephone=user_all_information.telephone,
                     ),
                     orders=[
-                        order.read_model() for order in user_all_information.orders_user
+                        order.read_model()
+                        for order in user_all_information.orders_user
                     ],
                     favourite=[
-                        fav.read_model() for fav in user_all_information.favourites_user
+                        fav.read_model()
+                        for fav in user_all_information.favourites_user
                     ],
                     reviews=[
-                        review.read_model() for review in user_all_information.reviews
+                        review.read_model()
+                        for review in user_all_information.reviews
                     ],
                 )
 
@@ -516,7 +531,8 @@ class UserService:
         """
 
         logging.info(
-            msg=f"{UserService.__name__} Поиск пользователя" f" по почте и паролю"
+            msg=f"{UserService.__name__} Поиск пользователя"
+            f" по почте и паролю"
         )
         async with engine:
             result_find_user: Union[bool, User] = (
@@ -550,14 +566,18 @@ class UserService:
         :return:
         """
 
-        logging.info(msg=f"{UserService.__name__} " f"Обновление данных о пользователе")
+        logging.info(
+            msg=f"{UserService.__name__} " f"Обновление данных о пользователе"
+        )
 
         async with engine:
             return UserIsUpdated(
                 is_updated=await engine.user_repository.update_one(
                     other_id=int(token_data.get("sub")),
                     data_to_update={
-                        k: v for k, v in to_update.dict().items() if v not in ("", None)
+                        k: v
+                        for k, v in to_update.dict().items()
+                        if v not in ("", None)
                     },
                 )
             )
@@ -585,13 +605,17 @@ class UserService:
         :return:
         """
 
-        logging.info(msg=f"{UserService.__name__} " f"Обновление пароля пользователя")
+        logging.info(
+            msg=f"{UserService.__name__} " f"Обновление пароля пользователя"
+        )
         crypt = CryptographyScooter()
 
         async with engine:
             # Проверка на совпадение пароля
-            get_user_data: Union[User, None] = await engine.user_repository.find_one(
-                other_id=int(token_data.get("sub"))
+            get_user_data: Union[User, None] = (
+                await engine.user_repository.find_one(
+                    other_id=int(token_data.get("sub"))
+                )
             )
 
             if get_user_data:
@@ -649,7 +673,8 @@ class UserService:
             if res_del:
                 return UserIsDeleted(is_deleted=res_del)
             logging.info(
-                msg=f"{UserService.__name__} " f"Не удалось обновить пользователя"
+                msg=f"{UserService.__name__} "
+                f"Не удалось обновить пользователя"
             )
             await UserHttpError().http_failed_to_delete_user()
 
@@ -717,7 +742,9 @@ class UserService:
         :engine:
         :data_update:
         """
-        logging.info(msg=f"{UserService.__name__} " f"Обновление данных пользователя")
+        logging.info(
+            msg=f"{UserService.__name__} " f"Обновление данных пользователя"
+        )
 
         async with engine:
             # Обновление данных

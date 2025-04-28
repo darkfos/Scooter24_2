@@ -26,7 +26,9 @@ class TypeMotoService:
             all_type_moto = await engine.type_moto_repository.find_all()
             return ListTypeModelBase(
                 moto_types=[
-                    TypeModelBase(id_mt=tm[0].id, name_type=tm[0].name_moto_type)
+                    TypeModelBase(
+                        id_mt=tm[0].id, name_type=tm[0].name_moto_type
+                    )
                     for tm in all_type_moto
                 ]
             )

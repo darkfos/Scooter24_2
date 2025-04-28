@@ -68,7 +68,9 @@ async def my_garage(
     :return:
     """
 
-    return await GarageService.get_user_mt_from_garage(engine=engine, token=user_data)
+    return await GarageService.get_user_mt_from_garage(
+        engine=engine, token=user_data
+    )
 
 
 @garage_router.delete(
@@ -94,4 +96,6 @@ async def delete_transport(
     :return:
     """
 
-    return await GarageService.delete_mt(token=user_data, engine=engine, id_mt=id_mt)
+    return await GarageService.delete_mt(
+        token=user_data, engine=engine, id_mt=id_mt
+    )

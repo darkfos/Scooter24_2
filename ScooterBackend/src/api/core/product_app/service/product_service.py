@@ -63,7 +63,9 @@ class ProductService:
         :return:
         """
 
-        logging.info(msg=f"{ProductService.__name__} " f"Создание нового продукта")
+        logging.info(
+            msg=f"{ProductService.__name__} " f"Создание нового продукта"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -75,7 +77,9 @@ class ProductService:
 
                 # Сохраняем фотографию в хранилище
                 file_manager = FileS3Manager()
-                url_file = await file_manager.upload_file_to_storage(file=photo_product)
+                url_file = await file_manager.upload_file_to_storage(
+                    file=photo_product
+                )
 
                 if not url_file:
                     raise HTTPException(
@@ -98,15 +102,17 @@ class ProductService:
                     quantity_product=new_product.quantity_product,
                 )
                 # Create product
-                product_is_created: bool = await engine.product_repository.add_one(
-                    data=product
+                product_is_created: bool = (
+                    await engine.product_repository.add_one(data=product)
                 )
 
                 if product_is_created:
-                    saved_photo_product = await engine.photos_repository.add_one(
-                        ProductPhotos(
-                            id_product=product_is_created,
-                            photo_url=url_file,
+                    saved_photo_product = (
+                        await engine.photos_repository.add_one(
+                            ProductPhotos(
+                                id_product=product_is_created,
+                                photo_url=url_file,
+                            )
                         )
                     )
 
@@ -122,7 +128,8 @@ class ProductService:
                         detail="Не удалось загрузить фотографию продукта",
                     )
             logging.critical(
-                msg=f"{ProductService.__name__} " f"Не удалось создать новый продукт"
+                msg=f"{ProductService.__name__} "
+                f"Не удалось создать новый продукт"
             )
             await ProductHttpError().http_failed_to_create_a_new_product()
 
@@ -144,12 +151,15 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Добавление новой категории для товара"
+            msg=f"{ProductService.__name__} "
+            f"Добавление новой категории для товара"
         )
 
         async with engine:
-            is_admin = await engine.user_repository.find_user_by_email_and_password(
-                email=token_data.get("email"),
+            is_admin = (
+                await engine.user_repository.find_user_by_email_and_password(
+                    email=token_data.get("email"),
+                )
             )
             if is_admin:
                 created_new_category_for_product = (
@@ -204,7 +214,9 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[0].date_update_information,
+                            date_update_information=product[
+                                0
+                            ].date_update_information,
                             product_discount=product[0].product_discount,
                             type_pr=[],
                             photo=[],
@@ -248,19 +260,29 @@ class ProductService:
                         ],
                         models=[
                             model.read_model()
-                            for model in product[0].product_info.product_models_data
+                            for model in product[
+                                0
+                            ].product_info.product_models_data
                         ],
                         id_sub_category=product[0].product_info.id_sub_category,
                         weight_product=product[0].product_info.weight_product,
                         is_recommended=product[0].product_info.is_recommended,
-                        explanation_product=product[0].product_info.explanation_product,
-                        quantity_product=product[0].product_info.quantity_product,
+                        explanation_product=product[
+                            0
+                        ].product_info.explanation_product,
+                        quantity_product=product[
+                            0
+                        ].product_info.quantity_product,
                         price_product=product[0].product_info.price_product,
-                        date_create_product=product[0].product_info.date_create_product,
+                        date_create_product=product[
+                            0
+                        ].product_info.date_create_product,
                         date_update_information=product[
                             0
                         ].product_info.date_update_information,
-                        product_discount=product[0].product_info.product_discount,
+                        product_discount=product[
+                            0
+                        ].product_info.product_discount,
                         photo=[
                             photo.read_model()
                             for photo in product[0].product_info.photos
@@ -317,9 +339,13 @@ class ProductService:
                         quantity_product=product[0].quantity_product,
                         price_product=product[0].price_product,
                         date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,
+                        date_update_information=product[
+                            0
+                        ].date_update_information,
                         product_discount=product[0].product_discount,
-                        photo=[photo.read_model() for photo in product[0].photos],
+                        photo=[
+                            photo.read_model() for photo in product[0].photos
+                        ],
                         type_pr=[
                             ProductTypeModels(
                                 id_product=product.id_product,
@@ -365,9 +391,13 @@ class ProductService:
                         quantity_product=product[0].quantity_product,
                         price_product=product[0].price_product,
                         date_create_product=product[0].date_create_product,
-                        date_update_information=product[0].date_update_information,
+                        date_update_information=product[
+                            0
+                        ].date_update_information,
                         product_discount=product[0].product_discount,
-                        photo=[photo.read_model() for photo in product[0].photos],
+                        photo=[
+                            photo.read_model() for photo in product[0].photos
+                        ],
                         type_pr=[
                             ProductTypeModels(
                                 id_product=product.id_product,
@@ -434,9 +464,14 @@ class ProductService:
                             quantity_product=product[0].quantity_product,
                             price_product=product[0].price_product,
                             date_create_product=product[0].date_create_product,
-                            date_update_information=product[0].date_update_information,
+                            date_update_information=product[
+                                0
+                            ].date_update_information,
                             product_discount=product[0].product_discount,
-                            photo=[photo.read_model() for photo in product[0].photos],
+                            photo=[
+                                photo.read_model()
+                                for photo in product[0].photos
+                            ],
                             type_pr=[
                                 ProductTypeModels(
                                     id_product=product.id_product,
@@ -463,10 +498,13 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Поиск продукта по id={id_product}"
+            msg=f"{ProductService.__name__} "
+            f"Поиск продукта по id={id_product}"
         )
         async with engine:
-            product_data = await engine.product_repository.find_one(other_id=id_product)
+            product_data = await engine.product_repository.find_one(
+                other_id=id_product
+            )
 
             if product_data:
                 return ProductBase(
@@ -484,7 +522,9 @@ class ProductService:
                     quantity_product=product_data[0].quantity_product,
                     price_product=product_data[0].price_product,
                     date_create_product=product_data[0].date_create_product,
-                    date_update_information=product_data[0].date_update_information,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
                     product_discount=product_data[0].product_discount,
                     photo=[],
                     type_pr=[],
@@ -509,7 +549,8 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Поиск продукта по name={name_product}"
+            msg=f"{ProductService.__name__} "
+            f"Поиск продукта по name={name_product}"
         )
         async with engine:
             product_data: Union[None, Product] = (
@@ -534,7 +575,9 @@ class ProductService:
                     quantity_product=product_data[0].quantity_product,
                     price_product=product_data[0].price_product,
                     date_create_product=product_data[0].date_create_product,
-                    date_update_information=product_data[0].date_update_information,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
                     product_discount=product_data[0].product_discount,
                     photo=[],
                     type_pr=product_data[0].type_pr,
@@ -546,7 +589,9 @@ class ProductService:
             await ProductHttpError().http_product_not_found()
 
     @staticmethod
-    async def product_is_created(engine: IEngineRepository, product_name: str) -> None:
+    async def product_is_created(
+        engine: IEngineRepository, product_name: str
+    ) -> None:
         """
         Метод сервиса для проверки что продукт существует
         :param session:
@@ -559,8 +604,10 @@ class ProductService:
         )
 
         async with engine:
-            product_is_created = await engine.product_repository.find_product_by_name(
-                name_product=product_name
+            product_is_created = (
+                await engine.product_repository.find_product_by_name(
+                    name_product=product_name
+                )
             )
 
             if product_is_created:
@@ -585,12 +632,15 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Получение полной информации о продукте"
+            msg=f"{ProductService.__name__} "
+            f"Получение полной информации о продукте"
         )
 
         async with engine:
             product_data: Union[None, Product] = (
-                await engine.product_repository.get_all_info(id_product=id_product)
+                await engine.product_repository.get_all_info(
+                    id_product=id_product
+                )
             )
 
             if product_data:
@@ -601,7 +651,9 @@ class ProductService:
                     title_product=product_data[0].title_product,
                     brand=product_data[0].brand,
                     brand_mark=[
-                        ProductMarks(id_product=mark.id_product, id_mark=mark.id_mark)
+                        ProductMarks(
+                            id_product=mark.id_product, id_mark=mark.id_mark
+                        )
                         for mark in product_data[0].brand_mark
                     ],
                     models=[
@@ -615,9 +667,13 @@ class ProductService:
                     quantity_product=product_data[0].quantity_product,
                     price_product=product_data[0].price_product,
                     date_create_product=product_data[0].date_create_product,
-                    date_update_information=product_data[0].date_update_information,
+                    date_update_information=product_data[
+                        0
+                    ].date_update_information,
                     product_discount=product_data[0].product_discount,
-                    photo=[photo.read_model() for photo in product_data[0].photos],
+                    photo=[
+                        photo.read_model() for photo in product_data[0].photos
+                    ],
                     type_pr=[
                         ProductTypeModels(
                             id_product=tp.id_product,
@@ -626,10 +682,12 @@ class ProductService:
                         for tp in product_data[0].type_models
                     ],
                     reviews=[
-                        review_p.read_model() for review_p in product_data[0].reviews
+                        review_p.read_model()
+                        for review_p in product_data[0].reviews
                     ],
                     orders=[
-                        order_pr.read_model() for order_pr in product_data[0].order
+                        order_pr.read_model()
+                        for order_pr in product_data[0].order
                     ],  # noqa
                     favourites=[
                         fav_p.read_model()
@@ -638,7 +696,9 @@ class ProductService:
                     categories=SubCategoryAllData(
                         name=product_data[0].sub_category_data.name,
                         id_subcategory=product_data[0].sub_category_data.id,
-                        id_category=product_data[0].sub_category_data.id_category,
+                        id_category=product_data[
+                            0
+                        ].sub_category_data.id_category,
                     ),
                 )
             logging.critical(
@@ -740,7 +800,8 @@ class ProductService:
                 )
                 return
             logging.critical(
-                msg=f"{ProductService.__name__} " f"Не удалось обновить фотографию"
+                msg=f"{ProductService.__name__} "
+                f"Не удалось обновить фотографию"
             )
             await UserHttpError().http_user_not_found()
 
@@ -761,7 +822,8 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Удаление продукта по id = {id_product}"
+            msg=f"{ProductService.__name__} "
+            f"Удаление продукта по id = {id_product}"
         )
 
         async with engine:
@@ -773,8 +835,10 @@ class ProductService:
             )
 
             if is_admin:
-                product_data: Product = await engine.product_repository.find_one(
-                    other_id=id_product
+                product_data: Product = (
+                    await engine.product_repository.find_one(
+                        other_id=id_product
+                    )
                 )
                 if product_data:
                     product_data = product_data[0]
@@ -904,7 +968,8 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Получение рекомендованных товаров"
+            msg=f"{ProductService.__name__} "
+            f"Получение рекомендованных товаров"
         )
 
         async with engine:
@@ -1018,7 +1083,9 @@ class ProductService:
         Получение новых продуктов
         """
 
-        logging.info(msg=f"{ProductService.__name__} " f"Получение новых товаров")
+        logging.info(
+            msg=f"{ProductService.__name__} " f"Получение новых товаров"
+        )
         async with engine:
             all_products: Union[None, List[ProductBase]] = (
                 await engine.product_repository.get_products_by_date()
@@ -1068,7 +1135,10 @@ class ProductService:
                             ].date_update_information,  # noqa
                             product_discount=product[0].product_discount,
                             photo=(
-                                [photo.read_model() for photo in product[0].photos]
+                                [
+                                    photo.read_model()
+                                    for photo in product[0].photos
+                                ]
                                 if product[0].photos
                                 else []
                             ),

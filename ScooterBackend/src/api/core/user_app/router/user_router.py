@@ -57,7 +57,9 @@ async def get_information_about_user(
         " краткой информации о пользователе (information_about_user)"
     )
 
-    return await UserService.get_information_about_me(engine=engine, token=user_data)
+    return await UserService.get_information_about_me(
+        engine=engine, token=user_data
+    )
 
 
 @user_router.get(
@@ -385,7 +387,8 @@ async def delete_user(
     """
 
     logger.info(
-        msg="User-Router вызов метод" " удаления пользователя по id (delete_user)"
+        msg="User-Router вызов метод"
+        " удаления пользователя по id (delete_user)"
     )
 
     return await UserService.delete_user(engine=session, token=user_data)

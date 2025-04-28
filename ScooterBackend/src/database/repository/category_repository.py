@@ -21,7 +21,9 @@ class CategoryRepository(GeneralSQLRepository):
         self.model: Type[Category] = Category
         super().__init__(session=session, model=self.model)
 
-    async def find_by_name(self, category_name: str, type_find: bool = False) -> bool:
+    async def find_by_name(
+        self, category_name: str, type_find: bool = False
+    ) -> bool:
         """
         Поиск категории по названию
         :param category_name:
@@ -65,7 +67,9 @@ class CategoryRepository(GeneralSQLRepository):
 
         return result.unique().fetchall()
 
-    async def del_more(self, session: AsyncSession, id_categories: List[int]) -> bool:
+    async def del_more(
+        self, session: AsyncSession, id_categories: List[int]
+    ) -> bool:
         """
         Удаление нескольких категорий
         :param args:

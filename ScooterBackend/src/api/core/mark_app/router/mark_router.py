@@ -44,7 +44,9 @@ async def create_a_new_mark(
 async def get_all_marks(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)]
 ) -> Union[List, AllMarks]:
-    return await MarkService.get_all_marks(engine=engine, redis_search_data="all_marks")
+    return await MarkService.get_all_marks(
+        engine=engine, redis_search_data="all_marks"
+    )
 
 
 @mark_router.get(

@@ -34,8 +34,10 @@ class EmailService:
         secret_key: str = SecretKey().generate_password()
 
         async with engine:
-            user_data = await engine.user_repository.find_user_by_email_and_password(
-                email=new_user.email_user
+            user_data = (
+                await engine.user_repository.find_user_by_email_and_password(
+                    email=new_user.email_user
+                )
             )
             if user_data:
                 is_updated = await engine.user_repository.update_one(
@@ -54,8 +56,10 @@ class EmailService:
         """
 
         async with engine:
-            user_data = await engine.user_repository.find_user_by_email_and_password(
-                email=user_email
+            user_data = (
+                await engine.user_repository.find_user_by_email_and_password(
+                    email=user_email
+                )
             )
             if user_data and user_data.secret_create_key == secret_key:
                 is_updated = await engine.user_repository.update_one(
@@ -103,6 +107,7 @@ class EmailService:
             if is_updated:
                 return
             logging.critical(
-                msg=f"{UserService.__name__} " f"Не удалось отправить секретный ключ"
+                msg=f"{UserService.__name__} "
+                f"Не удалось отправить секретный ключ"
             )
             await UserHttpError().http_failed_to_update_user_information()

@@ -37,4 +37,6 @@ async def all_moto_types(
     :return:
     """
 
-    return await TypeMotoService.all_tm(engine=session, redis_search_data="all_tm")
+    return await TypeMotoService.all_tm(
+        engine=session, redis_search_data="all_tm"
+    )

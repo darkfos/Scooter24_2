@@ -29,7 +29,9 @@ class TypeMoto(MainBase):
 
     def read_model(self) -> dict:
         return {
-            i: self.__dict__[i] for i in self.__dict__.keys() if not i.startswith("_")
+            i: self.__dict__[i]
+            for i in self.__dict__.keys()
+            if not i.startswith("_")
         }
 
     def __str__(self) -> str:

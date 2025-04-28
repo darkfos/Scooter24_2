@@ -78,7 +78,9 @@ async def create_product(
     :return:
     """
 
-    logger.info(msg="Product-Router вызов метода" " создания продукта (create_product)")
+    logger.info(
+        msg="Product-Router вызов метода" " создания продукта (create_product)"
+    )
 
     return await ProductService.create_product(
         engine=session,
@@ -157,7 +159,8 @@ async def get_all_products(
     """
 
     logger.info(
-        msg="Product-Router вызов метода" " получения всех продуктов (get_all_products)"
+        msg="Product-Router вызов метода"
+        " получения всех продуктов (get_all_products)"
     )
 
     return await ProductService.get_all_products(
@@ -440,7 +443,8 @@ async def get_new_products(
     """
 
     logger.info(
-        msg="Product-Router вызов метода получения " "новых продуктов (new_products)"
+        msg="Product-Router вызов метода получения "
+        "новых продуктов (new_products)"
     )
 
     return await ProductService.get_new_products(

@@ -48,7 +48,9 @@ async def create_a_new_order(
     :return:
     """
 
-    logger.info(msg="Order-Router вызов метода " "создания заказа (create_order)")
+    logger.info(
+        msg="Order-Router вызов метода " "создания заказа (create_order)"
+    )
 
     return await OrderService.create_new_order(
         engine=session, token=user_data, new_order=new_order
@@ -153,7 +155,9 @@ async def delete_order_by_id(
     """
 
     logger.info(
-        msg="Order-Router вызов метода" " удаления заказа по " "id (delete_order_by_id)"
+        msg="Order-Router вызов метода"
+        " удаления заказа по "
+        "id (delete_order_by_id)"
     )
 
     return await OrderService.delete_order_by_id(

@@ -25,7 +25,9 @@ class ProductRepository(GeneralSQLRepository):
         self.model: Type[Product] = Product
         super().__init__(session=session, model=self.model)
 
-    async def del_more(self, session: AsyncSession, id_products: List[int]) -> bool:
+    async def del_more(
+        self, session: AsyncSession, id_products: List[int]
+    ) -> bool:
         """
         Удаление нескольких товаров
         :param args:
@@ -55,7 +57,9 @@ class ProductRepository(GeneralSQLRepository):
         :return:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} " f"Поиск товаров по категории")
+        logging.info(
+            msg=f"{self.__class__.__name__} " f"Поиск товаров по категории"
+        )
         if isinstance(how_to_find, int):
             stmt = (
                 select(Product)
@@ -75,7 +79,11 @@ class ProductRepository(GeneralSQLRepository):
             # Поиск товаров
             stmt = (
                 select(Product)
-                .where(Product.sub_category_data.has(SubCategory.name == how_to_find))
+                .where(
+                    Product.sub_category_data.has(
+                        SubCategory.name == how_to_find
+                    )
+                )
                 .options(
                     joinedload(Product.photos),
                     joinedload(Product.brand_mark),
@@ -89,7 +97,9 @@ class ProductRepository(GeneralSQLRepository):
 
         return []
 
-    async def find_product_by_name(self, name_product: str) -> Union[None, Product]:
+    async def find_product_by_name(
+        self, name_product: str
+    ) -> Union[None, Product]:
         """
         Поиск продукта по названию.
         :param name_product:
@@ -101,7 +111,9 @@ class ProductRepository(GeneralSQLRepository):
             f"Поиск продукта по"
             f" названию name_product={name_product}"
         )
-        stmt = select(Product).where(Product.title_product.contains(name_product))
+        stmt = select(Product).where(
+            Product.title_product.contains(name_product)
+        )
         product_data = (await self.async_session.execute(stmt)).all()
 
         return product_data
@@ -132,7 +144,9 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.type_models),
             )
         )
-        product_data = (await self.async_session.execute(stmt)).unique().one_or_none()
+        product_data = (
+            (await self.async_session.execute(stmt)).unique().one_or_none()
+        )
 
         return product_data
 
@@ -164,9 +178,9 @@ class ProductRepository(GeneralSQLRepository):
             ).where(ProductModels.id_model == id_model)
 
         if id_brand:
-            stmt = stmt.join(ProductMarks, ProductMarks.id_product == Product.id).where(
-                ProductMarks.id_mark == id_brand
-            )
+            stmt = stmt.join(
+                ProductMarks, ProductMarks.id_product == Product.id
+            ).where(ProductMarks.id_mark == id_brand)
 
         if id_moto_type:
             stmt = stmt.join(
@@ -216,7 +230,9 @@ class ProductRepository(GeneralSQLRepository):
 
         if id_categories:
             stmt = stmt.filter(
-                Product.sub_category_data.has(SubCategory.id_category == id_categories)
+                Product.sub_category_data.has(
+                    SubCategory.id_category == id_categories
+                )
             )
 
         if id_sub_category:
@@ -252,7 +268,8 @@ class ProductRepository(GeneralSQLRepository):
         """
 
         logging.info(
-            msg=f"{self.__class__.__name__} Получение всех товаров" " по новым датам"
+            msg=f"{self.__class__.__name__} Получение всех товаров"
+            " по новым датам"
         )
         stmt = (
             select(Product)
@@ -276,7 +293,9 @@ class ProductRepository(GeneralSQLRepository):
         :session:
         """
 
-        logging.info(msg=f"{self.__class__.__name__} Получение рекомендованных товаров")
+        logging.info(
+            msg=f"{self.__class__.__name__} Получение рекомендованных товаров"
+        )
         stmt = (
             select(Product)
             .where(Product.is_recommended == True)  # noqa
@@ -307,11 +326,15 @@ class ProductRepository(GeneralSQLRepository):
 
         if id_model:
             stmt = stmt.filter(
-                Product.product_models_data.any(ProductModels.id_model == id_model)
+                Product.product_models_data.any(
+                    ProductModels.id_model == id_model
+                )
             )
 
         if id_mark:
-            stmt = stmt.filter(Product.brand_mark.any(ProductMarks.id_mark == id_mark))
+            stmt = stmt.filter(
+                Product.brand_mark.any(ProductMarks.id_mark == id_mark)
+            )
 
         result = await self.async_session.execute(stmt)
 

@@ -53,8 +53,12 @@ class BrandService:
                 )
 
                 if created_photo:
-                    new_brand = Brand(name_brand=name_brand, url_photo=created_photo)
-                    is_created = await engine.brand_repository.add_one(data=new_brand)
+                    new_brand = Brand(
+                        name_brand=name_brand, url_photo=created_photo
+                    )
+                    is_created = await engine.brand_repository.add_one(
+                        data=new_brand
+                    )
 
                 if is_created:
                     return
@@ -123,13 +127,17 @@ class BrandService:
         async with engine:
 
             # Проверка на администратора
-            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
-                email=token_data["email"]
+            is_admin = (
+                await engine.admin_repository.find_admin_by_email_and_password(
+                    email=token_data["email"]
+                )
             )
 
             if is_admin:
 
-                is_deleted = await engine.brand_repository.delete_one(other_id=id_brand)
+                is_deleted = await engine.brand_repository.delete_one(
+                    other_id=id_brand
+                )
 
                 if is_deleted:
                     return

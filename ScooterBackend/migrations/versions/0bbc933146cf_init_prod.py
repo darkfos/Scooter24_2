@@ -1,6 +1,6 @@
 """init prod
 Revision ID: 0bbc933146cf
-Revises: 
+Revises:
 Create Date: 2025-03-03 00:11:41.409785
 """
 
@@ -84,7 +84,9 @@ def upgrade():
         sa.Column("name", sa.String(length=225), nullable=False),
         sa.Column("id_category", sa.Integer(), nullable=True),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["id_category"], ["Category.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_category"], ["Category.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("name"),
     )
@@ -110,7 +112,9 @@ def upgrade():
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index(op.f("ix_User_email_user"), "User", ["email_user"], unique=True)
+    op.create_index(
+        op.f("ix_User_email_user"), "User", ["email_user"], unique=True
+    )
     op.create_table(
         "Vacancies",
         sa.Column("salary_employee", sa.Integer(), nullable=False),
@@ -133,7 +137,9 @@ def upgrade():
         sa.Column("id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(["id_mark"], ["Mark.id"], ondelete="CASCADE"),
         sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["id_type_moto"], ["Typemoto.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_type_moto"], ["Typemoto.id"], ondelete="CASCADE"
+        ),
         sa.ForeignKeyConstraint(["id_user"], ["User.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -173,7 +179,9 @@ def upgrade():
         sa.Column("experience_user", sa.Text(), nullable=True),
         sa.Column("id_vacancy", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["id_vacancy"], ["Vacancies.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_vacancy"], ["Vacancies.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -227,7 +235,9 @@ def upgrade():
         sa.Column("id_mark", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(["id_mark"], ["Mark.id"], ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["id_product"], ["Product.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_product"], ["Product.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -236,7 +246,9 @@ def upgrade():
         sa.Column("id_model", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(["id_model"], ["Model.id"], ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["id_product"], ["Product.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_product"], ["Product.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -244,7 +256,9 @@ def upgrade():
         sa.Column("photo_url", sa.Text(), nullable=False),
         sa.Column("id_product", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["id_product"], ["Product.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_product"], ["Product.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
@@ -252,8 +266,12 @@ def upgrade():
         sa.Column("id_product", sa.Integer(), nullable=False),
         sa.Column("id_type_model", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["id_product"], ["Product.id"], ondelete="CASCADE"),
-        sa.ForeignKeyConstraint(["id_type_model"], ["Typemoto.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["id_product"], ["Product.id"], ondelete="CASCADE"
+        ),
+        sa.ForeignKeyConstraint(
+            ["id_type_model"], ["Typemoto.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(

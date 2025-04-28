@@ -40,11 +40,13 @@ class AdminPanelAuthentication(AuthenticationBackend):
         else:
             return False
 
-    async def authenticate(self, request: Type[Request]) -> Union[Type[Response], bool]:
+    async def authenticate(
+        self, request: Type[Request]
+    ) -> Union[Type[Response], bool]:
 
-        tokens: tuple = request.session.get("access_token"), request.session.get(
-            "refresh_token"
-        )
+        tokens: tuple = request.session.get(
+            "access_token"
+        ), request.session.get("refresh_token")
 
         if tokens[-1] not in (None, ""):
             return True

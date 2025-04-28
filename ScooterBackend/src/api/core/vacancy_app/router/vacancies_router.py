@@ -106,7 +106,8 @@ async def get_all_vacancies(
     """
 
     logger.info(
-        msg="Vacancy-Router вызов метода получения" " всех вакансий (get_all_vacancies)"
+        msg="Vacancy-Router вызов метода получения"
+        " всех вакансий (get_all_vacancies)"
     )
 
     return await VacanciesService.get_all_vacancies(
@@ -205,7 +206,8 @@ async def delete_vacancies_by_id(
     """
 
     logger.info(
-        msg="Vacancy-Router вызов метода" " удаления вакансии по id (delete_vacancies)"
+        msg="Vacancy-Router вызов метода"
+        " удаления вакансии по id (delete_vacancies)"
     )
 
     return await VacanciesService.delete_vacancies_by_id(

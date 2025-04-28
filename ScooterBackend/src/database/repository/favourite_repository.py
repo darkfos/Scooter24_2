@@ -38,7 +38,9 @@ class FavouriteRepository(GeneralSQLRepository):
         )
 
         for id_fav in id_favourites:
-            del_favourite: Result = delete(Favourite).where(Favourite.id == id_fav)
+            del_favourite: Result = delete(Favourite).where(
+                Favourite.id == id_fav
+            )
             await self.async_session.execute(del_favourite)
             await self.async_session.commit()
 
@@ -63,7 +65,9 @@ class FavouriteRepository(GeneralSQLRepository):
         stmt = (
             select(Favourite)
             .options(
-                selectinload(Favourite.product_info).selectinload(Product.photos)
+                selectinload(Favourite.product_info).selectinload(
+                    Product.photos
+                )
             )  # Загрузка связанных данных
             .where(Favourite.id_user == id_user)
         )

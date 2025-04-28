@@ -29,7 +29,11 @@ class GeneralSQLRepository:
                 msg=f"{self.model.__class__.__name__} "
                 f"Добавление записи, data={data}"
             )
-            stmt = insert(self.model).values(data.read_model()).returning(self.model.id)
+            stmt = (
+                insert(self.model)
+                .values(data.read_model())
+                .returning(self.model.id)
+            )
             result = await self.async_session.execute(stmt)
             if result:
                 await self.async_session.commit()
@@ -66,7 +70,9 @@ class GeneralSQLRepository:
         :return:
         """
 
-        logging.info(msg=f"{self.model.__class__.__name__} " f"Получение всех записей")
+        logging.info(
+            msg=f"{self.model.__class__.__name__} " f"Получение всех записей"
+        )
         stmt = select(self.model).options()
         all_info = await self.async_session.execute(stmt)
         return all_info.fetchall()
@@ -87,7 +93,9 @@ class GeneralSQLRepository:
         )
 
         stmt = (
-            update(self.model).where(self.model.id == other_id).values(data_to_update)
+            update(self.model)
+            .where(self.model.id == other_id)
+            .values(data_to_update)
         )
 
         try:

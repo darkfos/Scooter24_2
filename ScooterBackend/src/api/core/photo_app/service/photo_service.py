@@ -28,9 +28,13 @@ class PhotoService:
         uow: IEngineRepository, id_product: int, redis_search_data: str = ""
     ) -> AllPhotos:
         async with uow:
-            req = await uow.photos_repository.find_by_product_id(id_product=id_product)
+            req = await uow.photos_repository.find_by_product_id(
+                id_product=id_product
+            )
             if req:
                 return AllPhotos(
-                    photos=[PhotoBase(photo_url=row[0].photo_url) for row in req]
+                    photos=[
+                        PhotoBase(photo_url=row[0].photo_url) for row in req
+                    ]
                 )
             await PhotoAPIError().photos_not_found()

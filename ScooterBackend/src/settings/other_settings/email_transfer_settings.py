@@ -10,8 +10,12 @@ from src.settings.descriptor import SettingsDescriptor
 class EmailTransferSettings:
 
     email: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()  # noqa
-    password: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()  # noqa
-    secret_symbols: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()  # noqa
+    password: Union[str, Type[SettingsDescriptor]] = (
+        SettingsDescriptor()
+    )  # noqa
+    secret_symbols: Union[str, Type[SettingsDescriptor]] = (
+        SettingsDescriptor()
+    )  # noqa
     min_length_key: Union[str, Type[SettingsDescriptor], int] = (
         SettingsDescriptor()
     )  # noqa

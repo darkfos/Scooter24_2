@@ -37,7 +37,9 @@ class User(MainBase):
     )
 
     # Пароль пользователя
-    password_user: Mapped[str] = mapped_column(type_=LargeBinary, nullable=False)
+    password_user: Mapped[str] = mapped_column(
+        type_=LargeBinary, nullable=False
+    )
 
     # Ключ обновление пароля пользователя
     secret_update_key: Mapped[str] = mapped_column(
@@ -53,7 +55,9 @@ class User(MainBase):
     name_user: Mapped[str] = mapped_column(type_=String(100), nullable=True)
 
     # Отображаемое имя пользователя
-    main_name_user: Mapped[str] = mapped_column(type_=String(250), nullable=True)
+    main_name_user: Mapped[str] = mapped_column(
+        type_=String(250), nullable=True
+    )
 
     # Дата регистрации
     date_registration: Mapped[date] = mapped_column(
@@ -74,7 +78,9 @@ class User(MainBase):
     address: Mapped[str] = mapped_column(type_=Text, nullable=True)
 
     # Телефон
-    telephone: Mapped[str] = mapped_column(type_=String(length=65), nullable=True)
+    telephone: Mapped[str] = mapped_column(
+        type_=String(length=65), nullable=True
+    )
 
     # Связи c таблицами
 
@@ -104,7 +110,9 @@ class User(MainBase):
     )
 
     def read_model(self) -> Dict[str, str]:
-        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+        return {
+            k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"
+        }
 
     def __str__(self) -> str:
         # Возвращает строковый объект класса

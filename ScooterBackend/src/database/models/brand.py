@@ -15,7 +15,9 @@ class Brand(MainBase):
     )
 
     # Ссылка на фотографию бренда
-    url_photo: Mapped[str] = mapped_column(type_=Text, nullable=True, unique=False)
+    url_photo: Mapped[str] = mapped_column(
+        type_=Text, nullable=True, unique=False
+    )
 
     # Связи
     product_data: Mapped["Product"] = relationship(

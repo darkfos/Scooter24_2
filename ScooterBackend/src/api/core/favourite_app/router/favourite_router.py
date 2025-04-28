@@ -172,7 +172,9 @@ async def get_all_favourites_products(
         " всех избранных товаров (get_all_favourites_products)"
     )
 
-    return await FavouriteService.get_all_favourites(engine=session, token=admin_data)
+    return await FavouriteService.get_all_favourites(
+        engine=session, token=admin_data
+    )
 
 
 @favourite_router.delete(
