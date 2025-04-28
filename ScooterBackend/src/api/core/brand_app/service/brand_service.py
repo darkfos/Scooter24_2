@@ -79,7 +79,11 @@ class BrandService:
 
             brand = await engine.brand_repository.find_one(other_id=id_brand)
             if brand:
-                return BrandBase(name_brand=brand[0].name_brand)
+                return BrandBase(
+                    id_brand=brand[0].id,
+                    name_brand=brand[0].name_brand,
+                    url_brand=brand[0].url_photo
+                )
             await BrandException().no_found_a_brand()
 
     @redis

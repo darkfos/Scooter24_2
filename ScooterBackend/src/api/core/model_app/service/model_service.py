@@ -63,7 +63,10 @@ class ModelService:
             )
 
             return (
-                ModelBase(name_model=model_data[0].name_model)
+                ModelBase(
+                    id_model=model_data[0].id,
+                    name_model=model_data[0].name_model
+                )
                 if model_data
                 else await ModelException().no_found_a_model_by_id()
             )
