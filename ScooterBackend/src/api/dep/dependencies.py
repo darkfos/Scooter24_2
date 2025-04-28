@@ -97,9 +97,7 @@ class EngineRepository(IEngineRepository):
 
         self.session = self.session_factory()
 
-        self.user_repository: UserRepository = UserRepository(
-            session=self.session
-        )
+        self.user_repository: UserRepository = UserRepository(session=self.session)
         self.user_type_repository: UserTypeRepository = UserTypeRepository(
             session=self.session
         )
@@ -109,9 +107,7 @@ class EngineRepository(IEngineRepository):
         self.review_repository: ReviewRepository = ReviewRepository(
             session=self.session
         )
-        self.order_repository: OrderRepository = OrderRepository(
-            session=self.session
-        )
+        self.order_repository: OrderRepository = OrderRepository(session=self.session)
         self.favourite_repository: FavouriteRepository = FavouriteRepository(
             session=self.session
         )
@@ -121,21 +117,15 @@ class EngineRepository(IEngineRepository):
         self.product_repository: ProductRepository = ProductRepository(
             session=self.session
         )
-        self.type_worker_repository: TypeWorkerRepository = (
-            TypeWorkerRepository(session=self.session)
-        )
-        self.subcategory_repository: SubCategoryRepository = (
-            SubCategoryRepository(session=self.session)
-        )
-        self.brand_repository: BrandRepository = BrandRepository(
+        self.type_worker_repository: TypeWorkerRepository = TypeWorkerRepository(
             session=self.session
         )
-        self.model_repository: ModelRepository = ModelRepository(
+        self.subcategory_repository: SubCategoryRepository = SubCategoryRepository(
             session=self.session
         )
-        self.mark_repository: MarkRepository = MarkRepository(
-            session=self.session
-        )
+        self.brand_repository: BrandRepository = BrandRepository(session=self.session)
+        self.model_repository: ModelRepository = ModelRepository(session=self.session)
+        self.mark_repository: MarkRepository = MarkRepository(session=self.session)
         self.product_models_repository: ProductModelsRepository = (
             ProductModelsRepository(session=self.session)
         )
@@ -148,11 +138,11 @@ class EngineRepository(IEngineRepository):
         self.garage_repository: GarageRepository = GarageRepository(
             session=self.session
         )
-        self.vacancies_req_repository: VacanciesReqRepository = (
-            VacanciesReqRepository(session=self.session)
+        self.vacancies_req_repository: VacanciesReqRepository = VacanciesReqRepository(
+            session=self.session
         )
-        self.product_marks_repository: ProductMarksRepository = (
-            ProductMarksRepository(session=self.session)
+        self.product_marks_repository: ProductMarksRepository = ProductMarksRepository(
+            session=self.session
         )
         self.product_type_models_repository: ProductTypeModelsRepository = (
             ProductTypeModelsRepository(session=self.session)

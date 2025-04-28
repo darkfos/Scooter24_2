@@ -58,14 +58,10 @@ async def login_user(
     :return:
     """
 
-    logger.info(
-        msg="Auth-Router вызов метода авторизации пользователя (login_user)"
-    )
+    logger.info(msg="Auth-Router вызов метода авторизации пользователя (login_user)")
 
     tokens = await authentication_app.create_tokens(
-        token_data=CreateToken(
-            email=data_login.username, password=data_login.password
-        ),
+        token_data=CreateToken(email=data_login.username, password=data_login.password),
         engine=session,
     )
 
@@ -98,8 +94,7 @@ async def registration_user(
     """
 
     logger.info(
-        msg="Auth-Router вызов метода регистрации"
-        " пользователя (registration_user)"
+        msg="Auth-Router вызов метода регистрации" " пользователя (registration_user)"
     )
 
     new_user.date_registration = datetime.date.today()
@@ -132,8 +127,7 @@ async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
     """
 
     logger.info(
-        msg="Auth-Router вызов метода "
-        "обновления токена (update_by_refresh_token)"
+        msg="Auth-Router вызов метода " "обновления токена (update_by_refresh_token)"
     )
 
     try:

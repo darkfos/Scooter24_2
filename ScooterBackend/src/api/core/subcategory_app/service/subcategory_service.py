@@ -37,10 +37,8 @@ class SubCategoryService:
 
         async with engine:
 
-            is_admin = (
-                await engine.user_repository.find_user_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin = await engine.user_repository.find_user_by_email_and_password(
+                email=token_data.get("email")
             )
             if is_admin:
 
@@ -92,9 +90,7 @@ class SubCategoryService:
         """
 
         async with engine:
-            all_subcategory_models = (
-                await engine.subcategory_repository.find_all()
-            )
+            all_subcategory_models = await engine.subcategory_repository.find_all()
             if all_subcategory_models:
                 return AllSubCategories(
                     all_subcategory=[
@@ -122,10 +118,8 @@ class SubCategoryService:
 
         async with engine:
 
-            is_admin = (
-                await engine.user_repository.find_user_by_email_and_password(
-                    email=token_data["email"]
-                )
+            is_admin = await engine.user_repository.find_user_by_email_and_password(
+                email=token_data["email"]
             )
 
             if is_admin and is_admin.id_type_user == 2:

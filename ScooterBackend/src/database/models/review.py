@@ -13,9 +13,7 @@ class Review(MainBase):
     # Таблица отзывов
 
     # Текст отзыва
-    text_review: Mapped[str] = mapped_column(
-        type_=Text, default="", nullable=False
-    )
+    text_review: Mapped[str] = mapped_column(type_=Text, default="", nullable=False)
 
     # Оценка товара
     estimation_review: Mapped[int] = mapped_column(
@@ -24,22 +22,16 @@ class Review(MainBase):
 
     # Пользователь - id
     id_user: Mapped[int] = mapped_column(ForeignKey("User.id"), type_=Integer)
-    id_product: Mapped[int] = mapped_column(
-        ForeignKey("Product.id"), type_=Integer
-    )
+    id_product: Mapped[int] = mapped_column(ForeignKey("Product.id"), type_=Integer)
 
     # Связи с таблицами
-    user: Mapped["User"] = relationship(
-        "User", back_populates="reviews", uselist=False
-    )
+    user: Mapped["User"] = relationship("User", back_populates="reviews", uselist=False)
     product: Mapped["Product"] = relationship(
         "Product", back_populates="reviews", uselist=False
     )
 
     def read_model(self) -> Dict[str, str]:
-        return {
-            k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"
-        }
+        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
 
     def __str__(self) -> str:
         # Возвращает строковый объект класса

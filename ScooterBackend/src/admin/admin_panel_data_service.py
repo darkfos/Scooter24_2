@@ -75,10 +75,8 @@ class AdminPanelService:
                         )
 
                         if not id_brand:
-                            create_brand = (
-                                await session.brand_repository.add_one(
-                                    data=Brand(name_brand=row.get("Бренд"))
-                                )
+                            create_brand = await session.brand_repository.add_one(
+                                data=Brand(name_brand=row.get("Бренд"))
                             )
                             id_brand = create_brand
 
@@ -88,17 +86,13 @@ class AdminPanelService:
                         marks = row.get("Марка").split(", ")
 
                         for mark in marks:
-                            id_mark = (
-                                await session.mark_repository.find_by_name(
-                                    name_mark=mark
-                                )
+                            id_mark = await session.mark_repository.find_by_name(
+                                name_mark=mark
                             )
 
                             if not id_mark:
-                                create_mark = (
-                                    await session.mark_repository.add_one(
-                                        data=Mark(name_mark=mark)
-                                    )
+                                create_mark = await session.mark_repository.add_one(
+                                    data=Mark(name_mark=mark)
                                 )
 
                                 id_mark = create_mark
@@ -117,10 +111,8 @@ class AdminPanelService:
                         type_motos = str(row.get("Тип")).split(", ")
 
                         for tp_moto in type_motos:
-                            type_moto = (
-                                await session.type_moto_repository.find_name(
-                                    tp_moto
-                                )
+                            type_moto = await session.type_moto_repository.find_name(
+                                tp_moto
                             )
 
                             if type_moto:
@@ -143,16 +135,12 @@ class AdminPanelService:
                     )
                     quantity_product = (
                         int(row["Доступно к продаже по схеме FBS, шт."])
-                        if pandas.notna(
-                            row["Доступно к продаже по схеме FBS, шт."]
-                        )
+                        if pandas.notna(row["Доступно к продаже по схеме FBS, шт."])
                         else 0
                     )
                     price_product = float(
                         row["Цена до скидки (перечеркнутая цена), ₽"]
-                        if pandas.notna(
-                            row["Цена до скидки (перечеркнутая цена), ₽"]
-                        )
+                        if pandas.notna(row["Цена до скидки (перечеркнутая цена), ₽"])
                         else 0
                     )
 
@@ -180,18 +168,14 @@ class AdminPanelService:
                         product_discount=0,
                     )
 
-                    res_to_add = await session.product_repository.add_one(
-                        new_product
-                    )
+                    res_to_add = await session.product_repository.add_one(new_product)
 
                     if res_to_add:
 
                         # Добавление марок к продукту
                         for mark in all_marks:
                             await session.product_marks_repository.add_one(
-                                data=ProductMarks(
-                                    id_mark=mark, id_product=res_to_add
-                                )
+                                data=ProductMarks(id_mark=mark, id_product=res_to_add)
                             )
 
                         # Добавление типа транспорта к продукту
@@ -210,21 +194,17 @@ class AdminPanelService:
                             for photo in photos:
                                 filename = photo.split("/")[-2]
                                 # Сохранение фотографии в хранилище
-                                is_saved = (
-                                    await FileS3Manager().upload_file_from_url(
-                                        url_file=photo,
-                                        file_name=filename
-                                        + "".join(  # noqa
-                                            [
-                                                str(random.randint(1, 100))
-                                                for _ in range(
-                                                    1, random.randint(5, 30)
-                                                )
-                                            ]
-                                        )
-                                        + ".jpeg",  # noqa
-                                        directory=S3EnumStorage.PRODUCTS.value,
+                                is_saved = await FileS3Manager().upload_file_from_url(
+                                    url_file=photo,
+                                    file_name=filename
+                                    + "".join(  # noqa
+                                        [
+                                            str(random.randint(1, 100))
+                                            for _ in range(1, random.randint(5, 30))
+                                        ]
                                     )
+                                    + ".jpeg",  # noqa
+                                    directory=S3EnumStorage.PRODUCTS.value,
                                 )
 
                                 if is_saved:
@@ -238,9 +218,7 @@ class AdminPanelService:
 
                         # Создание моделей продукта
                         AdminPanelService.id_product = res_to_add
-                        await AdminPanelService.add_product_model(
-                            engine=session
-                        )
+                        await AdminPanelService.add_product_model(engine=session)
 
                         cnt_to_add += 1
                     cnt_row += 1
@@ -259,8 +237,7 @@ class AdminPanelService:
                     )
                 else:
                     request.session["warning_message"] = (
-                        f"Удалось добавить {cnt_to_add} из"
-                        f" {cnt_row} записей"
+                        f"Удалось добавить {cnt_to_add} из" f" {cnt_row} записей"
                     )
                     return RedirectResponse(
                         url=f"/admin/{data_to_response}/list",
@@ -367,8 +344,7 @@ class AdminPanelService:
                     )
                 else:
                     request.session["warning_message"] = (
-                        f"Удалось добавить "
-                        f"{cnt_to_add} из {cnt_row - 1} записей"
+                        f"Удалось добавить " f"{cnt_to_add} из {cnt_row - 1} записей"
                     )
                     return RedirectResponse(
                         url=f"/admin/{data_to_response}/list",
@@ -415,14 +391,10 @@ class AdminPanelService:
         Добавление новой марки
         """
 
-        return await engine.mark_repository.add_one(
-            data=Mark(name_mark=name_mark)
-        ).id
+        return await engine.mark_repository.add_one(data=Mark(name_mark=name_mark)).id
 
     @staticmethod
-    async def update_product(
-        request, engine: EngineRepository, file: pandas.DataFrame
-    ):
+    async def update_product(request, engine: EngineRepository, file: pandas.DataFrame):
         """
         Обновление данных в файле
         """
@@ -433,10 +405,8 @@ class AdminPanelService:
         async with engine:
             for index, row in file.iterrows():
                 # Поиск товара по названию
-                product_data = (
-                    await engine.product_repository.find_product_by_name(
-                        name_product=row["Наименование товара"]
-                    )
+                product_data = await engine.product_repository.find_product_by_name(
+                    name_product=row["Наименование товара"]
                 )
                 if product_data:
                     product_data = product_data[0].id
@@ -461,8 +431,7 @@ class AdminPanelService:
                 cnt_to_update += 1
 
         request.session["warning_message"] = (
-            f"Удалось обновить "
-            f"{cnt_result_update} из {cnt_result_update} записей"
+            f"Удалось обновить " f"{cnt_result_update} из {cnt_result_update} записей"
         )
         return RedirectResponse(
             url="/admin/product/list",
@@ -497,11 +466,9 @@ class AdminPanelService:
                     if category:
                         category = category[0].id
 
-                        is_updated = (
-                            await session.category_repository.update_one(
-                                other_id=category,
-                                data_to_update={"icon_category": image},
-                            )
+                        is_updated = await session.category_repository.update_one(
+                            other_id=category,
+                            data_to_update={"icon_category": image},
                         )
 
                         if is_updated:

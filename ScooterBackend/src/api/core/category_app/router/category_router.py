@@ -202,9 +202,7 @@ async def delete_category(
     :return:
     """
 
-    logger.info(
-        msg="Category-Router вызов метода удаления категории (delete_category)"
-    )
+    logger.info(msg="Category-Router вызов метода удаления категории (delete_category)")
 
     await CategoryService.delete_category(
         engine=session, id_category=id_category, token=admin_data

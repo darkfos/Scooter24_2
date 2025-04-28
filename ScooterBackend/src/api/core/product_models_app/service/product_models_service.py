@@ -35,10 +35,8 @@ class ProductModelsService:
 
         async with engine:
 
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data.get("email")
             )
 
             if is_admin:
@@ -94,9 +92,7 @@ class ProductModelsService:
 
         async with engine:
 
-            all_product_models = (
-                await engine.product_models_repository.find_all()
-            )
+            all_product_models = await engine.product_models_repository.find_all()
             if all_product_models:
                 return AllProductModels(
                     all_models=[
@@ -123,10 +119,8 @@ class ProductModelsService:
 
         async with engine:
 
-            is_admin = (
-                await engine.user_repository.find_user_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin = await engine.user_repository.find_user_by_email_and_password(
+                email=token_data.get("email")
             )
 
             if is_admin:

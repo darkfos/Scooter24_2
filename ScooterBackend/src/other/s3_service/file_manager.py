@@ -33,9 +33,7 @@ class FileS3Manager:
         Получаем сессию для работы с S3
         """
 
-        async with self.session.create_client(
-            "s3", **self.__s3_config
-        ) as cl_session:
+        async with self.session.create_client("s3", **self.__s3_config) as cl_session:
             yield cl_session
 
     async def upload_file_to_storage(

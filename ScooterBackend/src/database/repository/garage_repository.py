@@ -41,9 +41,7 @@ class GarageRepository(GeneralSQLRepository):
         :return:
         """
 
-        stmt = delete(Garage).where(
-            Garage.id_user == id_user, Garage.id == id_mt
-        )
+        stmt = delete(Garage).where(Garage.id_user == id_user, Garage.id == id_mt)
         result = await self.async_session.execute(stmt)
         await self.async_session.commit()
         return result.rowcount

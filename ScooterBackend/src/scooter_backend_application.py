@@ -23,16 +23,13 @@ class ScooterBackendApplication:
     def __init__(self) -> None:
         self.scooter24_app: FastAPI = FastAPI(
             title="Scooter24 API",
-            description="Программный интерфейс для сайта по"
-            " продаже мото-деталей",
+            description="Программный интерфейс для сайта по" " продаже мото-деталей",
             # lifespan=connection_db
         )
 
         # Static's
         self.statics: StaticFiles = StaticFiles(directory=statics_dir)
-        self.scooter24_app.mount(
-            path="/static", app=self.statics, name="static"
-        )
+        self.scooter24_app.mount(path="/static", app=self.statics, name="static")
 
         # Admjn panel
         self.admin: AdminPanel = AdminPanel(app=self.scooter24_app)
@@ -50,9 +47,7 @@ class ScooterBackendApplication:
         self.added_middleware()
 
         # Интеграция с Prometheus
-        Instrumentator().instrument(self.scooter24_app).expose(
-            self.scooter24_app
-        )
+        Instrumentator().instrument(self.scooter24_app).expose(self.scooter24_app)
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 

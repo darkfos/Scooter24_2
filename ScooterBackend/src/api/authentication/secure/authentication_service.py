@@ -94,16 +94,12 @@ class Authentication:
 
                     data_for_token: Dict[str, str] = {
                         "is_admin": (
-                            True
-                            if res_to_find_user.id_type_user == 2
-                            else False
+                            True if res_to_find_user.id_type_user == 2 else False
                         ),
                         "sub": str(res_to_find_user.id),
                     }
 
-                    data_for_refresh_token: Dict[str, str] = (
-                        data_for_token.copy()
-                    )
+                    data_for_refresh_token: Dict[str, str] = data_for_token.copy()
                     data_for_token.update(
                         {
                             "exp": (
@@ -136,9 +132,7 @@ class Authentication:
                         Settings.auth_settings.algorithm,
                     )
 
-                    return Tokens(
-                        token=jwt_token, refresh_token=jwt_refresh_token
-                    )
+                    return Tokens(token=jwt_token, refresh_token=jwt_refresh_token)
 
             logging.critical(
                 msg="Сервис Аутентификации - не удалось создать"
@@ -218,9 +212,7 @@ class Authentication:
             )
             await GeneralExceptions().http_auth_error()
 
-    async def is_admin(
-        self, session: AsyncSession, email: str, password: str
-    ) -> dict:
+    async def is_admin(self, session: AsyncSession, email: str, password: str) -> dict:
         """
         Проверка, что данные соответствуют данным какого-либо администратора.
         :param engine:

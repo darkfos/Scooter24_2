@@ -88,24 +88,22 @@ class ReviewService:
             )
 
             if all_reviews_for_product:
-                reviews: ListReviewMessageForProduct = (
-                    ListReviewMessageForProduct(
-                        reviews=[
-                            ReviewMessage(
-                                text_review=review[0].text_review,
-                                estimation_review=review[0].estimation_review,
-                                user_data={
-                                    "user_name": review[0]
-                                    .user.read_model()
-                                    .get("name_user"),
-                                    "email_user": review[0]
-                                    .user.read_model()
-                                    .get("email_user"),
-                                },
-                            )
-                            for review in all_reviews_for_product
-                        ]
-                    )
+                reviews: ListReviewMessageForProduct = ListReviewMessageForProduct(
+                    reviews=[
+                        ReviewMessage(
+                            text_review=review[0].text_review,
+                            estimation_review=review[0].estimation_review,
+                            user_data={
+                                "user_name": review[0]
+                                .user.read_model()
+                                .get("name_user"),
+                                "email_user": review[0]
+                                .user.read_model()
+                                .get("email_user"),
+                            },
+                        )
+                        for review in all_reviews_for_product
+                    ]
                 )
 
                 return reviews
@@ -123,8 +121,7 @@ class ReviewService:
         """
 
         logging.info(
-            msg=f"{ReviewService.__name__} "
-            f"Получение списка имеющихся товаров"
+            msg=f"{ReviewService.__name__} " f"Получение списка имеющихся товаров"
         )
         async with engine:
             # Получение всех отзывов к товару
@@ -186,9 +183,7 @@ class ReviewService:
                         .get("email_user"),
                     },
                 )
-            logging.critical(
-                msg=f"{ReviewService.__name__} " f"Не удалось найти отзыв"
-            )
+            logging.critical(msg=f"{ReviewService.__name__} " f"Не удалось найти отзыв")
             await ReviewHttpError().http_review_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
@@ -208,8 +203,7 @@ class ReviewService:
         """
 
         logging.info(
-            msg=f"{ReviewService.__name__} "
-            f"Удаление отзыва по id_review={id_review}"
+            msg=f"{ReviewService.__name__} " f"Удаление отзыва по id_review={id_review}"
         )
 
         async with engine:
@@ -221,10 +215,8 @@ class ReviewService:
             )
 
             if is_admin:
-                is_review_deleted: bool = (
-                    await engine.review_repository.delete_one(
-                        other_id=id_review
-                    )
+                is_review_deleted: bool = await engine.review_repository.delete_one(
+                    other_id=id_review
                 )
                 if is_review_deleted:
                     return
@@ -243,8 +235,7 @@ class ReviewService:
                         if is_review_deleted:
                             return
                         logging.critical(
-                            msg=f"{ReviewService.__name__} "
-                            f"Не удалось удалить отзыв"
+                            msg=f"{ReviewService.__name__} " f"Не удалось удалить отзыв"
                         )
                         await ReviewHttpError().http_failed_to_delete_review()
                     logging.critical(

@@ -87,9 +87,7 @@ class AdminPanel(AdminPanelService):
         """
         request.session["error_message"] = ""
         request.session["warning_message"] = ""
-        return await self.templates.TemplateResponse(
-            request, "sqladmin/index.html"
-        )
+        return await self.templates.TemplateResponse(request, "sqladmin/index.html")
 
     @override
     @login_required
@@ -168,9 +166,7 @@ class AdminPanel(AdminPanelService):
 
         params_from_req = request.path_params
         file: UploadFile = (await request.form()).get("csv_file")
-        model_view = (
-            "product" if params_from_req["model"] == "Товары" else "category"
-        )
+        model_view = "product" if params_from_req["model"] == "Товары" else "category"
 
         # Работа с файлом
         file_data = (await file.read()).decode("UTF-8")

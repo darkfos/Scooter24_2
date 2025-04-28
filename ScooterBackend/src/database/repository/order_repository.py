@@ -109,9 +109,7 @@ class OrderRepository(GeneralSQLRepository):
             ).one_or_none()
             return orders_data
         else:
-            orders_data = (
-                (await self.async_session.execute(stmt)).unique()
-            ).fetchall()
+            orders_data = ((await self.async_session.execute(stmt)).unique()).fetchall()
 
             if orders_data:
                 return orders_data

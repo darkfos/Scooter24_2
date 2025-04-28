@@ -22,19 +22,11 @@ class ProductPhotos(MainBase):
 
     def __str__(self):
         return str(
-            {
-                k: v
-                for k, v in self.__dict__.items()  # noqa
-                if not k.startswith("_")
-            }
+            {k: v for k, v in self.__dict__.items() if not k.startswith("_")}  # noqa
         )
 
     def __repr__(self):
         return self.__str__()
 
     def read_model(self) -> dict:
-        return {
-            k: v
-            for k, v in self.__dict__.items()  # noqa
-            if not k.startswith("_")
-        }
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}  # noqa

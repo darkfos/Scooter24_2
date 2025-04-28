@@ -15,9 +15,7 @@ class PhotosRepository(GeneralSQLRepository):
         Поиск всех фотографий продукта
         """
 
-        stmt = select(ProductPhotos).where(
-            ProductPhotos.id_product == id_product
-        )
+        stmt = select(ProductPhotos).where(ProductPhotos.id_product == id_product)
         res = await self.async_session.execute(stmt)
         all_photos: Sequence[Row] = res.fetchall()
         return all_photos

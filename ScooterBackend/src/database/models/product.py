@@ -150,9 +150,7 @@ class Product(MainBase):
     )
 
     def read_model(self) -> Dict[str, str]:
-        return {
-            k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"
-        }
+        return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
 
     def __str__(self) -> str:
         # Возвращает строковый объект класса

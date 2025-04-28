@@ -13,9 +13,7 @@ class SubCategoryRepository(GeneralSQLRepository):
         sub_category_data = select(SubCategory).where(
             SubCategory.name == name_subcategory
         )
-        sub_category_data: Result = await self.async_session.execute(
-            sub_category_data
-        )
+        sub_category_data: Result = await self.async_session.execute(sub_category_data)
 
         if sub_category_data:
             return sub_category_data.fetchone()

@@ -66,8 +66,7 @@ class OrderService:
             if is_created:
                 return
             logging.critical(
-                msg=f"{OrderService.__name__} "
-                f"Не удалось создать новый заказ"
+                msg=f"{OrderService.__name__} " f"Не удалось создать новый заказ"
             )
             await OrderHttpError().http_failed_to_create_a_new_order()
 
@@ -86,8 +85,7 @@ class OrderService:
         """
 
         logging.info(
-            msg=f"{OrderService.__name__} "
-            f"Получение всей информации о всех заказах"
+            msg=f"{OrderService.__name__} " f"Получение всей информации о всех заказах"
         )
 
         async with engine:
@@ -101,9 +99,7 @@ class OrderService:
             if orders_data:
                 data_orders: list = []
                 for order in orders_data:
-                    order_product_data: dict = order[
-                        0
-                    ].product_info.read_model()
+                    order_product_data: dict = order[0].product_info.read_model()
 
                     data_orders.append(
                         OrderAndUserInformation(
@@ -111,13 +107,9 @@ class OrderService:
                                 "id_product": order_product_data.get("id"),
                                 "photos": [
                                     photo.read_model()
-                                    for photo in order_product_data.get(
-                                        "photos"
-                                    )
+                                    for photo in order_product_data.get("photos")
                                 ],
-                                "name_product": order_product_data.get(
-                                    "title_product"
-                                ),
+                                "name_product": order_product_data.get("title_product"),
                                 "price_product": order_product_data.get(
                                     "price_product"
                                 ),
@@ -165,9 +157,7 @@ class OrderService:
         async with engine:
             # Получение данных заказа
             order_data: Union[None, Order] = (
-                await engine.order_repository.get_full_information(
-                    id_order=id_order
-                )
+                await engine.order_repository.get_full_information(id_order=id_order)
             )
 
             if order_data:
@@ -187,9 +177,7 @@ class OrderService:
                             "price_product"
                         ),  # noqa
                         "category_product": (
-                            get_category[0].name_category
-                            if get_category
-                            else ""
+                            get_category[0].name_category if get_category else ""
                         ),  # noqa
                         "date_buy": order_data[0].date_buy,
                     },
@@ -223,14 +211,13 @@ class OrderService:
         """
 
         logging.info(
-            msg=f"{OrderService.__name__} "
-            f"Удаление заказа по id_order={id_order}"
+            msg=f"{OrderService.__name__} " f"Удаление заказа по id_order={id_order}"
         )
 
         async with engine:
             # Проверка на то что заказ принадлежит покупателю
-            order_data: Union[None, Order] = (
-                await engine.order_repository.find_one(other_id=id_order)
+            order_data: Union[None, Order] = await engine.order_repository.find_one(
+                other_id=id_order
             )
             if order_data:
                 if order_data[0].id_user == int(token_data.get("sub")):

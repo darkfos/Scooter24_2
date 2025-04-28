@@ -52,16 +52,12 @@ class CategoryService:
         :return:
         """
 
-        logging.info(
-            msg=f"{CategoryService.__name__} Создание новой категории товара"
-        )
+        logging.info(msg=f"{CategoryService.__name__} Создание новой категории товара")
 
         async with engine:
             # Find user in Admin table
-            find_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            find_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data.get("email")
             )
 
             if find_admin:
@@ -83,9 +79,7 @@ class CategoryService:
         engine: IEngineRepository, id_category: int
     ) -> FileResponse:
 
-        logger.info(
-            msg=f"{CategoryService.__name__} Получение иконки категории"
-        )
+        logger.info(msg=f"{CategoryService.__name__} Получение иконки категории")
 
         async with engine:
             category_data = await engine.category_repository.find_one(
@@ -93,9 +87,7 @@ class CategoryService:
             )
             if category_data:
                 return FileResponse(
-                    path="src/static/images/{}".format(
-                        category_data[0].icon_category
-                    ),
+                    path="src/static/images/{}".format(category_data[0].icon_category),
                     filename="logo_category",
                     media_type="image/jpeg",
                     status_code=status.HTTP_200_OK,
@@ -105,9 +97,7 @@ class CategoryService:
 
     @redis
     @staticmethod
-    async def find_all_categories(
-        engine: IEngineRepository, redis_search_data: str
-    ):
+    async def find_all_categories(engine: IEngineRepository, redis_search_data: str):
         """
         Метод сервиса для получения всех категорий
         :param session:
@@ -157,13 +147,12 @@ class CategoryService:
         """
 
         logging.info(
-            msg=f"{CategoryService.__name__} "
-            f"Поиск категории по id={id_category}"
+            msg=f"{CategoryService.__name__} " f"Поиск категории по id={id_category}"
         )
         async with engine:
             # Get category
-            category: Union[None, Category] = (
-                await engine.category_repository.find_one(other_id=id_category)
+            category: Union[None, Category] = await engine.category_repository.find_one(
+                other_id=id_category
             )
             if category:
                 return CategoryBase(name_category=category[0].name_category)
@@ -188,16 +177,12 @@ class CategoryService:
         :return:
         """
 
-        logging.info(
-            msg=f"{CategoryService.__name__} Обновление названия категории"
-        )
+        logging.info(msg=f"{CategoryService.__name__} Обновление названия категории")
         async with engine:
 
             # Find admin
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    token_data.get("email")
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                token_data.get("email")
             )
 
             if is_admin:
@@ -240,14 +225,11 @@ class CategoryService:
         """
 
         logging.info(
-            msg=f"{CategoryService.__name__} "
-            f"Удаление категории по id={id_category}"
+            msg=f"{CategoryService.__name__} " f"Удаление категории по id={id_category}"
         )
         async with engine:
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    token_data.get("email")
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                token_data.get("email")
             )
             if is_admin:
                 is_del = await engine.category_repository.delete_one(

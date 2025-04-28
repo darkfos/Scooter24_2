@@ -26,9 +26,7 @@ class UserRepository(GeneralSQLRepository):
         self.model: Type[User] = User
         super().__init__(session=session, model=self.model)
 
-    async def find_user_by_email_and_password(
-        self, email: str
-    ) -> Union[User, bool]:
+    async def find_user_by_email_and_password(self, email: str) -> Union[User, bool]:
         """
         Поиск пользователя по почте
         :param session:
@@ -38,8 +36,7 @@ class UserRepository(GeneralSQLRepository):
         """
 
         logging.info(
-            msg=f"{self.__class__.__name__} Поиск пользователя по "
-            f"почте={email}"
+            msg=f"{self.__class__.__name__} Поиск пользователя по " f"почте={email}"
         )
         find_user = select(User).where(User.email_user == email)
         result = (await self.async_session.execute(find_user)).one_or_none()
@@ -75,9 +72,7 @@ class UserRepository(GeneralSQLRepository):
                 joinedload(User.reviews),
             )
         )
-        all_information_about_user = (
-            await self.async_session.execute(stmt)
-        ).unique()
+        all_information_about_user = (await self.async_session.execute(stmt)).unique()
         if all_information_about_user:
             return all_information_about_user.scalar()
         logging.critical(
@@ -86,9 +81,7 @@ class UserRepository(GeneralSQLRepository):
         )
         return None
 
-    async def find_user_and_get_reviews(
-        self, user_id: int
-    ) -> Union[User, None]:
+    async def find_user_and_get_reviews(self, user_id: int) -> Union[User, None]:
         """
         Получение информации о пользователе, а так же об его отзывах
         :param user_id:
@@ -100,11 +93,7 @@ class UserRepository(GeneralSQLRepository):
             f"Получение информации о пользователе"
             f" и о всех его отзывах id_user={user_id}"
         )
-        stmt = (
-            select(User)
-            .where(User.id == user_id)
-            .options(joinedload(User.reviews))
-        )
+        stmt = select(User).where(User.id == user_id).options(joinedload(User.reviews))
         user_data = (
             (await self.async_session.execute(stmt)).unique()
         ).scalar_one_or_none()
@@ -187,9 +176,7 @@ class UserRepository(GeneralSQLRepository):
 
         return result.unique().all()
 
-    async def find_user_and_get_history(
-        self, user_id: int
-    ) -> Union[User, None]:
+    async def find_user_and_get_history(self, user_id: int) -> Union[User, None]:
         """
         Получение информации о пользователе, а так
         же обо всех заказах (история)

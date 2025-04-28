@@ -34,10 +34,8 @@ class MarkService:
         async with engine:
 
             # Проверка на администратора
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data["email"]
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data["email"]
             )
 
             if is_admin:
@@ -89,8 +87,8 @@ class MarkService:
 
         async with engine:
 
-            mark_data: Union[None, Mark] = (
-                await engine.mark_repository.find_one(other_id=id_mark)
+            mark_data: Union[None, Mark] = await engine.mark_repository.find_one(
+                other_id=id_mark
             )
 
             if mark_data:
@@ -100,18 +98,14 @@ class MarkService:
             await MarkException().not_found_a_mark()
 
     @staticmethod
-    async def delete_mark_by_id(
-        engine: IEngineRepository, id_mark: int
-    ) -> None:
+    async def delete_mark_by_id(engine: IEngineRepository, id_mark: int) -> None:
         """
         Метод сервиса марок для удаления марки
         по уникальному идентификатору
         """
 
         async with engine:
-            is_deleted = await engine.mark_repository.delete_one(
-                other_id=id_mark
-            )
+            is_deleted = await engine.mark_repository.delete_one(other_id=id_mark)
 
             if is_deleted:
                 return True

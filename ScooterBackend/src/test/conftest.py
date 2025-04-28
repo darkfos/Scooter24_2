@@ -15,9 +15,7 @@ import pytest
 app = ScooterBackendApplication().scooter24_app
 TESTDATABASE: Final[str] = "sqlite+aiosqlite:///./testdb.db"
 
-engine_for_test = create_async_engine(
-    url=TESTDATABASE, connect_args={"timeout": 30}
-)
+engine_for_test = create_async_engine(url=TESTDATABASE, connect_args={"timeout": 30})
 async_session = async_sessionmaker(
     bind=engine_for_test,
     class_=AsyncSession,

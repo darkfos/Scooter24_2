@@ -29,9 +29,7 @@ class ProductBase(BaseModel):
     explanation_product: Annotated[str, Field()]
     quantity_product: Annotated[int, Field(gt=-1)]
     price_product: Annotated[float, Field(gt=-1)]
-    date_create_product: Annotated[
-        datetime.date, Field(default=datetime.date.today())
-    ]
+    date_create_product: Annotated[datetime.date, Field(default=datetime.date.today())]
     date_update_information: Annotated[
         datetime.date, Field(default=datetime.date.today())
     ]

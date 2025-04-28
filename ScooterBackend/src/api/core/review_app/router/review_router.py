@@ -50,9 +50,7 @@ async def create_review(
     :return:
     """
 
-    logger.info(
-        msg="Review-Router вызов " "метода создания отзыва (create_review)"
-    )
+    logger.info(msg="Review-Router вызов " "метода создания отзыва (create_review)")
 
     return await ReviewService.create_review(
         engine=session, token=user_data, new_review=new_review
@@ -113,8 +111,7 @@ async def get_all_reviews(
     """
 
     logger.info(
-        msg="Review-Router вызов метода "
-        "получение всех отзывов (get_all_reviews)"
+        msg="Review-Router вызов метода " "получение всех отзывов (get_all_reviews)"
     )
 
     return await ReviewService.get_all_reviews(engine=session)
@@ -180,8 +177,7 @@ async def delete_review_by_id(
     """
 
     logger.info(
-        msg="Review-Router вызов метода"
-        " удаления отзыва по id (delete_review_by_id)"
+        msg="Review-Router вызов метода" " удаления отзыва по id (delete_review_by_id)"
     )
 
     return await ReviewService.delete_review(

@@ -32,10 +32,8 @@ class ModelService:
 
         async with engine:
 
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data.get("email")
             )
 
             if is_admin:
@@ -49,18 +47,14 @@ class ModelService:
             await UserHttpError().http_user_not_found()
 
     @staticmethod
-    async def get_model_by_id(
-        engine: IEngineRepository, id_model: int
-    ) -> ModelBase:
+    async def get_model_by_id(engine: IEngineRepository, id_model: int) -> ModelBase:
         """
         Метод сервиса ModelService - получение модели по идентификатору
         """
 
         async with engine:
 
-            model_data = await engine.model_repository.find_one(
-                other_id=id_model
-            )
+            model_data = await engine.model_repository.find_one(other_id=id_model)
 
             return (
                 ModelBase(
@@ -87,9 +81,7 @@ class ModelService:
             if models:
                 return AllModelBase(
                     all_models=[
-                        ModelBase(
-                            id_model=model[0].id, name_model=model[0].name_model
-                        )
+                        ModelBase(id_model=model[0].id, name_model=model[0].name_model)
                         for model in models
                     ]
                 )
@@ -108,25 +100,19 @@ class ModelService:
 
         async with engine:
 
-            is_admin = (
-                await engine.admin_repository.find_admin_by_email_and_password(
-                    email=token_data.get("email")
-                )
+            is_admin = await engine.admin_repository.find_admin_by_email_and_password(
+                email=token_data.get("email")
             )
 
             if is_admin:
-                is_deleted = await engine.model_repository.delete_one(
-                    other_id=id_model
-                )
+                is_deleted = await engine.model_repository.delete_one(other_id=id_model)
                 if is_deleted:
                     return
                 await ModelException().no_delete_model_by_id()
             await UserHttpError().http_user_not_found()
 
     @staticmethod
-    async def find_by_mark(
-        engine: IEngineRepository, id_mark: int
-    ) -> AllModelBase:
+    async def find_by_mark(engine: IEngineRepository, id_mark: int) -> AllModelBase:
         """
         Получение всех моделей по id_mark
         :param engine:
@@ -135,14 +121,10 @@ class ModelService:
         """
 
         async with engine:
-            all_models = await engine.model_repository.find_all_by_mark(
-                id_mark=id_mark
-            )
+            all_models = await engine.model_repository.find_all_by_mark(id_mark=id_mark)
             return AllModelBase(
                 all_models=[
-                    ModelBase(
-                        id_model=model[0].id, name_model=model[0].name_model
-                    )
+                    ModelBase(id_model=model[0].id, name_model=model[0].name_model)
                     for model in all_models
                 ]
             )
