@@ -16,7 +16,7 @@ class BrokerSettings:
         self.RABBIT_USER: str = getenv("RABBIT_USER")
         self.RABBIT_PASSWORD: str = getenv("RABBIT_PASSWORD")
         self.RABBIT_BROKER_URL: str = (
-            f"amqp://{getenv('RABBIT_USER')}:{getenv('RABBIT_PASSWORD')}@localhost:5672/" # noqa
+            f"amqp://{getenv('RABBIT_USER')}:{getenv('RABBIT_PASSWORD')}@localhost:5672/"  # noqa
         )
         self.RABBIT_QUEUE_EMAIL: str = getenv("RABBIT_QUEUE_EMAIL")
         self.RABBIT_QUEUE_HOST: str = getenv("RABBIT_QUEUE_HOST")

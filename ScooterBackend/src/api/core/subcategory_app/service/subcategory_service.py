@@ -6,7 +6,7 @@ from src.api.core.subcategory_app.errors.http_subcategory_exceptions import (  #
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     AllSubCategories,
     SubCategoryAllData,
-    SubCategoryBase
+    SubCategoryBase,
 )
 from src.api.authentication.secure.authentication_service import (
     Authentication,
@@ -77,7 +77,7 @@ class SubCategoryService:
                         SubCategoryAllData(
                             id_subcategory=model[0].id,
                             id_category=model[0].id_category,
-                            name=model[0].name
+                            name=model[0].name,
                         )
                         for model in all_models_by_id_category
                     ]
@@ -101,7 +101,7 @@ class SubCategoryService:
                         SubCategoryAllData(
                             id_category=model[0].id_category,
                             id_subcategory=model[0].id,
-                            name=model[0].name
+                            name=model[0].name,
                         )
                         for model in all_subcategory_models
                     ]

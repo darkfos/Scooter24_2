@@ -3,7 +3,9 @@ from pydantic import Field, BaseModel
 from typing import List, Annotated
 
 # Local
-from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryAllData
+from src.api.core.subcategory_app.schemas.subcategory_dto import (
+    SubCategoryAllData,
+)
 
 
 class CreateCategory(BaseModel):

@@ -95,8 +95,7 @@ class MarkService:
 
             if mark_data:
                 return MarkBase(
-                    id_mark=mark_data[0].id,
-                    name_mark=mark_data[0].name_mark
+                    id_mark=mark_data[0].id, name_mark=mark_data[0].name_mark
                 )
             await MarkException().not_found_a_mark()
 

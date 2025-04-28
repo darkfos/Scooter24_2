@@ -9,9 +9,7 @@ TOKEN: str = ""
 async def test_all_favourites_user(
     async_client: AsyncClient, session: AsyncSession
 ) -> None:
-    req = await async_client.get(
-        url="/api/v1/favourite/all/user"
-    )
+    req = await async_client.get(url="/api/v1/favourite/all/user")
 
     assert req.status_code == 401
 

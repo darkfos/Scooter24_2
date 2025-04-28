@@ -9,9 +9,10 @@ ADMINTOKEN: Union[str, None] = None
 
 @pytest.mark.asyncio
 async def test_get_all_products(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/product/all/category", params={
-        "category_data": "Трансмиссия"
-    })
+    req = await async_client.get(
+        url="/api/v1/product/all/category",
+        params={"category_data": "Трансмиссия"},
+    )
 
     assert req.status_code == 200 and len(req.json()["products"]) == 0
 
@@ -52,9 +53,7 @@ async def test_get_product_by_filters(async_client: AsyncClient) -> None:
 
 @pytest.mark.asyncio
 async def test_product_is_exists(async_client: AsyncClient) -> None:
-    req = await async_client.get(
-        url="/api/v1/product/exists/Трансмиссия"
-    )
+    req = await async_client.get(url="/api/v1/product/exists/Трансмиссия")
 
     assert req.status_code == 404
 

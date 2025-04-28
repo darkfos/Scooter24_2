@@ -13,7 +13,7 @@ from src.api.core.category_app.schemas.category_dto import (
     CategoryBase,
     CategoryIsCreated,
     DataCategoryToUpdate,
-    CreateCategory
+    CreateCategory,
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.category_app.service.category_service import (

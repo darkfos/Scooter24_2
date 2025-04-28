@@ -4,7 +4,9 @@ import logging as logger
 from typing import Union, List, Type
 from fastapi import status, HTTPException, UploadFile
 
-from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryAllData
+from src.api.core.subcategory_app.schemas.subcategory_dto import (
+    SubCategoryAllData,
+)
 
 # Local
 from src.database.models.product import Product
@@ -694,7 +696,9 @@ class ProductService:
                     categories=SubCategoryAllData(
                         name=product_data[0].sub_category_data.name,
                         id_subcategory=product_data[0].sub_category_data.id,
-                        id_category=product_data[0].sub_category_data.id_category
+                        id_category=product_data[
+                            0
+                        ].sub_category_data.id_category,
                     ),
                 )
             logging.critical(
