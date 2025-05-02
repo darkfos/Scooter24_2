@@ -17,7 +17,9 @@ from src.database.repository.type_worker_repository import TypeWorkerRepository
 from src.database.repository.favourite_repository import FavouriteRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
-from src.database.repository.subcategory_repository import SubCategoryRepository
+from src.database.repository.subcategory_repository import (
+    SubCategoryRepository,
+)
 from src.database.repository.brand_repository import BrandRepository
 from src.database.repository.model_repository import ModelRepository
 from src.database.repository.mark_repository import MarkRepository

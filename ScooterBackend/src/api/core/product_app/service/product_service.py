@@ -120,7 +120,8 @@ class ProductService:
 
                         if saved_photo_product and product_is_created:
                             return ProductIsCreated(
-                                is_created=True, product_name=product_is_created
+                                is_created=True,
+                                product_name=product_is_created,
                             )
 
                     raise HTTPException(
@@ -249,12 +250,15 @@ class ProductService:
                     ProductBase(
                         id_product=product[0].product_info.id,
                         label_product=product[0].product_info.label_product,
-                        article_product=product[0].product_info.article_product,
+                        article_product=product[
+                            0
+                        ].product_info.article_product,
                         title_product=product[0].product_info.title_product,
                         brand=product[0].product_info.brand,
                         brand_mark=[
                             ProductMarks(
-                                id_product=mark.id_product, id_mark=mark.id_mark
+                                id_product=mark.id_product,
+                                id_mark=mark.id_mark,
                             )
                             for mark in product[0].product_info.brand_mark
                         ],
@@ -264,7 +268,9 @@ class ProductService:
                                 0
                             ].product_info.product_models_data
                         ],
-                        id_sub_category=product[0].product_info.id_sub_category,
+                        id_sub_category=product[
+                            0
+                        ].product_info.id_sub_category,
                         weight_product=product[0].product_info.weight_product,
                         is_recommended=product[0].product_info.is_recommended,
                         explanation_product=product[
@@ -600,7 +606,8 @@ class ProductService:
         """
 
         logging.info(
-            msg=f"{ProductService.__name__} " f"Проверка существования продукта"
+            msg=f"{ProductService.__name__} "
+            f"Проверка существования продукта"
         )
 
         async with engine:
@@ -947,7 +954,10 @@ class ProductService:
                             date_update_information=product.date_update_information,  # noqa
                             product_discount=product.product_discount,
                             photo=(
-                                [photo.read_model() for photo in product.photos]
+                                [
+                                    photo.read_model()
+                                    for photo in product.photos
+                                ]
                                 if product.photos
                                 else []
                             ),

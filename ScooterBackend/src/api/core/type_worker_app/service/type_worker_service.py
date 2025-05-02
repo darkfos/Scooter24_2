@@ -97,7 +97,9 @@ class TypeWorkerService:
                     ]
                 )
             else:
-                return []
+                return TypeWorkerList(
+                    type_worker=[]
+                )
 
     @redis
     @staticmethod

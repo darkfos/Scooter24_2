@@ -40,20 +40,23 @@ class VacanciesService:
         :return:
         """
 
-        async with engine:
-            req_vac_is_created = await engine.vacancies_req_repository.add_one(
-                data=VacancyRequest(
-                    email_user=req_vac.email_user,
-                    experience_user=req_vac.experience_user,
-                    name_user=req_vac.name_user,
-                    telephone_user=req_vac.telephone_user,
-                    id_vacancy=req_vac.id_vacancy,
+        try:
+            async with engine:
+                req_vac_is_created = await engine.vacancies_req_repository.add_one(
+                    data=VacancyRequest(
+                        email_user=req_vac.email_user,
+                        experience_user=req_vac.experience_user,
+                        name_user=req_vac.name_user,
+                        telephone_user=req_vac.telephone_user,
+                        id_vacancy=req_vac.id_vacancy,
+                    )
                 )
-            )
 
-            if req_vac_is_created:
-                return
+                if req_vac_is_created:
+                    return
 
+                raise Exception("Не удалось создать отклик на вакансию")
+        except Exception:
             await VacanciesHttpError().http_dont_create_req_vacancy()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
@@ -71,7 +74,9 @@ class VacanciesService:
         :vac_data:
         """
 
-        logging.info(msg=f"{VacanciesService.__name__} Создание новой вакансии")
+        logging.info(
+            msg=f"{VacanciesService.__name__} Создание новой вакансии"
+        )
 
         async with engine:
             # Проверка на администратора
@@ -136,7 +141,7 @@ class VacanciesService:
                 )
                 return vacancies_data
             else:
-                return VacanciesGeneralData(vacancies=[{}])
+                return VacanciesGeneralData(vacancies=[])
 
     @redis
     @staticmethod
@@ -202,8 +207,11 @@ class VacanciesService:
             )
 
             if is_admin:
-                is_updated: bool = await engine.vacancies_repository.update_one(
-                    other_id=data_to_update.id, data_to_update=data_to_update
+                is_updated: bool = (
+                    await engine.vacancies_repository.update_one(
+                        other_id=data_to_update.id,
+                        data_to_update=data_to_update,
+                    )
                 )
                 if is_updated:
                     return
@@ -245,8 +253,10 @@ class VacanciesService:
             )
 
             if is_admin:
-                is_deleted: bool = await engine.vacancies_repository.delete_one(
-                    other_id=id_vacancies
+                is_deleted: bool = (
+                    await engine.vacancies_repository.delete_one(
+                        other_id=id_vacancies
+                    )
                 )
                 if is_deleted:
                     return

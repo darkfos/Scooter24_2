@@ -58,7 +58,9 @@ class SubCategoryService:
 
     @redis
     async def get_subcategories_by_id_category(
-        engine: IEngineRepository, id_category: int, redis_search_data: str = ""
+        engine: IEngineRepository,
+        id_category: int,
+        redis_search_data: str = "",
     ) -> SubCategoryAllData:
         """
         Метод сервиса ProductModels для получения моделей

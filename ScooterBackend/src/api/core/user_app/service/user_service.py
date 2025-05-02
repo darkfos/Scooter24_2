@@ -728,35 +728,3 @@ class UserService:
                 f"обновить пароль пользователя"
             )
             await UserHttpError().http_failed_to_update_user_information()
-
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @staticmethod
-    async def update_address_user_data(
-        engine: IEngineRepository,
-        token: str,
-        data_update: UpdateAddressDate,
-        token_data: dict = dict(),
-    ) -> None:
-        """
-        Метод сервиса для обновления адресных данных пользователя
-        :engine:
-        :data_update:
-        """
-        logging.info(
-            msg=f"{UserService.__name__} " f"Обновление данных пользователя"
-        )
-
-        async with engine:
-            # Обновление данных
-            is_updated: bool = await engine.user_repository.update_one(
-                other_id=token_data.get("id_user"),
-                data_to_update=data_update.model_dump(),
-            )
-
-            if is_updated:
-                return True
-            logging.critical(
-                msg=f"{UserService.__name__} "
-                f"Не удалось обновить данные пользователя"
-            )
-            await UserHttpError().http_failed_to_update_user_information()

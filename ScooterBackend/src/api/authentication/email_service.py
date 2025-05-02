@@ -64,7 +64,10 @@ class EmailService:
             if user_data and user_data.secret_create_key == secret_key:
                 is_updated = await engine.user_repository.update_one(
                     other_id=user_data.id,
-                    data_to_update={"secret_create_key": "", "is_active": True},
+                    data_to_update={
+                        "secret_create_key": "",
+                        "is_active": True,
+                    },
                 )
 
                 if is_updated:

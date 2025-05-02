@@ -60,7 +60,9 @@ class ReviewRepository(GeneralSQLRepository):
             .where(Review.id_product == id_product)
             .options(joinedload(Review.user))
         )
-        reviews = ((await self.async_session.execute(stmt)).unique()).fetchall()
+        reviews = (
+            (await self.async_session.execute(stmt)).unique()
+        ).fetchall()
 
         return reviews
 
@@ -88,6 +90,8 @@ class ReviewRepository(GeneralSQLRepository):
         else:
             stmt = select(Review).options(joinedload(Review.user))
 
-        reviews = ((await self.async_session.execute(stmt)).unique()).fetchall()
+        reviews = (
+            (await self.async_session.execute(stmt)).unique()
+        ).fetchall()
 
         return reviews

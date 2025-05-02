@@ -24,6 +24,8 @@ class SubCategoryRepository(GeneralSQLRepository):
     async def find_subcategories_by_id_category(
         self, id_category: int
     ) -> List[SubCategory]:
-        stmt = select(SubCategory).where(SubCategory.id_category == id_category)
+        stmt = select(SubCategory).where(
+            SubCategory.id_category == id_category
+        )
         result = (await self.async_session.execute(stmt)).fetchall()
         return result

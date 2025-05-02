@@ -53,7 +53,9 @@ class Order(MainBase):
     )  # Инф. об продукте
 
     def read_model(self) -> Dict[str, str]:
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }
 
     def __str__(self) -> str:
         # Возвращает строковый объект класса

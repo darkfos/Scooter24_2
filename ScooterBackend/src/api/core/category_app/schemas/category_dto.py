@@ -13,6 +13,10 @@ class CreateCategory(BaseModel):
     icon_category: Annotated[str, Field()]
 
 
+class CategoryBaseData(CreateCategory):
+    pass
+
+
 class CategoryBase(CreateCategory):
     """
     Базовый DTO для категорий

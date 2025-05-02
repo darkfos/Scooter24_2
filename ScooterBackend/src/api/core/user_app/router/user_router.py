@@ -223,7 +223,9 @@ async def user_success_orders(
     Оплаченные пользователем заказы
     """
 
-    return await UserService.user_success_orders(engine=engine, token=user_data)
+    return await UserService.user_success_orders(
+        engine=engine, token=user_data
+    )
 
 
 @user_router.get(
@@ -333,36 +335,6 @@ async def update_user_information(
     )
     return await UserService.update_user_information(
         engine=session, token=user_data, to_update=data_to_update
-    )
-
-
-@user_router.put(
-    path="/update/address",
-    description="""
-    ### Endpoint - Обновление адресных данных пользователя.
-    Данный метод позволяет обновить адресные данные пользователя
-    Необходим jwt ключ и Bearer в заголовке запроса
-    """,
-    summary="Обновление адресных данных",
-    response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT,
-)
-async def update_address_data(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    user_data: Annotated[str, Depends(auth.auth_user)],
-    data_to_update: UpdateAddressDate,
-) -> None:
-    """
-    ENDPOINT - Обновление адресных данных пользователя
-    """
-
-    logger.info(
-        msg="User-Router вызов метод обновления"
-        " адресных данных пользователя (update_user_address_data)"
-    )
-
-    return await UserService.update_address_user_data(
-        engine=session, token=user_data, data_update=data_to_update
     )
 
 

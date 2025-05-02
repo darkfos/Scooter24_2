@@ -182,7 +182,9 @@ class OrderService:
                 )
                 return OrderAndUserInformation(
                     product_data={
-                        "name_product": order_product_data.get("title_product"),
+                        "name_product": order_product_data.get(
+                            "title_product"
+                        ),
                         "price_product": order_product_data.get(
                             "price_product"
                         ),  # noqa
@@ -236,8 +238,10 @@ class OrderService:
                 if order_data[0].id_user == int(token_data.get("sub")):
 
                     # Удаление заказа
-                    is_deleted: bool = await engine.order_repository.delete_one(
-                        other_id=id_order
+                    is_deleted: bool = (
+                        await engine.order_repository.delete_one(
+                            other_id=id_order
+                        )
                     )
 
                     if is_deleted:

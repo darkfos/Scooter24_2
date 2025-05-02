@@ -150,7 +150,9 @@ class UserRepository(GeneralSQLRepository):
         stmt = (
             select(Order)
             .where(Order.id_user == user_id)
-            .options(joinedload(Order.product_info), joinedload(Product.photos))
+            .options(
+                joinedload(Order.product_info), joinedload(Product.photos)
+            )
             .where(
                 Order.type_operation.in_(
                     [

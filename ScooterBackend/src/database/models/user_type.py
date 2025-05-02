@@ -20,4 +20,6 @@ class UserType(MainBase):
         return self.__str__()
 
     def read_model(self) -> Dict:
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }

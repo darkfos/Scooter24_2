@@ -5,7 +5,7 @@ description = ""
 authors = ["darkfos82 <darkfos82@gmail.com>"]
 
 [tool.black]
-line-length = 80
+line-length = 79
 
 [tool.poetry.dependencies]
 python = "^3.10"

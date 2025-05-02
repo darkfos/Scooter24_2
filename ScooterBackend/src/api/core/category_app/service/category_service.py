@@ -14,6 +14,7 @@ from src.api.core.category_app.schemas.category_dto import (
     CategoryBase,
     CategoryIsCreated,
     CategoryIsUpdated,
+    CategoryBaseData
 )
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryAllData,
@@ -114,7 +115,9 @@ class CategoryService:
         :return:
         """
 
-        logging.info(msg=f"{CategoryService.__name__} Получение всех категорий")
+        logging.info(
+            msg=f"{CategoryService.__name__} Получение всех категорий"
+        )
         async with engine:
             # Get categories
             categories: List[CategoryBase] = (
@@ -165,8 +168,14 @@ class CategoryService:
             category: Union[None, Category] = (
                 await engine.category_repository.find_one(other_id=id_category)
             )
+
+            print(category)
+
             if category:
-                return CategoryBase(name_category=category[0].name_category)
+                return CategoryBaseData(
+                    name_category=category[0].name_category,
+                    icon_category=category[0].icon_category
+                )
             logging.critical(
                 msg=f"{CategoryService.__name__} "
                 f"Не удалось найти категорию по id={id_category}"

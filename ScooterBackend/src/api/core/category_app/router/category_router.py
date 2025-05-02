@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 from src.api.core.category_app.schemas.category_dto import (
     CategoryIsUpdated,
     CategoriesList,
-    CategoryBase,
+    CategoryBaseData,
     CategoryIsCreated,
     DataCategoryToUpdate,
     CreateCategory,
@@ -119,13 +119,13 @@ async def get_all_categories(
     Данный метод осуществляет поиск категории по id.
     """,
     summary="Поиск категории по id",
-    response_model=CategoryBase,
+    response_model=CategoryBaseData,
     status_code=status.HTTP_200_OK,
 )
 async def find_category_by_id(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     id_category: int,
-) -> CategoryBase:
+) -> CategoryBaseData:
     """
     ENDPOINT - Поиск категории по id
     :param id_category:
