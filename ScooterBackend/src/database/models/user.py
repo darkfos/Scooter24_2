@@ -74,6 +74,9 @@ class User(MainBase):
         type_=Date, nullable=True, default=date.today()
     )
 
+    # Город пользователя
+    address_city: Mapped[str] = mapped_column(type_=String(length=250), nullable=True)
+
     # Адресные данные
     address: Mapped[str] = mapped_column(type_=Text, nullable=True)
 

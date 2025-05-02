@@ -131,6 +131,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     date_birthday=user_data.date_birthday,
                     telephone=user_data.telephone,
+                    address_city=user_data.address_city,
                     address=user_data.address,
                 )
 
@@ -429,6 +430,7 @@ class UserService:
                         main_name_user=user_all_information.main_name_user,
                         date_registration=user_all_information.date_registration,  # noqa
                         date_birthday=user_all_information.date_birthday,
+                        address_city=user_all_information.address_city,
                         address=user_all_information.address,
                         telephone=user_all_information.telephone,
                     ),
