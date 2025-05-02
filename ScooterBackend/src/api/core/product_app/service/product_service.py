@@ -694,7 +694,7 @@ class ProductService:
                     ],
                     orders=[
                         order_pr.read_model()
-                        for order_pr in product_data[0].order
+                        for order_pr in product_data[0].orders_list
                     ],  # noqa
                     favourites=[
                         fav_p.read_model()

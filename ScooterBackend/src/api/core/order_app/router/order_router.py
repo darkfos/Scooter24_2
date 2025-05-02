@@ -3,13 +3,14 @@ from typing import Annotated, Type
 import logging
 
 # Other libraries
-from fastapi import Depends, status, APIRouter
+from fastapi import Depends, status, APIRouter, Request
 
 # Local
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     AddOrder,
+    BuyOrder,
     ListOrderAndUserInformation,
 )
 from src.api.core.order_app.service.order_service import OrderService
@@ -22,6 +23,21 @@ order_router: APIRouter = APIRouter(
     prefix=APIPrefix.ORDER_PREFIX.value, tags=[APITagsEnum.ORDER.value]
 )
 logger: Type[logging.Logger] = logging.getLogger(__name__)
+
+
+@order_router.post(
+    path="/notification",
+    description="""
+    ### ENDPOINT - Получение уведомления с платежного сервиса
+    """,
+    summary="Подверждение покупки товара",
+    response_model=None,
+    status_code=status.HTTP_200_OK
+)
+async def success_order(request: Request):
+    data = await request.form()
+
+    print(data)
 
 
 @order_router.post(
@@ -57,6 +73,37 @@ async def create_a_new_order(
     )
 
 
+@order_router.post(
+    path="/buy",
+    description="""
+    ### ENDPOINT - Покупка товара пользователем
+    Доступен авторизированым пользователям
+    """,
+    summary="Покупка товара",
+    response_model=dict,
+    status_code=status.HTTP_200_OK
+)
+async def buy_product(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    user_data: Annotated[str, Depends(auth.auth_user)],
+    order_data: BuyOrder
+) -> dict:
+    """
+    Покупка товара пользователем
+    """
+
+    logger.info(
+        msg="Order-Router покупка пользователем товара"
+    )
+
+    resultBuyProduct = await OrderService.buy_product(
+        engine=session,
+        token=user_data,
+        order_buy_data=order_data
+    )
+
+    return resultBuyProduct
+
 @order_router.get(
     path="/all/user",
     description="""
@@ -71,6 +118,7 @@ async def create_a_new_order(
 async def get_orders_by_id_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.auth_user)],
+    not_buy: bool = True
 ) -> ListOrderAndUserInformation:
     """
     ENDPOINT - Получение всех заказов пользователя,
@@ -89,6 +137,7 @@ async def get_orders_by_id_user(
     return await OrderService.get_full_information_by_user_id(
         engine=session,
         token=user_data,
+        not_buy=not_buy
     )
 
 

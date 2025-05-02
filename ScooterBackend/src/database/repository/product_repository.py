@@ -136,7 +136,7 @@ class ProductRepository(GeneralSQLRepository):
             .options(
                 joinedload(Product.reviews),
                 joinedload(Product.product_info_for_fav),
-                joinedload(Product.order),
+                joinedload(Product.orders_list),
                 joinedload(Product.sub_category_data),
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),

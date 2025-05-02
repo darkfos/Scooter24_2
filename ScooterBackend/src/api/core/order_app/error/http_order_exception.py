@@ -17,6 +17,17 @@ class OrderHttpError(APIError):
             detail_inf="Не удалось найти заказ",
         )
 
+    async def http_order_more_quantity(self):
+        """
+        Ошибка покупки больше имеющегося ассортимента товаров
+        :return:
+        """
+
+        await self.api_error(
+            code=status.HTTP_400_BAD_REQUEST,
+            detail_inf="Слишком большое количество товаров"
+        )
+
     async def http_failed_to_create_a_new_order(self):
         """
         Ошибка создания заказа

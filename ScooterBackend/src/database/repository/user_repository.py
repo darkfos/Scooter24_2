@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, Result
 from sqlalchemy.orm import joinedload
 
+from src.database.models.order_products import OrderProducts
 from src.database.models.product import Product
 
 # Local
@@ -151,7 +152,9 @@ class UserRepository(GeneralSQLRepository):
             select(Order)
             .where(Order.id_user == user_id)
             .options(
-                joinedload(Order.product_info), joinedload(Product.photos)
+                joinedload(Order.product_list),
+                joinedload(OrderProducts.product_data),
+                joinedload(Product.photos)
             )
             .where(
                 Order.type_operation.in_(
@@ -173,7 +176,7 @@ class UserRepository(GeneralSQLRepository):
 
         stmt = (
             select(Order)
-            .options(joinedload(Order.product_info))
+            .options(joinedload(Order.product_list))
             .where(
                 Order.id_user == user_id
                 and (  # noqa

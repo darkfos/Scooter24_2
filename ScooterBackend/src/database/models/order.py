@@ -1,9 +1,9 @@
 # System
-from typing import Dict
+from typing import Dict, List
 
 
 # Other
-from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric
+from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric, UUID, Text, String, BigInteger
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
@@ -28,9 +28,39 @@ class Order(MainBase):
         default=OrderTypeOperationsEnum.NO_BUY.value,
     )
 
-    # Количество товаров
-    count_product: Mapped[int] = mapped_column(
-        type_=Integer, unique=False, nullable=False, default=1
+    # Электронная почта покупателя
+    email_user: Mapped[str] = mapped_column(
+        type_=Text, unique=False, nullable=True
+    )
+
+    # Идентификатор транзакции
+    transaction_id: Mapped[int] = mapped_column(
+        type_=BigInteger, unique=False, nullable=True
+    )
+
+    # Имя пользователя
+    user_name: Mapped[str] = mapped_column(
+        type_=String(length=100), unique=False, nullable=True
+    )
+
+    # Номер телефона
+    telephone_number: Mapped[str] = mapped_column(
+        type_=String(length=65), unique=False, nullable=True
+    )
+
+    # Идентификатор покупки товара
+    label_order: Mapped[str] = mapped_column(
+        type_=UUID, unique=True, nullable=True
+    )
+
+    # Итоговый адресс доставки
+    address: Mapped[str] = mapped_column(
+        type_=Text, unique=False, nullable=True
+    )
+
+    # Cпособ доставки
+    delivery_method: Mapped[str] = mapped_column(
+        type_=Text, unique=False, nullable=True
     )
 
     price_result: Mapped[float] = mapped_column(
@@ -41,16 +71,12 @@ class Order(MainBase):
     id_user: Mapped[int] = mapped_column(
         ForeignKey("User.id"), type_=Integer
     )  # id пользователя
-    id_product: Mapped[int] = mapped_column(
-        ForeignKey("Product.id"), type_=Integer
-    )  # id продукта
-
     ord_user: Mapped["User"] = relationship(
         "User", back_populates="orders_user", uselist=False
     )  # Инф. об пользователе
-    product_info: Mapped["Product"] = relationship(
-        "Product", back_populates="order", uselist=False
-    )  # Инф. об продукте
+    product_list: Mapped[List["OrderProducts"]] = relationship(
+        "OrderProducts", back_populates="order_data", uselist=True, cascade="all, delete-orphan"
+    ) # Список товаров в заказе
 
     def read_model(self) -> Dict[str, str]:
         return {
