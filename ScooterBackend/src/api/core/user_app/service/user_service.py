@@ -168,21 +168,28 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin = await engine.user_repository.find_one(
-                other_id=int(token_data.get("sub"))
-            )
 
-            if is_admin:
-                user_data: dict = is_admin[0]
-                return InformationAboutUser(
-                    email_user=user_data.email_user,
-                    name_user=user_data.name_user,
-                    main_name_user=user_data.main_name_user,
-                    date_registration=user_data.date_registration,
-                    address=user_data.address,
-                    telephone=user_data.telephone,
-                    date_birthday=user_data.date_birthday,
+
+            if token_data.get("is_admin"):
+                user_data: list[User] = await engine.user_repository.find_one(
+                    other_id=user_id
                 )
+
+                if user_data:
+                    user_data: User = user_data[0]
+
+                    return InformationAboutUser(
+                        email_user=user_data.email_user,
+                        name_user=user_data.name_user,
+                        main_name_user=user_data.main_name_user,
+                        date_registration=user_data.date_registration,
+                        address=user_data.address,
+                        telephone=user_data.telephone,
+                        date_birthday=user_data.date_birthday,
+                    )
+
+                await UserHttpError().http_user_not_found()
+
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось получить информацию о"
@@ -326,19 +333,22 @@ class UserService:
                 return BuyingOrders(
                     orders=[
                         OrderBase(
-                            product_data={
+                            product_data=[
+                                {
+                                    "id_product": product.id_product,
+                                    "title_product": product.product_data.title_product,
+                                    "quantity_buy": product.count_product,
+                                    "price": product.price,
+                                }
+                                for product in order[0].product_list
+                            ],
+                            order_data={
                                 "id": order[0].id,
-                                "title_product": order[
-                                    0
-                                ].product_info.title_product,
                                 "price": order[0].price_result,
-                                "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
-                                "photos": [
-                                    photo.read_model()
-                                    for photo in order[0].product_info.photos
-                                ],
+                                "type_buy": order[0].type_buy,
+                                "type_delivery": order[0].delivery_method
                             }
                         )
                         for order in orders

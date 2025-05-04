@@ -44,14 +44,14 @@ logger = logging.getLogger(__name__)
     Для корректной обработки необходимо ввести почту и пароль.
     """,
     summary="Авторизация",
-    response_model=AccessToken,
+    response_model=None,
     status_code=status.HTTP_201_CREATED,
 )
 async def login_user(
     data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    response: Response,
-):
+    response: Response
+) -> None:
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -69,10 +69,13 @@ async def login_user(
         engine=session,
     )
 
-    return AccessToken(
-        access_token=tokens.token,
-        token_type="bearer",
-        refresh_token=tokens.refresh_token,
+    response.set_cookie(
+        key="access_key",
+        value=tokens.token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60*60*24*7*31
     )
 
 

@@ -153,8 +153,8 @@ class UserRepository(GeneralSQLRepository):
             .where(Order.id_user == user_id)
             .options(
                 joinedload(Order.product_list),
-                joinedload(OrderProducts.product_data),
-                joinedload(Product.photos)
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(Product.photos),
             )
             .where(
                 Order.type_operation.in_(
