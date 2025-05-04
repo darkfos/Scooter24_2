@@ -3,13 +3,15 @@ from typing import Dict, List
 
 
 # Other
-from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric, UUID, Text, String, BigInteger
+from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric, UUID, Text, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
 from src.database.mainbase import MainBase
 from datetime import date
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
+from src.database.models.enums.delivery_type_enum import DeliveryMethod
+from src.database.models.enums.type_buy_enum import TypeBuy
 
 
 class Order(MainBase):
@@ -30,7 +32,7 @@ class Order(MainBase):
 
     # Способ оплаты
     type_buy: Mapped[str] = mapped_column(
-        type_=String(length=125),
+        type_=Enum(TypeBuy),
         unique=False,
         nullable=False
     )
@@ -67,7 +69,7 @@ class Order(MainBase):
 
     # Cпособ доставки
     delivery_method: Mapped[str] = mapped_column(
-        type_=Text, unique=False, nullable=True
+        type_=Enum(DeliveryMethod), unique=False, nullable=True
     )
 
     price_result: Mapped[float] = mapped_column(

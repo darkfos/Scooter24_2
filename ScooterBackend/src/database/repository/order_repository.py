@@ -42,14 +42,21 @@ class OrderRepository(GeneralSQLRepository):
         """
 
         stmt = (
-            select(Order, Product)
-            .join(OrderProducts, OrderProducts.id_order == Order.id)
-            .join(Product, Product.id == OrderProducts.id_product)
+            select(Order)
             .options(
-                joinedload(Product.product_models_data),
-                joinedload(Product.photos),
-                joinedload(Product.brand_mark),
-                joinedload(Product.type_models),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.product_models_data
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.photos
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.brand_mark
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.type_models
+                ),
             )
             .where(Order.type_operation == OrderTypeOperationsEnum.SUCCESS)
             .order_by(desc(Order.date_buy))

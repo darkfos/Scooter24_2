@@ -243,65 +243,52 @@ class ProductService:
         )  # noqa
 
         async with engine:
-            products = await engine.order_repository.get_last_products()
+            orders = await engine.order_repository.get_last_products()
             product_data = ListProductBase(products=[])
-            for product in products:
-                product_data.products.append(
-                    ProductBase(
-                        id_product=product[0].product_list.id,
-                        label_product=product[0].product_list.label_product,
-                        article_product=product[
-                            0
-                        ].product_info.article_product,
-                        title_product=product[0].product_info.title_product,
-                        brand=product[0].product_info.brand,
-                        brand_mark=[
-                            ProductMarks(
-                                id_product=mark.id_product,
-                                id_mark=mark.id_mark,
+
+            for productData in orders:
+                for product in productData[0].product_list:
+                    for productFullInformation in [product.product_data]:
+                        product_data.products.append(
+                            ProductBase(
+                                id_product=product.id_product,
+                                label_product=productFullInformation.label_product,
+                                article_product=productFullInformation.article_product,
+                                title_product=productFullInformation.title_product,
+                                brand=productFullInformation.brand,
+                                brand_mark=[
+                                    ProductMarks(
+                                        id_product=mark.id_product,
+                                        id_mark=mark.id_mark,
+                                    )
+                                    for mark in productFullInformation.brand_mark
+                                ],
+                                models=[
+                                    model.read_model()
+                                    for model in productFullInformation.product_models_data
+                                ],
+                                id_sub_category=productFullInformation.id_sub_category,
+                                weight_product=productFullInformation.weight_product,
+                                is_recommended=productFullInformation.is_recommended,
+                                explanation_product=productFullInformation.explanation_product,
+                                quantity_product=productFullInformation.quantity_product,
+                                price_product=productFullInformation.price_product,
+                                date_create_product=productFullInformation.date_create_product,
+                                date_update_information=productFullInformation.date_update_information,
+                                product_discount=productFullInformation.product_discount,
+                                photo=[
+                                    photo.read_model()
+                                    for photo in productFullInformation.photos
+                                ],
+                                type_pr=[
+                                    ProductTypeModels(
+                                        id_product=type_pr.id_product,
+                                        id_moto_type=type_pr.id_type_model,
+                                    )
+                                    for type_pr in productFullInformation.type_models
+                                ],
                             )
-                            for mark in product[0].product_info.brand_mark
-                        ],
-                        models=[
-                            model.read_model()
-                            for model in product[
-                                0
-                            ].product_info.product_models_data
-                        ],
-                        id_sub_category=product[
-                            0
-                        ].product_info.id_sub_category,
-                        weight_product=product[0].product_info.weight_product,
-                        is_recommended=product[0].product_info.is_recommended,
-                        explanation_product=product[
-                            0
-                        ].product_info.explanation_product,
-                        quantity_product=product[
-                            0
-                        ].product_info.quantity_product,
-                        price_product=product[0].product_info.price_product,
-                        date_create_product=product[
-                            0
-                        ].product_info.date_create_product,
-                        date_update_information=product[
-                            0
-                        ].product_info.date_update_information,
-                        product_discount=product[
-                            0
-                        ].product_info.product_discount,
-                        photo=[
-                            photo.read_model()
-                            for photo in product[0].product_info.photos
-                        ],
-                        type_pr=[
-                            ProductTypeModels(
-                                id_product=type_pr.id_product,
-                                id_moto_type=type_pr.id_type_model,
-                            )
-                            for type_pr in product[0].product_info.type_models
-                        ],
-                    )
-                )
+                        )
 
             return product_data
 

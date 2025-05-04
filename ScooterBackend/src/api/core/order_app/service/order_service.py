@@ -6,6 +6,9 @@ import yoomoney
 from starlette.datastructures import FormData
 import uuid
 
+from src.database.models.enums.delivery_type_enum import DeliveryMethod
+from src.database.models.enums.type_buy_enum import TypeBuy
+
 # Local
 from src.database.models.order import Order
 from src.database.models.category import Category
@@ -59,7 +62,7 @@ class OrderService:
                     date_buy=new_order.date_create,
                     id_user=int(token_data.get("sub")),
                     type_operation=OrderTypeOperationsEnum.NO_BUY,
-                    type_buy="",
+                    type_buy=TypeBuy.NO_BUY,
                     price_result=0,
                 )
             )
@@ -125,11 +128,21 @@ class OrderService:
 
             if is_deleted:
 
+                type_delivery_product = None
+
+                match order_buy_data.type_delivery:
+                    case "pickup":
+                        type_delivery_product = DeliveryMethod.PICKUP
+                    case "standard":
+                        type_delivery_product = DeliveryMethod.STANDARD
+                    case "express":
+                        type_delivery_product = DeliveryMethod.EXPRESS
+
                 # Создание нового заказа
                 order_is_created = await engine.order_repository.add_one(
                     data=Order(
                         label_order=label_product,
-                        delivery_method=order_buy_data.type_delivery,
+                        delivery_method=type_delivery_product,
                         price_result=price_result,
                         address=order_buy_data.address,
                         telephone_number=order_buy_data.telephone,
@@ -138,7 +151,7 @@ class OrderService:
                         date_buy=order_buy_data.date_create,
                         id_user=int(token_data.get("sub")),
                         type_operation=OrderTypeOperationsEnum.IN_PROCESS,
-                        type_buy=order_buy_data.type_buy
+                        type_buy=TypeBuy.BUY
                     )
                 )
 
