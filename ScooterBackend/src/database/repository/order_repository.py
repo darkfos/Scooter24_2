@@ -4,14 +4,13 @@ import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete, Row, desc
+from sqlalchemy import select, delete, Row, desc, and_
 from sqlalchemy.orm import joinedload
 
 # Local
 from src.database.models.order import Order
 from src.database.models.order_products import OrderProducts
 from src.database.models.product import Product
-from src.database.models.product_photos import ProductPhotos
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
@@ -24,6 +23,17 @@ class OrderRepository(GeneralSQLRepository):
     def __init__(self, session: AsyncSession):
         self.model: Type[Order] = Order
         super().__init__(session=session, model=self.model)
+
+    async def find_by_label(self, label: str) -> Sequence[Row]:
+        """
+        Поиск заказа по метке
+        """
+
+        stmt = select(Order).where(Order.label_order == label).options(
+            joinedload(Order.product_list)
+        )
+        result = await self.async_session.execute(stmt)
+        return result.unique().scalars().first()
 
     async def get_last_products(self) -> Sequence[Row]:
         """
@@ -85,9 +95,19 @@ class OrderRepository(GeneralSQLRepository):
         )
 
         if id_user:
+            conditions = [Order.id_user == id_user]
+            if not_buy:
+                conditions.append(
+                    Order.type_operation.in_(
+                        [
+                            OrderTypeOperationsEnum.NO_BUY,
+                            OrderTypeOperationsEnum.IN_PROCESS
+                        ]
+                    )
+                )
             stmt = (
                 select(Order)
-                .where(Order.id_user == id_user and Order.type_operation == OrderTypeOperationsEnum.NO_BUY if not_buy else Order.id_user == id_user)
+                .where(and_(*conditions))
                 .options(
                     joinedload(Order.ord_user),
                     joinedload(Order.product_list)

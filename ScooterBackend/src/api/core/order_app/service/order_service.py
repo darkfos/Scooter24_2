@@ -3,8 +3,7 @@ from typing import List, Union, Type
 import logging as logger
 
 import yoomoney
-from starlette.responses import RedirectResponse
-from yoomoney import Quickpay, Client
+from starlette.datastructures import FormData
 import uuid
 
 # Local
@@ -60,6 +59,7 @@ class OrderService:
                     date_buy=new_order.date_create,
                     id_user=int(token_data.get("sub")),
                     type_operation=OrderTypeOperationsEnum.NO_BUY,
+                    type_buy="",
                     price_result=0,
                 )
             )
@@ -113,7 +113,6 @@ class OrderService:
                 product_data = await engine.product_repository.find_one(product.id_product)
 
                 if product_data:
-                    print(product_data[0], product)
                     if product_data[0].quantity_product >= product.quantity:
                         price_result += (product.price * product.quantity)
                     else:
@@ -139,6 +138,7 @@ class OrderService:
                         date_buy=order_buy_data.date_create,
                         id_user=int(token_data.get("sub")),
                         type_operation=OrderTypeOperationsEnum.IN_PROCESS,
+                        type_buy=order_buy_data.type_buy
                     )
                 )
 
@@ -177,6 +177,45 @@ class OrderService:
                         }
 
             await OrderHttpError().http_failed_to_create_a_new_order()
+
+    @staticmethod
+    async def notification_order(
+            engine: IEngineRepository,
+            data_order: FormData
+    ) -> None:
+        if label := data_order.get("label"):
+            async with engine:
+                order = await engine.order_repository.find_by_label(label)
+
+                if not order:
+                    await OrderHttpError().http_order_not_found()
+                    return
+
+                order.type_operation = OrderTypeOperationsEnum.SUCCESS
+                order.transaction_id = data_order.get("operation_id")
+
+                for op in order.product_list:
+                    if product := (await engine.product_repository.find_one(op.id_product))[0]:
+                        product.quantity_product = max(0, product.quantity_product - op.count_product)
+
+                        isupdated = await engine.product_repository.update_one(
+                            op.id_product,
+                            {"quantity_product": product.quantity_product}
+                        )
+
+                        if not isupdated:
+                            await OrderHttpError().http_failed_to_create_a_new_order()
+
+                await engine.order_repository.update_one(
+                    order.id,
+                    {
+                        "type_operation": OrderTypeOperationsEnum.SUCCESS,
+                        "transaction_id": data_order.get("operation_id")
+                    }
+                )
+                return
+
+        await OrderHttpError().http_order_not_found()
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
@@ -342,8 +381,6 @@ class OrderService:
             order_data: Union[None, Order] = (
                 await engine.order_repository.find_one(other_id=id_order)
             )
-
-            print(order_data, id_order, "#"*30)
 
             if order_data:
                 if order_data[0].id_user == int(token_data.get("sub")):

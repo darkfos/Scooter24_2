@@ -248,8 +248,8 @@ class ProductService:
             for product in products:
                 product_data.products.append(
                     ProductBase(
-                        id_product=product[0].product_info.id,
-                        label_product=product[0].product_info.label_product,
+                        id_product=product[0].product_list.id,
+                        label_product=product[0].product_list.label_product,
                         article_product=product[
                             0
                         ].product_info.article_product,

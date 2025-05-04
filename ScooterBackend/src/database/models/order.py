@@ -28,14 +28,21 @@ class Order(MainBase):
         default=OrderTypeOperationsEnum.NO_BUY.value,
     )
 
+    # Способ оплаты
+    type_buy: Mapped[str] = mapped_column(
+        type_=String(length=125),
+        unique=False,
+        nullable=False
+    )
+
     # Электронная почта покупателя
     email_user: Mapped[str] = mapped_column(
         type_=Text, unique=False, nullable=True
     )
 
     # Идентификатор транзакции
-    transaction_id: Mapped[int] = mapped_column(
-        type_=BigInteger, unique=False, nullable=True
+    transaction_id: Mapped[str] = mapped_column(
+        type_=Text, unique=False, nullable=True
     )
 
     # Имя пользователя

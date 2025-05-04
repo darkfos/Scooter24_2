@@ -7,6 +7,7 @@ class OrderTypeOperationsEnum(enum.Enum):
         "В процессе"  # Купленный товар, в процессе доставки
     )
     CANCEL: Final[str] = "Отменен"  # Отмененный к покупке товар
-    SUCCESS: Final[str] = "Доставлен"  # Купленный и доставленный товар
+    SUCCESS: Final[str] = "Оплачен"  # Купленный товар
+    DELIVERED: Final[str] = "Доставлен"
     NO_BUY: Final[str] = "К оплате"  # Ещё не купленный товар
     RETURNED: Final[str] = "Возвращен"  # Возврат

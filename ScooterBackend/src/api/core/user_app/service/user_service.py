@@ -377,15 +377,22 @@ class UserService:
                 return BuyingOrders(
                     orders=[
                         OrderBase(
-                            product_data={
+                            product_data=[
+                                {
+                                    "id_product": product.id_product,
+                                    "title_product": product.product_data.title_product,
+                                    "quantity_buy": product.count_product,
+                                    "price": product.price,
+                                }
+                                for product in order[0].product_list
+                            ],
+                            order_data={
                                 "id": order[0].id,
-                                "title_product": order[
-                                    0
-                                ].product_info.title_product,
                                 "price": order[0].price_result,
-                                "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
+                                "type_buy": order[0].type_buy,
+                                "type_delivery": order[0].delivery_method
                             }
                         )
                         for order in user_orders

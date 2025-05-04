@@ -34,11 +34,13 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
     response_model=None,
     status_code=status.HTTP_200_OK
 )
-async def success_order(request: Request):
+async def success_order(session: Annotated[IEngineRepository, Depends(EngineRepository)], request: Request):
     data = await request.form()
 
-    print(data)
-
+    await OrderService.notification_order(
+        data_order=data,
+        engine=session
+    )
 
 @order_router.post(
     path="/create",

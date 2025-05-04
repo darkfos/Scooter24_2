@@ -176,14 +176,17 @@ class UserRepository(GeneralSQLRepository):
 
         stmt = (
             select(Order)
-            .options(joinedload(Order.product_list))
+            .options(joinedload(Order.product_list).joinedload(
+                OrderProducts.product_data
+            ))
             .where(
                 Order.id_user == user_id
                 and (  # noqa
-                    Order.type_operation  # noqa
-                    == OrderTypeOperationsEnum.SUCCESS.value  # noqa
-                    or Order.type_operation  # noqa
-                    == OrderTypeOperationsEnum.IN_PROCESS.value  # noqa
+                    Order.type_operation.in_(
+                        OrderTypeOperationsEnum.SUCCESS,
+                        OrderTypeOperationsEnum.RETURNED,
+                        OrderTypeOperationsEnum.DELIVERED
+                    )
                 )
             )
         )

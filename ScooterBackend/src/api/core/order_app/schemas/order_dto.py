@@ -25,6 +25,20 @@ class OrderBase(BaseModel):
         ],
         Field(),
     ]
+    order_data: Annotated[
+        Dict[
+            str,
+            Union[
+                str,
+                int,
+                float,
+                datetime.date,
+                None,
+                list[Dict[str, Union[int, str]]],
+            ],
+        ],
+        Field(),
+    ]
 
 
 class AddOrder(BaseModel):
@@ -47,6 +61,7 @@ class BuyOrder(BaseModel):
     telephone: Annotated[str, Field()] = None
     address: Annotated[str, Field()] = None
     type_delivery: Annotated[str, Field()] = None
+    type_buy: Annotated[str, Field()] = None
     price_delivery: Annotated[float, Field()] = None
     date_create: datetime.date = datetime.date.today()
 
