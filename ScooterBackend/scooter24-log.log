@@ -1272,3 +1272,385 @@ FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product"
 2025-05-10 15:59:46 - root - INFO - Redis получение данных по ключу all_categories
 2025-05-10 15:59:46 - sqlalchemy.engine.Engine - INFO - ROLLBACK
 2025-05-10 15:59:46 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:20 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - [cached since 3617s ago] ()
+2025-05-10 16:52:20 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:52:20 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - [cached since 3617s ago] ()
+2025-05-10 16:52:20 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - [cached since 3617s ago] ()
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:20 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:52:20 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 16:52:20 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - [cached since 3617s ago] ()
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:20 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:20 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - [cached since 3617s ago] ('SUCCESS', 7)
+2025-05-10 16:52:20 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:20 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:20 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:20 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:20 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:44 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - [cached since 3641s ago] ()
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:44 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:52:44 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - [cached since 3641s ago] ()
+2025-05-10 16:52:44 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - [cached since 3641s ago] ()
+2025-05-10 16:52:44 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:44 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - [cached since 3641s ago] ('SUCCESS', 7)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:44 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:52:44 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 16:52:44 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - [cached since 3641s ago] ()
+2025-05-10 16:52:44 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:44 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:44 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:52:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:52:44 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:15 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - [cached since 3732s ago] ()
+2025-05-10 16:54:15 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:54:15 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - [cached since 3732s ago] ()
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:54:15 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - [cached since 3732s ago] ()
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:54:15 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:15 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:54:15 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 16:54:15 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - [cached since 3732s ago] ()
+2025-05-10 16:54:15 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:54:15 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - [cached since 3732s ago] ('SUCCESS', 7)
+2025-05-10 16:54:15 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:54:15 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:15 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:54:15 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:54:35 - src.api.core.auth_app.router.authentication_router - INFO - Auth-Router вызов метода авторизации пользователя (login_user)
+2025-05-10 16:54:35 - src.api.authentication.secure.authentication_service - INFO - Сервис Аутентификации - создание токена
+2025-05-10 16:54:35 - src.database.repository.user_repository - INFO - UserRepository Поиск пользователя по почте=darkfos82@gmail.com
+2025-05-10 16:54:35 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:54:35 - sqlalchemy.engine.Engine - INFO - SELECT "User".id_type_user, "User".is_active, "User".email_user, "User".password_user, "User".secret_update_key, "User".secret_create_key, "User".name_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".date_birthday, "User".address_city, "User".address, "User".telephone, "User".id 
+FROM "User" 
+WHERE "User".email_user = $1::VARCHAR
+2025-05-10 16:54:35 - sqlalchemy.engine.Engine - INFO - [generated in 0.00014s] ('darkfos82@gmail.com',)
+2025-05-10 16:54:35 - src.api.authentication.hash_service.hashing - INFO - Верификация пользователя
+2025-05-10 16:54:35 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - [cached since 3976s ago] ()
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:58:19 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:58:19 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - [cached since 3976s ago] ()
+2025-05-10 16:58:19 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - [cached since 3976s ago] ()
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:58:19 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:58:19 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 16:58:19 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - [cached since 3976s ago] ()
+2025-05-10 16:58:19 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - [cached since 3976s ago] ('SUCCESS', 7)
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:58:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:58:19 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:58:21 - root - INFO - Redis получение данных по ключу all_models
+2025-05-10 16:58:21 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:58:21 - root - INFO - Redis получение данных по ключу all_categories
+2025-05-10 16:58:21 - root - INFO - Redis получение данных по ключу all_marks
+2025-05-10 16:58:21 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:58:21 - root - INFO - Redis получение данных по ключу recommended_products
+2025-05-10 16:58:21 - root - INFO - Redis получение данных по ключу last_selled_products
+2025-05-10 16:58:26 - root - INFO - Redis получение данных по ключу all_models
+2025-05-10 16:58:26 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:58:26 - root - INFO - Redis получение данных по ключу all_categories
+2025-05-10 16:58:26 - root - INFO - Redis получение данных по ключу all_marks
+2025-05-10 16:58:26 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:58:26 - root - INFO - Redis получение данных по ключу recommended_products
+2025-05-10 16:58:26 - root - INFO - Redis получение данных по ключу last_selled_products
+2025-05-10 16:59:12 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - [cached since 4029s ago] ()
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:59:12 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:59:12 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:59:12 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - [cached since 4029s ago] ()
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:59:12 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - [cached since 4029s ago] ()
+2025-05-10 16:59:12 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:59:12 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:59:12 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 16:59:12 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - [cached since 4029s ago] ()
+2025-05-10 16:59:12 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - [cached since 4029s ago] ('SUCCESS', 7)
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:59:12 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:59:12 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 16:59:12 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:59:12 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 16:59:14 - root - INFO - Redis получение данных по ключу all_models
+2025-05-10 16:59:14 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 16:59:14 - root - INFO - Redis получение данных по ключу all_categories
+2025-05-10 16:59:14 - root - INFO - Redis получение данных по ключу all_marks
+2025-05-10 16:59:14 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 16:59:14 - root - INFO - Redis получение данных по ключу recommended_products
+2025-05-10 16:59:14 - root - INFO - Redis получение данных по ключу last_selled_products
+2025-05-10 17:02:11 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - [cached since 4208s ago] ()
+2025-05-10 17:02:11 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 17:02:11 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - [cached since 4208s ago] ()
+2025-05-10 17:02:11 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - [cached since 4208s ago] ()
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:02:11 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:02:11 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:02:11 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:02:11 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 17:02:11 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 17:02:11 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - [cached since 4208s ago] ()
+2025-05-10 17:02:11 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - [cached since 4208s ago] ('SUCCESS', 7)
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:02:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:02:11 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:02:11 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:02:15 - root - INFO - Redis получение данных по ключу all_models
+2025-05-10 17:02:15 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 17:02:15 - root - INFO - Redis получение данных по ключу all_categories
+2025-05-10 17:02:15 - root - INFO - Redis получение данных по ключу all_marks
+2025-05-10 17:02:15 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 17:02:15 - root - INFO - Redis получение данных по ключу recommended_products
+2025-05-10 17:02:15 - root - INFO - Redis получение данных по ключу last_selled_products
+2025-05-10 17:03:47 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - [cached since 4304s ago] ()
+2025-05-10 17:03:47 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 17:03:47 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - [cached since 4304s ago] ()
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:03:47 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:03:47 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - [cached since 4304s ago] ()
+2025-05-10 17:03:47 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:03:47 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 17:03:47 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 17:03:47 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - [cached since 4304s ago] ()
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:03:47 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - [cached since 4304s ago] ('SUCCESS', 7)
+2025-05-10 17:03:47 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:03:47 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:03:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:03:47 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:10:52 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - SELECT "Model".name_model, "Model".id_mark, "Model".id 
+FROM "Model"
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - [cached since 4729s ago] ()
+2025-05-10 17:10:52 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 17:10:52 - src.api.core.category_app.service.category_service - INFO - CategoryService Получение всех категорий
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - SELECT "Category".name_category, "Category".icon_category, "Category".id, "Subcategory_1".name, "Subcategory_1".id_category, "Subcategory_1".id AS id_1 
+FROM "Category" LEFT OUTER JOIN "Subcategory" AS "Subcategory_1" ON "Category".id = "Subcategory_1".id_category
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - [cached since 4729s ago] ()
+2025-05-10 17:10:52 - src.database.repository.general_repository - INFO - DeclarativeAttributeIntercept Получение всех записей
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark"
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - [cached since 4729s ago] ()
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:10:52 - src.api.core.product_app.service.product_service - INFO - ProductService получение последних проданных товаров
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - SELECT anon_1.date_buy, anon_1.type_operation, anon_1.type_buy, anon_1.email_user, anon_1.transaction_id, anon_1.user_name, anon_1.telephone_number, anon_1.label_order, anon_1.address, anon_1.delivery_method, anon_1.price_result, anon_1.id_user, anon_1.id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4, "Product_1".article_product, "Product_1".title_product, "Product_1".brand, "Product_1".weight_product, "Product_1".is_recommended, "Product_1".id_sub_category, "Product_1".explanation_product, "Product_1".quantity_product, "Product_1".label_product, "Product_1".price_product, "Product_1".date_create_product, "Product_1".date_update_information, "Product_1".product_discount, "Product_1".id AS id_5, "Orderproducts_1".id_product AS id_product_4, "Orderproducts_1".id_order, "Orderproducts_1".count_product, "Orderproducts_1".price, "Orderproducts_1".id AS id_6 
+FROM (SELECT "Order".date_buy AS date_buy, "Order".type_operation AS type_operation, "Order".type_buy AS type_buy, "Order".email_user AS email_user, "Order".transaction_id AS transaction_id, "Order".user_name AS user_name, "Order".telephone_number AS telephone_number, "Order".label_order AS label_order, "Order".address AS address, "Order".delivery_method AS delivery_method, "Order".price_result AS price_result, "Order".id_user AS id_user, "Order".id AS id 
+FROM "Order" 
+WHERE "Order".type_operation = $1::ordertypeoperationsenum ORDER BY "Order".date_buy DESC 
+ LIMIT $2::INTEGER) AS anon_1 LEFT OUTER JOIN "Orderproducts" AS "Orderproducts_1" ON anon_1.id = "Orderproducts_1".id_order LEFT OUTER JOIN "Product" AS "Product_1" ON "Product_1".id = "Orderproducts_1".id_product LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product_1".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product_1".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product_1".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product_1".id = "Producttypemodels_1".id_product ORDER BY anon_1.date_buy DESC
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - [cached since 4729s ago] ('SUCCESS', 7)
+2025-05-10 17:10:52 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 17:10:52 - src.api.core.product_app.service.product_service - INFO - ProductService Получение рекомендованных товаров
+2025-05-10 17:10:52 - src.database.repository.product_repository - INFO - ProductRepository Получение рекомендованных товаров
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id, "Productmodels_1".id_product, "Productmodels_1".id_model, "Productmodels_1".id AS id_1, "Productmarks_1".id_product AS id_product_1, "Productmarks_1".id_mark, "Productmarks_1".id AS id_2, "Productphotos_1".photo_url, "Productphotos_1".id_product AS id_product_2, "Productphotos_1".id AS id_3, "Producttypemodels_1".id_product AS id_product_3, "Producttypemodels_1".id_type_model, "Producttypemodels_1".id AS id_4 
+FROM "Product" LEFT OUTER JOIN "Productmodels" AS "Productmodels_1" ON "Product".id = "Productmodels_1".id_product LEFT OUTER JOIN "Productmarks" AS "Productmarks_1" ON "Product".id = "Productmarks_1".id_product LEFT OUTER JOIN "Productphotos" AS "Productphotos_1" ON "Product".id = "Productphotos_1".id_product LEFT OUTER JOIN "Producttypemodels" AS "Producttypemodels_1" ON "Product".id = "Producttypemodels_1".id_product 
+WHERE "Product".is_recommended = true
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - [cached since 4729s ago] ()
+2025-05-10 17:10:52 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:10:52 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:10:52 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:10:52 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-10 17:10:52 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:10:52 - root - INFO - Redis данные были сохранены в хранилище
+2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу all_models
+2025-05-10 17:11:09 - src.api.core.category_app.router.category_router - INFO - Category-Router вызов метода получения всех категорий (get_all_category)
+2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу all_categories
+2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу all_marks
+2025-05-10 17:11:09 - src.api.core.product_app.router.product_router - INFO - Product-Router вызов метода получения рекомендованных товаров (get_recommended_products)
+2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу recommended_products
+2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу last_selled_products
+2025-05-10 23:48:28 - root - INFO - Start Project
