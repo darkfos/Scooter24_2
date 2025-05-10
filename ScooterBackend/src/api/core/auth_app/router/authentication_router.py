@@ -75,7 +75,16 @@ async def login_user(
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60*60*24*7*31
+        max_age=60*15
+    )
+
+    response.set_cookie(
+        key="refresh_key",
+        value=tokens.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60*60*24*30
     )
 
 
