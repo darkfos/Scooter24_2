@@ -180,7 +180,7 @@ class OrderService:
                         quickpay_form="shop",
                         targets="Покупка товаров с Scooter-24",
                         paymentType="SB",
-                        sum=price_result,
+                        sum=price_result + order_buy_data.price_delivery,
                         label=f"{label_product}"
                     )
 
