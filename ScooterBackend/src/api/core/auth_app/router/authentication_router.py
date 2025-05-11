@@ -1,7 +1,7 @@
 # Other libraries
 import datetime
 
-from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
+from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException, Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
@@ -87,6 +87,23 @@ async def login_user(
         max_age=60*60*24*30
     )
 
+@auth_router.post(
+    path="/logout",
+    description="""
+    Выход пользователя из сессии
+    """,
+    summary="Выход пользователя",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def exit_user(
+        response: Response
+):
+    response.delete_cookie(key="access_key")
+    response.delete_cookie(key="refresh_key")
+
+    return Response(
+        status_code=status.HTTP_204_NO_CONTENT
+    )
 
 @auth_router.post(
     path="/registration",
