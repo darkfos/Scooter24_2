@@ -1654,3 +1654,12 @@ WHERE "Product".is_recommended = true
 2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу recommended_products
 2025-05-10 17:11:09 - root - INFO - Redis получение данных по ключу last_selled_products
 2025-05-10 23:48:28 - root - INFO - Start Project
+2025-05-11 13:54:44 - root - INFO - Start Project
+2025-05-11 13:54:56 - root - INFO - Start Project
+2025-05-11 13:55:37 - root - INFO - Start Project
+2025-05-11 13:56:24 - root - INFO - Start Project
+2025-05-11 13:57:29 - root - INFO - Start Project
+2025-05-11 13:59:22 - root - INFO - Start Project
+2025-05-11 14:01:24 - root - INFO - Start Project
+2025-05-11 14:02:02 - root - INFO - Start Project
+2025-05-11 14:04:23 - root - INFO - Start Project

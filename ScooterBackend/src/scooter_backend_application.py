@@ -14,6 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from prometheus_fastapi_instrumentator import Instrumentator
 
+from src.middleware.admin_middleware import FixMixedContentMiddleware
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 statics_dir = os.path.join(BASE_DIR, "statics")
 
@@ -74,4 +76,7 @@ class ScooterBackendApplication:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
+        )
+        self.scooter24_app.add_middleware(
+            FixMixedContentMiddleware
         )
