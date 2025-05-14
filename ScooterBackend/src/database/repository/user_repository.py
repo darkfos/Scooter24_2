@@ -159,7 +159,7 @@ class UserRepository(GeneralSQLRepository):
             .where(
                 Order.type_operation.in_(
                     [
-                        OrderTypeOperationsEnum.NO_BUY,
+                        OrderTypeOperationsEnum.NO_BUY.value,
                     ]
                 )
             )

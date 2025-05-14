@@ -56,7 +56,7 @@ class OrderService:
 
         async with engine:
 
-            user_orders = await engine.user_repository.find_user_and_get_orders(token_data["sub"])
+            user_orders = await engine.user_repository.find_user_and_get_orders(int(token_data["sub"]))
 
             if user_orders:
                 for orderData in user_orders:
