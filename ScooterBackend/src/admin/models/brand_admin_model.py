@@ -16,6 +16,7 @@ class BrandModelView(ModelView, model=Brand):
         Brand.id: "Идентификатор бренда",
         Brand.name_brand: "Название бренда",
         Brand.product_data: "Продукты бренда",
+        Brand.url_photo: "Фотография"
     }
 
     # Operation's
@@ -26,6 +27,8 @@ class BrandModelView(ModelView, model=Brand):
     can_view_details: bool = True
 
     form_create_rules: List[str] = ["name_brand"]
+    form_edit_rules: List[str] = ["name_brand", "url_photo"]
+
     form_ajax_refs: Dict[str, dict] = {
         "product_data": {
             "fields": (

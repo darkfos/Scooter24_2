@@ -56,7 +56,15 @@ class OrderService:
 
         async with engine:
 
-            # Создание отзыва
+            user_orders = await engine.user_repository.find_user_and_get_orders(token_data["sub"])
+
+            if user_orders:
+                for orderData in user_orders:
+                    for product in orderData[0].product_list:
+                        if product.id_product in new_order.id_products:
+                            await OrderHttpError().http_failed_to_create_a_new_order()
+
+            # Создание заказа
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
                     date_buy=new_order.date_create,
