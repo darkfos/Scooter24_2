@@ -47,6 +47,7 @@ services:
     ports:
       - "6379:6379"
     restart: always
+    command: redis-server --replicaof no one --replica-read-only no --appendonly yes
     depends_on:
       - backend
     networks:
