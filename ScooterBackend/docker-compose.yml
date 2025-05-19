@@ -36,7 +36,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "5543:5432"
     restart: always
     networks:
       - scooter_bridge
@@ -45,7 +45,7 @@ services:
     container_name: redis_db
     image: redis:7.4.1-alpine3.20
     ports:
-      - "6379:6379"
+      - "6380:6379"
     restart: always
     depends_on:
       - backend
@@ -60,7 +60,7 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
     ports:
-      - "5672:5672"
+      - "5673:5672"
     networks:
       - scooter_bridge
     healthcheck:
@@ -79,7 +79,7 @@ services:
       broker:
         condition: service_healthy
     ports:
-      - "5680:5680"
+      - "5681:5680"
     networks:
       - scooter_bridge
 
