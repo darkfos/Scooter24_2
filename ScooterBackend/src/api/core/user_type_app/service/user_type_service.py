@@ -53,7 +53,9 @@ class UserTypeService:
             if result:
                 return AllUserType(
                     user_types=[
-                        UserTypeBase(id=data[0].id, name_type=data[0].name_type)
+                        UserTypeBase(
+                            id=data[0].id, name_type=data[0].name_type
+                        )
                         for data in result
                     ]
                 )

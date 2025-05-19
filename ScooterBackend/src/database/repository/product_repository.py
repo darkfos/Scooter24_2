@@ -136,7 +136,7 @@ class ProductRepository(GeneralSQLRepository):
             .options(
                 joinedload(Product.reviews),
                 joinedload(Product.product_info_for_fav),
-                joinedload(Product.order),
+                joinedload(Product.orders_list),
                 joinedload(Product.sub_category_data),
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
@@ -151,7 +151,10 @@ class ProductRepository(GeneralSQLRepository):
         return product_data
 
     async def find_to_garage(
-        self, id_brand: int = None, id_model: int = None, id_moto_type: int = None
+        self,
+        id_brand: int = None,
+        id_model: int = None,
+        id_moto_type: int = None,
     ) -> Union[List, List[Product]]:
         """
         Поиск всех продуктов для гаража по модели и бренду
@@ -166,23 +169,23 @@ class ProductRepository(GeneralSQLRepository):
             joinedload(Product.type_models),
             joinedload(Product.product_models_data),
             joinedload(Product.brand_mark),
-            joinedload(Product.photos)
+            joinedload(Product.photos),
         )
 
         if id_model:
-            stmt = stmt.join(ProductModels, ProductModels.id_product == Product.id).where(
-                ProductModels.id_model == id_model
-            )
+            stmt = stmt.join(
+                ProductModels, ProductModels.id_product == Product.id
+            ).where(ProductModels.id_model == id_model)
 
         if id_brand:
-            stmt = stmt.join(ProductMarks, ProductMarks.id_product == Product.id).where(
-                ProductMarks.id_mark == id_brand
-            )
+            stmt = stmt.join(
+                ProductMarks, ProductMarks.id_product == Product.id
+            ).where(ProductMarks.id_mark == id_brand)
 
         if id_moto_type:
-            stmt = stmt.join(ProductTypeModels, ProductTypeModels.id_product == Product.id).where(
-                ProductTypeModels.id_type_model == id_moto_type
-            )
+            stmt = stmt.join(
+                ProductTypeModels, ProductTypeModels.id_product == Product.id
+            ).where(ProductTypeModels.id_type_model == id_moto_type)
 
         result = (await self.async_session.execute(stmt)).unique().all()
         return result
@@ -274,7 +277,7 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
                 joinedload(Product.type_models),
-                joinedload(Product.brand_mark)
+                joinedload(Product.brand_mark),
             )
             .order_by(Product.date_create_product.desc())
         )
@@ -300,7 +303,7 @@ class ProductRepository(GeneralSQLRepository):
                 joinedload(Product.product_models_data),
                 joinedload(Product.photos),
                 joinedload(Product.type_models),
-                joinedload(Product.brand_mark)
+                joinedload(Product.brand_mark),
             )
         )
         products = (await self.async_session.execute(stmt)).unique().all()

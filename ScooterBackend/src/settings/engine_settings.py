@@ -8,6 +8,7 @@ from src.settings.database_settings.redis_settings import RedisSettings
 from src.settings.other_settings.client_settings import ClientSettings
 from src.settings.other_settings.cloud_settings import CloudSettings
 from src.settings.other_settings.broker_settings import BrokerSettings
+from src.settings.yoomoney_service_settings.yoomoney_settings import YoomoneySettings
 
 
 class Settings:
@@ -20,3 +21,4 @@ class Settings:
     client_settings: ClientSettings = ClientSettings()
     cloud_settings: CloudSettings = CloudSettings()
     broker_settings: BrokerSettings = BrokerSettings()
+    yoomoney_settings: YoomoneySettings = YoomoneySettings()

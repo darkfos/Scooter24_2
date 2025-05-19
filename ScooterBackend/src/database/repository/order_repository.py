@@ -4,13 +4,13 @@ import logging as logger
 
 # Other
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete, Row, desc
+from sqlalchemy import select, delete, Row, desc, and_
 from sqlalchemy.orm import joinedload
 
 # Local
 from src.database.models.order import Order
+from src.database.models.order_products import OrderProducts
 from src.database.models.product import Product
-from src.database.models.product_photos import ProductPhotos
 from src.database.repository.general_repository import GeneralSQLRepository
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 
@@ -24,6 +24,17 @@ class OrderRepository(GeneralSQLRepository):
         self.model: Type[Order] = Order
         super().__init__(session=session, model=self.model)
 
+    async def find_by_label(self, label: str) -> Sequence[Row]:
+        """
+        Поиск заказа по метке
+        """
+
+        stmt = select(Order).where(Order.label_order == label).options(
+            joinedload(Order.product_list)
+        )
+        result = await self.async_session.execute(stmt)
+        return result.unique().scalars().first()
+
     async def get_last_products(self) -> Sequence[Row]:
         """
         Последние проданные товары
@@ -31,13 +42,21 @@ class OrderRepository(GeneralSQLRepository):
         """
 
         stmt = (
-            select(Order, Product)
-            .join(Product, Product.id == Order.id_product, isouter=True)
+            select(Order)
             .options(
-                joinedload(Product.product_models_data),
-                joinedload(Product.photos),
-                joinedload(Product.brand_mark),
-                joinedload(Product.type_models),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.product_models_data
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.photos
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.brand_mark
+                ),
+                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
+                    Product.type_models
+                ),
             )
             .where(Order.type_operation == OrderTypeOperationsEnum.SUCCESS)
             .order_by(desc(Order.date_buy))
@@ -58,10 +77,9 @@ class OrderRepository(GeneralSQLRepository):
             f"Удаление нескольких"
             f" заказов id = {id_orders}"
         )
-        for id_order in id_orders:
-            del_order = delete(Order).where(Order.id == id_order)
-            await self.async_session.execute(del_order)
-            await self.async_session.commit()
+        del_order = delete(Order).where(Order.id.in_(id_orders))
+        await self.async_session.execute(del_order)
+        await self.async_session.commit()
 
         return True
 
@@ -70,49 +88,60 @@ class OrderRepository(GeneralSQLRepository):
         id_user: int = None,
         id_order: int = None,
         type_find: Union[str, None] = None,
+        not_buy: bool = False
     ) -> Union[List, List[Order], None]:
         """
         Получение всех заказов + подробная
-        информация по id пользователя.
-        :param id_user:
-        :return:
+        информация по id пользователя или по id заказа.
         """
 
         logging.info(
             msg=f"{self.__class__.__name__} "
-            f"Получение полной информации"
-            f" по id_user = {id_user},"
-            f" id_order = {id_order}"
+                f"Получение полной информации "
+                f"по id_user = {id_user}, id_order = {id_order}"
         )
 
         if id_user:
+            conditions = [Order.id_user == id_user]
+            if not_buy:
+                conditions.append(
+                    Order.type_operation.in_(
+                        [
+                            OrderTypeOperationsEnum.NO_BUY,
+                            OrderTypeOperationsEnum.IN_PROCESS
+                        ]
+                    )
+                )
             stmt = (
-                select(Order).where(Order.id_user == id_user).options(
+                select(Order)
+                .where(and_(*conditions))
+                .options(
                     joinedload(Order.ord_user),
-                    joinedload(Order.product_info),
-                    joinedload(Order.product_info).joinedload(
-                        Product.photos
-                    ),
+                    joinedload(Order.product_list)
+                        .joinedload(OrderProducts.product_data)
+                        .joinedload(Product.photos),
                 )
             )
-        else:
+        elif id_order:
             stmt = (
                 select(Order)
                 .where(Order.id == id_order)
-                .join(Product, Product.id == Order.id_product)
-                .join(ProductPhotos, ProductPhotos.id_product == Product.id)
+                .options(
+                    joinedload(Order.ord_user),
+                    joinedload(Order.product_list)
+                        .joinedload(OrderProducts.product_data)
+                        .joinedload(Product.photos),
+                )
             )
+        else:
+            # Если не переданы id_user и id_order, возвращаем пустой список
+            return []
+
+        result = await self.async_session.execute(stmt)
 
         if type_find:
-            orders_data = (
-                (await self.async_session.execute(stmt)).unique()
-            ).one_or_none()
-            return orders_data
+            order = result.unique().one_or_none()
+            return order
         else:
-            orders_data = (
-                (await self.async_session.execute(stmt)).unique()
-            ).fetchall()
-
-            if orders_data:
-                return orders_data
-            return []
+            orders = result.unique().scalars().all()
+            return orders if orders else []

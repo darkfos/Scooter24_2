@@ -86,7 +86,10 @@ class GarageService:
     @staticmethod
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     async def delete_mt(
-        token: str, engine: IEngineRepository, id_mt: int, token_data: dict = {}
+        token: str,
+        engine: IEngineRepository,
+        id_mt: int,
+        token_data: dict = {},
     ) -> None:
         """
         Метод сервиса Garage для удаления транспорта

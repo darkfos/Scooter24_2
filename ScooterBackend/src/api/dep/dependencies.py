@@ -17,7 +17,9 @@ from src.database.repository.type_worker_repository import TypeWorkerRepository
 from src.database.repository.favourite_repository import FavouriteRepository
 from src.database.repository.order_repository import OrderRepository
 from src.database.repository.review_repository import ReviewRepository
-from src.database.repository.subcategory_repository import SubCategoryRepository
+from src.database.repository.subcategory_repository import (
+    SubCategoryRepository,
+)
 from src.database.repository.brand_repository import BrandRepository
 from src.database.repository.model_repository import ModelRepository
 from src.database.repository.mark_repository import MarkRepository
@@ -36,6 +38,7 @@ from src.database.repository.product_marks_repository import (
 from src.database.repository.product_type_models_repository import (
     ProductTypeModelsRepository,
 )
+from src.database.repository.order_products_repository import OrderProductsRepository
 from src.database.db_worker import db_work
 
 
@@ -61,6 +64,7 @@ class IEngineRepository(ABC):
     vacancies_req_repository: Type[VacanciesReqRepository]
     product_marks_repository: Type[ProductMarksRepository]
     product_type_models_repository: Type[ProductTypeModelsRepository]
+    order_product_repository: Type[OrderProductsRepository]
 
     @abstractmethod
     def __init__(self):
@@ -156,6 +160,9 @@ class EngineRepository(IEngineRepository):
         )
         self.product_type_models_repository: ProductTypeModelsRepository = (
             ProductTypeModelsRepository(session=self.session)
+        )
+        self.order_product_repository: OrderProductsRepository = (
+            OrderProductsRepository(session=self.session)
         )
 
         return self

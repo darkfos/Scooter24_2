@@ -10,8 +10,6 @@ from src.api.core.user_app.service.user_service import (
 from src.other.email.data_email_transfer import email_transfer
 from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.core.user_app.schemas.user_dto import AddUser
-from src.other.broker.producer.producer import send_message_email
-from src.other.broker.dto.email_dto import EmailData
 import logging
 
 logging.getLogger()
@@ -66,7 +64,10 @@ class EmailService:
             if user_data and user_data.secret_create_key == secret_key:
                 is_updated = await engine.user_repository.update_one(
                     other_id=user_data.id,
-                    data_to_update={"secret_create_key": "", "is_active": True},
+                    data_to_update={
+                        "secret_create_key": "",
+                        "is_active": True,
+                    },
                 )
 
                 if is_updated:

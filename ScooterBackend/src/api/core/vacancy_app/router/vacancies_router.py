@@ -116,7 +116,7 @@ async def get_all_vacancies(
 
 
 @vacancies_router.get(
-    path="/vacancy/{id_vacancies}",
+    path="/unique/{id_vacancies}",
     description="""
     ### Endpoint - Получение вакансии по id.
     Данный метод позволяет информацию о вакансии по id.
@@ -181,7 +181,7 @@ async def update_vacancies(
 
 
 @vacancies_router.delete(
-    path="/del/{id_vacancies}",
+    path="/delete/{id_vacancies}",
     description="""
     ### Endpoint - Удаление вакансии по id.
     Доступен только для администраторов.

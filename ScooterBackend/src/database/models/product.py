@@ -94,8 +94,8 @@ class Product(MainBase):
     )
 
     # Заказы
-    order: Mapped[List["Order"]] = relationship(
-        "Order", back_populates="product_info", uselist=True
+    orders_list: Mapped[List["OrderProducts"]] = relationship(
+        "OrderProducts", back_populates="product_data", uselist=True, cascade="all, delete-orphan"
     )
 
     # Избранные

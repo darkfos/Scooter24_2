@@ -28,6 +28,7 @@ from src.database.models.product_type_models import ProductTypeModels  # noqa
 from src.database.models.garage import Garage  # noqa
 from src.database.models.vacancy_request import VacancyRequest  # noqa
 from src.database.models.product_marks import ProductMarks  # noqa
+from src.database.models.order_products import OrderProducts # noqa
 
 # Database for migrations
 from src.database.mainbase import MainBase

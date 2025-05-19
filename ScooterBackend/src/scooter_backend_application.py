@@ -7,11 +7,17 @@ from src.admin.admin_panel import AdminPanel
 
 
 # Other libraries
+import os
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from prometheus_fastapi_instrumentator import Instrumentator
+
+from src.middleware.admin_middleware import FixMixedContentMiddleware
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+statics_dir = os.path.join(BASE_DIR, "statics")
 
 
 class ScooterBackendApplication:
@@ -25,9 +31,9 @@ class ScooterBackendApplication:
         )
 
         # Static's
-        self.statics: StaticFiles = StaticFiles(directory="src/statics")
+        self.statics: StaticFiles = StaticFiles(directory=statics_dir)
         self.scooter24_app.mount(
-            path="/static", app=self.statics, name="static"
+            path="/statics", app=self.statics, name="static"
         )
 
         # Admjn panel
@@ -37,16 +43,18 @@ class ScooterBackendApplication:
         self.admin.initialize_models_view(models=[])
 
         self.origins: List[str] = [
-            "http://37.77.105.239",
-            "http://localhost:3000",
-            "*"
+            "http://37.77.105.239:3000",
+            "http://127.0.0.1:3000",
+            "http://localhost:3001",
         ]
 
         self.include_router()
         self.added_middleware()
 
         # Интеграция с Prometheus
-        Instrumentator().instrument(self.scooter24_app).expose(self.scooter24_app)
+        Instrumentator().instrument(self.scooter24_app).expose(
+            self.scooter24_app
+        )
 
     def include_router(self, routers: List[APIRouter] = []) -> None:
 
@@ -68,4 +76,7 @@ class ScooterBackendApplication:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
+        )
+        self.scooter24_app.add_middleware(
+            FixMixedContentMiddleware
         )

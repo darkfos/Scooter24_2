@@ -1,14 +1,12 @@
 # Other libraries
 import datetime
 
-from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException
-from fastapi.requests import Request
+from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException, Request
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated, Any
+from typing import Annotated
 import logging
 
-from starlette.responses import RedirectResponse
 
 # Local
 from src.api.core.auth_app.schemas.auth_dto import (
@@ -22,7 +20,6 @@ from src.api.core.user_app.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
-from src.settings.engine_settings import Settings
 from src.other.broker.producer.producer import send_message_email
 
 auth_router: APIRouter = APIRouter(
@@ -47,14 +44,14 @@ logger = logging.getLogger(__name__)
     Для корректной обработки необходимо ввести почту и пароль.
     """,
     summary="Авторизация",
-    response_model=AccessToken,
+    response_model=None,
     status_code=status.HTTP_201_CREATED,
 )
 async def login_user(
     data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    response: Response,
-):
+    response: Response
+) -> None:
     """
     Take user data and create jwt tokens for access
     :param session:
@@ -72,30 +69,41 @@ async def login_user(
         engine=session,
     )
 
-    # Set cookie's
-    # response.set_cookie(
-    #     key="access_token",
-    #     value=tokens.token,
-    #     httponly=True,
-    #     samesite="lax"
-    # )
-    #
-    # response.set_cookie(
-    #     key="refresh_key",
-    #     value=tokens.refresh_token,
-    #     httponly=True,
-    #     samesite="lax",
-    # )
-    # response.set_cookie(
-    #     key="token_type", value="bearer", httponly=True, samesite="none"
-    # )
-
-    return AccessToken(
-        access_token=tokens.token,
-        token_type="bearer",
-        refresh_token=tokens.refresh_token,
+    response.set_cookie(
+        key="access_key",
+        value=tokens.token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60*15
     )
 
+    response.set_cookie(
+        key="refresh_key",
+        value=tokens.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60*60*24*30
+    )
+
+@auth_router.post(
+    path="/logout",
+    description="""
+    Выход пользователя из сессии
+    """,
+    summary="Выход пользователя",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def exit_user(
+        response: Response
+):
+    response.delete_cookie(key="access_key")
+    response.delete_cookie(key="refresh_key")
+
+    return Response(
+        status_code=status.HTTP_204_NO_CONTENT
+    )
 
 @auth_router.post(
     path="/registration",
@@ -162,9 +170,7 @@ async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
             refresh_token=refresh_token
         )
 
-        return {
-            "access_token": data_tokens
-        }
+        return {"access_token": data_tokens}
 
     except KeyError:
         raise HTTPException(
@@ -261,5 +267,9 @@ async def access_user(
     )
 
     if result:
-
         return None
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Не удалось подвердить аккаунт",
+    )

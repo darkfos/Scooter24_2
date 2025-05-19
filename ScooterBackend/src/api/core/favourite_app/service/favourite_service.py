@@ -115,7 +115,10 @@ class FavouriteService:
                                 "article_product": product[
                                     0
                                 ].product_info.article_product,  # noqa
-                                "photos": [photo.read_model() for photo in product[0].product_info.photos],
+                                "photos": [
+                                    photo.read_model()
+                                    for photo in product[0].product_info.photos
+                                ],
                                 "label": product[0].product_info.label_product,
                             }
                         )

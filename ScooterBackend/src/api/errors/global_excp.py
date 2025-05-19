@@ -20,4 +20,6 @@ class APIError:
         :return:
         """
 
-        raise HTTPException(status_code=code, detail=detail_inf, headers=header)
+        raise HTTPException(
+            status_code=code, detail=detail_inf, headers=header
+        )

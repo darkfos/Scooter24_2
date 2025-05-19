@@ -1,20 +1,20 @@
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert
-from database.models.model import Model
+from src.database.models.model import Model
 import pytest
 
 
 @pytest.mark.asyncio
 async def test_get_all_models(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/model/get_all_models")
+    req = await async_client.get(url="/api/v1/model/all")
 
     assert req.status_code == 200 and len(req.json()["all_models"]) == 0
 
 
 @pytest.mark.asyncio
 async def test_get_model_by_id_f(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/model/get_model_by_id/1")
+    req = await async_client.get(url="/api/v1/model/unique/1")
 
     assert req.status_code == 400
 
@@ -27,6 +27,6 @@ async def test_get_model_by_id_t(
     await session.execute(stmt)
     await session.commit()
 
-    req = await async_client.get(url="/api/v1/model/get_model_by_id/1")
+    req = await async_client.get(url="/api/v1/model/unique/1")
 
     assert req.status_code == 200 and req.json()["name_model"] == "honkai"

@@ -29,6 +29,7 @@ class InformationAboutUser(BaseModel):
         Union[datetime.date, None], Field(default=datetime.date.today())
     ]
     date_birthday: Annotated[Union[None, datetime.date], Field()]
+    address_city: Annotated[Union[None, str], Field()] = None
     address: Annotated[Union[str, None], Field()]
     telephone: Annotated[Union[str, None], Field()]
 
@@ -90,6 +91,7 @@ class DataToUpdate(BaseModel):
     """
 
     main_name_user: Annotated[Union[None, str], Field(max_length=250)]
+    address_city: Annotated[Union[None, str], Field()] = None
     address: Annotated[Union[None, str], Field()]
     telephone: Annotated[Union[None, str], Field(max_length=65)]
     date_birthday: Annotated[Union[datetime.date, None], Field()]

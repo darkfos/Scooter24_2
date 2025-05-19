@@ -26,6 +26,7 @@ async def redirect_to_docs() -> RedirectResponse:
 if __name__ == "__main__":
 
     # Start project
+    
     logging.info(msg="Start Project")
     uvicorn.run(
         app=app,

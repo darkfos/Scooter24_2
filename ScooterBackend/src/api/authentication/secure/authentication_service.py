@@ -3,7 +3,7 @@ import jwt
 import logging as logger
 from datetime import timedelta, datetime
 
-from fastapi import HTTPException, status, Depends
+from fastapi import HTTPException, status, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
 from typing import Dict, Union, Callable, Annotated
@@ -31,8 +31,8 @@ class Authentication:
     __instance: Union[None, "Authentication"] = None
     jwt_auth: OAuth2PasswordBearer = OAuth2PasswordBearer(
         tokenUrl=(
-                (APIPrefix.API_V_PREFIX.value + APIPrefix.AUTH_PREFIX.value)
-                + "/login"  # noqa
+            (APIPrefix.API_V_PREFIX.value + APIPrefix.AUTH_PREFIX.value)
+            + "/login"  # noqa
         )
     )
 
@@ -41,21 +41,57 @@ class Authentication:
             Authentication.__instance = super().__new__(cls, *args, **kwargs)
         return cls.__instance
 
-    async def auth_user(self, token: Annotated[str, Depends(jwt_auth)]) -> str:
+    async def auth_user(self, request: Request, response: Response) -> None:
         """
         Аутентификация пользователя
         :param request:
         """
 
         try:
+            cookies: dict[str, str] = request.cookies
             token_access_data: dict[str, str | int] = jwt.decode(  # noqa
-                token,
+                cookies.get("access_key"),
                 Settings.auth_settings.jwt_secret_key,
                 algorithms=Settings.auth_settings.algorithm,
             )
 
-            return token
-        except (KeyError, jwt.PyJWTError, jwt.DecodeError, Exception):
+            return cookies.get("access_key")
+        except (KeyError, jwt.PyJWTError, jwt.DecodeError):
+            cookies: dict[str, str] = request.cookies
+
+            try:
+                refresh_token_data: dict[str, str | int] = jwt.decode(
+                    cookies.get("refresh_key"),
+                    Settings.auth_settings.jwt_secret_refresh_key,
+                    algorithms=Settings.auth_settings.algorithm,
+                )
+
+                # Создаем новый токен
+                new_access_token = jwt.encode(
+                    {
+                        "is_admin": refresh_token_data.get("is_admin"),
+                        "sub": str(refresh_token_data.get("sub")),
+                        "exp": (
+                            timedelta(
+                                minutes=Settings.auth_settings.time_work_secret_key  # noqa
+                            )
+                            + datetime.utcnow()  # noqa
+                        ),
+                    },
+                    Settings.auth_settings.jwt_secret_key,
+                    Settings.auth_settings.algorithm,
+                )
+                # Установка нового токена
+                response.set_cookie(
+                    key="access_key",
+                    value=new_access_token,
+                    httponly=True,
+                    samesite="lax",
+                )
+                return new_access_token
+
+            except (jwt.DecodeError, KeyError):
+                pass
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Ошибка авторизации",

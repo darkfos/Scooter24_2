@@ -26,7 +26,7 @@ class ProductModelView(ModelView, model=Product):
         Product.sub_category_data,
         Product.brand_data,
         Product.product_models_data,
-        Product.order,
+        Product.orders_list,
         Product.reviews,
         Product.product_info_for_fav,
         Product.photos,
@@ -49,6 +49,7 @@ class ProductModelView(ModelView, model=Product):
         Product.price_product: "Цена без скидки",
         Product.date_create_product: "Дата создания",
         Product.date_update_information: "Дата обновления",
+        Product.orders_list: "Список заказов",
         Product.sub_category_data: "Данные подкатегории",
         Product.product_info_for_fav: "Избранные",
         Product.label_product: "Метка продукта",
@@ -114,11 +115,10 @@ class ProductModelView(ModelView, model=Product):
             ),
             "order_by": ("id"),
         },
-        "order": {
+        "orders_list": {
             "fields": (
                 "id",
-                "date_buy",
-                "id_user",
+                "id_order",
             ),
             "order_by": ("id"),
         },

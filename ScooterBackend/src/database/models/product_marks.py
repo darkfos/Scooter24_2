@@ -12,7 +12,9 @@ class ProductMarks(MainBase):
     )
 
     id_mark: Mapped[int] = mapped_column(
-        ForeignKey("Mark.id", ondelete="CASCADE"), type_=Integer, nullable=False
+        ForeignKey("Mark.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
 
     # Связи
@@ -25,7 +27,9 @@ class ProductMarks(MainBase):
     )
 
     def read_model(self):
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }
 
     def __str__(self):
         return str(

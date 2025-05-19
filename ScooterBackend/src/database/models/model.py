@@ -16,7 +16,9 @@ class Model(MainBase):
     )
 
     id_mark: Mapped[int] = mapped_column(
-        ForeignKey("Mark.id", ondelete="CASCADE"), type_=Integer, nullable=False
+        ForeignKey("Mark.id", ondelete="CASCADE"),
+        type_=Integer,
+        nullable=False,
     )
 
     # Связи
@@ -47,4 +49,6 @@ class Model(MainBase):
     def read_model(self) -> dict:
         # Чтение модели
 
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }

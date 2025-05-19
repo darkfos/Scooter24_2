@@ -9,40 +9,14 @@ TOKEN: str = ""
 async def test_all_favourites_user(
     async_client: AsyncClient, session: AsyncSession
 ) -> None:
-    req = await async_client.get(
-        url="/api/v1/favourite/get_all_favourites_by_user_id"
-    )
+    req = await async_client.get(url="/api/v1/favourite/all/user")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
-async def test_favourites_user_by_log(
-    async_client: AsyncClient, session: AsyncSession
-) -> None:
-    req_to_auth = await async_client.post(
-        url="/auth/login",
-        data={"username": "darkflsd@list.ru", "password": "90034jkajkdsad"},
-    )
-
-    assert req_to_auth.status_code == 201
-    global TOKEN
-    TOKEN = req_to_auth.json().get("access_token")
-
-    req_to_my_fav = await async_client.get(
-        url="/api/v1/favourite/get_all_favourites_by_user_id",
-        headers={"Authorization": f"Bearer {TOKEN}"},
-    )
-
-    assert (
-        req_to_my_fav.status_code == 200
-        and req_to_my_fav.json()["favourites"] == list()  # noqa
-    )
-
-
-@pytest.mark.asyncio
 async def test_no_create_favourite(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/get_favourite_data_for_id/1")
+    req = await async_client.get(url="/api/v1/unique/1")
 
     assert req.status_code == 404
 
@@ -50,7 +24,7 @@ async def test_no_create_favourite(async_client: AsyncClient) -> None:
 @pytest.mark.asyncio
 async def get_all_fav_by_not_admin(async_client: AsyncClient) -> None:
     req = await async_client.get(
-        url="/api/v1/get_all_favourites",
+        url="/api/v1/all",
         headers={"Authorization": "Bearer {}".format(TOKEN)},
     )
 

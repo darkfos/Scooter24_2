@@ -31,7 +31,9 @@ class ProductTypeModels(MainBase):
     )
 
     def read_model(self) -> dict:
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }
 
     def __str__(self):
         return str(

@@ -2,8 +2,6 @@
 import datetime
 from typing import Union, Type, Callable
 
-from fastapi import BackgroundTasks
-
 from src.api.core.order_app.schemas.order_dto import OrderBase
 
 # Local
@@ -82,10 +80,17 @@ class UserService:
             if res_to_add_new_user:
 
                 # Сохранение секретного ключа
-                secret_user_key: str | None = await func_to_bt(engine=engine, new_user=new_user)
+                secret_user_key: str | None = await func_to_bt(
+                    engine=engine, new_user=new_user
+                )
 
                 if secret_user_key:
-                    await bt(EmailData(email=new_user.email_user, secret_key=secret_user_key))
+                    await bt(
+                        EmailData(
+                            email=new_user.email_user,
+                            secret_key=secret_user_key,
+                        )
+                    )
                     return
 
             logging.critical(
@@ -126,6 +131,7 @@ class UserService:
                     date_registration=user_data.date_registration,
                     date_birthday=user_data.date_birthday,
                     telephone=user_data.telephone,
+                    address_city=user_data.address_city,
                     address=user_data.address,
                 )
 
@@ -162,21 +168,28 @@ class UserService:
 
         async with engine:
             # Проверка на администратора
-            is_admin = await engine.user_repository.find_one(
-                other_id=int(token_data.get("sub"))
-            )
 
-            if is_admin:
-                user_data: dict = is_admin[0]
-                return InformationAboutUser(
-                    email_user=user_data.email_user,
-                    name_user=user_data.name_user,
-                    main_name_user=user_data.main_name_user,
-                    date_registration=user_data.date_registration,
-                    address=user_data.address,
-                    telephone=user_data.telephone,
-                    date_birthday=user_data.date_birthday,
+
+            if token_data.get("is_admin"):
+                user_data: list[User] = await engine.user_repository.find_one(
+                    other_id=user_id
                 )
+
+                if user_data:
+                    user_data: User = user_data[0]
+
+                    return InformationAboutUser(
+                        email_user=user_data.email_user,
+                        name_user=user_data.name_user,
+                        main_name_user=user_data.main_name_user,
+                        date_registration=user_data.date_registration,
+                        address=user_data.address,
+                        telephone=user_data.telephone,
+                        date_birthday=user_data.date_birthday,
+                    )
+
+                await UserHttpError().http_user_not_found()
+
             logging.critical(
                 msg=f"{UserService.__name__} "
                 f"Не удалось получить информацию о"
@@ -320,19 +333,22 @@ class UserService:
                 return BuyingOrders(
                     orders=[
                         OrderBase(
-                            product_data={
+                            product_data=[
+                                {
+                                    "id_product": product.id_product,
+                                    "title_product": product.product_data.title_product,
+                                    "quantity_buy": product.count_product,
+                                    "price": product.price,
+                                }
+                                for product in order[0].product_list
+                            ],
+                            order_data={
                                 "id": order[0].id,
-                                "title_product": order[
-                                    0
-                                ].product_info.title_product,
                                 "price": order[0].price_result,
-                                "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
-                                "photos": [
-                                    photo.read_model()
-                                    for photo in order[0].product_info.photos
-                                ],
+                                "type_buy": order[0].type_buy,
+                                "type_delivery": order[0].delivery_method
                             }
                         )
                         for order in orders
@@ -371,15 +387,22 @@ class UserService:
                 return BuyingOrders(
                     orders=[
                         OrderBase(
-                            product_data={
+                            product_data=[
+                                {
+                                    "id_product": product.id_product,
+                                    "title_product": product.product_data.title_product,
+                                    "quantity_buy": product.count_product,
+                                    "price": product.price,
+                                }
+                                for product in order[0].product_list
+                            ],
+                            order_data={
                                 "id": order[0].id,
-                                "title_product": order[
-                                    0
-                                ].product_info.title_product,
                                 "price": order[0].price_result,
-                                "count_buy": order[0].count_product,
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
+                                "type_buy": order[0].type_buy,
+                                "type_delivery": order[0].delivery_method
                             }
                         )
                         for order in user_orders
@@ -424,6 +447,7 @@ class UserService:
                         main_name_user=user_all_information.main_name_user,
                         date_registration=user_all_information.date_registration,  # noqa
                         date_birthday=user_all_information.date_birthday,
+                        address_city=user_all_information.address_city,
                         address=user_all_information.address,
                         telephone=user_all_information.telephone,
                     ),
@@ -623,7 +647,7 @@ class UserService:
                     hash_password = crypt.hashed_password(
                         password=to_update.new_password
                     )
-                    is_updated=await engine.user_repository.update_one(
+                    is_updated = await engine.user_repository.update_one(
                         other_id=int(token_data.get("sub")),
                         data_to_update={
                             "password_user": hash_password,
@@ -721,37 +745,5 @@ class UserService:
             logging.critical(
                 msg=f"{UserService.__name__} Не удалось "
                 f"обновить пароль пользователя"
-            )
-            await UserHttpError().http_failed_to_update_user_information()
-
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
-    @staticmethod
-    async def update_address_user_data(
-        engine: IEngineRepository,
-        token: str,
-        data_update: UpdateAddressDate,
-        token_data: dict = dict(),
-    ) -> None:
-        """
-        Метод сервиса для обновления адресных данных пользователя
-        :engine:
-        :data_update:
-        """
-        logging.info(
-            msg=f"{UserService.__name__} " f"Обновление данных пользователя"
-        )
-
-        async with engine:
-            # Обновление данных
-            is_updated: bool = await engine.user_repository.update_one(
-                other_id=token_data.get("id_user"),
-                data_to_update=data_update.model_dump(),
-            )
-
-            if is_updated:
-                return True
-            logging.critical(
-                msg=f"{UserService.__name__} "
-                f"Не удалось обновить данные пользователя"
             )
             await UserHttpError().http_failed_to_update_user_information()

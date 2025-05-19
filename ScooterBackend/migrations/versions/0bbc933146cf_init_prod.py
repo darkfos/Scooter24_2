@@ -1,9 +1,7 @@
 """init prod
-
 Revision ID: 0bbc933146cf
-Revises: 
+Revises:
 Create Date: 2025-03-03 00:11:41.409785
-
 """
 
 from alembic import op

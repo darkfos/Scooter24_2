@@ -3,18 +3,27 @@ from pydantic import Field, BaseModel
 from typing import List, Annotated
 
 # Local
-from src.api.core.subcategory_app.schemas.subcategory_dto import SubCategoryBase
+from src.api.core.subcategory_app.schemas.subcategory_dto import (
+    SubCategoryAllData,
+)
 
 
-class CategoryBase(BaseModel):
+class CreateCategory(BaseModel):
+    name_category: Annotated[str, Field(max_length=150)]
+    icon_category: Annotated[str, Field()]
+
+
+class CategoryBaseData(CreateCategory):
+    pass
+
+
+class CategoryBase(CreateCategory):
     """
     Базовый DTO для категорий
     """
 
-    name_category: Annotated[str, Field(max_length=150)]
     id_category: Annotated[int, Field()]
-    icon_category: Annotated[str, Field()]
-    subcategory: Annotated[List[SubCategoryBase], Field()]
+    subcategory: Annotated[List[SubCategoryAllData], Field()]
 
 
 class CategoryIsCreated(BaseModel):

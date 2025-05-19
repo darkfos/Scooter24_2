@@ -35,4 +35,6 @@ class TypeWorker(MainBase):
 
     def read_model(self) -> Dict[str, Union[str, int]]:
         # Чтение модели
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }

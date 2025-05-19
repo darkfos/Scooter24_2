@@ -4,8 +4,9 @@ from src.api.core.subcategory_app.errors.http_subcategory_exceptions import (  #
     SubCategoryException,
 )
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
-    SubCategoryBase,
     AllSubCategories,
+    SubCategoryAllData,
+    SubCategoryBase,
 )
 from src.api.authentication.secure.authentication_service import (
     Authentication,
@@ -57,8 +58,10 @@ class SubCategoryService:
 
     @redis
     async def get_subcategories_by_id_category(
-        engine: IEngineRepository, id_category: int, redis_search_data: str = ""
-    ) -> AllSubCategories:
+        engine: IEngineRepository,
+        id_category: int,
+        redis_search_data: str = "",
+    ) -> SubCategoryAllData:
         """
         Метод сервиса ProductModels для получения моделей
         продукта по идентификатору продукта
@@ -69,11 +72,14 @@ class SubCategoryService:
             all_models_by_id_category = await engine.subcategory_repository.find_subcategories_by_id_category(  # noqa
                 id_category=id_category
             )  # noqa
+
             if all_models_by_id_category:
                 return AllSubCategories(
                     all_subcategory=[
-                        SubCategoryBase(
-                            name=model[0].name, id_category=model[0].name
+                        SubCategoryAllData(
+                            id_subcategory=model[0].id,
+                            id_category=model[0].id_category,
+                            name=model[0].name,
                         )
                         for model in all_models_by_id_category
                     ]
@@ -82,7 +88,7 @@ class SubCategoryService:
 
     async def get_all_product_models(
         engine: IEngineRepository,
-    ) -> AllSubCategories:
+    ) -> SubCategoryAllData:
         """
         Метод сервиса ProductModels для получения всех моделей продуктов
         """
@@ -94,8 +100,10 @@ class SubCategoryService:
             if all_subcategory_models:
                 return AllSubCategories(
                     all_subcategory=[
-                        SubCategoryBase(
-                            name=model[0].name, id_category=model[0].name
+                        SubCategoryAllData(
+                            id_category=model[0].id_category,
+                            id_subcategory=model[0].id,
+                            name=model[0].name,
                         )
                         for model in all_subcategory_models
                     ]

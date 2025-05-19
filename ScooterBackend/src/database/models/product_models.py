@@ -37,4 +37,6 @@ class ProductModels(MainBase):
     def read_model(
         self,
     ) -> Dict[str, Union[int, str, List[Union[int, str, dict]]]]:
-        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+        return {
+            k: v for k, v in self.__dict__.items() if not k.startswith("_")
+        }

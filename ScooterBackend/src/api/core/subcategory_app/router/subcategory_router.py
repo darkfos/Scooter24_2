@@ -40,7 +40,7 @@ async def added_new_subcategory(
 
 
 @subcategory_router.get(
-    path="/all/category/{id_product}",
+    path="/all/category/{id_category}",
     response_model=AllSubCategories,
     description="""
     ### ENDPOINT - Получение все моделей продукта по идентификатору продукта.
