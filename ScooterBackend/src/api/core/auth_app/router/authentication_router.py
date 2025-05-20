@@ -20,7 +20,7 @@ from src.api.core.user_app.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
-from src.other.broker.producer.producer import send_message_email
+from src.other.broker.producer.producer import send_message_registration_on_email
 
 auth_router: APIRouter = APIRouter(
     prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
@@ -136,7 +136,7 @@ async def registration_user(
     await UserService.create_a_new_user(
         engine,
         new_user,
-        bt=send_message_email,
+        bt=send_message_registration_on_email,
         func_to_bt=EmailService.send_secret_key_for_register,
     )
 

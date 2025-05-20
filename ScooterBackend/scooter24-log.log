@@ -8782,3 +8782,379 @@ FROM "Product"
 WHERE "Product".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
 2025-05-20 15:56:32 - sqlalchemy.engine.Engine - INFO - [generated in 0.00041s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
 2025-05-20 15:56:32 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:58:16 - root - INFO - Start Project
+2025-05-20 15:58:28 - root - INFO - Start Project
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - SELECT count("Producttypemodels".id) AS count_1 
+FROM "Producttypemodels"
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] ()
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - SELECT "Producttypemodels".id_product, "Producttypemodels".id_type_model, "Producttypemodels".id 
+FROM "Producttypemodels" ORDER BY "Producttypemodels".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] (10, 0)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - SELECT "Typemoto".id AS "Typemoto_id", "Typemoto".name_moto_type AS "Typemoto_name_moto_type" 
+FROM "Typemoto" 
+WHERE "Typemoto".id IN ($1::INTEGER)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] (1,)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - SELECT "Product".id AS "Product_id", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount" 
+FROM "Product" 
+WHERE "Product".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00040s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:58:41 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - SELECT count("Order".id) AS count_1 
+FROM "Order"
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00021s] ()
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - SELECT "Order".date_buy, "Order".type_operation, "Order".type_buy, "Order".email_user, "Order".transaction_id, "Order".user_name, "Order".telephone_number, "Order".label_order, "Order".address, "Order".delivery_method, "Order".price_result, "Order".id_user, "Order".id 
+FROM "Order" ORDER BY "Order".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00040s] (10, 0)
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - SELECT "Orderproducts".id_order AS "Orderproducts_id_order", "Orderproducts".id_product AS "Orderproducts_id_product", "Orderproducts".count_product AS "Orderproducts_count_product", "Orderproducts".price AS "Orderproducts_price", "Orderproducts".id AS "Orderproducts_id" 
+FROM "Orderproducts" 
+WHERE "Orderproducts".id_order IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00046s] (2007, 2010, 2011)
+2025-05-20 15:58:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT count("Product".id) AS count_1 
+FROM "Product"
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] ()
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product, "Product".title_product, "Product".brand, "Product".weight_product, "Product".is_recommended, "Product".id_sub_category, "Product".explanation_product, "Product".quantity_product, "Product".label_product, "Product".price_product, "Product".date_create_product, "Product".date_update_information, "Product".product_discount, "Product".id 
+FROM "Product" ORDER BY "Product".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] (10, 0)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Subcategory".id AS "Subcategory_id", "Subcategory".name AS "Subcategory_name", "Subcategory".id_category AS "Subcategory_id_category" 
+FROM "Subcategory" 
+WHERE "Subcategory".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00037s] (97, 98, 99, 100)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Productmarks".id_product AS "Productmarks_id_product", "Productmarks".id_mark AS "Productmarks_id_mark", "Productmarks".id AS "Productmarks_id" 
+FROM "Productmarks" 
+WHERE "Productmarks".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00048s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Productphotos".id_product AS "Productphotos_id_product", "Productphotos".photo_url AS "Productphotos_photo_url", "Productphotos".id AS "Productphotos_id" 
+FROM "Productphotos" 
+WHERE "Productphotos".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00044s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Review".id_product AS "Review_id_product", "Review".text_review AS "Review_text_review", "Review".estimation_review AS "Review_estimation_review", "Review".id_user AS "Review_id_user", "Review".id AS "Review_id" 
+FROM "Review" 
+WHERE "Review".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00048s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Producttypemodels".id_product AS "Producttypemodels_id_product", "Producttypemodels".id_type_model AS "Producttypemodels_id_type_model", "Producttypemodels".id AS "Producttypemodels_id" 
+FROM "Producttypemodels" 
+WHERE "Producttypemodels".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00060s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".id AS "Brand_id", "Brand".name_brand AS "Brand_name_brand", "Brand".url_photo AS "Brand_url_photo" 
+FROM "Brand" 
+WHERE "Brand".id IN ($1::INTEGER, $2::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] (1, 2)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Orderproducts".id_product AS "Orderproducts_id_product", "Orderproducts".id_order AS "Orderproducts_id_order", "Orderproducts".count_product AS "Orderproducts_count_product", "Orderproducts".price AS "Orderproducts_price", "Orderproducts".id AS "Orderproducts_id" 
+FROM "Orderproducts" 
+WHERE "Orderproducts".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00043s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Favourite".id_product AS "Favourite_id_product", "Favourite".id_user AS "Favourite_id_user", "Favourite".id AS "Favourite_id" 
+FROM "Favourite" 
+WHERE "Favourite".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00041s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - SELECT "Productmodels".id_product AS "Productmodels_id_product", "Productmodels".id_model AS "Productmodels_id_model", "Productmodels".id AS "Productmodels_id" 
+FROM "Productmodels" 
+WHERE "Productmodels".id_product IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00058s] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 15:59:00 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - SELECT count("Productphotos".id) AS count_1 
+FROM "Productphotos"
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - [generated in 0.00022s] ()
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - SELECT "Productphotos".photo_url, "Productphotos".id_product, "Productphotos".id 
+FROM "Productphotos" ORDER BY "Productphotos".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - [generated in 0.00034s] (10, 0)
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - SELECT "Product".id AS "Product_id", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount" 
+FROM "Product" 
+WHERE "Product".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER)
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - [generated in 0.00045s] (97, 98, 99, 100, 101, 102, 103, 104, 105)
+2025-05-20 15:59:01 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT count("Mark".id) AS count_1 
+FROM "Mark"
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] ()
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT "Mark".name_mark, "Mark".id 
+FROM "Mark" ORDER BY "Mark".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] (10, 0)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT "Model".id_mark AS "Model_id_mark", "Model".name_model AS "Model_name_model", "Model".id AS "Model_id" 
+FROM "Model" 
+WHERE "Model".id_mark IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00048s] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00021s] ()
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00034s] (10, 0)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00041s] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+2025-05-20 15:59:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - INSERT INTO "Brand" (name_brand, url_photo) VALUES ($1::VARCHAR, $2::VARCHAR) RETURNING "Brand".id
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - [generated in 0.00033s] ('addasdasd', None)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - [cached since 5.248s ago] ()
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - [cached since 5.247s ago] (10, 0)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - [cached since 5.244s ago] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+2025-05-20 15:59:08 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - [cached since 7.32s ago] ()
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - [cached since 7.319s ago] (10, 10)
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER, $2::INTEGER)
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - [cached since 7.317s ago] (11, 12)
+2025-05-20 15:59:10 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] (12,)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [cached since 0.00413s ago] (12,)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE $1::INTEGER = "Product".brand
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] (12,)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - DELETE FROM "Brand" WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] (12,)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [cached since 10.6s ago] ()
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [cached since 10.6s ago] (10, 10)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - [cached since 10.59s ago] (11,)
+2025-05-20 15:59:13 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 6.261s ago] (11,)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" 
+WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 6.264s ago] (11,)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - SELECT "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE $1::INTEGER = "Product".brand
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 6.259s ago] (11,)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - DELETE FROM "Brand" WHERE "Brand".id = $1::INTEGER
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 6.257s ago] (11,)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 16.86s ago] ()
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - [cached since 16.85s ago] (10, 10)
+2025-05-20 15:59:19 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - [cached since 19.51s ago] ()
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - [cached since 19.51s ago] (10, 0)
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - [cached since 19.51s ago] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+2025-05-20 15:59:22 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - SELECT count("Brand".id) AS count_1 
+FROM "Brand"
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - [cached since 55.81s ago] ()
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - SELECT "Brand".name_brand, "Brand".url_photo, "Brand".id 
+FROM "Brand" ORDER BY "Brand".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - [cached since 55.81s ago] (10, 0)
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - SELECT "Product".brand AS "Product_brand", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount", "Product".id AS "Product_id" 
+FROM "Product" 
+WHERE "Product".brand IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - [cached since 55.81s ago] (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+2025-05-20 15:59:58 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - SELECT count("User".id) AS count_1 
+FROM "User"
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - [generated in 0.00042s] ()
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - SELECT "User".id_type_user, "User".is_active, "User".email_user, "User".password_user, "User".secret_update_key, "User".secret_create_key, "User".name_user, "User".main_name_user, "User".date_registration, "User".date_update, "User".date_birthday, "User".address_city, "User".address, "User".telephone, "User".id 
+FROM "User" ORDER BY "User".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - [generated in 0.00045s] (10, 0)
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - SELECT "Usertype".id AS "Usertype_id", "Usertype".name_type AS "Usertype_name_type" 
+FROM "Usertype" 
+WHERE "Usertype".id IN ($1::INTEGER)
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - [generated in 0.00033s] (2,)
+2025-05-20 15:59:59 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - SELECT count("Usertype".id) AS count_1 
+FROM "Usertype"
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] ()
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - SELECT "Usertype".name_type, "Usertype".id 
+FROM "Usertype" ORDER BY "Usertype".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] (10, 0)
+2025-05-20 16:00:00 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - SELECT count("Garage".id) AS count_1 
+FROM "Garage"
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - [generated in 0.00029s] ()
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - SELECT "Garage".id_model, "Garage".id_mark, "Garage".id_type_moto, "Garage".id_user, "Garage".id 
+FROM "Garage" ORDER BY "Garage".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - [generated in 0.00044s] (10, 0)
+2025-05-20 16:00:01 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - SELECT count("Producttypemodels".id) AS count_1 
+FROM "Producttypemodels"
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - [cached since 81.17s ago] ()
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - SELECT "Producttypemodels".id_product, "Producttypemodels".id_type_model, "Producttypemodels".id 
+FROM "Producttypemodels" ORDER BY "Producttypemodels".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - [cached since 81.16s ago] (10, 0)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - SELECT "Typemoto".id AS "Typemoto_id", "Typemoto".name_moto_type AS "Typemoto_name_moto_type" 
+FROM "Typemoto" 
+WHERE "Typemoto".id IN ($1::INTEGER)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - [cached since 81.16s ago] (1,)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - SELECT "Product".id AS "Product_id", "Product".article_product AS "Product_article_product", "Product".title_product AS "Product_title_product", "Product".brand AS "Product_brand", "Product".weight_product AS "Product_weight_product", "Product".is_recommended AS "Product_is_recommended", "Product".id_sub_category AS "Product_id_sub_category", "Product".explanation_product AS "Product_explanation_product", "Product".quantity_product AS "Product_quantity_product", "Product".label_product AS "Product_label_product", "Product".price_product AS "Product_price_product", "Product".date_create_product AS "Product_date_create_product", "Product".date_update_information AS "Product_date_update_information", "Product".product_discount AS "Product_product_discount" 
+FROM "Product" 
+WHERE "Product".id IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, $10::INTEGER)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - [cached since 81.16s ago] (97, 98, 99, 100, 101, 102, 103, 104, 105, 106)
+2025-05-20 16:00:02 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - SELECT count("Typemoto".id) AS count_1 
+FROM "Typemoto"
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] ()
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - SELECT "Typemoto".name_moto_type, "Typemoto".id 
+FROM "Typemoto" ORDER BY "Typemoto".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] (10, 0)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - SELECT "Garage".id_type_moto AS "Garage_id_type_moto", "Garage".id_model AS "Garage_id_model", "Garage".id_mark AS "Garage_id_mark", "Garage".id_user AS "Garage_id_user", "Garage".id AS "Garage_id" 
+FROM "Garage" 
+WHERE "Garage".id_type_moto IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - [generated in 0.00047s] (1, 2, 3, 4, 5, 6)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - SELECT "Producttypemodels".id_type_model AS "Producttypemodels_id_type_model", "Producttypemodels".id_product AS "Producttypemodels_id_product", "Producttypemodels".id AS "Producttypemodels_id" 
+FROM "Producttypemodels" 
+WHERE "Producttypemodels".id_type_model IN ($1::INTEGER, $2::INTEGER, $3::INTEGER, $4::INTEGER, $5::INTEGER, $6::INTEGER)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - [generated in 0.00051s] (1, 2, 3, 4, 5, 6)
+2025-05-20 16:00:03 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - SELECT count("Review".id) AS count_1 
+FROM "Review"
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] ()
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - SELECT "Review".text_review, "Review".estimation_review, "Review".id_user, "Review".id_product, "Review".id 
+FROM "Review" ORDER BY "Review".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00033s] (10, 0)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - SELECT count("Order".id) AS count_1 
+FROM "Order"
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - [cached since 78.5s ago] ()
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - SELECT "Order".date_buy, "Order".type_operation, "Order".type_buy, "Order".email_user, "Order".transaction_id, "Order".user_name, "Order".telephone_number, "Order".label_order, "Order".address, "Order".delivery_method, "Order".price_result, "Order".id_user, "Order".id 
+FROM "Order" ORDER BY "Order".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - [cached since 78.49s ago] (10, 0)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - SELECT "Orderproducts".id_order AS "Orderproducts_id_order", "Orderproducts".id_product AS "Orderproducts_id_product", "Orderproducts".count_product AS "Orderproducts_count_product", "Orderproducts".price AS "Orderproducts_price", "Orderproducts".id AS "Orderproducts_id" 
+FROM "Orderproducts" 
+WHERE "Orderproducts".id_order IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - [cached since 78.48s ago] (2007, 2010, 2011)
+2025-05-20 16:00:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - SELECT count("Order".id) AS count_1 
+FROM "Order"
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - [cached since 79.63s ago] ()
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - SELECT "Order".date_buy, "Order".type_operation, "Order".type_buy, "Order".email_user, "Order".transaction_id, "Order".user_name, "Order".telephone_number, "Order".label_order, "Order".address, "Order".delivery_method, "Order".price_result, "Order".id_user, "Order".id 
+FROM "Order" ORDER BY "Order".id ASC 
+ LIMIT $1::INTEGER OFFSET $2::INTEGER
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - [cached since 79.63s ago] (10, 0)
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - SELECT "Orderproducts".id_order AS "Orderproducts_id_order", "Orderproducts".id_product AS "Orderproducts_id_product", "Orderproducts".count_product AS "Orderproducts_count_product", "Orderproducts".price AS "Orderproducts_price", "Orderproducts".id AS "Orderproducts_id" 
+FROM "Orderproducts" 
+WHERE "Orderproducts".id_order IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - [cached since 79.61s ago] (2007, 2010, 2011)
+2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - ROLLBACK

@@ -23,11 +23,11 @@ from src.api.dep.dependencies import IEngineRepository
 from src.database.models.order_products import OrderProducts
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
-from src.settings.engine_settings import Settings
-
+from src.other.broker.producer.producer import send_transaction_operation
 
 # Redis
 from src.store.tools import RedisTools
+from src.test.conftest import session
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
@@ -102,8 +102,9 @@ class OrderService:
     async def buy_product(
             engine: IEngineRepository,
             token: str,
+            bt: send_transaction_operation,
             order_buy_data: BuyOrder,
-            token_data: dict = dict()
+            token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса - осуществление покупки товара
@@ -191,6 +192,14 @@ class OrderService:
                         sum=price_result + order_buy_data.price_delivery,
                         label=f"{label_product}"
                     )
+
+                    # Отправка в очередь транзакции оплаты
+
+                    create_product_data = await engine.order_repository.get_all_product_list_on_id(
+                        _id=order_is_created
+                    )
+
+                    await bt(order_data=create_product_data)
 
                     if url_buy:
                         return {

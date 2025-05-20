@@ -3,12 +3,12 @@ from typing import Dict, List
 
 
 # Other
-from sqlalchemy import Integer, ForeignKey, Date, Enum, Numeric, UUID, Text, String
+from sqlalchemy import Integer, ForeignKey, Enum, Numeric, UUID, Text, String, DateTime
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # Local
 from src.database.mainbase import MainBase
-from datetime import date
+from datetime import datetime
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 from src.database.models.enums.delivery_type_enum import DeliveryMethod
 from src.database.models.enums.type_buy_enum import TypeBuy
@@ -18,8 +18,8 @@ class Order(MainBase):
     # Таблица заказы
 
     # Дата заказа
-    date_buy: Mapped[date] = mapped_column(
-        type_=Date, unique=False, nullable=False, default=date.today()
+    date_buy: Mapped[datetime] = mapped_column(
+        type_=DateTime, unique=False, nullable=False, default=datetime.now()
     )
 
     # Тип операции

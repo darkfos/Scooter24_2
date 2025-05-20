@@ -111,7 +111,6 @@ class GeneralSQLRepository:
                 )
                 raise Exception
         except Exception as ex:
-            print(ex, "e232323232")
             await self.async_session.rollback()
             return False
 

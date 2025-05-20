@@ -24,6 +24,19 @@ class OrderRepository(GeneralSQLRepository):
         self.model: Type[Order] = Order
         super().__init__(session=session, model=self.model)
 
+    async def get_all_product_list_on_id(self, _id: int) -> Sequence[Row]:
+        """
+        Получение данных о заказе и товарах в заказе
+        :param _id:
+        """
+
+        stmt = select(Order).where(Order.id == _id).options(
+            joinedload(Order.product_list)
+        )
+
+        result = await self.async_session.execute(stmt)
+        return result.unique().scalars().first()
+
     async def find_by_label(self, label: str) -> Sequence[Row]:
         """
         Поиск заказа по метке

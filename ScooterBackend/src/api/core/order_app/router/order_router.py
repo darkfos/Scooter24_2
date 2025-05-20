@@ -16,6 +16,7 @@ from src.api.core.order_app.schemas.order_dto import (
 from src.api.core.order_app.service.order_service import OrderService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.broker.producer.producer import send_message_update_password_on_email
 
 
 auth: Authentication = Authentication()
@@ -101,7 +102,8 @@ async def buy_product(
     resultBuyProduct = await OrderService.buy_product(
         engine=session,
         token=user_data,
-        order_buy_data=order_data
+        order_buy_data=order_data,
+        bt=send_message_update_password_on_email
     )
 
     return resultBuyProduct
