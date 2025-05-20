@@ -30,7 +30,7 @@ class DatabaseSettings:
             f"postgresql+asyncpg://"
             f"{self.db_user}"
             f":{self.db_password}"
-            f"@{self.db_host}"
+            f"@{self.db_host}:{self.db_port}"
             f"/{self.db_name}"
         )
 

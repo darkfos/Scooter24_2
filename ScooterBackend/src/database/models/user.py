@@ -89,17 +89,17 @@ class User(MainBase):
 
     # Избранное
     favourites_user: Mapped[List["Favourite"]] = relationship(
-        "Favourite", back_populates="fav_user", uselist=True
+        "Favourite", back_populates="fav_user", uselist=True, cascade="all, delete-orphan"
     )
 
     # Заказы
     orders_user: Mapped[List["Order"]] = relationship(
-        "Order", back_populates="ord_user", uselist=True
+        "Order", back_populates="ord_user", uselist=True, cascade="save-update", passive_deletes=True
     )
 
     # Отзывы
     reviews: Mapped[List["Review"]] = relationship(
-        "Review", back_populates="user", uselist=True
+        "Review", back_populates="user", uselist=True, cascade="all, delete-orphan"
     )
 
     # Тип пользователя
@@ -109,7 +109,7 @@ class User(MainBase):
 
     # Данные гаража
     garage_data: Mapped[List["Garage"]] = relationship(
-        "Garage", back_populates="user_data", uselist=True
+        "Garage", back_populates="user_data", uselist=True, cascade="all, delete-orphan"
     )
 
     def read_model(self) -> Dict[str, str]:

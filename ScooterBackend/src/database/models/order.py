@@ -78,7 +78,7 @@ class Order(MainBase):
 
     # Связи
     id_user: Mapped[int] = mapped_column(
-        ForeignKey("User.id"), type_=Integer
+        ForeignKey("User.id", ondelete="SET NULL"), type_=Integer, nullable=True
     )  # id пользователя
     ord_user: Mapped["User"] = relationship(
         "User", back_populates="orders_user", uselist=False

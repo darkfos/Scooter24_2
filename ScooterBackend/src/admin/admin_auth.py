@@ -55,4 +55,4 @@ class AdminPanelAuthentication(AuthenticationBackend):
 
     async def logout(self, request: Type[Request]):
         request.session.clear()
-        return RedirectResponse(url="http://localhost:8000/admin/login")
+        return RedirectResponse(url="http://localhost:8090/admin/login")
