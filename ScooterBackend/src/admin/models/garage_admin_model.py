@@ -35,6 +35,14 @@ class GarageAdminModel(ModelView, model=Garage):
         Garage.type_moto_data: "Данные типа модели",
     }
 
+    column_searchable_list: list[str] = [
+        "id_model", "id_mark",
+        "id_user", "user_data.email_user",
+        "mark_data.name_mark", "model_data.name_model"
+    ]
+
+    column_sortable_list: list[str] = ["id_model", "id_mark", "id"]
+
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

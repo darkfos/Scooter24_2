@@ -26,6 +26,10 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.category_data: "Данные категории",
     }
 
+    column_searchable_list: List[str] = ["name", "id_category"]
+
+    column_sortable_list: List[str] = ["id", "name", "id_category"]
+
     form_create_rules = ["name", "category_data"]
 
     column_select_related_list = ["category_data"]

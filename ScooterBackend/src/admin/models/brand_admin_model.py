@@ -19,6 +19,10 @@ class BrandModelView(ModelView, model=Brand):
         Brand.url_photo: "Фотография"
     }
 
+    column_searchable_list: List[str] = ["name_brand", "product_data.title_product"]
+
+    column_sortable_list: List[str] = ["name_brand", "id"]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

@@ -18,6 +18,7 @@ class ProductModelsModelView(ModelView, model=ProductModels):
         ProductModels.model_data,
         ProductModels.product_data,
     ]
+
     column_labels: Dict[Any, str] = {
         ProductModels.id: "Идентификатор модели продукта",
         ProductModels.id_model: "Идентификатор модели",
@@ -25,6 +26,15 @@ class ProductModelsModelView(ModelView, model=ProductModels):
         ProductModels.model_data: "Данные модели",
         ProductModels.product_data: "Данные продукта",
     }
+
+    column_searchable_list: List[str] = [
+        "id_model", "id_product",
+        "model_data.name_model", "product_data.title_product"
+    ]
+
+    column_sortable_list: List[str] = [
+        "id", "id_model", "id_product",
+    ]
 
     # Operation's
     can_create: bool = True

@@ -33,6 +33,10 @@ class VacanciesModelView(ModelView, model=Vacancies):
     can_export: bool = True
     can_view_details: bool = True
 
+    column_searchable_list: List[str] = ["id_type_worker", "description_vacancies", "salary_employee", "type_work"]
+
+    column_sortable_list: List[str] = ["id", "id_type_worker", "salary_employee", "description_vacancies"]
+
     # Form's for FK
     form_ajax_refs: dict = {
         "type_work": {

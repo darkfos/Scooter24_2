@@ -71,6 +71,10 @@ class UserModelView(ModelView, model=User):
     ]
     form_edit_rules = form_create_rules[:-1].copy()
 
+    column_searchable_list: List[str] = ["email_user", "name_user", "is_active", "telephone"]
+
+    column_sortable_list: List[str] = ["id", "email_user", "name_user", "is_active", "id_type_user", "telephone"]
+
     # Form's
     form_ajax_refs: dict = {
         "reviews": {"fields": ("id",), "order_by": ("id")},

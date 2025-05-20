@@ -22,6 +22,10 @@ class UserTypeAdminModel(ModelView, model=UserType):
 
     form_create_rules: List[str] = ["name_type"]
 
+    column_searchable_list: List[str] = ["name_type"]
+
+    column_sortable_list: List[str] = ["id", "name_type"]
+
     # Translate
     column_labels: dict = {
         UserType.id: "Идентификатор",

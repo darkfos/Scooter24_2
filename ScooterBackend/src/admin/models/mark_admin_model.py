@@ -22,6 +22,14 @@ class MarkModelView(ModelView, model=Mark):
         Mark.model_data: "Модели",
     }
 
+    column_searchable_list: List[str] = [
+        "name_mark", "model_data.name_model"
+    ]
+
+    column_sortable_list: list[str] = [
+        "name_mark", "id"
+    ]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

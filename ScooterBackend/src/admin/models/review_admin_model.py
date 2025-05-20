@@ -26,6 +26,10 @@ class ReviewModelView(ModelView, model=Review):
         Review.estimation_review: "Оценка",
     }
 
+    column_searchable_list: list[str] = ["id_user", "id_product", "text_review", "estimation_review"]
+
+    column_sortable_list: List[str] = ["id", "id_user", "id_product", "text_review", "estimation_review"]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True
