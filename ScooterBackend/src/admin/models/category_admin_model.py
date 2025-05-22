@@ -24,6 +24,12 @@ class CategoryModelView(ModelView, model=Category):
         Category.subcategory_data: "Подкатегории",
     }
 
+    column_searchable_list: list[str] = [
+        "name_category", "icon_category", "subcategory_data.name"
+    ]
+
+    column_sortable_list: list[str] = ["name_category", "id"]
+
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

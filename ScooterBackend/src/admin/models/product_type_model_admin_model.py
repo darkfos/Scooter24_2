@@ -26,6 +26,10 @@ class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):
         ProductTypeModels.type_models_data: "Модели транспорта",
     }
 
+    column_searchable_list: List[str] = ["id_product", "id_type_model", "product_data.title_product"]
+
+    column_sortable_list: List[str] = ["id", "id_product", "id_type_model"]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

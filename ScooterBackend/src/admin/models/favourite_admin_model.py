@@ -1,6 +1,7 @@
 from sqladmin import ModelView
-from src.database.models.favourite import Favourite
 from typing import List, Any
+
+from src.database.models.favourite import Favourite
 
 
 class FavouriteModelView(ModelView, model=Favourite):
@@ -25,6 +26,14 @@ class FavouriteModelView(ModelView, model=Favourite):
         Favourite.fav_user: "Пользователь",
         Favourite.product_info: "Продукт",
     }
+
+    column_searchable_list: list[str] = [
+        "id_user", "id_product",
+        "product_info.title_product",
+        "fav_user.email_user"
+    ]
+
+    column_sortable_list: list[str] = ["id_user", "id_product", 'id']
 
     # Operations
     can_create: bool = True

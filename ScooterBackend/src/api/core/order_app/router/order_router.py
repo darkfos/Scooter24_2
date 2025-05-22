@@ -1,5 +1,5 @@
 # System
-from typing import Annotated, Type
+from typing import Annotated, Type, List
 import logging
 
 # Other libraries
@@ -11,11 +11,12 @@ from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     AddOrder,
     BuyOrder,
-    ListOrderAndUserInformation,
+    ListOrderAndUserInformation, OrderSchema, OrderIsBuy,
 )
 from src.api.core.order_app.service.order_service import OrderService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.broker.producer.producer import send_transaction_operation
 
 
 auth: Authentication = Authentication()
@@ -101,7 +102,8 @@ async def buy_product(
     resultBuyProduct = await OrderService.buy_product(
         engine=session,
         token=user_data,
-        order_buy_data=order_data
+        order_buy_data=order_data,
+        bt=send_transaction_operation
     )
 
     return resultBuyProduct
@@ -178,6 +180,22 @@ async def get_information_about_order_by_id(
         id_order=id_order,
         redis_search_data="order_by_id_%s" % id_order,
     )
+
+
+@order_router.get(
+    path="/check_buy/{id_order}",
+    description="""
+        ENDPOINT - Получение информации о купленном товаре
+    """,
+    summary="Уникальный товар, получение информации по покупке",
+    status_code=status.HTTP_200_OK,
+    response_model=OrderIsBuy
+)
+async def unique_check_buy_order(
+        engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+        id_order: int
+) -> OrderIsBuy:
+    return await OrderService.get_order(engine=engine, id_order=id_order)
 
 
 @order_router.delete(

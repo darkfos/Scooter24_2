@@ -32,6 +32,10 @@ class ProductPhotosAdminModel(ModelView, model=ProductPhotos):
         "product_data": "Данные продукта",
     }
 
+    column_searchable_list: list[str] = ["photo_url", "id_product", "product_data.title_product"]
+
+    column_sortable_list: list[str] = ["id", "id_product"]
+
     form_ajax_refs: dict = {
         "product_data": {"fields": ("id", "title_product"), "order_by": ("id")}
     }

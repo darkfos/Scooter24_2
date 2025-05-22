@@ -41,7 +41,7 @@ class ProductModelView(ModelView, model=Product):
         Product.brand: "Бренд",
         Product.brand_data: "Данные бренда",
         Product.title_product: "Заголовок",
-        Product.article_product: "Артикл",
+        Product.article_product: "Артикул",
         Product.explanation_product: "Описание",
         Product.weight_product: "Объемный вес продукта",
         Product.quantity_product: "Количество",
@@ -58,6 +58,10 @@ class ProductModelView(ModelView, model=Product):
         Product.type_models: "Типы мототранспорта",
         Product.photos: "Фотографии",
     }
+
+    column_searchable_list: list[str] = ["title_product", "article_product", "price_product", "quantity_product"]
+
+    column_sortable_list: list[str] = ["title_product", "article_product", "price_product", "quantity_product"]
 
     # Operation's
     can_create: bool = True

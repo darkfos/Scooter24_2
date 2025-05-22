@@ -22,6 +22,10 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
         TypeWorker.vacancies: "Вакансии",
     }
 
+    column_searchable_list: List[str] = ["name_type"]
+
+    column_sortable_list: List[str] = ["id", "name_type"]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

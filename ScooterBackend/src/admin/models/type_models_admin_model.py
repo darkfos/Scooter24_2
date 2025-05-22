@@ -24,6 +24,10 @@ class TypeMotoAdminModel(ModelView, model=TypeMoto):
         TypeMoto.garage_data: "Гараж",
     }
 
+    column_searchable_list: list[str] = ["name_moto_type"]
+
+    column_sortable_list: list[str] = ["id", "name_moto_type"]
+
     # Operation's
     can_create: bool = True
     can_delete: bool = True

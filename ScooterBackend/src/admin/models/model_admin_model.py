@@ -18,6 +18,7 @@ class ModelModelView(ModelView, model=Model):
         Model.mark_data,
         Model.product_models_data,
     ]
+
     column_labels: Dict[Any, str] = {
         Model.id: "Идентификатор модели",
         Model.id_mark: "Идентификатор марки",
@@ -25,6 +26,10 @@ class ModelModelView(ModelView, model=Model):
         Model.product_models_data: "Данные продукта",
         Model.mark_data: "Данные марки",
     }
+
+    column_searchable_list: List[str] = ["id_mark", "name_model", "product_models_data.title_product"]
+
+    column_sortable_list: List[str] = ["id", "id_mark", "name_model"]
 
     form_create_rules: List[str] = ["name_model", "mark_data"]
     form_edit_rules: List[str] = form_create_rules.copy()

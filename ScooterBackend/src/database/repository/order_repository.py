@@ -24,6 +24,19 @@ class OrderRepository(GeneralSQLRepository):
         self.model: Type[Order] = Order
         super().__init__(session=session, model=self.model)
 
+    async def get_all_product_list_on_id(self, _id: int) -> Sequence[Row]:
+        """
+        Получение данных о заказе и товарах в заказе
+        :param _id:
+        """
+
+        stmt = select(Order).where(Order.id == _id).options(
+            joinedload(Order.product_list)
+        )
+
+        result = await self.async_session.execute(stmt)
+        return result.unique().scalars().first()
+
     async def find_by_label(self, label: str) -> Sequence[Row]:
         """
         Поиск заказа по метке
@@ -116,8 +129,8 @@ class OrderRepository(GeneralSQLRepository):
                 select(Order)
                 .where(and_(*conditions))
                 .options(
-                    joinedload(Order.ord_user),
-                    joinedload(Order.product_list)
+                joinedload(Order.ord_user),
+                        joinedload(Order.product_list)
                         .joinedload(OrderProducts.product_data)
                         .joinedload(Product.photos),
                 )
@@ -134,7 +147,6 @@ class OrderRepository(GeneralSQLRepository):
                 )
             )
         else:
-            # Если не переданы id_user и id_order, возвращаем пустой список
             return []
 
         result = await self.async_session.execute(stmt)
@@ -145,3 +157,21 @@ class OrderRepository(GeneralSQLRepository):
         else:
             orders = result.unique().scalars().all()
             return orders if orders else []
+
+    async def check_is_buy(self, id_order: int) -> bool | None:
+        stmt = select(Order).where(Order.id == id_order)
+        order_data = (await self.async_session.execute(stmt)).one_or_none()
+
+        print(order_data, id_order)
+        print(
+            await self.async_session.execute(
+                select(Order)
+            )
+        )
+
+        if order_data:
+            return order_data[0].type_operation not in [
+                OrderTypeOperationsEnum.NO_BUY,
+                OrderTypeOperationsEnum.IN_PROCESS,
+                OrderTypeOperationsEnum.CANCEL,
+            ]

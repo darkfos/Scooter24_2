@@ -45,7 +45,11 @@ services:
     container_name: redis_db
     image: redis:7.4.1-alpine3.20
     ports:
+<<<<<<< HEAD
       - "6380:6379"
+=======
+      - "6479:6379"
+>>>>>>> main
     restart: always
     depends_on:
       - backend

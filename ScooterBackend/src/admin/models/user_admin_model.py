@@ -1,6 +1,10 @@
 from sqladmin import ModelView
-from src.database.models.user import User
 from typing import List, Any
+
+
+from src.database.models.user import User
+from fastapi.requests import Request
+from src.api.authentication.hash_service.hashing import CryptographyScooter
 
 
 class UserModelView(ModelView, model=User):
@@ -35,9 +39,12 @@ class UserModelView(ModelView, model=User):
         User.main_name_user: "Основное имя",
         User.date_birthday: "Дата рождения",
         User.address: "Адрес",
+        User.telephone: "Телефон",
         User.date_registration: "Дата регистрации",
         User.date_update: "Дата обновления",
         User.type_user_data: "Данные типа пользователя",
+        User.is_active: "Активированный аккаунт",
+        User.secret_create_key: "Секретный ключ для регистрации"
     }
 
     # Operations
@@ -58,8 +65,15 @@ class UserModelView(ModelView, model=User):
         "password_user",
         "date_update",
         "date_registration",
+        "is_active",
+        "telephone",
+        "is_active"
     ]
     form_edit_rules = form_create_rules[:-1].copy()
+
+    column_searchable_list: List[str] = ["email_user", "name_user", "is_active", "telephone"]
+
+    column_sortable_list: List[str] = ["id", "email_user", "name_user", "is_active", "id_type_user", "telephone"]
 
     # Form's
     form_ajax_refs: dict = {
@@ -68,3 +82,22 @@ class UserModelView(ModelView, model=User):
         "favourites_user": {"fields": ("id",), "order_by": ("id")},
         "type_user_data": {"fields": ("id", "name_type"), "order_by": ("id")},
     }
+
+    async def on_model_change(self, form, model: User, is_created: bool, request: Request):
+
+        # При создании нового пользователя хешируем пароль
+        if (is_created):
+
+            form["password_user"] = CryptographyScooter().hashed_password(password=form["password_user"])
+            form["is_active"] = True
+
+            self.after_model_change(
+                data=form,
+                model=model,
+                is_created=is_created,
+                request=request
+            )
+
+        # Декодирование пароля
+        if isinstance(form["password_user"], str):
+            form["password_user"] = form["password_user"][2:-1].encode("utf-8")

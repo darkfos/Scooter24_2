@@ -8,7 +8,6 @@ from sqlalchemy import String, Integer, Double, Text, Date, ForeignKey, Boolean
 
 # Local
 from src.database.mainbase import MainBase
-from src.database.models.product_photos import ProductPhotos
 
 
 class Product(MainBase):
