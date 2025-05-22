@@ -33,17 +33,21 @@ async def email_queue(message: EmailQueueMessage) -> None:
     :param message:
     """
 
+    print(message)
+
     if message.type.value == "регистрация":
+        print(423423)
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.secret_key}\n"  # noqa
+            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.email_data.secret_key}\n"  # noqa
             f"Пожалуйста никому не сообщайте его",  # noqa
-            whom_email=message.email,
+            whom_email=message.email_data.email,
         )
     else:
+        print(843954)
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.secret_key}\n"
+            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.email_data.secret_key}\n"
                             f"Пожалуйста никому не сообщайте его",
-            whom_email=message.email
+            whom_email=message.email_data.email
         )
 
 

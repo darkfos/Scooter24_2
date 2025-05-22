@@ -1,7 +1,6 @@
 from src.other.broker.rabbit import broker
-from src.other.broker.dto.email_dto import EmailData, TypeEmailSendMessage
+from src.other.broker.dto.email_dto import EmailData, TypeEmailSendMessage, EmailQueueMessage
 from src.database.models.order import Order
-from src.api.core.order_app.schemas.order_dto import OrderSchema
 
 
 async def send_message_registration_on_email(email_data: EmailData):
@@ -11,10 +10,9 @@ async def send_message_registration_on_email(email_data: EmailData):
     """
 
     await broker.connect()
-    await broker.publish(message={
-        "email_data": email_data,
-        "type": TypeEmailSendMessage.CREATE
-    }, queue="email")
+    await broker.publish(EmailQueueMessage(
+        email_data=email_data, type=TypeEmailSendMessage.CREATE
+    ), queue="email")
 
 
 async def send_message_update_password_on_email(email_data: EmailData) -> None:
@@ -24,10 +22,9 @@ async def send_message_update_password_on_email(email_data: EmailData) -> None:
     """
 
     await broker.connect()
-    await broker.publish(message={
-        "email_data": email_data,
-        "type": TypeEmailSendMessage.UPDATE
-    }, queue="email")
+    await broker.publish(EmailQueueMessage(
+        email_data=email_data, type=TypeEmailSendMessage.CREATE
+    ), queue="email")
 
 
 async def send_transaction_operation(order_data: Order):

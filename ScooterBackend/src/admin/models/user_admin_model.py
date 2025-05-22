@@ -100,4 +100,4 @@ class UserModelView(ModelView, model=User):
 
         # Декодирование пароля
         if isinstance(form["password_user"], str):
-            form["password_user"] = form["password_user"][2:-1].encode("utf-8")
+            form["password_user"] = form["password_user"][1:-1].encode("utf-8")
