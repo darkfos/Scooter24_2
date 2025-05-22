@@ -70,13 +70,8 @@ async def login_user(
 
     return {
         "access_token": tokens.token,
-<<<<<<< HEAD
         "refresh_token": tokens.refresh_token,
         "token_type": tokens.token_type
-=======
-        "token_type": tokens.token_type,
-        "refresh_token": tokens.refresh_token
->>>>>>> main
     }
 
 @auth_router.post(
