@@ -11,12 +11,12 @@ from src.database.models.enums.type_buy_enum import TypeBuy
 
 # Local
 from src.database.models.order import Order
-from src.database.models.category import Category
 from src.api.core.order_app.error.http_order_exception import OrderHttpError
 from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     ListOrderAndUserInformation,
     AddOrder, BuyOrder,
+    OrderIsBuy
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
@@ -27,7 +27,6 @@ from src.other.broker.producer.producer import send_transaction_operation
 
 # Redis
 from src.store.tools import RedisTools
-from src.test.conftest import session
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
@@ -70,7 +69,7 @@ class OrderService:
                     date_buy=new_order.date_create,
                     id_user=int(token_data.get("sub")),
                     type_operation=OrderTypeOperationsEnum.NO_BUY,
-                    type_buy=TypeBuy.NO_BUY,
+                    type_buy=TypeBuy.CARD,
                     price_result=0,
                 )
             )
@@ -97,6 +96,24 @@ class OrderService:
                 return
             await OrderHttpError().http_failed_to_create_a_new_order()
 
+    @staticmethod
+    async def get_order(engine: IEngineRepository, id_order: int) -> OrderIsBuy | None:
+
+        if not isinstance(id_order, int):
+            await OrderHttpError().http_order_not_found()
+
+        async with engine:
+            order_data = await engine.order_repository.check_is_buy(
+                id_order=id_order
+            )
+
+            if order_data is None:
+                await OrderHttpError().http_order_not_found()
+
+            return OrderIsBuy(
+                is_buy=order_data
+            )
+
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def buy_product(
@@ -121,12 +138,11 @@ class OrderService:
 
             for product in order_buy_data.products:
 
-                # Проверка что количество товаров соответствует имеющемуся
                 product_data = await engine.product_repository.find_one(product.id_product)
 
                 if product_data:
                     if product_data[0].quantity_product >= product.quantity:
-                        price_result += (product.price * product.quantity)
+                        price_result += ((product.price * product.quantity) * product_data[0].product_discount) / 100
                     else:
                         await OrderHttpError().http_order_more_quantity()
 
@@ -134,6 +150,8 @@ class OrderService:
             is_deleted = await engine.order_repository.del_more(id_orders=order_buy_data.id_orders)
 
             label_product = uuid.uuid4()
+
+            print(label_product)
 
             if is_deleted:
 
@@ -160,7 +178,7 @@ class OrderService:
                         date_buy=order_buy_data.date_create,
                         id_user=int(token_data.get("sub")),
                         type_operation=OrderTypeOperationsEnum.IN_PROCESS,
-                        type_buy=TypeBuy.BUY
+                        type_buy=TypeBuy.CARD
                     )
                 )
 
@@ -194,7 +212,6 @@ class OrderService:
                     )
 
                     # Отправка в очередь транзакции оплаты
-
                     create_product_data = await engine.order_repository.get_all_product_list_on_id(
                         _id=order_is_created
                     )
@@ -254,7 +271,7 @@ class OrderService:
             token: str,
             token_data: dict = dict(),
             not_buy = False
-    ) -> Union[List, List[OrderAndUserInformation]]:
+    ) -> ListOrderAndUserInformation | None:
         """
         Метод сервиса для получения всей информации об заказах для пользователя
         :param engine:
@@ -324,7 +341,7 @@ class OrderService:
         id_order: int,
         redis_search_data: str,
         token_data: dict = dict(),
-    ) -> OrderAndUserInformation:
+    ) -> OrderAndUserInformation | None:
         """
         Метод сервиса для получения полной информации о заказе по id
         :param session:
@@ -348,36 +365,37 @@ class OrderService:
             )
 
             if order_data:
-                order_user_data: dict = order_data[0].ord_user.read_model()
-                order_product_data: dict = order_data[
-                    0
-                ].product_info.read_model()  # noqa
-                get_category: Union[None, Category] = (
-                    await engine.order_repository.find_one(
-                        other_id=order_product_data.get("id_category")
-                    )
-                )
+                products_info = []
+
+                for order_product in order_data[0].product_list:
+                    product = order_product.product_data
+                    if not product:
+                        continue
+
+                    products_info.append({
+                        "id_product": product.id,
+                        "photos": [photo.read_model() for photo in product.photos] if product.photos else [],
+                        "name_product": product.title_product,
+                        "price_product": product.price_product,
+                        "category_product": product.id_sub_category,
+                        "quantity": order_product.count_product
+                    })
+
                 return OrderAndUserInformation(
-                    product_data={
-                        "name_product": order_product_data.get(
-                            "title_product"
-                        ),
-                        "price_product": order_product_data.get(
-                            "price_product"
-                        ),  # noqa
-                        "category_product": (
-                            get_category[0].name_category
-                            if get_category
-                            else ""
-                        ),  # noqa
-                        "date_buy": order_data[0].date_buy,
-                    },
-                    user_data={
-                        "user_name": order_user_data.get("name_user"),
-                        "surname_user": order_user_data.get("surname_user"),
-                        "email": order_user_data.get("email_user"),
-                    },
-                )
+                        product_data=products_info,
+                        order_data={
+                            "status": order_data[0].type_operation,
+                            "price_result": order_data[0].price_result,
+                            "id_order": order_data[0].id,
+                            "date_buy": order_data[0].date_buy,
+                            "email_user": order_data[0].email_user,
+                            "user_name": order_data[0].user_name,
+                            "telephone_number": order_data[0].telephone_number,
+                            "address": order_data[0].address,
+                            "delivery_method": order_data[0].delivery_method,
+                        },
+                    )
+
             logging.critical(
                 msg=f"{OrderService.__name__} "
                 f"Не удалось получить информацию о заказе,"

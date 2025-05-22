@@ -44,7 +44,7 @@ logger = logging.getLogger(__name__)
     Для корректной обработки необходимо ввести почту и пароль.
     """,
     summary="Авторизация",
-    response_model=None,
+    response_model=AccessToken,
     status_code=status.HTTP_201_CREATED,
 )
 async def login_user(
@@ -69,23 +69,11 @@ async def login_user(
         engine=session,
     )
 
-    response.set_cookie(
-        key="access_key",
-        value=tokens.token,
-        httponly=True,
-        secure=True,
-        samesite="none",
-        max_age=60*15
-    )
-
-    response.set_cookie(
-        key="refresh_key",
-        value=tokens.refresh_token,
-        httponly=True,
-        secure=True,
-        samesite="none",
-        max_age=60*60*24*30
-    )
+    return {
+        "access_token": tokens.token,
+        "token_type": tokens.token_type,
+        "refresh_token": tokens.refresh_token
+    }
 
 @auth_router.post(
     path="/logout",

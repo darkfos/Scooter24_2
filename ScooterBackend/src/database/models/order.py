@@ -34,7 +34,7 @@ class Order(MainBase):
     type_buy: Mapped[str] = mapped_column(
         type_=Enum(TypeBuy),
         unique=False,
-        nullable=False
+        nullable=True
     )
 
     # Электронная почта покупателя
@@ -86,6 +86,19 @@ class Order(MainBase):
     product_list: Mapped[List["OrderProducts"]] = relationship(
         "OrderProducts", back_populates="order_data", uselist=True, cascade="all, delete-orphan"
     ) # Список товаров в заказе
+
+    def read_model_orm(self) -> Dict[str, str]:
+        result_dict = {"product_list": [], "ord_user": []}
+
+        for k, v in self.__dict__.items():
+            if not k.startswith("_"):
+                if k == "product_list" or k == "ord_user":
+                    for data in self.__dict__[k]:
+                        result_dict[k].append(data.read_model())
+                else:
+                    result_dict[k] = v
+
+        return result_dict
 
     def read_model(self) -> Dict[str, str]:
         return {

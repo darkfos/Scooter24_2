@@ -1,6 +1,7 @@
 from src.other.broker.rabbit import broker
 from src.other.broker.dto.email_dto import EmailData, TypeEmailSendMessage
 from src.database.models.order import Order
+from src.api.core.order_app.schemas.order_dto import OrderSchema
 
 
 async def send_message_registration_on_email(email_data: EmailData):
@@ -36,4 +37,6 @@ async def send_transaction_operation(order_data: Order):
     """
 
     await broker.connect()
-    await broker.publish(message=order_data.read_model(), queue="transaction_send")
+
+    schema_order = order_data.read_model_orm()
+    await broker.publish(message=schema_order, queue="transaction_send")
