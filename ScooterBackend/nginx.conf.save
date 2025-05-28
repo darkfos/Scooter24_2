@@ -8,7 +8,6 @@ events {
 }
 
 http {
-
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
@@ -21,30 +20,29 @@ http {
     sendfile on;
     keepalive_timeout 65;
 
-
+ 
     limit_req_zone $binary_remote_addr zone=req_limit_per_ip:10m rate=10r/s;
     limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
-	
+
+
     server {
-       listen 80;
-       server_name 24скутер.рф 37.77.105.239 2a03:6f01:1:2::f52e;
-       return 301 https://24скутер.рф$request_uri;
-    }
-
-
+        listen 80;
+        server_name 24скутер.рф;
+        return 301 https://$host$request_uri;
+    }    # Основной HTTPS сервер
     server {
         listen 443 ssl;
         server_name 24скутер.рф;
 
-
+        # SSL конфигурация
         ssl_certificate /etc/nginx/certs/domain.crt;
         ssl_certificate_key /etc/nginx/certs/domain.key;
         ssl_session_cache shared:SSL:10m;
         ssl_session_timeout 10m;
-
+=======
         limit_req zone=req_limit_per_ip burst=20 nodelay;
         limit_conn conn_limit_per_ip 10;
-
+>>>>>>> fb365dc1c0ebed006760095f87d8950703339c41
 
         root /usr/share/nginx/html;
         index index.html;
@@ -54,6 +52,7 @@ http {
             try_files $uri $uri/ /index.html;
         }
 
+<<<<<<< HEAD
         # Frontend assets
         location /assets/ {
             try_files $uri =404;
@@ -64,7 +63,10 @@ http {
             alias /path/to/your/static/files/;
         }
 
-
+        # API endpoints (v1)
+        location /api/v1/ {
+            proxy_pass http://backend_scooter:8000/api/v1/;
+=======
         location /api/ {
             rewrite ^/api/(.*) /$1 break;
             proxy_pass http://backend_scooter:8000;
@@ -76,13 +78,14 @@ http {
 
         location /admin {
             proxy_pass http://backend_scooter:8000/admin;
+>>>>>>> fb365dc1c0ebed006760095f87d8950703339c41
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-
+<<<<<<< HEAD
 location /admin/statics/ {
     proxy_pass http://backend_scooter:8000/admin/statics/;
     proxy_set_header Host $host;
@@ -92,14 +95,24 @@ location /admin/statics/ {
 }
 
 
-    location /grafana {
+        # Админка
+        location /admin {
+            proxy_pass http://backend_scooter:8000/admin;
+=======
+        location /grafana {
             proxy_pass http://grafana:3000;
+>>>>>>> fb365dc1c0ebed006760095f87d8950703339c41
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
+<<<<<<< HEAD
+        # Документация
+        location /docs {
+            proxy_pass http://backend_scooter:8000/docs;
+=======
         location /metrics {
             proxy_pass http://backend_scooter:8000/metrics;
 
@@ -110,13 +123,19 @@ location /admin/statics/ {
             deny all;
         }
 
+        location /static/ {
+            alias /path/to/your/static/files/;
+        }
 
         location = /openapi.json {
             proxy_pass http://backend_scooter:8000/openapi.json;
+>>>>>>> fb365dc1c0ebed006760095f87d8950703339c41
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
+<<<<<<< HEAD
+=======
             add_header Content-Type application/json;
         }
 
@@ -129,6 +148,7 @@ location /admin/statics/ {
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
             internal;
+>>>>>>> fb365dc1c0ebed006760095f87d8950703339c41
         }
     }
 }

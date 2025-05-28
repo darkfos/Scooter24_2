@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8090:8000"
+      - "8190:8000"
     restart: always
     depends_on:
       - postgres
@@ -53,7 +53,7 @@ services:
     container_name: redis_db
     image: redis:7.4.1-alpine3.20
     ports:
-      - "6479:6379"
+      - "6379:6379"
     restart: always
     command: redis-server --replicaof no one --replica-read-only no --appendonly yes
     depends_on:
