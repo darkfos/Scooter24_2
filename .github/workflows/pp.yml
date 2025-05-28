@@ -28,7 +28,7 @@ jobs:
       - name: Check flake8 version
         run: flake8 --version
       - name: Check flake8 linter
-        run: flake8 --config=./ScooterBackend/setup.cfg ScooterBackend/src/
+        run: flake8 --config=./ScooterBackend/setup.cfg ScooterBackend/src/ --bug-report
       - name: Check flake8 linter
         run: flake8 .
   test_check:
