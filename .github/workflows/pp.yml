@@ -29,8 +29,8 @@ jobs:
         run: flake8 --version
       - name: Check flake8 linter
         run: |
-          cd ScooterBackend/src
-          flake8 .
+          cd ScooterBackend
+          flake8 ./src/.
       - name: Check flake8 linter
         run: flake8 .
   test_check:
