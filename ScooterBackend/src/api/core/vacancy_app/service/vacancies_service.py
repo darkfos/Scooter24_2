@@ -1,4 +1,3 @@
-# System
 from typing import List, Union, Type
 import logging as logger
 
@@ -42,13 +41,15 @@ class VacanciesService:
 
         try:
             async with engine:
-                req_vac_is_created = await engine.vacancies_req_repository.add_one(
-                    data=VacancyRequest(
-                        email_user=req_vac.email_user,
-                        experience_user=req_vac.experience_user,
-                        name_user=req_vac.name_user,
-                        telephone_user=req_vac.telephone_user,
-                        id_vacancy=req_vac.id_vacancy,
+                req_vac_is_created = (
+                    await engine.vacancies_req_repository.add_one(
+                        data=VacancyRequest(
+                            email_user=req_vac.email_user,
+                            experience_user=req_vac.experience_user,
+                            name_user=req_vac.name_user,
+                            telephone_user=req_vac.telephone_user,
+                            id_vacancy=req_vac.id_vacancy,
+                        )
                     )
                 )
 
@@ -199,7 +200,6 @@ class VacanciesService:
         logging.info(msg=f"{VacanciesService.__name__} Обновление вакансии")
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")
@@ -245,7 +245,6 @@ class VacanciesService:
         logging.info(msg=f"{VacanciesService.__name__} Удаление вакансии")
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")

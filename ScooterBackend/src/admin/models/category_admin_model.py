@@ -5,7 +5,6 @@ from typing import List, Any
 
 class CategoryModelView(ModelView, model=Category):
 
-    # Metadata
     name: str = "Категории"
     name_plural: str = "Категории"
     icon: str = "fa fa-tags"
@@ -23,6 +22,14 @@ class CategoryModelView(ModelView, model=Category):
         Category.icon_category: "Иконка",
         Category.subcategory_data: "Подкатегории",
     }
+
+    column_searchable_list: list[str] = [
+        "name_category",
+        "icon_category",
+        "subcategory_data.name",
+    ]
+
+    column_sortable_list: list[str] = ["name_category", "id"]
 
     can_create: bool = True
     can_delete: bool = True

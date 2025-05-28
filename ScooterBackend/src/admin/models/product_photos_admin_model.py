@@ -5,7 +5,6 @@ from src.database.models.product_photos import ProductPhotos
 
 class ProductPhotosAdminModel(ModelView, model=ProductPhotos):
 
-    # Metadata
     name: str = "Фотографии продукта"
     name_plural: str = "Фотографии"
     icon: str = "fa-solid fa-photo-film"
@@ -17,7 +16,6 @@ class ProductPhotosAdminModel(ModelView, model=ProductPhotos):
     can_delete: bool = True
     can_view_details: bool = True
 
-    # Columns
     column_list: List[Any] = [
         ProductPhotos.id,
         ProductPhotos.photo_url,
@@ -31,6 +29,14 @@ class ProductPhotosAdminModel(ModelView, model=ProductPhotos):
         "id_product": "Продукт",
         "product_data": "Данные продукта",
     }
+
+    column_searchable_list: list[str] = [
+        "photo_url",
+        "id_product",
+        "product_data.title_product",
+    ]
+
+    column_sortable_list: list[str] = ["id", "id_product"]
 
     form_ajax_refs: dict = {
         "product_data": {"fields": ("id", "title_product"), "order_by": ("id")}

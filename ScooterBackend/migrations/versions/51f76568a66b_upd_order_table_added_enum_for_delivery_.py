@@ -20,16 +20,22 @@ depends_on = None
 def upgrade():
     # Сначала создаём тип ENUM
     op.execute("CREATE TYPE typebuy AS ENUM ('NO_BUY', 'BUY')")
-    op.execute("CREATE TYPE deliverymethod AS ENUM ('PICKUP', 'EXPRESS', 'STANDARD')")
+    op.execute(
+        "CREATE TYPE deliverymethod AS ENUM ('PICKUP', 'EXPRESS', 'STANDARD')"
+    )
 
     # Затем меняем тип столбцов
-    op.execute("""
+    op.execute(
+        """
     ALTER TABLE "Order" ALTER COLUMN type_buy TYPE typebuy USING type_buy::typebuy
-    """)
+    """
+    )
 
-    op.execute("""
+    op.execute(
+        """
     ALTER TABLE "Order" ALTER COLUMN delivery_method TYPE deliverymethod USING delivery_method::deliverymethod 
-    """)
+    """
+    )
 
     op.alter_column(
         "Order",

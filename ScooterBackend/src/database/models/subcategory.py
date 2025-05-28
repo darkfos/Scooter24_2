@@ -17,8 +17,6 @@ class SubCategory(MainBase):
         unique=False,
     )
 
-    # Связи
-
     category_data: Mapped["Category"] = relationship(
         "Category", back_populates="subcategory_data", uselist=False
     )

@@ -13,22 +13,18 @@ from src.database.models.user import User
 
 class Garage(MainBase):
 
-    # Идентификатор модели
     id_model: Mapped[int] = mapped_column(
         ForeignKey("Model.id", ondelete="CASCADE"), nullable=False
     )
 
-    # Идентификатор марки
     id_mark: Mapped[int] = mapped_column(
         ForeignKey("Mark.id", ondelete="CASCADE"), nullable=False
     )
 
-    # Идентификатор типа транспорта
     id_type_moto: Mapped[int] = mapped_column(
         ForeignKey("Typemoto.id", ondelete="CASCADE"), nullable=False
     )
 
-    # Идентификатор пользователя
     id_user: Mapped[int] = mapped_column(
         ForeignKey("User.id", ondelete="CASCADE"), nullable=False
     )

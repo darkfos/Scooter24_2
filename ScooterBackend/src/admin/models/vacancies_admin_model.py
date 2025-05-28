@@ -5,7 +5,6 @@ from typing import List, Any
 
 class VacanciesModelView(ModelView, model=Vacancies):
 
-    # Metadata
     name: str = "Вакансии"
     name_plural: str = "Вакансия"
     icon: str = "fa fa-user-plus"
@@ -26,14 +25,26 @@ class VacanciesModelView(ModelView, model=Vacancies):
         Vacancies.type_work: "Тип работника",
     }
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
 
-    # Form's for FK
+    column_searchable_list: List[str] = [
+        "id_type_worker",
+        "description_vacancies",
+        "salary_employee",
+        "type_work",
+    ]
+
+    column_sortable_list: List[str] = [
+        "id",
+        "id_type_worker",
+        "salary_employee",
+        "description_vacancies",
+    ]
+
     form_ajax_refs: dict = {
         "type_work": {
             "fields": (

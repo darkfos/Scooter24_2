@@ -25,7 +25,7 @@ class OrderHttpError(APIError):
 
         await self.api_error(
             code=status.HTTP_400_BAD_REQUEST,
-            detail_inf="Слишком большое количество товаров"
+            detail_inf="Слишком большое количество товаров",
         )
 
     async def http_failed_to_create_a_new_order(self):

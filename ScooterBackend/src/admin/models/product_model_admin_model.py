@@ -5,7 +5,6 @@ from typing import List, Any, Dict
 
 class ProductModelsModelView(ModelView, model=ProductModels):
 
-    # Metadata
     name: str = "Модели продукта"
     name_plural: str = "Модели продукта"
     category: str = "Продукт"
@@ -18,6 +17,7 @@ class ProductModelsModelView(ModelView, model=ProductModels):
         ProductModels.model_data,
         ProductModels.product_data,
     ]
+
     column_labels: Dict[Any, str] = {
         ProductModels.id: "Идентификатор модели продукта",
         ProductModels.id_model: "Идентификатор модели",
@@ -26,7 +26,19 @@ class ProductModelsModelView(ModelView, model=ProductModels):
         ProductModels.product_data: "Данные продукта",
     }
 
-    # Operation's
+    column_searchable_list: List[str] = [
+        "id_model",
+        "id_product",
+        "model_data.name_model",
+        "product_data.title_product",
+    ]
+
+    column_sortable_list: List[str] = [
+        "id",
+        "id_model",
+        "id_product",
+    ]
+
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

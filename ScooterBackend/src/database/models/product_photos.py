@@ -5,17 +5,14 @@ from src.database.mainbase import MainBase
 
 class ProductPhotos(MainBase):
 
-    # Ссылка на картинку
     photo_url: Mapped[str] = mapped_column(
         type_=Text, nullable=False, index=False, unique=False
     )
 
-    # Идентификатор продукта
     id_product: Mapped[int] = mapped_column(
         ForeignKey("Product.id", ondelete="CASCADE")
     )
 
-    # Информация о продукте
     product_data: Mapped["Product"] = relationship(
         "Product", back_populates="photos", uselist=False
     )

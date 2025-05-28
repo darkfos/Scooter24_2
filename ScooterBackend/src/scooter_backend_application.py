@@ -1,4 +1,3 @@
-# ROUTES
 from src.api.core.auth_app.router.authentication_router import (
     auth_router as auth_router,
 )
@@ -6,7 +5,6 @@ from src.api.general_router import api_v1_router
 from src.admin.admin_panel import AdminPanel
 
 
-# Other libraries
 import os
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter
@@ -27,19 +25,27 @@ class ScooterBackendApplication:
             title="Scooter24 API",
             description="Программный интерфейс для сайта по"
             " продаже мото-деталей",
-            # lifespan=connection_db
+            docs_url="/docs",
+            redoc_url="/redoc",
         )
 
-        # Static's
+        def custom_openapi():
+            if self.scooter24_app.openapi_schema:
+                return self.scooter24_app.openapi_schema
+            openapi_schema = FastAPI.openapi(self.scooter24_app)
+            openapi_schema["servers"] = [{"url": "/api"}]
+            self.scooter24_app.openapi_schema = openapi_schema
+            return openapi_schema
+
+        self.scooter24_app.openapi = custom_openapi
+
         self.statics: StaticFiles = StaticFiles(directory=statics_dir)
         self.scooter24_app.mount(
             path="/statics", app=self.statics, name="static"
         )
 
-        # Admjn panel
         self.admin: AdminPanel = AdminPanel(app=self.scooter24_app)
 
-        # Initialize model's view
         self.admin.initialize_models_view(models=[])
 
         self.origins: List[str] = [
@@ -51,7 +57,6 @@ class ScooterBackendApplication:
         self.include_router()
         self.added_middleware()
 
-        # Интеграция с Prometheus
         Instrumentator().instrument(self.scooter24_app).expose(
             self.scooter24_app
         )
@@ -77,6 +82,4 @@ class ScooterBackendApplication:
             allow_methods=["*"],
             allow_headers=["*"],
         )
-        self.scooter24_app.add_middleware(
-            FixMixedContentMiddleware
-        )
+        self.scooter24_app.add_middleware(FixMixedContentMiddleware)

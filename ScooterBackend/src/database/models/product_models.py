@@ -5,10 +5,6 @@ from typing import List, Dict, Union
 
 
 class ProductModels(MainBase):
-    """
-    Таблица модели продукта
-    """
-
     id_product: Mapped[int] = mapped_column(
         ForeignKey("Product.id", ondelete="CASCADE"),
         type_=Integer,
@@ -20,7 +16,6 @@ class ProductModels(MainBase):
         nullable=False,
     )
 
-    # Связи
     product_data: Mapped["Product"] = relationship(
         "Product", back_populates="product_models_data", uselist=False
     )

@@ -1,11 +1,8 @@
-# Other libraries
 import datetime
-
+from uuid import UUID
 from pydantic import BaseModel, Field
-from typing import Union, Annotated, List, Dict, Any
 
-# Local
-...
+from typing import Union, Annotated, List, Dict, Optional
 
 
 class OrderBase(BaseModel):
@@ -67,9 +64,47 @@ class BuyOrder(BaseModel):
 
 
 class OrderAndUserInformation(OrderBase):
-    order_data: Any
+    order_data: Dict
+    product_data: List[Dict]
 
 
 class ListOrderAndUserInformation(BaseModel):
 
     orders: List[OrderAndUserInformation]
+
+
+class OrderProductsSchema(BaseModel):
+    id: int = Field(gt=0)
+    id_product: int = Field(gt=0)
+    id_order: int = Field(gt=0)
+    count_product: int = Field(gt=0)
+    price: float = Field(gt=0)
+
+    class Config:
+        model_config = {"from_attributes": True}
+        from_attributes = True
+        extra = "ignore"
+
+
+class OrderSchema(BaseModel):
+    date_buy: datetime.datetime
+    type_operation: str
+    type_buy: str
+    email_user: Optional[str] = None
+    transaction_id: Optional[str] = None
+    user_name: Optional[str] = None
+    telephone_number: Optional[str] = None
+    label_order: Optional[UUID] = None
+    address: Optional[str] = None
+    delivery_method: Optional[str] = None
+    price_result: float
+    id_user: Optional[int] = None
+
+    class Config:
+        model_config = {"from_attributes": True}
+        from_attributes = True
+        extra = "ignore"
+
+
+class OrderIsBuy(BaseModel):
+    is_buy: Annotated[bool, Field(default=False)]

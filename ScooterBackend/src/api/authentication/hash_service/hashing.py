@@ -1,10 +1,5 @@
-# Other libraries
 import logging as logger
 import bcrypt
-
-# Local
-...
-
 
 logging = logger.getLogger(__name__)
 

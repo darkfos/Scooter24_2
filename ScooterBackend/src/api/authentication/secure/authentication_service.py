@@ -1,4 +1,3 @@
-# Other libraries
 import jwt
 import logging as logger
 from datetime import timedelta, datetime
@@ -6,11 +5,10 @@ from datetime import timedelta, datetime
 from fastapi import HTTPException, status, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
-from typing import Dict, Union, Callable, Annotated
+from typing import Dict, Union, Callable
 
 from src.database.repository.user_repository import UserRepository
 
-# Local
 from src.settings.engine_settings import Settings
 from src.api.core.auth_app.schemas.auth_dto import CreateToken, Tokens
 from src.other.enums.user_type_enum import UserTypeEnum
@@ -46,7 +44,6 @@ class Authentication:
         Аутентификация пользователя
         :param request:
         """
-
         try:
             cookies: dict[str, str] = request.cookies
             token_access_data: dict[str, str | int] = jwt.decode(  # noqa
@@ -66,7 +63,6 @@ class Authentication:
                     algorithms=Settings.auth_settings.algorithm,
                 )
 
-                # Создаем новый токен
                 new_access_token = jwt.encode(
                     {
                         "is_admin": refresh_token_data.get("is_admin"),
@@ -81,7 +77,6 @@ class Authentication:
                     Settings.auth_settings.jwt_secret_key,
                     Settings.auth_settings.algorithm,
                 )
-                # Установка нового токена
                 response.set_cookie(
                     key="access_key",
                     value=new_access_token,
@@ -120,7 +115,6 @@ class Authentication:
                 if res_to_find_user.is_active is False:
                     await UserHttpError().user_no_activated()
 
-                # verify password
                 check_password = CryptographyScooter().verify_password(
                     password=token_data.password,
                     hashed_password=res_to_find_user.password_user,

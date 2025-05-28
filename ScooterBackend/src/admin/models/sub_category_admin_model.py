@@ -6,7 +6,6 @@ from typing import Any, List
 
 class SubCategoryModelView(ModelView, model=SubCategory):
 
-    # Metadata
     name: str = "Подкатегория товаров, 1 ур."
     name_plural: str = "Подкатегории 1 ур."
     icon: str = "fa fa-bookmark"
@@ -26,6 +25,10 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         SubCategory.category_data: "Данные категории",
     }
 
+    column_searchable_list: List[str] = ["name", "id_category"]
+
+    column_sortable_list: List[str] = ["id", "name", "id_category"]
+
     form_create_rules = ["name", "category_data"]
 
     column_select_related_list = ["category_data"]
@@ -38,7 +41,6 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         }
     }
 
-    # Operations
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

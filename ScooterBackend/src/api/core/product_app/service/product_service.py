@@ -1,4 +1,3 @@
-# System
 import datetime
 import logging as logger
 from typing import Union, List, Type
@@ -68,14 +67,12 @@ class ProductService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = await engine.user_repository.find_admin(
                 id_=int(token_data.get("sub"))
             )
 
             if is_admin:
 
-                # Сохраняем фотографию в хранилище
                 file_manager = FileS3Manager()
                 url_file = await file_manager.upload_file_to_storage(
                     file=photo_product
@@ -94,14 +91,12 @@ class ProductService:
                     article_product=new_product.article_product,
                     brand=new_product.brand,
                     brand_mark=new_product.brand_mark,
-                    # model=new_product.model,
                     date_create_product=new_product.date_create_product,
                     date_update_information=new_product.date_update_information,
                     id_sub_category=new_product.id_sub_category,
                     product_discount=new_product.product_discount,
                     quantity_product=new_product.quantity_product,
                 )
-                # Create product
                 product_is_created: bool = (
                     await engine.product_repository.add_one(data=product)
                 )
@@ -252,30 +247,30 @@ class ProductService:
                         product_data.products.append(
                             ProductBase(
                                 id_product=product.id_product,
-                                label_product=productFullInformation.label_product,
-                                article_product=productFullInformation.article_product,
-                                title_product=productFullInformation.title_product,
+                                label_product=productFullInformation.label_product, # noqa
+                                article_product=productFullInformation.article_product, # noqa
+                                title_product=productFullInformation.title_product, # noqa
                                 brand=productFullInformation.brand,
                                 brand_mark=[
                                     ProductMarks(
                                         id_product=mark.id_product,
                                         id_mark=mark.id_mark,
                                     )
-                                    for mark in productFullInformation.brand_mark
+                                    for mark in productFullInformation.brand_mark # noqa
                                 ],
                                 models=[
                                     model.read_model()
-                                    for model in productFullInformation.product_models_data
+                                    for model in productFullInformation.product_models_data # noqa
                                 ],
-                                id_sub_category=productFullInformation.id_sub_category,
-                                weight_product=productFullInformation.weight_product,
-                                is_recommended=productFullInformation.is_recommended,
-                                explanation_product=productFullInformation.explanation_product,
-                                quantity_product=productFullInformation.quantity_product,
-                                price_product=productFullInformation.price_product,
-                                date_create_product=productFullInformation.date_create_product,
-                                date_update_information=productFullInformation.date_update_information,
-                                product_discount=productFullInformation.product_discount,
+                                id_sub_category=productFullInformation.id_sub_category, # noqa
+                                weight_product=productFullInformation.weight_product, # noqa
+                                is_recommended=productFullInformation.is_recommended, # noqa
+                                explanation_product=productFullInformation.explanation_product, # noqa
+                                quantity_product=productFullInformation.quantity_product, # noqa
+                                price_product=productFullInformation.price_product, # noqa
+                                date_create_product=productFullInformation.date_create_product, # noqa
+                                date_update_information=productFullInformation.date_update_information, # noqa
+                                product_discount=productFullInformation.product_discount, # noqa
                                 photo=[
                                     photo.read_model()
                                     for photo in productFullInformation.photos
@@ -285,7 +280,7 @@ class ProductService:
                                         id_product=type_pr.id_product,
                                         id_moto_type=type_pr.id_type_model,
                                     )
-                                    for type_pr in productFullInformation.type_models
+                                    for type_pr in productFullInformation.type_models # noqa
                                 ],
                             )
                         )
@@ -725,7 +720,6 @@ class ProductService:
         """
 
         async with engine:
-            # Is admin
             is_admin: bool = (
                 await engine.user_repository.find_user_by_email_and_password(
                     email=token_data.get("email")
@@ -733,7 +727,6 @@ class ProductService:
             )
 
             if is_admin and is_admin.id_type_user == 2:
-                # Update data
                 is_updated: bool = await engine.product_repository.update_one(
                     other_id=id_product,
                     data_to_update=data_to_update.model_dump(),
@@ -776,7 +769,6 @@ class ProductService:
         logging.info(msg=f"{ProductService.__name__} Обновление фотографии")
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")
@@ -784,7 +776,6 @@ class ProductService:
             )
 
             if is_admin:
-                # Обновление фотографии
                 await engine.product_repository.update_one(
                     other_id=product_id,
                     data_to_update={
@@ -821,7 +812,6 @@ class ProductService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.user_repository.find_user_by_email_and_password(
                     email=token_data.get("email")
@@ -841,7 +831,6 @@ class ProductService:
                     other_id=id_product
                 )
                 if is_del:
-                    # Delete photo
                     image = ImageSaver()
                     image.filename = product_data.photo_product
                     await image.remove_file()
@@ -891,7 +880,6 @@ class ProductService:
         )
 
         async with engine:
-            # Получаем товары
             products: Union[List, List[ProductBase]] = (
                 await engine.product_repository.find_by_filters(
                     id_categories=sorted_by_category,
@@ -970,7 +958,6 @@ class ProductService:
         )
 
         async with engine:
-            # Получение всех товаров
             products_data: List[Product] = (
                 await engine.product_repository.get_recommended_products()
             )
@@ -1049,7 +1036,6 @@ class ProductService:
             )
 
             if is_admin:
-                # Обновление скидки товара
                 is_updated: bool = await engine.product_repository.update_one(
                     other_id=id_product,
                     data_to_update=new_discount.model_dump(),

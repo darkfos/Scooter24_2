@@ -5,7 +5,6 @@ from src.database.models.product_type_models import ProductTypeModels
 
 class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):
 
-    # Metadata
     name: str = "Мототранспорт товара"
     name_plural: str = "Мототранспорт товара"
     icon: str = "fa-solid fa-motorcycle"
@@ -25,6 +24,14 @@ class ProductTypeModelAdminModel(ModelView, model=ProductTypeModels):
         ProductTypeModels.product_data: "Товары",
         ProductTypeModels.type_models_data: "Модели транспорта",
     }
+
+    column_searchable_list: List[str] = [
+        "id_product",
+        "id_type_model",
+        "product_data.title_product",
+    ]
+
+    column_sortable_list: List[str] = ["id", "id_product", "id_type_model"]
 
     # Operation's
     can_create: bool = True

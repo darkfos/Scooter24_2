@@ -1,13 +1,10 @@
-# System
 from typing import Type
 from abc import ABC, abstractmethod
 
 
-# Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-# Local
 from src.database.repository.user_repository import UserRepository
 from src.database.repository.user_type_repository import UserTypeRepository
 from src.database.repository.category_repository import CategoryRepository
@@ -38,7 +35,9 @@ from src.database.repository.product_marks_repository import (
 from src.database.repository.product_type_models_repository import (
     ProductTypeModelsRepository,
 )
-from src.database.repository.order_products_repository import OrderProductsRepository
+from src.database.repository.order_products_repository import (
+    OrderProductsRepository,
+)
 from src.database.db_worker import db_work
 
 
@@ -94,11 +93,6 @@ class EngineRepository(IEngineRepository):
         self.session: AsyncSession
 
     async def __aenter__(self, *args, **kwargs):
-        """
-        Получение сессии и её дальнейшее распределение
-        по репозиториям
-        """
-
         self.session = self.session_factory()
 
         self.user_repository: UserRepository = UserRepository(
@@ -168,10 +162,6 @@ class EngineRepository(IEngineRepository):
         return self
 
     async def __aexit__(self, *args):
-        """
-        Закрытие сессии
-        """
-
         await self.session.rollback()
         await self.session.close()
 

@@ -7,14 +7,14 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_get_all_models(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/model/all")
+    req = await async_client.get(url="/v1/model/all")
 
     assert req.status_code == 200 and len(req.json()["all_models"]) == 0
 
 
 @pytest.mark.asyncio
 async def test_get_model_by_id_f(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/model/unique/1")
+    req = await async_client.get(url="/v1/model/unique/1")
 
     assert req.status_code == 400
 
@@ -27,6 +27,6 @@ async def test_get_model_by_id_t(
     await session.execute(stmt)
     await session.commit()
 
-    req = await async_client.get(url="/api/v1/model/unique/1")
+    req = await async_client.get(url="/v1/model/unique/1")
 
     assert req.status_code == 200 and req.json()["name_model"] == "honkai"

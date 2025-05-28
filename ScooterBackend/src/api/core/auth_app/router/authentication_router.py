@@ -1,17 +1,19 @@
-# Other libraries
 import datetime
 
-from fastapi import APIRouter, Depends, status, BackgroundTasks, HTTPException, Request
+from fastapi import (
+    APIRouter,
+    Depends,
+    status,
+    HTTPException,
+)
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
 
 
-# Local
 from src.api.core.auth_app.schemas.auth_dto import (
     CreateToken,
-    AccessToken,
     UpdateUserPassword,
 )
 from src.api.core.user_app.schemas.user_dto import AddUser
@@ -20,7 +22,9 @@ from src.api.core.user_app.service.user_service import UserService
 from src.api.authentication.email_service import EmailService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
-from src.other.broker.producer.producer import send_message_email
+from src.other.broker.producer.producer import (
+    send_message_registration_on_email,
+)
 
 auth_router: APIRouter = APIRouter(
     prefix=APIPrefix.AUTH_PREFIX.value, tags=[APITagsEnum.AUTH.value]
@@ -50,7 +54,7 @@ logger = logging.getLogger(__name__)
 async def login_user(
     data_login: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    response: Response
+    response: Response,
 ) -> None:
     """
     Take user data and create jwt tokens for access
@@ -75,7 +79,7 @@ async def login_user(
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60*15
+        max_age=60 * 15,
     )
 
     response.set_cookie(
@@ -84,8 +88,9 @@ async def login_user(
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60*60*24*30
+        max_age=60 * 60 * 24 * 30,
     )
+
 
 @auth_router.post(
     path="/logout",
@@ -93,17 +98,14 @@ async def login_user(
     Выход пользователя из сессии
     """,
     summary="Выход пользователя",
-    status_code=status.HTTP_204_NO_CONTENT
+    status_code=status.HTTP_204_NO_CONTENT,
 )
-async def exit_user(
-        response: Response
-):
+async def exit_user(response: Response):
     response.delete_cookie(key="access_key")
     response.delete_cookie(key="refresh_key")
 
-    return Response(
-        status_code=status.HTTP_204_NO_CONTENT
-    )
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 @auth_router.post(
     path="/registration",
@@ -136,7 +138,7 @@ async def registration_user(
     await UserService.create_a_new_user(
         engine,
         new_user,
-        bt=send_message_email,
+        bt=send_message_registration_on_email,
         func_to_bt=EmailService.send_secret_key_for_register,
     )
 
@@ -181,42 +183,6 @@ async def update_by_refresh_token(refresh_token: str) -> dict[str, str]:
 
 @auth_router.post(
     path="/update/password",
-    description="""
-    ### ENDPOINT - Для обновления паролей.
-    Необходим jwt ключ и Bearer в заголовке запроса.
-    """,
-    summary="Отправка сообщения по почте",
-    response_model=None,
-    status_code=status.HTTP_204_NO_CONTENT,
-)
-async def create_and_send_secret_key(
-    session: Annotated[IEngineRepository, Depends(EngineRepository)],
-    background_task: BackgroundTasks,
-    user_data: Annotated[str, Depends(authentication_app.auth_user)],
-) -> None:
-    """
-    Обновление пароля пользователя
-    :user_email:
-    """
-
-    logger.info(
-        msg="Auth-Router вызов метода создания "
-        "секретного ключа (create_and_send_secret_key)"
-    )
-
-    token_data: dict = await authentication_app.decode_jwt_token(
-        token=user_data, type_token="access"
-    )
-    return background_task.add_task(
-        EmailService.send_secret_key_by_update_password,
-        session,
-        token_data.get("email"),
-        user_data,
-    )
-
-
-@auth_router.patch(
-    path="/update/password",
     response_model=None,
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
@@ -227,7 +193,6 @@ async def create_and_send_secret_key(
 async def update_user_password(
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     data_update: UpdateUserPassword,
-    user_data: Annotated[str, Depends(authentication_app.auth_user)],
 ) -> None:
     """
     Обновление пароля пользователя
@@ -236,19 +201,14 @@ async def update_user_password(
     "param user_data"
     """
 
-    if await UserService.update_user_password(
-        engine=engine, token=user_data, to_update=data_update
-    ):
-        pass
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="Не удалось обновить пароль пользователя",
-        )
+    return await UserService.update_user_password(
+        engine=engine,
+        to_update=data_update,
+    )
 
 
-@auth_router.get(
-    path="/access_create_account",
+@auth_router.post(
+    path="/access/create",
     response_model=None,
     status_code=status.HTTP_201_CREATED,
     description="""
@@ -272,4 +232,36 @@ async def access_user(
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="Не удалось подвердить аккаунт",
+    )
+
+
+@auth_router.post(
+    path="/access/update/password",
+    description="""### ENDPOINT Обновление пароля""",
+    summary="Подтверждение изменение пароля пользователя",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def access_update_user_password(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    password_data: UpdateUserPassword,
+    secret_key: str,
+) -> None:
+    return await UserService.access_update_user_password(
+        engine=engine, update_data=password_data, secret_key=secret_key
+    )
+
+
+@auth_router.post(
+    path="/auth/update/password",
+    description="""### ENDPOINT Обновление пароля авторизированного пользователя""", # noqa
+    summary="Обновление пароля",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def update_auth_user_password( # noqa
+    auth: Annotated[str, Depends(authentication_app.auth_user)],
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    password_data: UpdateUserPassword,
+) -> None:
+    return await UserService.update_auth_user_password(
+        token=auth, engine=engine, password_data=password_data
     )

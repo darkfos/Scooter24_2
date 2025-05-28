@@ -33,7 +33,6 @@ class MarkService:
 
         async with engine:
 
-            # Проверка на администратора
             is_admin = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data["email"]
@@ -42,7 +41,6 @@ class MarkService:
 
             if is_admin:
 
-                # Создание новой марки
                 new_mark = Mark(name_mark=new_mark_data.name_mark)
 
                 is_added = await engine.mark_repository.add_one(new_mark)

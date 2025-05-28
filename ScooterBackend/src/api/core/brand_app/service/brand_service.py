@@ -39,7 +39,6 @@ class BrandService:
 
         async with engine:
 
-            # Проверка на администратора
             is_admin = await engine.user_repository.find_admin(
                 id_=int(token_data.get("sub"))
             )
@@ -126,7 +125,6 @@ class BrandService:
 
         async with engine:
 
-            # Проверка на администратора
             is_admin = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data["email"]

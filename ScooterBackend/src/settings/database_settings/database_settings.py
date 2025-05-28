@@ -1,4 +1,3 @@
-# System
 import os
 from typing import Union, Type
 from dotenv import load_dotenv
@@ -8,9 +7,6 @@ from src.settings.descriptor import SettingsDescriptor
 
 
 class DatabaseSettings:
-    """
-    Settings for connect to db (PostgreSQL)
-    """
 
     db_user: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
     db_password: Union[str, Type[SettingsDescriptor]] = SettingsDescriptor()
@@ -30,7 +26,7 @@ class DatabaseSettings:
             f"postgresql+asyncpg://"
             f"{self.db_user}"
             f":{self.db_password}"
-            f"@{self.db_host}"
+            f"@{self.db_host}:{self.db_port}"
             f"/{self.db_name}"
         )
 

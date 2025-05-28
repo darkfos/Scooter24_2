@@ -1,21 +1,20 @@
-# System
 from typing import Annotated, Type
 import logging
 
-# Other libraries
 from fastapi import Depends, status, APIRouter, Request
 
-# Local
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     AddOrder,
     BuyOrder,
     ListOrderAndUserInformation,
+    OrderIsBuy,
 )
 from src.api.core.order_app.service.order_service import OrderService
 from src.api.dep.dependencies import IEngineRepository, EngineRepository
 from src.other.enums.api_enum import APITagsEnum, APIPrefix
+from src.other.broker.producer.producer import send_transaction_operation
 
 
 auth: Authentication = Authentication()
@@ -32,15 +31,16 @@ logger: Type[logging.Logger] = logging.getLogger(__name__)
     """,
     summary="Подверждение покупки товара",
     response_model=None,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
-async def success_order(session: Annotated[IEngineRepository, Depends(EngineRepository)], request: Request):
+async def success_order(
+    session: Annotated[IEngineRepository, Depends(EngineRepository)],
+    request: Request,
+):
     data = await request.form()
 
-    await OrderService.notification_order(
-        data_order=data,
-        engine=session
-    )
+    await OrderService.notification_order(data_order=data, engine=session)
+
 
 @order_router.post(
     path="/create",
@@ -83,28 +83,28 @@ async def create_a_new_order(
     """,
     summary="Покупка товара",
     response_model=dict,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def buy_product(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.auth_user)],
-    order_data: BuyOrder
+    order_data: BuyOrder,
 ) -> dict:
     """
     Покупка товара пользователем
     """
 
-    logger.info(
-        msg="Order-Router покупка пользователем товара"
-    )
+    logger.info(msg="Order-Router покупка пользователем товара")
 
     resultBuyProduct = await OrderService.buy_product(
         engine=session,
         token=user_data,
-        order_buy_data=order_data
+        order_buy_data=order_data,
+        bt=send_transaction_operation,
     )
 
     return resultBuyProduct
+
 
 @order_router.get(
     path="/all/user",
@@ -120,7 +120,7 @@ async def buy_product(
 async def get_orders_by_id_user(
     session: Annotated[IEngineRepository, Depends(EngineRepository)],
     user_data: Annotated[str, Depends(auth.auth_user)],
-    not_buy: bool = True
+    not_buy: bool = True,
 ) -> ListOrderAndUserInformation:
     """
     ENDPOINT - Получение всех заказов пользователя,
@@ -137,9 +137,7 @@ async def get_orders_by_id_user(
     )
 
     return await OrderService.get_full_information_by_user_id(
-        engine=session,
-        token=user_data,
-        not_buy=not_buy
+        engine=session, token=user_data, not_buy=not_buy
     )
 
 
@@ -178,6 +176,22 @@ async def get_information_about_order_by_id(
         id_order=id_order,
         redis_search_data="order_by_id_%s" % id_order,
     )
+
+
+@order_router.get(
+    path="/check_buy/{id_order}",
+    description="""
+        ENDPOINT - Получение информации о купленном товаре
+    """,
+    summary="Уникальный товар, получение информации по покупке",
+    status_code=status.HTTP_200_OK,
+    response_model=OrderIsBuy,
+)
+async def unique_check_buy_order(
+    engine: Annotated[IEngineRepository, Depends(EngineRepository)],
+    id_order: int,
+) -> OrderIsBuy:
+    return await OrderService.get_order(engine=engine, id_order=id_order)
 
 
 @order_router.delete(

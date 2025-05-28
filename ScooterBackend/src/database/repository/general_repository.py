@@ -1,11 +1,7 @@
-# Other libraries
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete, insert
 from typing import Type
 import logging as logger
-
-# Local
-...
 
 
 logging = logger.getLogger(__name__)
@@ -110,8 +106,7 @@ class GeneralSQLRepository:
                     f"Не удалось обновить данные"
                 )
                 raise Exception
-        except Exception as ex:
-            print(ex, "e232323232")
+        except Exception:
             await self.async_session.rollback()
             return False
 

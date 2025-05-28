@@ -31,9 +31,6 @@ class AdminPanelService:
         session: EngineRepository,
         data_to_response: str,
     ) -> Response:
-        """
-        Добавление новых продуктов
-        """
 
         cnt_to_add: int = 0
         cnt_row: int = 0
@@ -82,7 +79,6 @@ class AdminPanelService:
                             )
                             id_brand = create_brand
 
-                    # Создание марок, моделей, бренда
                     if str(row.get("Марка")) not in (None, "nan"):
                         all_marks: list[int] = []
                         marks = row.get("Марка").split(", ")
@@ -135,7 +131,6 @@ class AdminPanelService:
 
                                 all_type_motos.append(create_type_moto)
 
-                    # replace type of object
                     weight_product = (
                         float(row["Объемный вес, кг"])
                         if pandas.notna(row["Объемный вес, кг"])
@@ -186,7 +181,6 @@ class AdminPanelService:
 
                     if res_to_add:
 
-                        # Добавление марок к продукту
                         for mark in all_marks:
                             await session.product_marks_repository.add_one(
                                 data=ProductMarks(
@@ -194,7 +188,6 @@ class AdminPanelService:
                                 )
                             )
 
-                        # Добавление типа транспорта к продукту
                         for tp_mt in all_type_motos:
                             await session.product_type_models_repository.add_one(  # noqa
                                 data=ProductTypeModels(
@@ -209,7 +202,6 @@ class AdminPanelService:
                             photos = row["Фото"].split(", ")
                             for photo in photos:
                                 filename = photo.split("/")[-2]
-                                # Сохранение фотографии в хранилище
                                 is_saved = (
                                     await FileS3Manager().upload_file_from_url(
                                         url_file=photo,
@@ -228,7 +220,6 @@ class AdminPanelService:
                                 )
 
                                 if is_saved:
-                                    # Сохранение фотографии в таблице
                                     await session.photos_repository.add_one(
                                         data=ProductPhotos(
                                             photo_url=is_saved,
@@ -236,7 +227,6 @@ class AdminPanelService:
                                         )
                                     )
 
-                        # Создание моделей продукта
                         AdminPanelService.id_product = res_to_add
                         await AdminPanelService.add_product_model(
                             engine=session
@@ -274,10 +264,6 @@ class AdminPanelService:
         session: EngineRepository,
         data_to_response: str,
     ) -> Response:
-        """
-        Добавление новых категорий
-        """
-
         cnt_to_add: int = 0
         cnt_row: int = 0
 
@@ -332,9 +318,6 @@ class AdminPanelService:
         session: EngineRepository,
         data_to_response: str,
     ) -> Response:
-        """
-        Добавление новых подкатегорий
-        """
 
         cnt_to_add: int = 0
         cnt_row: int = 0
@@ -379,10 +362,6 @@ class AdminPanelService:
     async def add_new_model(
         cls, line: str, engine: EngineRepository, id_mark: int
     ) -> None:
-        """
-        Добавление новой модели
-        """
-
         for line_data in line.split(";"):
             find_model = await engine.model_repository.find_by_name(
                 name_model=line_data
@@ -397,10 +376,6 @@ class AdminPanelService:
 
     @classmethod
     async def add_product_model(cls, engine: EngineRepository) -> None:
-        """
-        Добавление новой модели для продукта
-        """
-
         for el in cls.lst_to_add_product_models:
             await engine.product_models_repository.add_one(
                 data=ProductModels(id_product=cls.id_product, id_model=el)
@@ -411,10 +386,6 @@ class AdminPanelService:
 
     @staticmethod
     async def add_mark(name_mark: str, engine: EngineRepository) -> None:
-        """
-        Добавление новой марки
-        """
-
         return await engine.mark_repository.add_one(
             data=Mark(name_mark=name_mark)
         ).id
@@ -423,16 +394,11 @@ class AdminPanelService:
     async def update_product(
         request, engine: EngineRepository, file: pandas.DataFrame
     ):
-        """
-        Обновление данных в файле
-        """
-
         cnt_to_update: int = 0
         cnt_result_update: int = 0
 
         async with engine:
             for index, row in file.iterrows():
-                # Поиск товара по названию
                 product_data = (
                     await engine.product_repository.find_product_by_name(
                         name_product=row["Наименование товара"]
@@ -440,7 +406,6 @@ class AdminPanelService:
                 )
                 if product_data:
                     product_data = product_data[0].id
-                    # Обновление данных
                     is_updated = await engine.product_repository.update_one(
                         other_id=product_data,
                         data_to_update={
@@ -476,10 +441,6 @@ class AdminPanelService:
         session: EngineRepository,
         data_to_response: str,
     ) -> Response:
-        """
-        Добавление новых категорий
-        """
-
         cnt_to_update: int = 0
         cnt_row: int = 0
 
@@ -489,7 +450,6 @@ class AdminPanelService:
                 for index, row in file.itertuples():
                     name_category, image = row["Категория"], row["Фото"]
 
-                    # Поиск категории
                     category = await session.category_repository.find_by_name(
                         category_name=name_category, type_find=True
                     )
@@ -508,8 +468,7 @@ class AdminPanelService:
                             cnt_to_update += 1
                     cnt_row += 1
 
-            except KeyError as k:
-                print(k, 4)
+            except KeyError:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )

@@ -8,7 +8,9 @@ from src.settings.database_settings.redis_settings import RedisSettings
 from src.settings.other_settings.client_settings import ClientSettings
 from src.settings.other_settings.cloud_settings import CloudSettings
 from src.settings.other_settings.broker_settings import BrokerSettings
-from src.settings.yoomoney_service_settings.yoomoney_settings import YoomoneySettings
+from src.settings.yoomoney_service_settings.yoomoney_settings import (
+    YoomoneySettings,
+)
 
 
 class Settings:

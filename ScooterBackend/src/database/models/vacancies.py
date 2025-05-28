@@ -1,4 +1,3 @@
-# System
 from typing import Dict, Union, List
 
 
@@ -12,22 +11,18 @@ from src.database.mainbase import MainBase
 
 class Vacancies(MainBase):
 
-    # Заработная плата для вакансии
     salary_employee: Mapped[int] = mapped_column(
         type_=Integer, nullable=False, unique=False, index=False
     )
 
-    # Описание вакансии
     description_vacancies: Mapped[str] = mapped_column(
         type_=Text, nullable=False, unique=False, index=False
     )
 
-    # Опыт работы
     is_worked: Mapped[bool] = mapped_column(
         type_=String(length=125), nullable=True, unique=False, default=None
     )
 
-    # Relations
     id_type_worker: Mapped[int] = mapped_column(
         ForeignKey("Typeworker.id"), type_=Integer
     )
@@ -41,17 +36,14 @@ class Vacancies(MainBase):
     )
 
     def __str__(self) -> str:
-        # Возвращает строковый объект
         return str(
             {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
         )
 
     def __repr__(self) -> str:
-        # Возвращает строковый объект
         return self.__str__()
 
     def read_model(self) -> Dict[str, Union[str, int]]:
-        # Чтение модели
         return {
             k: v for k, v in self.__dict__.items() if not k.startswith("_")
         }

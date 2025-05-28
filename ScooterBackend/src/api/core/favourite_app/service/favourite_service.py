@@ -1,4 +1,3 @@
-# System
 from typing import List, Union
 import logging as logger
 
@@ -51,7 +50,6 @@ class FavouriteService:
             f" товара в избранное"
         )
         async with engine:
-            # Проверка на добавление в избранное
             is_created: bool = await engine.favourite_repository.add_one(
                 data=Favourite(
                     id_user=int(token_data.get("sub")),
@@ -88,7 +86,6 @@ class FavouriteService:
         )
 
         async with engine:
-            # Получаем список товаров
             all_favourite_products: Union[List, List[Favourite]] = (
                 await engine.favourite_repository.get_all_data_for_id_user(
                     id_user=int(token_data.get("sub"))
@@ -150,7 +147,6 @@ class FavouriteService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")
@@ -203,7 +199,6 @@ class FavouriteService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")
@@ -256,7 +251,6 @@ class FavouriteService:
         )
 
         async with engine:
-            # Проверка на пользователя
             get_favourite_data: Union[None, Favourite] = (
                 await engine.favourite_repository.find_one(
                     other_id=id_favourite
@@ -274,7 +268,6 @@ class FavouriteService:
                     )
                     if is_deleted:
 
-                        # Очистка кэша
                         await redis.delete_key(
                             key=f"all_favourites_by_id_user_{token}"
                         )  # noqa

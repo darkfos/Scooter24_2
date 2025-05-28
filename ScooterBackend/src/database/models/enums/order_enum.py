@@ -3,11 +3,9 @@ from typing import Final
 
 
 class OrderTypeOperationsEnum(enum.Enum):
-    IN_PROCESS: Final[str] = (
-        "В процессе"  # Купленный товар, в процессе доставки
-    )
-    CANCEL: Final[str] = "Отменен"  # Отмененный к покупке товар
-    SUCCESS: Final[str] = "Оплачен"  # Купленный товар
+    IN_PROCESS: Final[str] = "В процессе"
+    CANCEL: Final[str] = "Отменен"
+    SUCCESS: Final[str] = "Оплачен"
     DELIVERED: Final[str] = "Доставлен"
-    NO_BUY: Final[str] = "К оплате"  # Ещё не купленный товар
-    RETURNED: Final[str] = "Возвращен"  # Возврат
+    NO_BUY: Final[str] = "К оплате"
+    RETURNED: Final[str] = "Возвращен"

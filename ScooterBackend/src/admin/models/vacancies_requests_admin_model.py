@@ -12,11 +12,25 @@ class VacanciesRequestsAdminModel(ModelView, model=VacancyRequest):
     category: str = "Работа"
 
     column_list: List[Any] = [
+        VacancyRequest.id,
         VacancyRequest.name_user,
         VacancyRequest.email_user,
         VacancyRequest.telephone_user,
         VacancyRequest.experience_user,
         VacancyRequest.vacancy_data,
+    ]
+
+    column_searchable_list: List[str] = [
+        "name_user",
+        "email_user",
+        "telephone_user",
+    ]
+
+    column_sortable_list: List[str] = [
+        "id",
+        "name_user",
+        "email_user",
+        "telephone_user",
     ]
 
     column_labels: Dict[str, str] = {

@@ -6,11 +6,7 @@ from src.database.mainbase import MainBase
 
 
 class Mark(MainBase):
-    """
-    Таблица марки
-    """
 
-    # Название марки
     name_mark: Mapped[str] = mapped_column(
         type_=String(length=100), nullable=False, unique=True
     )
@@ -29,7 +25,6 @@ class Mark(MainBase):
         cascade="all, delete-orphan",
     )
 
-    # Данные гаража
     garage_data: Mapped[List["Garage"]] = relationship(
         "Garage", back_populates="mark_data", uselist=True
     )
@@ -41,7 +36,6 @@ class Mark(MainBase):
         return self.__str__()
 
     def read_model(self) -> dict:
-        # Чтение модели
         return {
             k: v for k, v in self.__dict__.items() if not k.startswith("_")
         }

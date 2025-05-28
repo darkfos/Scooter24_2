@@ -4,11 +4,9 @@ from typing import Final
 
 class APITagsEnum(Enum):
 
-    # Теги связанные с пользователем
     USER: Final[str] = "User"
     USER_TYPE: Final[str] = "UserType"
 
-    # Теги связанные с товаром
     PRODUCT: Final[str] = "Product"
     CATEGORY: Final[str] = "Category"
     SUB_CATEGORY: Final[str] = "SubCategory"
@@ -21,16 +19,13 @@ class APITagsEnum(Enum):
     PHOTO: Final[str] = "Photo"
     TYPE_MOTO: Final[str] = "TypeMoto"
 
-    # Теги связанные с заказами
     ORDER: Final[str] = "Order"
     FAVOURITE: Final[str] = "Favourite"
     HISTORY_BUY: Final[str] = "HistoryBuy"
 
-    # Теги связанные с работой
     TYPE_WORKER: Final[str] = "TypeWorker"
     VACANCIES: Final[str] = "Vacancies"
 
-    # Другое
     API_V: Final[str] = "API V1"
     AUTH: Final[str] = "Authentication"
     GARAGE: Final[str] = "Garage"
@@ -38,7 +33,6 @@ class APITagsEnum(Enum):
 
 class APIPrefix(Enum):
 
-    # Префиксы для роутеров
     API_V_PREFIX: Final[str] = "/api/v1"
     AUTH_PREFIX: Final[str] = "/auth"
     USER_PREFIX: Final[str] = "/user"

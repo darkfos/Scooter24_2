@@ -5,7 +5,6 @@ from typing import List, Any
 
 class ReviewModelView(ModelView, model=Review):
 
-    # Metadata
     name: str = "Отзывы"
     name_plural: str = "Отзыв"
     icon: str = "fa fa-comment"
@@ -26,14 +25,27 @@ class ReviewModelView(ModelView, model=Review):
         Review.estimation_review: "Оценка",
     }
 
-    # Operation's
+    column_searchable_list: list[str] = [
+        "id_user",
+        "id_product",
+        "text_review",
+        "estimation_review",
+    ]
+
+    column_sortable_list: List[str] = [
+        "id",
+        "id_user",
+        "id_product",
+        "text_review",
+        "estimation_review",
+    ]
+
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "product": {
             "fields": (

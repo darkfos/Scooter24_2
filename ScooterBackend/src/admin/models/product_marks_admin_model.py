@@ -5,7 +5,6 @@ from typing import List, Any, Dict
 
 class ProductMarksAdminModel(ModelView, model=ProductMarks):
 
-    # Metadata
     name: str = "Марки продукта"
     name_plural: str = "Марки продукта"
     icon: str = "fa fa-tags"
@@ -18,6 +17,7 @@ class ProductMarksAdminModel(ModelView, model=ProductMarks):
         ProductMarks.mark_data,
         ProductMarks.product_data,
     ]
+
     column_labels: dict = {
         ProductMarks.id: "Идентификатор",
         ProductMarks.id_mark: "Идентификатор марки",
@@ -25,6 +25,15 @@ class ProductMarksAdminModel(ModelView, model=ProductMarks):
         ProductMarks.mark_data: "Марки",
         ProductMarks.product_data: "Товары",
     }
+
+    column_searchable_list: List[str] = [
+        "id_mark",
+        "id_product",
+        "mark_data.name_mark",
+        "product_data.title_product",
+    ]
+
+    column_sortable_list: List[str] = ["id", "id_mark", "id_product"]
 
     can_create: bool = True
     can_delete: bool = True

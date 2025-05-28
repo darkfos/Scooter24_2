@@ -1,12 +1,9 @@
-# System
 import logging as logger
 from typing import List, Union
 
-# Other libraries
 from fastapi.responses import FileResponse
 from fastapi import status
 
-# Local
 from src.database.repository.category_repository import Category
 from src.api.core.category_app.schemas.category_dto import (
     CategoriesList,
@@ -14,7 +11,7 @@ from src.api.core.category_app.schemas.category_dto import (
     CategoryBase,
     CategoryIsCreated,
     CategoryIsUpdated,
-    CategoryBaseData
+    CategoryBaseData,
 )
 from src.api.core.subcategory_app.schemas.subcategory_dto import (
     SubCategoryAllData,
@@ -27,7 +24,6 @@ from src.api.core.category_app.error.http_category_exception import (
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 
-# Redis
 from src.store.tools import RedisTools
 
 redis: RedisTools = RedisTools()
@@ -58,7 +54,6 @@ class CategoryService:
         )
 
         async with engine:
-            # Find user in Admin table
             find_admin = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")
@@ -119,7 +114,6 @@ class CategoryService:
             msg=f"{CategoryService.__name__} Получение всех категорий"
         )
         async with engine:
-            # Get categories
             categories: List[CategoryBase] = (
                 await engine.category_repository.find_all_with_sb()
             )
@@ -164,17 +158,13 @@ class CategoryService:
             f"Поиск категории по id={id_category}"
         )
         async with engine:
-            # Get category
             category: Union[None, Category] = (
                 await engine.category_repository.find_one(other_id=id_category)
             )
-
-            print(category)
-
             if category:
                 return CategoryBaseData(
                     name_category=category[0].name_category,
-                    icon_category=category[0].icon_category
+                    icon_category=category[0].icon_category,
                 )
             logging.critical(
                 msg=f"{CategoryService.__name__} "
@@ -201,8 +191,6 @@ class CategoryService:
             msg=f"{CategoryService.__name__} Обновление названия категории"
         )
         async with engine:
-
-            # Find admin
             is_admin = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     token_data.get("email")
@@ -210,7 +198,6 @@ class CategoryService:
             )
 
             if is_admin:
-                # Find category
                 find_category: Union[None, Category] = (
                     await engine.category_repository.find_by_name(
                         category_name=data_to_update.name_category,
@@ -219,7 +206,6 @@ class CategoryService:
                 )
 
                 if find_category:
-                    # Update data
                     is_updated = await engine.category_repository.update_one(
                         other_id=find_category.id,
                         data_to_update={

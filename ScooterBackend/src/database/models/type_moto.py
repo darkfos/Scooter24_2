@@ -9,12 +9,10 @@ from src.database.mainbase import MainBase
 
 class TypeMoto(MainBase):
 
-    # Название типа транспорта
     name_moto_type: Mapped[str] = mapped_column(
         type_=String(length=125), nullable=False, unique=True
     )
 
-    # Данные продуктов
     product_type_models: Mapped[List["ProductTypeModels"]] = relationship(
         "ProductTypeModels",
         back_populates="type_models_data",
@@ -22,7 +20,6 @@ class TypeMoto(MainBase):
         cascade="all, delete-orphan",
     )
 
-    # Данные гаража
     garage_data: Mapped[List["Garage"]] = relationship(
         "Garage", back_populates="type_moto_data", uselist=True
     )

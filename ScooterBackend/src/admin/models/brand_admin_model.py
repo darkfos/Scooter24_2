@@ -5,7 +5,6 @@ from typing import List, Any, Dict
 
 class BrandModelView(ModelView, model=Brand):
 
-    # Metadata
     name: str = "Бренд"
     name_plural: str = "Бренд"
     icon: str = "fa-solid fa-motorcycle"
@@ -16,8 +15,15 @@ class BrandModelView(ModelView, model=Brand):
         Brand.id: "Идентификатор бренда",
         Brand.name_brand: "Название бренда",
         Brand.product_data: "Продукты бренда",
-        Brand.url_photo: "Фотография"
+        Brand.url_photo: "Фотография",
     }
+
+    column_searchable_list: List[str] = [
+        "name_brand",
+        "product_data.title_product",
+    ]
+
+    column_sortable_list: List[str] = ["name_brand", "id"]
 
     # Operation's
     can_create: bool = True

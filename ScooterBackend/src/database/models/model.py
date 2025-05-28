@@ -6,11 +6,7 @@ from typing import List
 
 
 class Model(MainBase):
-    """
-    Таблица модель
-    """
 
-    # Название модели
     name_model: Mapped[str] = mapped_column(
         type_=String(length=100), unique=True, nullable=False
     )
@@ -21,7 +17,6 @@ class Model(MainBase):
         nullable=False,
     )
 
-    # Связи
     product_models_data: Mapped[List["ProductModels"]] = relationship(
         "ProductModels",
         back_populates="model_data",
@@ -32,7 +27,6 @@ class Model(MainBase):
         "Mark", back_populates="model_data", uselist=False
     )
 
-    # Данные гаража
     garage_data: Mapped[List["Garage"]] = relationship(
         "Garage",
         back_populates="model_data",
@@ -47,8 +41,6 @@ class Model(MainBase):
         return self.__str__()
 
     def read_model(self) -> dict:
-        # Чтение модели
-
         return {
             k: v for k, v in self.__dict__.items() if not k.startswith("_")
         }
