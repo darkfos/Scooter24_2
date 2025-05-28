@@ -14,7 +14,6 @@ class ImageSaver:
     async def generate_filename(self, id_: int, filename: str) -> None:
         self.filename: str = str(id_) + "__" + filename
 
-    # aiofiles - async
     async def save_file(
         self, file: Type[UploadFile], is_admin: bool = False
     ) -> Union[None, str]:
@@ -25,8 +24,6 @@ class ImageSaver:
                     id_=crypt.hashed_img(img_name=file.filename)[0::5],
                     filename=file.filename,
                 )
-
-                # Logging
                 logging.info(
                     msg="Image Saver (Admin Panel)"
                     " сохранение фотографии в директории"
@@ -37,7 +34,6 @@ class ImageSaver:
                 ) as file_catalog:
                     shutil.copyfileobj(file.file, file_catalog)
             else:
-                # Logging
                 logging.info(
                     msg="Image Saver сохранение" "фотографии в директории"
                 )
@@ -52,11 +48,9 @@ class ImageSaver:
 
     async def remove_file(self) -> bool:
         try:
-            # Logging
             logging.info(msg="Image Saver Картинка была успешно удалена")
             remove(path=self.init_url + self.filename)
             return True
         except Exception:
-            # Logging
             logging.exception(msg="Image Saver не удалось удалить картинку")
             return False

@@ -1,4 +1,3 @@
-# System
 from typing import List, Union, Type
 import logging as logger
 
@@ -47,7 +46,6 @@ class TypeWorkerService:
             f" Создание нового типа работника"
         )
         async with engine:
-            # Проверка на администратора
             is_admin: bool = token_data.get("is_admin")
 
             if is_admin:
@@ -97,9 +95,7 @@ class TypeWorkerService:
                     ]
                 )
             else:
-                return TypeWorkerList(
-                    type_worker=[]
-                )
+                return TypeWorkerList(type_worker=[])
 
     @redis
     @staticmethod
@@ -152,7 +148,6 @@ class TypeWorkerService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")

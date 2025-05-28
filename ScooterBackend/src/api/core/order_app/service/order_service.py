@@ -1,4 +1,3 @@
-# System
 from typing import List, Union, Type
 import logging as logger
 
@@ -9,14 +8,14 @@ import uuid
 from src.database.models.enums.delivery_type_enum import DeliveryMethod
 from src.database.models.enums.type_buy_enum import TypeBuy
 
-# Local
 from src.database.models.order import Order
 from src.api.core.order_app.error.http_order_exception import OrderHttpError
 from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     ListOrderAndUserInformation,
-    AddOrder, BuyOrder,
-    OrderIsBuy
+    AddOrder,
+    BuyOrder,
+    OrderIsBuy,
 )
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
@@ -25,7 +24,6 @@ from src.other.enums.auth_enum import AuthenticationEnum
 from src.database.models.enums.order_enum import OrderTypeOperationsEnum
 from src.other.broker.producer.producer import send_transaction_operation
 
-# Redis
 from src.store.tools import RedisTools
 
 redis: Type[RedisTools] = RedisTools()
@@ -55,7 +53,11 @@ class OrderService:
 
         async with engine:
 
-            user_orders = await engine.user_repository.find_user_and_get_orders(int(token_data["sub"]))
+            user_orders = (
+                await engine.user_repository.find_user_and_get_orders(
+                    int(token_data["sub"])
+                )
+            )
 
             if user_orders:
                 for orderData in user_orders:
@@ -63,7 +65,6 @@ class OrderService:
                         if product.id_product in new_order.id_products:
                             await OrderHttpError().http_failed_to_create_a_new_order()
 
-            # Создание заказа
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
                     date_buy=new_order.date_create,
@@ -76,13 +77,14 @@ class OrderService:
 
             if is_created:
                 for product in new_order.id_products:
-                    # Создание товара в списке заказа
-                    create_product_on_list = await engine.order_product_repository.add_one(
-                        OrderProducts(
-                            id_product=product,
-                            id_order=is_created,
-                            count_product=0,
-                            price=0
+                    create_product_on_list = (
+                        await engine.order_product_repository.add_one(
+                            OrderProducts(
+                                id_product=product,
+                                id_order=is_created,
+                                count_product=0,
+                                price=0,
+                            )
                         )
                     )
 
@@ -97,7 +99,9 @@ class OrderService:
             await OrderHttpError().http_failed_to_create_a_new_order()
 
     @staticmethod
-    async def get_order(engine: IEngineRepository, id_order: int) -> OrderIsBuy | None:
+    async def get_order(
+        engine: IEngineRepository, id_order: int
+    ) -> OrderIsBuy | None:
 
         if not isinstance(id_order, int):
             await OrderHttpError().http_order_not_found()
@@ -110,18 +114,16 @@ class OrderService:
             if order_data is None:
                 await OrderHttpError().http_order_not_found()
 
-            return OrderIsBuy(
-                is_buy=order_data
-            )
+            return OrderIsBuy(is_buy=order_data)
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def buy_product(
-            engine: IEngineRepository,
-            token: str,
-            bt: send_transaction_operation,
-            order_buy_data: BuyOrder,
-            token_data: dict = dict(),
+        engine: IEngineRepository,
+        token: str,
+        bt: send_transaction_operation,
+        order_buy_data: BuyOrder,
+        token_data: dict = dict(),
     ) -> None:
         """
         Метод сервиса - осуществление покупки товара
@@ -129,7 +131,7 @@ class OrderService:
 
         logging.info(
             msg=f"{OrderService.__name__} "
-                f"Осуществление покупки товаров пользователем id={token_data.get('sub')}"
+            f"Осуществление покупки товаров пользователем id={token_data.get('sub')}"
         )
 
         async with engine:
@@ -138,20 +140,24 @@ class OrderService:
 
             for product in order_buy_data.products:
 
-                product_data = await engine.product_repository.find_one(product.id_product)
+                product_data = await engine.product_repository.find_one(
+                    product.id_product
+                )
 
                 if product_data:
                     if product_data[0].quantity_product >= product.quantity:
-                        price_result += ((product.price * product.quantity) * product_data[0].product_discount) / 100
+                        price_result += (
+                            (product.price * product.quantity)
+                            * product_data[0].product_discount
+                        ) / 100
                     else:
                         await OrderHttpError().http_order_more_quantity()
 
-            # Удаление старых заказов
-            is_deleted = await engine.order_repository.del_more(id_orders=order_buy_data.id_orders)
+            is_deleted = await engine.order_repository.del_more(
+                id_orders=order_buy_data.id_orders
+            )
 
             label_product = uuid.uuid4()
-
-            print(label_product)
 
             if is_deleted:
 
@@ -178,40 +184,37 @@ class OrderService:
                         date_buy=order_buy_data.date_create,
                         id_user=int(token_data.get("sub")),
                         type_operation=OrderTypeOperationsEnum.IN_PROCESS,
-                        type_buy=TypeBuy.CARD
+                        type_buy=TypeBuy.CARD,
                     )
                 )
 
-
                 if order_is_created:
-
-                    # Создание списка товаров в заказе
 
                     for product in order_buy_data.products:
 
-                        product_order_is_created = await engine.order_product_repository.add_one(
-                            data=OrderProducts(
-                                id_product=product.id_product,
-                                id_order=order_is_created,
-                                count_product=product.quantity,
-                                price=product.price
+                        product_order_is_created = (
+                            await engine.order_product_repository.add_one(
+                                data=OrderProducts(
+                                    id_product=product.id_product,
+                                    id_order=order_is_created,
+                                    count_product=product.quantity,
+                                    price=product.price,
+                                )
                             )
                         )
 
                         if not product_order_is_created:
                             await OrderHttpError().http_failed_to_create_a_new_order()
 
-                    # Создание оплаты
                     url_buy = yoomoney.Quickpay(
                         receiver="4100119127542849",
                         quickpay_form="shop",
                         targets="Покупка товаров с Scooter-24",
                         paymentType="SB",
                         sum=price_result + order_buy_data.price_delivery,
-                        label=f"{label_product}"
+                        label=f"{label_product}",
                     )
 
-                    # Отправка в очередь транзакции оплаты
                     create_product_data = await engine.order_repository.get_all_product_list_on_id(
                         _id=order_is_created
                     )
@@ -219,16 +222,13 @@ class OrderService:
                     await bt(order_data=create_product_data)
 
                     if url_buy:
-                        return {
-                            "redirect_url": url_buy.base_url
-                        }
+                        return {"redirect_url": url_buy.base_url}
 
             await OrderHttpError().http_failed_to_create_a_new_order()
 
     @staticmethod
     async def notification_order(
-            engine: IEngineRepository,
-            data_order: FormData
+        engine: IEngineRepository, data_order: FormData
     ) -> None:
         if label := data_order.get("label"):
             async with engine:
@@ -242,12 +242,16 @@ class OrderService:
                 order.transaction_id = data_order.get("operation_id")
 
                 for op in order.product_list:
-                    if product := (await engine.product_repository.find_one(op.id_product))[0]:
-                        product.quantity_product = max(0, product.quantity_product - op.count_product)
+                    if product := (
+                        await engine.product_repository.find_one(op.id_product)
+                    )[0]:
+                        product.quantity_product = max(
+                            0, product.quantity_product - op.count_product
+                        )
 
                         isupdated = await engine.product_repository.update_one(
                             op.id_product,
-                            {"quantity_product": product.quantity_product}
+                            {"quantity_product": product.quantity_product},
                         )
 
                         if not isupdated:
@@ -257,8 +261,8 @@ class OrderService:
                     order.id,
                     {
                         "type_operation": OrderTypeOperationsEnum.SUCCESS,
-                        "transaction_id": data_order.get("operation_id")
-                    }
+                        "transaction_id": data_order.get("operation_id"),
+                    },
                 )
                 return
 
@@ -267,10 +271,10 @@ class OrderService:
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def get_full_information_by_user_id(
-            engine: IEngineRepository,
-            token: str,
-            token_data: dict = dict(),
-            not_buy = False
+        engine: IEngineRepository,
+        token: str,
+        token_data: dict = dict(),
+        not_buy=False,
     ) -> ListOrderAndUserInformation | None:
         """
         Метод сервиса для получения всей информации об заказах для пользователя
@@ -282,35 +286,43 @@ class OrderService:
 
         logging.info(
             msg=f"{OrderService.__name__} "
-                f"Получение всей информации о всех заказах для пользователя id={token_data.get('sub')}"
+            f"Получение всей информации о всех заказах для пользователя id={token_data.get('sub')}"
         )
 
         async with engine:
-            # Получаем заказы пользователя с полной информацией
-            orders_data: Union[None, List[Order]] = await engine.order_repository.get_full_information(
-                id_user=int(token_data.get("sub")),
-                not_buy=not_buy
+            orders_data: Union[None, List[Order]] = (
+                await engine.order_repository.get_full_information(
+                    id_user=int(token_data.get("sub")), not_buy=not_buy
+                )
             )
 
             if orders_data:
                 data_orders: list = []
 
                 for order in orders_data:
-                    # Собираем товары из заказа
                     products_info = []
                     for order_product in order.product_list:
                         product = order_product.product_data
                         if not product:
                             continue
 
-                        products_info.append({
-                            "id_product": product.id,
-                            "photos": [photo.read_model() for photo in product.photos] if product.photos else [],
-                            "name_product": product.title_product,
-                            "price_product": product.price_product,
-                            "category_product": product.id_sub_category,
-                            "quantity": order_product.count_product
-                        })
+                        products_info.append(
+                            {
+                                "id_product": product.id,
+                                "photos": (
+                                    [
+                                        photo.read_model()
+                                        for photo in product.photos
+                                    ]
+                                    if product.photos
+                                    else []
+                                ),
+                                "name_product": product.title_product,
+                                "price_product": product.price_product,
+                                "category_product": product.id_sub_category,
+                                "quantity": order_product.count_product,
+                            }
+                        )
 
                     data_orders.append(
                         OrderAndUserInformation(
@@ -372,29 +384,38 @@ class OrderService:
                     if not product:
                         continue
 
-                    products_info.append({
-                        "id_product": product.id,
-                        "photos": [photo.read_model() for photo in product.photos] if product.photos else [],
-                        "name_product": product.title_product,
-                        "price_product": product.price_product,
-                        "category_product": product.id_sub_category,
-                        "quantity": order_product.count_product
-                    })
+                    products_info.append(
+                        {
+                            "id_product": product.id,
+                            "photos": (
+                                [
+                                    photo.read_model()
+                                    for photo in product.photos
+                                ]
+                                if product.photos
+                                else []
+                            ),
+                            "name_product": product.title_product,
+                            "price_product": product.price_product,
+                            "category_product": product.id_sub_category,
+                            "quantity": order_product.count_product,
+                        }
+                    )
 
                 return OrderAndUserInformation(
-                        product_data=products_info,
-                        order_data={
-                            "status": order_data[0].type_operation,
-                            "price_result": order_data[0].price_result,
-                            "id_order": order_data[0].id,
-                            "date_buy": order_data[0].date_buy,
-                            "email_user": order_data[0].email_user,
-                            "user_name": order_data[0].user_name,
-                            "telephone_number": order_data[0].telephone_number,
-                            "address": order_data[0].address,
-                            "delivery_method": order_data[0].delivery_method,
-                        },
-                    )
+                    product_data=products_info,
+                    order_data={
+                        "status": order_data[0].type_operation,
+                        "price_result": order_data[0].price_result,
+                        "id_order": order_data[0].id,
+                        "date_buy": order_data[0].date_buy,
+                        "email_user": order_data[0].email_user,
+                        "user_name": order_data[0].user_name,
+                        "telephone_number": order_data[0].telephone_number,
+                        "address": order_data[0].address,
+                        "delivery_method": order_data[0].delivery_method,
+                    },
+                )
 
             logging.critical(
                 msg=f"{OrderService.__name__} "
@@ -425,7 +446,6 @@ class OrderService:
         )
 
         async with engine:
-            # Проверка на то что заказ принадлежит покупателю
             order_data: Union[None, Order] = (
                 await engine.order_repository.find_one(other_id=id_order)
             )
@@ -433,7 +453,6 @@ class OrderService:
             if order_data:
                 if order_data[0].id_user == int(token_data.get("sub")):
 
-                    # Удаление заказа
                     is_deleted: bool = (
                         await engine.order_repository.delete_one(
                             other_id=int(id_order)
@@ -441,7 +460,6 @@ class OrderService:
                     )
 
                     if is_deleted:
-                        # Очистка кэша
                         await redis.delete_key(key=f"orders_by_token_{token}")
                         return
                     await OrderHttpError().http_failed_to_delete_order()

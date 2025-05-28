@@ -61,3 +61,14 @@ class UserHttpError(APIError):
             code=status.HTTP_423_LOCKED,
             detail_inf="Пользователь не активировал свою учетную запись",
         )
+
+    async def http_update_password_error(self):
+        """
+        Ошибка обновление пароля пользователя
+        :return:
+        """
+
+        await self.api_error(
+            code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail_inf="Не удалось обновить пароль пользователя",
+        )

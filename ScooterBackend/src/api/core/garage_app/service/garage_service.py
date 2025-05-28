@@ -106,7 +106,6 @@ class GarageService:
             )
 
             if del_mt:
-                # Очищаем кэш в redis
                 # await redis.delete_key(key="")
                 return True
             return False

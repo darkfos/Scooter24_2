@@ -6,7 +6,6 @@ from typing import Any, List
 
 class SubCategoryModelView(ModelView, model=SubCategory):
 
-    # Metadata
     name: str = "Подкатегория товаров, 1 ур."
     name_plural: str = "Подкатегории 1 ур."
     icon: str = "fa fa-bookmark"
@@ -42,7 +41,6 @@ class SubCategoryModelView(ModelView, model=SubCategory):
         }
     }
 
-    # Operations
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

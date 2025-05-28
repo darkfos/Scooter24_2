@@ -21,7 +21,6 @@ class ProductTypeModels(MainBase):
         index=False,
     )
 
-    # Связи
     product_data: Mapped["Product"] = relationship(
         "Product", back_populates="type_models", uselist=False
     )

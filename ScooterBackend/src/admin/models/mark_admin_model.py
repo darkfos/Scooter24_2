@@ -5,7 +5,6 @@ from typing import List, Dict, Any
 
 class MarkModelView(ModelView, model=Mark):
 
-    # Metadata
     name: str = "Марки"
     name_plural: str = "Марки"
     icon: str = "fa-solid fa-circle-xmark"
@@ -22,15 +21,10 @@ class MarkModelView(ModelView, model=Mark):
         Mark.model_data: "Модели",
     }
 
-    column_searchable_list: List[str] = [
-        "name_mark", "model_data.name_model"
-    ]
+    column_searchable_list: List[str] = ["name_mark", "model_data.name_model"]
 
-    column_sortable_list: list[str] = [
-        "name_mark", "id"
-    ]
+    column_sortable_list: list[str] = ["name_mark", "id"]
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True

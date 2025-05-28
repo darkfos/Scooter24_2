@@ -20,9 +20,18 @@ class VacanciesRequestsAdminModel(ModelView, model=VacancyRequest):
         VacancyRequest.vacancy_data,
     ]
 
-    column_searchable_list: List[str] = ["name_user", "email_user", "telephone_user"]
+    column_searchable_list: List[str] = [
+        "name_user",
+        "email_user",
+        "telephone_user",
+    ]
 
-    column_sortable_list: List[str] = ["id", "name_user", "email_user", "telephone_user"]
+    column_sortable_list: List[str] = [
+        "id",
+        "name_user",
+        "email_user",
+        "telephone_user",
+    ]
 
     column_labels: Dict[str, str] = {
         VacancyRequest.id: "Идентификатор отклика",

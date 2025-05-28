@@ -4,7 +4,6 @@ from src.database.models.type_moto import TypeMoto
 
 class TypeMotoAdminModel(ModelView, model=TypeMoto):
 
-    # Metadata
     name: str = "Тип"
     name_plural: str = "Мототранспорт"
     icon: str = "fa fa-motorcycle"
@@ -28,7 +27,6 @@ class TypeMotoAdminModel(ModelView, model=TypeMoto):
 
     column_sortable_list: list[str] = ["id", "name_moto_type"]
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
@@ -42,7 +40,6 @@ class TypeMotoAdminModel(ModelView, model=TypeMoto):
 
     form_edit_rules = form_create_rules.copy()
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "product_type_models": {
             "fields": ("id", "id_product"),

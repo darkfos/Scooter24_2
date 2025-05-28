@@ -13,10 +13,8 @@ from fastapi import FastAPI, Request
 from src.settings.engine_settings import Settings
 from io import StringIO
 
-# Models
 from src.admin import all_models
 
-# Admin Authentication
 from src.admin.admin_auth import AdminPanelAuthentication
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import EngineRepository
@@ -35,7 +33,6 @@ class AdminPanel(AdminPanelService):
 
         self.statics_scooter24 = StaticFiles(directory="src/statics")
         self.admin_panel: Type[Admin] = Admin(
-            # Set settings
             engine=db_work.db_engine,
             app=app,
             title="Scooter24",
@@ -43,10 +40,8 @@ class AdminPanel(AdminPanelService):
             authentication_backend=self.admin_panel_auth,
         )
 
-        # Admin starlette data
         self.starlette_data: Starlette = self.admin_panel.__dict__["admin"]
 
-        # Add router
         self.starlette_data.routes.extend(
             [
                 Route(
@@ -72,7 +67,6 @@ class AdminPanel(AdminPanelService):
             )
         )
 
-        # initialize
         self.initialize_models_view(models=all_models)
 
     def initialize_models_view(self, models: List[ModelView]) -> None:
@@ -95,20 +89,17 @@ class AdminPanel(AdminPanelService):
     @login_required
     async def load_data(self, request: Request):
 
-        # form data
         file: UploadFile = (await request.form()).get("csv_file")
         data_model = request.path_params
 
         if file:
             if ".csv" in file.filename or ".xlsx" in file.filename:
 
-                # Decode data file
                 file_data = (await file.read()).decode("UTF-8")
                 file_object = StringIO(file_data)
                 file_data = pandas.read_csv(file_object, comment="#", sep=",")
                 df = pandas.DataFrame(file_data)
 
-                # Session
                 session = EngineRepository()
 
                 data_to_response: str = ""
@@ -172,7 +163,6 @@ class AdminPanel(AdminPanelService):
             "product" if params_from_req["model"] == "Товары" else "category"
         )
 
-        # Работа с файлом
         file_data = (await file.read()).decode("UTF-8")
         file_object = StringIO(file_data)
         file_data = pandas.read_csv(file_object, comment="#", sep=";")

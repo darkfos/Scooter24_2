@@ -5,7 +5,6 @@ from typing import List, Any
 
 class UserTypeAdminModel(ModelView, model=UserType):
 
-    # Metadata
     name: str = "Тип пользователя"
     name_plural: str = name
     icon: str = "fa-regular fa-user-check"
@@ -17,7 +16,6 @@ class UserTypeAdminModel(ModelView, model=UserType):
     can_export: bool = True
     can_view_details: bool = True
 
-    # Columns
     column_list: List[Any] = [UserType.id, UserType.name_type]
 
     form_create_rules: List[str] = ["name_type"]
@@ -26,7 +24,6 @@ class UserTypeAdminModel(ModelView, model=UserType):
 
     column_sortable_list: List[str] = ["id", "name_type"]
 
-    # Translate
     column_labels: dict = {
         UserType.id: "Идентификатор",
         UserType.name_type: "Название",

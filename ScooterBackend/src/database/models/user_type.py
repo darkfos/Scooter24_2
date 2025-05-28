@@ -8,7 +8,6 @@ class UserType(MainBase):
 
     name_type: Mapped[str] = mapped_column(type_=String(length=100))
 
-    # Связи
     user_data: Mapped[List["User"]] = relationship(
         "User", back_populates="type_user_data", uselist=True
     )

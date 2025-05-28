@@ -13,7 +13,6 @@ scooter24: Type[ScooterBackendApplication] = ScooterBackendApplication()
 app: Type[FastAPI] = scooter24.scooter24_app
 
 
-# Redirect to docs
 @app.get(
     path="/", status_code=status.HTTP_200_OK, response_class=RedirectResponse
 )
@@ -24,9 +23,6 @@ async def redirect_to_docs() -> RedirectResponse:
 
 
 if __name__ == "__main__":
-
-    # Start project
-    
     logging.info(msg="Start Project")
     uvicorn.run(
         app=app,

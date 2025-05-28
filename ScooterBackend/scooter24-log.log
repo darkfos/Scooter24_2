@@ -9158,3 +9158,4 @@ FROM "Orderproducts"
 WHERE "Orderproducts".id_order IN ($1::INTEGER, $2::INTEGER, $3::INTEGER)
 2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - [cached since 79.61s ago] (2007, 2010, 2011)
 2025-05-20 16:00:06 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-05-28 00:12:31 - root - INFO - Start Project

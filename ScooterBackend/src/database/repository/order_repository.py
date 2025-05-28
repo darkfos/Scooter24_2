@@ -30,8 +30,10 @@ class OrderRepository(GeneralSQLRepository):
         :param _id:
         """
 
-        stmt = select(Order).where(Order.id == _id).options(
-            joinedload(Order.product_list)
+        stmt = (
+            select(Order)
+            .where(Order.id == _id)
+            .options(joinedload(Order.product_list))
         )
 
         result = await self.async_session.execute(stmt)
@@ -42,8 +44,10 @@ class OrderRepository(GeneralSQLRepository):
         Поиск заказа по метке
         """
 
-        stmt = select(Order).where(Order.label_order == label).options(
-            joinedload(Order.product_list)
+        stmt = (
+            select(Order)
+            .where(Order.label_order == label)
+            .options(joinedload(Order.product_list))
         )
         result = await self.async_session.execute(stmt)
         return result.unique().scalars().first()
@@ -57,19 +61,21 @@ class OrderRepository(GeneralSQLRepository):
         stmt = (
             select(Order)
             .options(
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
-                    Product.product_models_data
+                joinedload(Order.product_list).joinedload(
+                    OrderProducts.product_data
                 ),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
-                    Product.photos
-                ),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
-                    Product.brand_mark
-                ),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(
-                    Product.type_models
-                ),
+                joinedload(Order.product_list)
+                .joinedload(OrderProducts.product_data)
+                .joinedload(Product.product_models_data),
+                joinedload(Order.product_list)
+                .joinedload(OrderProducts.product_data)
+                .joinedload(Product.photos),
+                joinedload(Order.product_list)
+                .joinedload(OrderProducts.product_data)
+                .joinedload(Product.brand_mark),
+                joinedload(Order.product_list)
+                .joinedload(OrderProducts.product_data)
+                .joinedload(Product.type_models),
             )
             .where(Order.type_operation == OrderTypeOperationsEnum.SUCCESS)
             .order_by(desc(Order.date_buy))
@@ -101,7 +107,7 @@ class OrderRepository(GeneralSQLRepository):
         id_user: int = None,
         id_order: int = None,
         type_find: Union[str, None] = None,
-        not_buy: bool = False
+        not_buy: bool = False,
     ) -> Union[List, List[Order], None]:
         """
         Получение всех заказов + подробная
@@ -110,8 +116,8 @@ class OrderRepository(GeneralSQLRepository):
 
         logging.info(
             msg=f"{self.__class__.__name__} "
-                f"Получение полной информации "
-                f"по id_user = {id_user}, id_order = {id_order}"
+            f"Получение полной информации "
+            f"по id_user = {id_user}, id_order = {id_order}"
         )
 
         if id_user:
@@ -121,7 +127,7 @@ class OrderRepository(GeneralSQLRepository):
                     Order.type_operation.in_(
                         [
                             OrderTypeOperationsEnum.NO_BUY,
-                            OrderTypeOperationsEnum.IN_PROCESS
+                            OrderTypeOperationsEnum.IN_PROCESS,
                         ]
                     )
                 )
@@ -129,10 +135,10 @@ class OrderRepository(GeneralSQLRepository):
                 select(Order)
                 .where(and_(*conditions))
                 .options(
-                joinedload(Order.ord_user),
-                        joinedload(Order.product_list)
-                        .joinedload(OrderProducts.product_data)
-                        .joinedload(Product.photos),
+                    joinedload(Order.ord_user),
+                    joinedload(Order.product_list)
+                    .joinedload(OrderProducts.product_data)
+                    .joinedload(Product.photos),
                 )
             )
         elif id_order:
@@ -142,8 +148,8 @@ class OrderRepository(GeneralSQLRepository):
                 .options(
                     joinedload(Order.ord_user),
                     joinedload(Order.product_list)
-                        .joinedload(OrderProducts.product_data)
-                        .joinedload(Product.photos),
+                    .joinedload(OrderProducts.product_data)
+                    .joinedload(Product.photos),
                 )
             )
         else:
@@ -163,11 +169,7 @@ class OrderRepository(GeneralSQLRepository):
         order_data = (await self.async_session.execute(stmt)).one_or_none()
 
         print(order_data, id_order)
-        print(
-            await self.async_session.execute(
-                select(Order)
-            )
-        )
+        print(await self.async_session.execute(select(Order)))
 
         if order_data:
             return order_data[0].type_operation not in [

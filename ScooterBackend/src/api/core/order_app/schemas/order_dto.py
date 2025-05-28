@@ -74,6 +74,7 @@ class ListOrderAndUserInformation(BaseModel):
 
     orders: List[OrderAndUserInformation]
 
+
 class OrderProductsSchema(BaseModel):
     id: int = Field(gt=0)
     id_product: int = Field(gt=0)
@@ -84,7 +85,7 @@ class OrderProductsSchema(BaseModel):
     class Config:
         model_config = {"from_attributes": True}
         from_attributes = True
-        extra = 'ignore'
+        extra = "ignore"
 
 
 class OrderSchema(BaseModel):
@@ -104,7 +105,7 @@ class OrderSchema(BaseModel):
     class Config:
         model_config = {"from_attributes": True}
         from_attributes = True
-        extra = 'ignore'
+        extra = "ignore"
 
 
 class OrderIsBuy(BaseModel):

@@ -1,4 +1,3 @@
-# Other libraries
 from dotenv import load_dotenv
 from typing import Union, Type
 import os
@@ -8,9 +7,6 @@ from src.settings.descriptor import SettingsDescriptor
 
 
 class Authentication:
-    """
-    Settings for authentication
-    """
 
     jwt_secret_key: Union[str, SettingsDescriptor, int] = SettingsDescriptor()
     jwt_secret_refresh_key: Union[str, SettingsDescriptor, int] = (

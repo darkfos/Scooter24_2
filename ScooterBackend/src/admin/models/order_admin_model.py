@@ -5,7 +5,6 @@ from src.database.models.order import Order
 
 class OrderModelView(ModelView, model=Order):
 
-    # Metadata
     name: str = "Заказы"
     name_plural: str = "Заказ"
     icon: str = "fa fa-shopping-cart"
@@ -36,19 +35,29 @@ class OrderModelView(ModelView, model=Order):
         Order.delivery_method: "Тип доставки",
     }
 
-    column_searchable_list: List[str] = ["id_user", "date_buy", "product_list.title_product", "transaction_id"]
+    column_searchable_list: List[str] = [
+        "id_user",
+        "date_buy",
+        "product_list.title_product",
+        "transaction_id",
+    ]
 
-    column_sortable_list: List[str] = ["id", "id_user", "date_buy", "email_user",
-                                       "transaction_id", "type_operation", "delivery_method"]
+    column_sortable_list: List[str] = [
+        "id",
+        "id_user",
+        "date_buy",
+        "email_user",
+        "transaction_id",
+        "type_operation",
+        "delivery_method",
+    ]
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "ord_user": {
             "fields": (
@@ -57,8 +66,5 @@ class OrderModelView(ModelView, model=Order):
             ),
             "order_by": ("id"),
         },
-        "product_list": {
-            "fields": ("id", "id_product"),
-            "order_by": ("id")
-        }
+        "product_list": {"fields": ("id", "id_product"), "order_by": ("id")},
     }

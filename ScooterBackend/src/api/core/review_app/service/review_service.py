@@ -1,4 +1,3 @@
-# System
 from typing import Type, Union, List
 import logging as logger
 
@@ -50,7 +49,6 @@ class ReviewService:
         )
 
         async with engine:
-            # Created new review
             is_created: bool = await engine.review_repository.add_one(
                 data=Review(
                     text_review=new_review.text_review,
@@ -80,7 +78,6 @@ class ReviewService:
             f"товару id_product={id_product}"
         )
         async with engine:
-            # Получение всех отзывов к товару
             all_reviews_for_product: Union[None, Review] = (
                 await engine.review_repository.find_all_reviews_by_id_product(
                     id_product=id_product
@@ -127,7 +124,6 @@ class ReviewService:
             f"Получение списка имеющихся товаров"
         )
         async with engine:
-            # Получение всех отзывов к товару
             all_reviews: Union[None, Review] = (
                 await engine.review_repository.find_all_reviews_with_user_data()
             )
@@ -213,7 +209,6 @@ class ReviewService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = (
                 await engine.admin_repository.find_admin_by_email_and_password(
                     email=token_data.get("email")

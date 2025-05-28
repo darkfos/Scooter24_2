@@ -5,7 +5,6 @@ from typing import List, Any
 
 class TypeWorkerModelView(ModelView, model=TypeWorker):
 
-    # Metadata
     name: str = "Тип работника"
     name_plural: str = "Тип работника"
     icon: str = "fa fa-users"
@@ -26,7 +25,6 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
 
     column_sortable_list: List[str] = ["id", "name_type"]
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
@@ -35,7 +33,6 @@ class TypeWorkerModelView(ModelView, model=TypeWorker):
 
     form_excluded_columns: list = [TypeWorker.vacancies]
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "vacancies": {
             "fields": (

@@ -34,17 +34,14 @@ class VacancyRequest(MainBase):
     )
 
     def __str__(self) -> str:
-        # Возвращает строковый объект
         return str(
             {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
         )
 
     def __repr__(self) -> str:
-        # Возвращает строковый объект
         return self.__str__()
 
     def read_model(self) -> Dict[str, Union[str, int]]:
-        # Чтение модели
         return {
             k: v for k, v in self.__dict__.items() if not k.startswith("_")
         }

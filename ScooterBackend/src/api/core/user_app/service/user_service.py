@@ -1,10 +1,8 @@
-# Other libraries
-import datetime
 from typing import Union, Type, Callable
 
+from src.api.authentication.secret.secret_upd_key import SecretKey
 from src.api.core.order_app.schemas.order_dto import OrderBase
 
-# Local
 from src.api.core.user_app.schemas.user_dto import (
     AddUser,
     InformationAboutUser,
@@ -15,7 +13,6 @@ from src.api.core.user_app.schemas.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
-    UpdateAddressDate,
     BuyingOrders,
 )
 from src.api.core.auth_app.schemas.auth_dto import UpdateUserPassword
@@ -27,11 +24,14 @@ from src.api.authentication.secure.authentication_service import Authentication
 from src.api.dep.dependencies import IEngineRepository
 from src.other.enums.auth_enum import AuthenticationEnum
 from src.other.enums.user_type_enum import UserTypeEnum
-from src.other.broker.dto.email_dto import EmailData
 import logging as logger
 
-# Redis
 from src.store.tools import RedisTools
+
+from src.other.broker.producer.producer import (
+    send_message_update_password_on_email,
+)
+from src.other.broker.dto.email_dto import EmailData
 
 redis: Type[RedisTools] = RedisTools()
 auth: Authentication = Authentication()
@@ -56,7 +56,6 @@ class UserService:
 
         logging.info(msg=f"{UserService.__name__} Создание пользователя")
 
-        # Hash password
         hashed_password: (
             CryptographyScooter
         ) = CryptographyScooter().hashed_password(
@@ -64,7 +63,6 @@ class UserService:
         )
 
         async with engine:
-            # Create a new user
             res_to_add_new_user: User = await engine.user_repository.add_one(
                 User(
                     is_active=False,
@@ -79,7 +77,6 @@ class UserService:
             )
             if res_to_add_new_user:
 
-                # Сохранение секретного ключа
                 secret_user_key: str | None = await func_to_bt(
                     engine=engine, new_user=new_user
                 )
@@ -167,8 +164,6 @@ class UserService:
         )
 
         async with engine:
-            # Проверка на администратора
-
 
             if token_data.get("is_admin"):
                 user_data: list[User] = await engine.user_repository.find_one(
@@ -348,8 +343,8 @@ class UserService:
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
                                 "type_buy": order[0].type_buy,
-                                "type_delivery": order[0].delivery_method
-                            }
+                                "type_delivery": order[0].delivery_method,
+                            },
                         )
                         for order in orders
                     ]
@@ -402,8 +397,8 @@ class UserService:
                                 "date_buy": order[0].date_buy,
                                 "type_operation": order[0].type_operation,
                                 "type_buy": order[0].type_buy,
-                                "type_delivery": order[0].delivery_method
-                            }
+                                "type_delivery": order[0].delivery_method,
+                            },
                         )
                         for order in user_orders
                     ]
@@ -429,7 +424,6 @@ class UserService:
 
         logging.info(msg="Получение полной информации о пользователе")
 
-        # Getting user id
         user_id: int = int(token_data.get("sub"))
 
         async with engine:
@@ -494,7 +488,6 @@ class UserService:
         )
 
         async with engine:
-            # Проверка на администратора
             is_admin: bool = await engine.user_repository.find_admin(
                 id_=int(token_data.get("sub"))
             )
@@ -561,7 +554,6 @@ class UserService:
             )
 
             if result_find_user:
-                # Проверка что пользователь создан
                 CryptographyScooter().verify_password(
                     password=password,
                     hashed_password=result_find_user.password_user,
@@ -608,14 +600,11 @@ class UserService:
         )
         await UserHttpError().http_user_not_found()
 
-    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
     async def update_user_password(
         engine: IEngineRepository,
-        token: str,
         to_update: UpdateUserPassword,
-        token_data: dict = dict(),
-    ) -> UserIsUpdated:
+    ) -> None:
         """
         Метод сервиса для обновления пароля пользователя
         :param session:
@@ -630,33 +619,36 @@ class UserService:
         crypt = CryptographyScooter()
 
         async with engine:
-            # Проверка на совпадение пароля
-            get_user_data: Union[User, None] = (
-                await engine.user_repository.find_one(
-                    other_id=int(token_data.get("sub"))
+            user_data: Union[User, None] = (
+                await engine.user_repository.find_user_by_email_and_password(
+                    email=to_update.email
                 )
             )
 
-            if get_user_data:
+            if user_data:
                 check_password = crypt.verify_password(
                     password=to_update.old_password,
-                    hashed_password=get_user_data[0].password_user,
+                    hashed_password=user_data.password_user,
                 )
 
                 if check_password:
-                    hash_password = crypt.hashed_password(
-                        password=to_update.new_password
-                    )
-                    is_updated = await engine.user_repository.update_one(
-                        other_id=int(token_data.get("sub")),
-                        data_to_update={
-                            "password_user": hash_password,
-                            "date_update": datetime.date.today(),
-                        },
-                    )
 
-                    if is_updated:
-                        return True
+                    secret_update_code = SecretKey().generate_password()
+
+                    if secret_update_code:
+                        await engine.user_repository.update_one(
+                            other_id=user_data.id,
+                            data_to_update={
+                                "secret_update_key": secret_update_code
+                            },
+                        )
+
+                        return await send_message_update_password_on_email(
+                            email_data=EmailData(
+                                email=to_update.email,
+                                secret_key=secret_update_code,
+                            )
+                        )
 
                 logging.critical(
                     msg=f"{UserService.__name__} "
@@ -747,3 +739,83 @@ class UserService:
                 f"обновить пароль пользователя"
             )
             await UserHttpError().http_failed_to_update_user_information()
+
+    @staticmethod
+    async def access_update_user_password(
+        engine: IEngineRepository,
+        update_data: UpdateUserPassword,
+        secret_key: str,
+    ) -> None:
+
+        async with engine:
+            user_data = (
+                await engine.user_repository.find_user_by_email_and_password(
+                    email=update_data.email
+                )
+            )
+
+            logging.info(
+                msg="Подверждение обновления пароля пользователя по email={}".format(
+                    update_data.email
+                )
+            )
+
+            if user_data:
+                if user_data.secret_update_key == secret_key:
+                    new_hashed_password = (
+                        CryptographyScooter().hashed_password(
+                            password=update_data.new_password
+                        )
+                    )
+                    is_updated = await engine.user_repository.update_one(
+                        other_id=user_data.id,
+                        data_to_update={
+                            "secret_update_key": "",
+                            "password_user": new_hashed_password,
+                        },
+                    )
+
+                    if is_updated:
+                        return
+
+            await UserHttpError().http_update_password_error()
+
+    @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
+    @staticmethod
+    async def update_auth_user_password(
+        engine: IEngineRepository,
+        password_data: UpdateUserPassword,
+        token: str,
+        token_data: dict = {},
+    ) -> None:
+
+        async with engine:
+            user_data: Union[list[User], None] = (
+                await engine.user_repository.find_one(
+                    other_id=int(token_data.get("sub"))
+                )
+            )
+
+            if user_data:
+
+                verify_password = CryptographyScooter().verify_password(
+                    password=password_data.old_password,
+                    hashed_password=user_data[0].password_user,
+                )
+
+                if verify_password:
+                    hashed_new_password = (
+                        CryptographyScooter().hashed_password(
+                            password=password_data.new_password
+                        )
+                    )
+
+                    is_updated = await engine.user_repository.update_one(
+                        other_id=int(token_data.get("sub")),
+                        data_to_update={"password_user": hashed_new_password},
+                    )
+
+                    if is_updated:
+                        return
+
+            await UserHttpError().http_update_password_error()

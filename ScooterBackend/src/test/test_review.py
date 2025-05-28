@@ -9,8 +9,8 @@ async def test_create_review(async_client: AsyncClient) -> None:
         data={
             "text_review": "Test text",
             "estimation_review": 10,
-            "id_product": 1
-        }
+            "id_product": 1,
+        },
     )
 
     assert req.status_code == 401, "Отзыв был создан!"
@@ -20,7 +20,9 @@ async def test_create_review(async_client: AsyncClient) -> None:
 async def test_get_all_review_by_id_product(async_client: AsyncClient) -> None:
     req = await async_client.get(url="/api/v1/review/all/product/109")
 
-    assert req.status_code == 200 and req.json()["reviews"] == [], "Отзывы не были найдены"
+    assert (
+        req.status_code == 200 and req.json()["reviews"] == []
+    ), "Отзывы не были найдены"
 
 
 @pytest.mark.asyncio

@@ -39,18 +39,16 @@ class RedisTools:
                     msg="Redis получение данных по ключу {}".format(
                         kwargs["redis_search_data"]
                     )
-                )  # Logging
+                )
                 return json.loads(redis_data)
 
             result_func = await func(*args, **kwargs)
 
-            # Set data in redis DB
             await self.set_key_and_value(
                 key=kwargs["redis_search_data"],
                 value=result_func.model_dump_json(),
             )
 
-            # Logging
             logging.info(msg="Redis данные были сохранены в хранилище")
             return result_func
 

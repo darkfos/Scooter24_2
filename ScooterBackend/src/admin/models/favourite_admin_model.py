@@ -6,7 +6,6 @@ from src.database.models.favourite import Favourite
 
 class FavouriteModelView(ModelView, model=Favourite):
 
-    # Metadata
     name: str = "Избранные товары"
     name_plural: str = "Избранное"
     icon: str = "fa fa-bookmark"
@@ -28,21 +27,20 @@ class FavouriteModelView(ModelView, model=Favourite):
     }
 
     column_searchable_list: list[str] = [
-        "id_user", "id_product",
+        "id_user",
+        "id_product",
         "product_info.title_product",
-        "fav_user.email_user"
+        "fav_user.email_user",
     ]
 
-    column_sortable_list: list[str] = ["id_user", "id_product", 'id']
+    column_sortable_list: list[str] = ["id_user", "id_product", "id"]
 
-    # Operations
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
     can_export: bool = True
     can_view_details: bool = True
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "fav_user": {
             "fields": (

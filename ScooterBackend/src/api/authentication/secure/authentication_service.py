@@ -1,4 +1,3 @@
-# Other libraries
 import jwt
 import logging as logger
 from datetime import timedelta, datetime
@@ -46,20 +45,49 @@ class Authentication:
         Аутентификация пользователя
         :param request:
         """
-
         try:
-            token_data: str = request.headers.get("Authorization").split(" ")[1]
-
-            print(token_data)
-
+            cookies: dict[str, str] = request.cookies
             token_access_data: dict[str, str | int] = jwt.decode(  # noqa
-                request.headers.get("Authorization").split(" ")[1],
+                cookies.get("access_key"),
                 Settings.auth_settings.jwt_secret_key,
                 algorithms=Settings.auth_settings.algorithm,
             )
 
-            return token_data
+            return cookies.get("access_key")
         except (KeyError, jwt.PyJWTError, jwt.DecodeError):
+            cookies: dict[str, str] = request.cookies
+
+            try:
+                refresh_token_data: dict[str, str | int] = jwt.decode(
+                    cookies.get("refresh_key"),
+                    Settings.auth_settings.jwt_secret_refresh_key,
+                    algorithms=Settings.auth_settings.algorithm,
+                )
+
+                new_access_token = jwt.encode(
+                    {
+                        "is_admin": refresh_token_data.get("is_admin"),
+                        "sub": str(refresh_token_data.get("sub")),
+                        "exp": (
+                            timedelta(
+                                minutes=Settings.auth_settings.time_work_secret_key  # noqa
+                            )
+                            + datetime.utcnow()  # noqa
+                        ),
+                    },
+                    Settings.auth_settings.jwt_secret_key,
+                    Settings.auth_settings.algorithm,
+                )
+                response.set_cookie(
+                    key="access_key",
+                    value=new_access_token,
+                    httponly=True,
+                    samesite="lax",
+                )
+                return new_access_token
+
+            except (jwt.DecodeError, KeyError):
+                pass
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Ошибка авторизации",
@@ -88,7 +116,6 @@ class Authentication:
                 if res_to_find_user.is_active is False:
                     await UserHttpError().user_no_activated()
 
-                # verify password
                 check_password = CryptographyScooter().verify_password(
                     password=token_data.password,
                     hashed_password=res_to_find_user.password_user,

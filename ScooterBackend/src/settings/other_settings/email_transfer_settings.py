@@ -1,4 +1,3 @@
-# System
 import os
 from typing import Union, Type
 from dotenv import load_dotenv

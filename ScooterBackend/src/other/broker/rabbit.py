@@ -35,15 +35,15 @@ async def email_queue(message: EmailQueueMessage) -> None:
 
     if message.type.value == "регистрация":
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.secret_key}\n"  # noqa
+            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.email_data.secret_key}\n"
             f"Пожалуйста никому не сообщайте его",  # noqa
-            whom_email=message.email,
+            whom_email=message.email_data.email,
         )
     else:
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.secret_key}\n"
-                            f"Пожалуйста никому не сообщайте его",
-            whom_email=message.email
+            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.email_data.secret_key}\n"
+            f"Пожалуйста никому не сообщайте его",
+            whom_email=message.email_data.email,
         )
 
 
@@ -57,18 +57,26 @@ async def transaction_queue(message: dict):
     await asyncio.sleep(360)
 
     try:
-        if (datetime.datetime.now() - datetime.datetime.fromisoformat(message["date_buy"])).total_seconds() > 350:
-            # Проверка данных о товаре
+        if (
+            datetime.datetime.now()
+            - datetime.datetime.fromisoformat(message["date_buy"])
+        ).total_seconds() > 350:
             async with aiohttp.ClientSession() as session:
-                async with session.get(f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}") as req:
+                async with session.get(
+                    f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}"
+                ) as req:
                     if req.status == 200:
                         data: OrderIsBuy = await req.json()
                         if not data["is_buy"]:
                             async with db_work.async_session.begin() as db:
-                                await db.execute(text('DELETE FROM "Order" WHERE id = :id'), {"id": int(message["id"])})
+                                await db.execute(
+                                    text('DELETE FROM "Order" WHERE id = :id'),
+                                    {"id": int(message["id"])},
+                                )
     except Exception:
         logging.exception(
-            msg="Не удалось удалить неоплаченный заказа id_order = " + str(message["id"])
+            msg="Не удалось удалить неоплаченный заказа id_order = "
+            + str(message["id"])
         )
 
 

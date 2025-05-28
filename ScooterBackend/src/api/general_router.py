@@ -1,4 +1,3 @@
-# System
 from typing import List, Union
 
 
@@ -44,7 +43,7 @@ from src.api.core.garage_app.router.garage_router import garage_router  # noqa
 class GeneralRouter:
 
     def __init__(self):
-        self.__api_v1_router = APIRouter(prefix="/api/v1", tags=["API V1"])
+        self.__api_v1_router = APIRouter(prefix="/v1", tags=["API V1"])
         self.register_router()
 
     def register_router(self, new_router: Union[APIRouter, None] = None):

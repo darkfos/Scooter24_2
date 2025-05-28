@@ -1,4 +1,3 @@
-# System
 from typing import Union, List, Type
 import logging as logger
 
@@ -153,8 +152,12 @@ class UserRepository(GeneralSQLRepository):
             .where(Order.id_user == user_id)
             .options(
                 joinedload(Order.product_list),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data),
-                joinedload(Order.product_list).joinedload(OrderProducts.product_data).joinedload(Product.photos),
+                joinedload(Order.product_list).joinedload(
+                    OrderProducts.product_data
+                ),
+                joinedload(Order.product_list)
+                .joinedload(OrderProducts.product_data)
+                .joinedload(Product.photos),
             )
             .where(
                 Order.type_operation.in_(
@@ -176,16 +179,18 @@ class UserRepository(GeneralSQLRepository):
 
         stmt = (
             select(Order)
-            .options(joinedload(Order.product_list).joinedload(
-                OrderProducts.product_data
-            ))
+            .options(
+                joinedload(Order.product_list).joinedload(
+                    OrderProducts.product_data
+                )
+            )
             .where(
                 Order.id_user == user_id
                 and (  # noqa
                     Order.type_operation.in_(
                         OrderTypeOperationsEnum.SUCCESS,
                         OrderTypeOperationsEnum.RETURNED,
-                        OrderTypeOperationsEnum.DELIVERED
+                        OrderTypeOperationsEnum.DELIVERED,
                     )
                 )
             )

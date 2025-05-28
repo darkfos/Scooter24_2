@@ -4,7 +4,6 @@ from src.database.models.product import Product
 
 class ProductModelView(ModelView, model=Product):
 
-    # Metadata
     name: str = "Товары"
     name_plural: str = "Товар"
     icon: str = "fa fa-motorcycle"
@@ -59,11 +58,20 @@ class ProductModelView(ModelView, model=Product):
         Product.photos: "Фотографии",
     }
 
-    column_searchable_list: list[str] = ["title_product", "article_product", "price_product", "quantity_product"]
+    column_searchable_list: list[str] = [
+        "title_product",
+        "article_product",
+        "price_product",
+        "quantity_product",
+    ]
 
-    column_sortable_list: list[str] = ["title_product", "article_product", "price_product", "quantity_product"]
+    column_sortable_list: list[str] = [
+        "title_product",
+        "article_product",
+        "price_product",
+        "quantity_product",
+    ]
 
-    # Operation's
     can_create: bool = True
     can_delete: bool = True
     can_edit: bool = True
@@ -101,7 +109,6 @@ class ProductModelView(ModelView, model=Product):
         "photos",
     ]
 
-    # Form's for FK
     form_ajax_refs: dict = {
         "brand_data": {
             "fields": ("id", "name_brand"),

@@ -21,7 +21,6 @@ class AdminPanelAuthentication(AuthenticationBackend):
         form = await request.form()
         username, password = form["username"], form["password"]
 
-        # Validate
         jwt_admin_data: Type[Tokens] = await self.auth_service.is_admin(
             session=await db_work.get_session(),
             email=username,

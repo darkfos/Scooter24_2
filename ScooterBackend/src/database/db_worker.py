@@ -1,4 +1,3 @@
-# Other
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     async_sessionmaker,
@@ -6,12 +5,8 @@ from sqlalchemy.ext.asyncio import (
     AsyncEngine,
 )
 
-# System
 from typing import Union
 
-# Local
-
-# Модели
 from src.database.models.product import Product  # noqa
 from src.database.models.category import Category  # noqa
 from src.database.models.order import Order  # noqa
@@ -24,8 +19,10 @@ from src.database.models.subcategory import SubCategory  # noqa
 from src.database.models.product_models import ProductModels  # noqa
 from src.database.models.user_type import UserType  # noqa
 from src.database.models.vacancy_request import VacancyRequest  # noqa
-from src.database.models.order_products import OrderProducts
-from src.settings.database_settings.database_settings import DatabaseSettings
+from src.database.models.order_products import OrderProducts  # noqa
+from src.settings.database_settings.database_settings import (
+    DatabaseSettings,
+)  # noqa
 
 from src.database.mainbase import MainBase
 
@@ -52,12 +49,10 @@ class DatabaseEngine:
         )
 
     async def create_tables(self):
-        # Создание таблиц
         async with self.db_engine.begin() as session:
             await session.run_sync(MainBase.metadata.create_all)
 
     async def get_session(self) -> AsyncSession:
-        # Получение сесиии
         async with self.async_session.begin() as session:
             return session
 

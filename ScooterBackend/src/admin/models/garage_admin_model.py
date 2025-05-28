@@ -5,7 +5,6 @@ from typing import List, Any, Dict
 
 class GarageAdminModel(ModelView, model=Garage):
 
-    # Metadata
     name: str = "Гараж"
     name_plural: str = "Гараж пользователя"
     icon: str = "fa fa-tags"
@@ -36,9 +35,12 @@ class GarageAdminModel(ModelView, model=Garage):
     }
 
     column_searchable_list: list[str] = [
-        "id_model", "id_mark",
-        "id_user", "user_data.email_user",
-        "mark_data.name_mark", "model_data.name_model"
+        "id_model",
+        "id_mark",
+        "id_user",
+        "user_data.email_user",
+        "mark_data.name_mark",
+        "model_data.name_model",
     ]
 
     column_sortable_list: list[str] = ["id_model", "id_mark", "id"]
