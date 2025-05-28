@@ -616,7 +616,6 @@ class UserService:
         logging.info(
             msg=f"{UserService.__name__} " f"Обновление пароля пользователя"
         )
-        crypt = CryptographyScooter()
 
         async with engine:
             user_data: Union[User, None] = (
@@ -626,12 +625,7 @@ class UserService:
             )
 
             if user_data:
-                check_password = crypt.verify_password(
-                    password=to_update.old_password,
-                    hashed_password=user_data.password_user,
-                )
-
-                if check_password:
+                if to_update.new_password == to_update.new_password_repeat:
 
                     secret_update_code = SecretKey().generate_password()
 
@@ -784,7 +778,8 @@ class UserService:
     @staticmethod
     async def update_auth_user_password(
         engine: IEngineRepository,
-        password_data: UpdateUserPassword,
+        old_password: str,
+        new_password: str,
         token: str,
         token_data: dict = {},
     ) -> None:
@@ -799,14 +794,14 @@ class UserService:
             if user_data:
 
                 verify_password = CryptographyScooter().verify_password(
-                    password=password_data.old_password,
-                    hashed_password=user_data[0].password_user,
+                    password=old_password,
+                    hashed_password=user_data[0].password_user
                 )
 
                 if verify_password:
                     hashed_new_password = (
                         CryptographyScooter().hashed_password(
-                            password=password_data.new_password
+                            password=new_password
                         )
                     )
 

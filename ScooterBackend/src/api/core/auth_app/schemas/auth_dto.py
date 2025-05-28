@@ -33,5 +33,5 @@ class AccessToken(BaseModel):
 
 class UpdateUserPassword(BaseModel):
     email: EmailStr = Field()
-    old_password: str = Field()
-    new_password: str = Field(max_length=60, min_length=6)
+    new_password: str = Field()
+    new_password_repeat: str = Field(max_length=60, min_length=6)

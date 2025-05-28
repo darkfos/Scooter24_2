@@ -260,8 +260,10 @@ async def access_update_user_password(
 async def update_auth_user_password( # noqa
     auth: Annotated[str, Depends(authentication_app.auth_user)],
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
-    password_data: UpdateUserPassword,
+    old_password: str,
+    new_password: str,
 ) -> None:
     return await UserService.update_auth_user_password(
-        token=auth, engine=engine, password_data=password_data
+        token=auth, engine=engine,
+        old_password=old_password, new_password=new_password
     )
