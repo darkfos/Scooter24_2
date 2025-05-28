@@ -1,12 +1,9 @@
-# System
 from typing import Annotated, Type
 import logging
 
-# Other libraries
 from fastapi import APIRouter, status, Depends
 
-# Local
-from src.api.authentication.secure.authentication_service import Authentication
+from src.api.authentication.secure.authentication_service import Authentication # noqa
 from src.api.core.user_app.schemas.user_dto import (
     InformationAboutUser,
     AllDataUser,
@@ -15,7 +12,6 @@ from src.api.core.user_app.schemas.user_dto import (
     UserIsUpdated,
     DataToUpdate,
     UserIsDeleted,
-    UpdateAddressDate,
     BuyingOrders,
 )
 from src.api.core.user_app.service.user_service import UserService

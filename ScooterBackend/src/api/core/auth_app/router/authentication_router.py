@@ -4,9 +4,7 @@ from fastapi import (
     APIRouter,
     Depends,
     status,
-    BackgroundTasks,
     HTTPException,
-    Request,
 )
 from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
@@ -14,10 +12,8 @@ from typing import Annotated
 import logging
 
 
-# Local
 from src.api.core.auth_app.schemas.auth_dto import (
     CreateToken,
-    AccessToken,
     UpdateUserPassword,
 )
 from src.api.core.user_app.schemas.user_dto import AddUser
@@ -257,11 +253,11 @@ async def access_update_user_password(
 
 @auth_router.post(
     path="/auth/update/password",
-    description="""### ENDPOINT Обновление пароля авторизированного пользователя""",
+    description="""### ENDPOINT Обновление пароля авторизированного пользователя""", # noqa
     summary="Обновление пароля",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def update_auth_user_password(
+async def update_auth_user_password( # noqa
     auth: Annotated[str, Depends(authentication_app.auth_user)],
     engine: Annotated[IEngineRepository, Depends(EngineRepository)],
     password_data: UpdateUserPassword,

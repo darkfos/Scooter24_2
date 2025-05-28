@@ -4,49 +4,49 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_information_user(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/information")
+    req = await async_client.get(url="/v1/user/information")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_full_information_user(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/information/all")
+    req = await async_client.get(url="/v1/user/information/all")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_all_user_reviews(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/all/reviews")
+    req = await async_client.get(url="/v1/user/all/reviews")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_all_user_favourites(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/all/favourites")
+    req = await async_client.get(url="/v1/user/all/favourites")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_all_user_orders(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/all/orders")
+    req = await async_client.get(url="/v1/user/all/orders")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_information_other_user(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/information/other/2")
+    req = await async_client.get(url="/v1/user/information/other/2")
 
     assert req.status_code == 401
 
 
 @pytest.mark.asyncio
 async def test_success_user_orders(async_client: AsyncClient) -> None:
-    req = await async_client.get(url="/api/v1/user/success/orders")
+    req = await async_client.get(url="/v1/user/success/orders")
 
     assert req.status_code == 401
 
@@ -54,7 +54,7 @@ async def test_success_user_orders(async_client: AsyncClient) -> None:
 @pytest.mark.asyncio
 async def test_update_user_information(async_client: AsyncClient) -> None:
     req = await async_client.put(
-        url="/api/v1/user/update",
+        url="/v1/user/update",
         data={
             "main_name_user": "string",
             "address": "string",
@@ -69,6 +69,6 @@ async def test_update_user_information(async_client: AsyncClient) -> None:
 
 @pytest.mark.asyncio
 async def test_delete_user(async_client: AsyncClient) -> None:
-    req = await async_client.delete(url="/api/v1/user/delete")
+    req = await async_client.delete(url="/v1/user/delete")
 
     assert req.status_code == 401

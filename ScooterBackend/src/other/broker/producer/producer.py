@@ -1,7 +1,6 @@
 from src.other.broker.rabbit import broker
 from src.other.broker.dto.email_dto import EmailData, TypeEmailSendMessage
 from src.database.models.order import Order
-from src.api.core.order_app.schemas.order_dto import OrderSchema
 
 
 async def send_message_registration_on_email(email_data: EmailData):

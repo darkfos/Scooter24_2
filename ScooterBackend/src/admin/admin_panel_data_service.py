@@ -468,7 +468,7 @@ class AdminPanelService:
                             cnt_to_update += 1
                     cnt_row += 1
 
-            except KeyError as k:
+            except KeyError:
                 request.session["error_message"] = (
                     "ОШИБКА ОБРАБОТКИ ФАЙЛА: Не удалось обработать файл"
                 )

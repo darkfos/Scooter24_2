@@ -1,10 +1,8 @@
-# Other libraries
 import datetime
 from uuid import UUID
 from pydantic import BaseModel, Field
-from sqlalchemy import Row
 
-from typing import Union, Annotated, List, Dict, Any, Optional
+from typing import Union, Annotated, List, Dict, Optional
 
 
 class OrderBase(BaseModel):

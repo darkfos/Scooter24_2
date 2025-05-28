@@ -331,7 +331,7 @@ class UserService:
                             product_data=[
                                 {
                                     "id_product": product.id_product,
-                                    "title_product": product.product_data.title_product,
+                                    "title_product": product.product_data.title_product, # noqa
                                     "quantity_buy": product.count_product,
                                     "price": product.price,
                                 }
@@ -385,7 +385,7 @@ class UserService:
                             product_data=[
                                 {
                                     "id_product": product.id_product,
-                                    "title_product": product.product_data.title_product,
+                                    "title_product": product.product_data.title_product, # noqa
                                     "quantity_buy": product.count_product,
                                     "price": product.price,
                                 }
@@ -755,7 +755,7 @@ class UserService:
             )
 
             logging.info(
-                msg="Подверждение обновления пароля пользователя по email={}".format(
+                msg="Подверждение обновления пароля пользователя по email={}".format( # noqa
                     update_data.email
                 )
             )

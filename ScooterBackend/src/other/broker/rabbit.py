@@ -35,13 +35,13 @@ async def email_queue(message: EmailQueueMessage) -> None:
 
     if message.type.value == "регистрация":
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.email_data.secret_key}\n"
+            text_to_message=f"Ваш секретный ключ для подтверждения аккаунта: {message.email_data.secret_key}\n" # noqa
             f"Пожалуйста никому не сообщайте его",  # noqa
             whom_email=message.email_data.email,
         )
     else:
         await EmailTransfer().send_message(
-            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.email_data.secret_key}\n"
+            text_to_message=f"Ваш секретный ключ для обновления пароля: {message.email_data.secret_key}\n" # noqa
             f"Пожалуйста никому не сообщайте его",
             whom_email=message.email_data.email,
         )
@@ -58,12 +58,11 @@ async def transaction_queue(message: dict):
 
     try:
         if (
-            datetime.datetime.now()
-            - datetime.datetime.fromisoformat(message["date_buy"])
+            datetime.datetime.now() - datetime.datetime.fromisoformat(message["date_buy"]) # noqa
         ).total_seconds() > 350:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                    f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}"
+                    f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}" # noqa
                 ) as req:
                     if req.status == 200:
                         data: OrderIsBuy = await req.json()
@@ -75,8 +74,7 @@ async def transaction_queue(message: dict):
                                 )
     except Exception:
         logging.exception(
-            msg="Не удалось удалить неоплаченный заказа id_order = "
-            + str(message["id"])
+            msg="Не удалось удалить неоплаченный заказа id_order = " + str(message["id"]) # noqa
         )
 
 

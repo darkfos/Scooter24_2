@@ -35,12 +35,12 @@ class OrderService:
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
-    async def create_new_order(
+    async def create_new_order( # noqa
         engine: IEngineRepository,
         token: str,
         new_order: AddOrder,
         token_data: dict = dict(),
-    ) -> None:
+    ) -> None: # noqa
         """
         Метод сервиса для создания нового заказа
         :param session:
@@ -63,7 +63,7 @@ class OrderService:
                 for orderData in user_orders:
                     for product in orderData[0].product_list:
                         if product.id_product in new_order.id_products:
-                            await OrderHttpError().http_failed_to_create_a_new_order()
+                            await OrderHttpError().http_failed_to_create_a_new_order() # noqa
 
             is_created: bool = await engine.order_repository.add_one(
                 data=Order(
@@ -93,7 +93,7 @@ class OrderService:
                             msg=f"{OrderService.__name__} "
                             f"Не удалось создать новый заказ"
                         )
-                        await OrderHttpError().http_failed_to_create_a_new_order()
+                        await OrderHttpError().http_failed_to_create_a_new_order() # noqa
 
                 return
             await OrderHttpError().http_failed_to_create_a_new_order()
@@ -118,20 +118,20 @@ class OrderService:
 
     @auth(worker=AuthenticationEnum.DECODE_TOKEN.value)
     @staticmethod
-    async def buy_product(
+    async def buy_product( # noqa
         engine: IEngineRepository,
         token: str,
         bt: send_transaction_operation,
         order_buy_data: BuyOrder,
         token_data: dict = dict(),
-    ) -> None:
+    ) -> None: # noqa
         """
         Метод сервиса - осуществление покупки товара
         """
 
         logging.info(
             msg=f"{OrderService.__name__} "
-            f"Осуществление покупки товаров пользователем id={token_data.get('sub')}"
+            f"Осуществление покупки товаров пользователем id={token_data.get('sub')}" # noqa
         )
 
         async with engine:
@@ -147,8 +147,7 @@ class OrderService:
                 if product_data:
                     if product_data[0].quantity_product >= product.quantity:
                         price_result += (
-                            (product.price * product.quantity)
-                            * product_data[0].product_discount
+                            (product.price * product.quantity) * product_data[0].product_discount # noqa
                         ) / 100
                     else:
                         await OrderHttpError().http_order_more_quantity()
@@ -204,7 +203,7 @@ class OrderService:
                         )
 
                         if not product_order_is_created:
-                            await OrderHttpError().http_failed_to_create_a_new_order()
+                            await OrderHttpError().http_failed_to_create_a_new_order() # noqa
 
                     url_buy = yoomoney.Quickpay(
                         receiver="4100119127542849",
@@ -215,7 +214,7 @@ class OrderService:
                         label=f"{label_product}",
                     )
 
-                    create_product_data = await engine.order_repository.get_all_product_list_on_id(
+                    create_product_data = await engine.order_repository.get_all_product_list_on_id( # noqa
                         _id=order_is_created
                     )
 
@@ -255,7 +254,7 @@ class OrderService:
                         )
 
                         if not isupdated:
-                            await OrderHttpError().http_failed_to_create_a_new_order()
+                            await OrderHttpError().http_failed_to_create_a_new_order() # noqa
 
                 await engine.order_repository.update_one(
                     order.id,
@@ -286,7 +285,7 @@ class OrderService:
 
         logging.info(
             msg=f"{OrderService.__name__} "
-            f"Получение всей информации о всех заказах для пользователя id={token_data.get('sub')}"
+            f"Получение всей информации о всех заказах для пользователя id={token_data.get('sub')}" # noqa
         )
 
         async with engine:

@@ -5,11 +5,10 @@ from datetime import timedelta, datetime
 from fastapi import HTTPException, status, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordBearer
-from typing import Dict, Union, Callable, Annotated
+from typing import Dict, Union, Callable
 
 from src.database.repository.user_repository import UserRepository
 
-# Local
 from src.settings.engine_settings import Settings
 from src.api.core.auth_app.schemas.auth_dto import CreateToken, Tokens
 from src.other.enums.user_type_enum import UserTypeEnum

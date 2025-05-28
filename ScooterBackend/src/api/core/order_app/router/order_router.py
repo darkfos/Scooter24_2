@@ -1,18 +1,14 @@
-# System
-from typing import Annotated, Type, List
+from typing import Annotated, Type
 import logging
 
-# Other libraries
 from fastapi import Depends, status, APIRouter, Request
 
-# Local
 from src.api.authentication.secure.authentication_service import Authentication
 from src.api.core.order_app.schemas.order_dto import (
     OrderAndUserInformation,
     AddOrder,
     BuyOrder,
     ListOrderAndUserInformation,
-    OrderSchema,
     OrderIsBuy,
 )
 from src.api.core.order_app.service.order_service import OrderService

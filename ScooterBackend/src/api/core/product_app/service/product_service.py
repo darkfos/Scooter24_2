@@ -247,30 +247,30 @@ class ProductService:
                         product_data.products.append(
                             ProductBase(
                                 id_product=product.id_product,
-                                label_product=productFullInformation.label_product,
-                                article_product=productFullInformation.article_product,
-                                title_product=productFullInformation.title_product,
+                                label_product=productFullInformation.label_product, # noqa
+                                article_product=productFullInformation.article_product, # noqa
+                                title_product=productFullInformation.title_product, # noqa
                                 brand=productFullInformation.brand,
                                 brand_mark=[
                                     ProductMarks(
                                         id_product=mark.id_product,
                                         id_mark=mark.id_mark,
                                     )
-                                    for mark in productFullInformation.brand_mark
+                                    for mark in productFullInformation.brand_mark # noqa
                                 ],
                                 models=[
                                     model.read_model()
-                                    for model in productFullInformation.product_models_data
+                                    for model in productFullInformation.product_models_data # noqa
                                 ],
-                                id_sub_category=productFullInformation.id_sub_category,
-                                weight_product=productFullInformation.weight_product,
-                                is_recommended=productFullInformation.is_recommended,
-                                explanation_product=productFullInformation.explanation_product,
-                                quantity_product=productFullInformation.quantity_product,
-                                price_product=productFullInformation.price_product,
-                                date_create_product=productFullInformation.date_create_product,
-                                date_update_information=productFullInformation.date_update_information,
-                                product_discount=productFullInformation.product_discount,
+                                id_sub_category=productFullInformation.id_sub_category, # noqa
+                                weight_product=productFullInformation.weight_product, # noqa
+                                is_recommended=productFullInformation.is_recommended, # noqa
+                                explanation_product=productFullInformation.explanation_product, # noqa
+                                quantity_product=productFullInformation.quantity_product, # noqa
+                                price_product=productFullInformation.price_product, # noqa
+                                date_create_product=productFullInformation.date_create_product, # noqa
+                                date_update_information=productFullInformation.date_update_information, # noqa
+                                product_discount=productFullInformation.product_discount, # noqa
                                 photo=[
                                     photo.read_model()
                                     for photo in productFullInformation.photos
@@ -280,7 +280,7 @@ class ProductService:
                                         id_product=type_pr.id_product,
                                         id_moto_type=type_pr.id_type_model,
                                     )
-                                    for type_pr in productFullInformation.type_models
+                                    for type_pr in productFullInformation.type_models # noqa
                                 ],
                             )
                         )
