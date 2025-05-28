@@ -1,11 +1,9 @@
 from typing import Dict, Union, List
 
 
-# Other libraries
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
 
-# Local
 from src.database.mainbase import MainBase
 
 
