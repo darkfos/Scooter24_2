@@ -169,6 +169,9 @@ class OrderRepository(GeneralSQLRepository):
 
         if order_data:
             return order_data[0].type_operation not in [
+                OrderTypeOperationsEnum.IN_PROCESS.value,
+                OrderTypeOperationsEnum.NO_BUY.value,
+                OrderTypeOperationsEnum.CANCEL.value,
                 OrderTypeOperationsEnum.NO_BUY,
                 OrderTypeOperationsEnum.IN_PROCESS,
                 OrderTypeOperationsEnum.CANCEL,
