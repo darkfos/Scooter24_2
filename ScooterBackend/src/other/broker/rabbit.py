@@ -47,8 +47,6 @@ async def email_queue(message: EmailQueueMessage) -> None:
 async def transaction_queue(message: dict):
     try:
 
-        print(message, 5943)
-
         await asyncio.sleep(400)
 
         order_id = message.get("id")
@@ -59,10 +57,8 @@ async def transaction_queue(message: dict):
 
         async with aiohttp.ClientSession() as session:
             async with session.get(
-                f"http://backend_scooter:8000/api/v1/order/check_buy/{order_id}"
+                f"https://24скутер.рф/api/v1/order/check_buy/{order_id}"
             ) as req:
-
-                print(req, await req.json())
 
                 if req.status == 200:
                     data = await req.json()
@@ -75,12 +71,10 @@ async def transaction_queue(message: dict):
                             port=5432
                         )
 
-                        is_delete = await connection.execute(
+                        await connection.execute(
                             'DELETE FROM "Order" WHERE id = $1',
                             int(order_id)
                         )
-
-                        print(is_delete)
 
                         await connection.close()
 
