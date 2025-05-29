@@ -102,6 +102,7 @@ async def login_user(
 )
 async def exit_user(response: Response):
     response.delete_cookie(
+        domain="24скутер.рф",
         key="access_key",
         httponly=True,
         secure=True,
@@ -109,6 +110,7 @@ async def exit_user(response: Response):
         path="/"
     )
     response.delete_cookie(
+        domain="24скутер.рф",
         key="refresh_key",
         httponly=True,
         secure=True,
