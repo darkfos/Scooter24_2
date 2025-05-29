@@ -54,9 +54,10 @@ async def transaction_queue(message: dict):
     :param message:
     """
 
-    await asyncio.sleep(360)
+    await asyncio.sleep(400)
 
     try:
+        print(48394398)
         if (
             datetime.datetime.now() - datetime.datetime.fromisoformat(message["date_buy"]) # noqa
         ).total_seconds() > 350:
@@ -64,6 +65,7 @@ async def transaction_queue(message: dict):
                 async with session.get(
                     f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}" # noqa
                 ) as req:
+                    print(req, 893489)
                     if req.status == 200:
                         data: OrderIsBuy = await req.json()
                         if not data["is_buy"]:
