@@ -1,5 +1,4 @@
 import asyncio
-import datetime
 import aiohttp
 import logging as logger
 
@@ -8,7 +7,6 @@ from faststream import FastStream
 from dotenv import load_dotenv
 from sqlalchemy import text
 
-from src.api.core.order_app.schemas.order_dto import OrderIsBuy
 from src.database.db_worker import db_work
 from src.other.broker.dto.email_dto import EmailQueueMessage
 from src.other.email.data_email_transfer import EmailTransfer
@@ -70,7 +68,7 @@ async def transaction_queue(message: dict):
                                 {"id": int(order_id)},
                             )
     except Exception as e:
-        logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {message.get('id')}: {e}")
+        logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {message.get('id')}: {e}") # noqa
 
 
 @faststream_app.after_startup
