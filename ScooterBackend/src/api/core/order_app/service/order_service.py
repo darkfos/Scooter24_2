@@ -170,7 +170,6 @@ class OrderService:
                     case "express":
                         type_delivery_product = DeliveryMethod.EXPRESS
 
-                # Создание нового заказа
                 order_is_created = await engine.order_repository.add_one(
                     data=Order(
                         label_order=label_product,

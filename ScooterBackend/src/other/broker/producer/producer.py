@@ -43,5 +43,6 @@ async def send_transaction_operation(order_data: Order):
 
     await broker.connect()
 
+    print(order_data, 43829843)
     schema_order = order_data.read_model_orm()
     await broker.publish(message=schema_order, queue="transaction_send")
