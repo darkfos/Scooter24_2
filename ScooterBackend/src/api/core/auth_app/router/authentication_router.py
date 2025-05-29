@@ -105,20 +105,18 @@ async def exit_user():
     resp = Response(status_code=status.HTTP_204_NO_CONTENT)
 
     resp.delete_cookie(
-        domain=".xn--24-olct5adih.xn--p1ai",
         key="access_key",
+        path="/",
         httponly=True,
         secure=True,
-        samesite="lax",
-        path="/"
+        samesite="lax"
     )
     resp.delete_cookie(
-        domain=".xn--24-olct5adih.xn--p1ai",
         key="refresh_key",
+        path="/",
         httponly=True,
         secure=True,
-        samesite="none",
-        path="/"
+        samesite="none"
     )
 
     return resp
