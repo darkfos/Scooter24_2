@@ -6,7 +6,7 @@ from fastapi import (
     status,
     HTTPException,
 )
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
@@ -102,7 +102,7 @@ async def login_user(
 )
 async def exit_user():
 
-    resp = Response(status_code=status.HTTP_204_NO_CONTENT)
+    resp = JSONResponse(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
     resp.delete_cookie(
         key="access_key",
@@ -120,7 +120,6 @@ async def exit_user():
     )
 
     return resp
-
 
 @auth_router.post(
     path="/registration",
