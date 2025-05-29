@@ -101,8 +101,20 @@ async def login_user(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def exit_user(response: Response):
-    response.delete_cookie(key="access_key")
-    response.delete_cookie(key="refresh_key")
+    response.delete_cookie(
+        key="access_key",
+        httponly=True,
+        secure=True,
+        samesite="none",
+        path="/"
+    )
+    response.delete_cookie(
+        key="refresh_key",
+        httponly=True,
+        secure=True,
+        samesite="none",
+        path="/"
+    )
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -208,7 +220,7 @@ async def update_user_password(
 
 
 @auth_router.post(
-    path="/access/create",
+    path="/auth/access/create",
     response_model=None,
     status_code=status.HTTP_201_CREATED,
     description="""
