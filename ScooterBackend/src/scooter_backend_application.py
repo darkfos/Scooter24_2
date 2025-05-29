@@ -52,6 +52,8 @@ class ScooterBackendApplication:
             "http://37.77.105.239:3000",
             "http://127.0.0.1:3000",
             "http://localhost:3001",
+            "https://xn--24-olct5adih.xn--p1ai",
+            "https://24скутер.рф"
         ]
 
         self.include_router()

@@ -22,6 +22,15 @@ async def redirect_to_docs() -> RedirectResponse:
     )
 
 
+@app.on_event("startup")
+async def startup_event() -> None:
+    from src.other.broker.rabbit import broker
+
+    await broker.connect()
+    await broker.declare_queue("email")
+    await broker.declare_queue("transaction_send")
+
+
 if __name__ == "__main__":
     logging.info(msg="Start Project")
     uvicorn.run(

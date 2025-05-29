@@ -1,13 +1,6 @@
 from src.other.broker.dto.email_dto import EmailData, TypeEmailSendMessage
 from src.database.models.order import Order
-from src.other.broker.rabbit import broker, faststream_app
-
-
-@faststream_app.after_startup
-async def start_broker() -> None:
-    await broker.connect()
-    await broker.declare_queue("email")
-    await broker.declare_queue("transaction_send")
+from src.other.broker.rabbit import broker
 
 
 async def send_message_registration_on_email(email_data: EmailData):
