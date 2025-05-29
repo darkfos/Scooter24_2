@@ -80,7 +80,6 @@ async def login_user(
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60 * 15,
     )
 
     response.set_cookie(
@@ -90,8 +89,9 @@ async def login_user(
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60 * 60 * 24 * 30,
     )
+
+    return response
 
 
 @auth_router.post(
@@ -104,26 +104,23 @@ async def login_user(
 )
 async def exit_user(response: Response):
 
-    response.set_cookie(
+    response.delete_cookie(
         key="access_key",
-        value="",
         domain="xn--24-olct5adih.xn--p1ai",
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60 * 15,
     )
 
-    response.set_cookie(
+    response.delete_cookie(
         key="refresh_key",
-        value="",
         domain="xn--24-olct5adih.xn--p1ai",
         httponly=True,
         secure=True,
         samesite="none",
-        max_age=60 * 60 * 24 * 30,
     )
 
+    return response
 
 @auth_router.post(
     path="/registration",
