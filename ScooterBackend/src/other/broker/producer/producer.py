@@ -39,5 +39,5 @@ async def send_transaction_operation(order_data: Order):
     :param order_data:
     """
 
-    schema_order = order_data.read_model_orm()
+    schema_order: dict[str, str] = order_data.read_model_orm()
     await broker.publish(message=schema_order, queue="transaction_send")

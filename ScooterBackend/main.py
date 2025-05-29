@@ -5,6 +5,7 @@ from fastapi import status, FastAPI
 from typing import Type
 import uvicorn
 from logger import set_logger
+from faststream.rabbit import RabbitQueue
 from src.settings.engine_settings import Settings
 
 set_logger()
@@ -27,8 +28,8 @@ async def startup_event() -> None:
     from src.other.broker.rabbit import broker
 
     await broker.connect()
-    await broker.declare_queue("email")
-    await broker.declare_queue("transaction_send")
+    await broker.declare_queue(queue=RabbitQueue(name="email"))
+    await broker.declare_queue(queue=RabbitQueue(name="transaction_send"))
 
 
 if __name__ == "__main__":

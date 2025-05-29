@@ -48,7 +48,8 @@ async def email_queue(message: EmailQueueMessage) -> None:
 @broker.subscriber("transaction_send")
 async def transaction_queue(message: dict):
     try:
-        await asyncio.sleep(400)  # или используйте отложенные сообщения
+        await asyncio.sleep(400)
+
         order_id = message.get("id")
         date_buy = message.get("date_buy")
         if not order_id or not date_buy:
