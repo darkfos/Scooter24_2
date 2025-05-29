@@ -57,23 +57,18 @@ async def transaction_queue(message: dict):
     await asyncio.sleep(400)
 
     try:
-        print(48394398)
-        if (
-            datetime.datetime.now() - datetime.datetime.fromisoformat(message["date_buy"]) # noqa
-        ).total_seconds() > 350:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}" # noqa
-                ) as req:
-                    print(req, 893489)
-                    if req.status == 200:
-                        data: OrderIsBuy = await req.json()
-                        if not data["is_buy"]:
-                            async with db_work.async_session.begin() as db:
-                                await db.execute(
-                                    text('DELETE FROM "Order" WHERE id = :id'),
-                                    {"id": int(message["id"])},
-                                )
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}" # noqa
+            ) as req:
+                if req.status == 200:
+                    data: OrderIsBuy = await req.json()
+                    if not data["is_buy"]:
+                        async with db_work.async_session.begin() as db:
+                            await db.execute(
+                                text('DELETE FROM "Order" WHERE id = :id'),
+                                {"id": int(message["id"])},
+                            )
     except Exception:
         logging.exception(
             msg="Не удалось удалить неоплаченный заказа id_order = " + str(message["id"]) # noqa
