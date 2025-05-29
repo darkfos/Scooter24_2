@@ -6,7 +6,7 @@ from fastapi import (
     status,
     HTTPException,
 )
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import Response
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import logging
@@ -102,11 +102,9 @@ async def login_user(
     summary="Выход пользователя",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def exit_user():
+async def exit_user(response: Response):
 
-    resp = JSONResponse(content=None, status_code=status.HTTP_204_NO_CONTENT)
-
-    resp.set_cookie(
+    response.set_cookie(
         key="access_key",
         value="",
         domain="xn--24-olct5adih.xn--p1ai",
@@ -116,7 +114,7 @@ async def exit_user():
         max_age=60 * 15,
     )
 
-    resp.set_cookie(
+    response.set_cookie(
         key="refresh_key",
         value="",
         domain="xn--24-olct5adih.xn--p1ai",
@@ -125,8 +123,6 @@ async def exit_user():
         samesite="none",
         max_age=60 * 60 * 24 * 30,
     )
-
-    return resp
 
 
 @auth_router.post(
