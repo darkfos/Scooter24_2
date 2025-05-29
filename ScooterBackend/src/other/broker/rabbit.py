@@ -46,6 +46,9 @@ async def email_queue(message: EmailQueueMessage) -> None:
 @broker.subscriber("transaction_send")
 async def transaction_queue(message: dict):
     try:
+
+        print(message, 5943)
+
         await asyncio.sleep(400)
 
         order_id = message.get("id")
@@ -61,7 +64,6 @@ async def transaction_queue(message: dict):
                 if req.status == 200:
                     data = await req.json()
                     if not data.get("is_buy"):
-
                         connection = await asyncpg.connect(
                             user=Settings.database_settings.db_user,
                             password=Settings.database_settings.db_password,
@@ -78,7 +80,7 @@ async def transaction_queue(message: dict):
                         await connection.close()
 
     except Exception as e:
-        logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {message.get('id')}: {e}") # noqa
+        logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {order_id}: {e}") # noqa
 
 
 @faststream_app.after_startup
