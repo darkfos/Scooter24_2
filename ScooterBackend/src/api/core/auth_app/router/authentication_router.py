@@ -106,6 +106,7 @@ async def exit_user(response: Response):
 
     response.delete_cookie(
         key="access_key",
+        path="/",
         domain="xn--24-olct5adih.xn--p1ai",
         httponly=True,
         secure=True,
@@ -114,6 +115,7 @@ async def exit_user(response: Response):
 
     response.delete_cookie(
         key="refresh_key",
+        path="/",
         domain="xn--24-olct5adih.xn--p1ai",
         httponly=True,
         secure=True,
