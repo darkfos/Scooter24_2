@@ -100,8 +100,11 @@ async def login_user(
     summary="Выход пользователя",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def exit_user(response: Response):
-    response.delete_cookie(
+async def exit_user():
+
+    resp = Response(status_code=status.HTTP_204_NO_CONTENT)
+
+    resp.delete_cookie(
         domain=".xn--24-olct5adih.xn--p1ai",
         key="access_key",
         httponly=True,
@@ -109,7 +112,7 @@ async def exit_user(response: Response):
         samesite="lax",
         path="/"
     )
-    response.delete_cookie(
+    resp.delete_cookie(
         domain=".xn--24-olct5adih.xn--p1ai",
         key="refresh_key",
         httponly=True,
@@ -118,7 +121,7 @@ async def exit_user(response: Response):
         path="/"
     )
 
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    return resp
 
 
 @auth_router.post(
