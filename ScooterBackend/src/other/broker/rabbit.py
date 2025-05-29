@@ -1,13 +1,11 @@
 import asyncio
 import aiohttp
+import asyncpg
 import logging as logger
 
 from faststream.rabbit import RabbitQueue, RabbitBroker
 from faststream import FastStream
 from dotenv import load_dotenv
-from sqlalchemy import text
-
-from src.database.db_worker import db_work
 from src.other.broker.dto.email_dto import EmailQueueMessage
 from src.other.email.data_email_transfer import EmailTransfer
 from src.settings.engine_settings import Settings
@@ -63,11 +61,22 @@ async def transaction_queue(message: dict):
                 if req.status == 200:
                     data = await req.json()
                     if not data.get("is_buy"):
-                        async with db_work.async_session.begin() as db:
-                            await db.execute(
-                                text('DELETE FROM "Order" WHERE id = :id'),
-                                {"id": int(order_id)},
-                            )
+
+                        connection = await asyncpg.connect(
+                            user=Settings.database_settings.db_user,
+                            password=Settings.database_settings.db_password,
+                            database=Settings.database_settings.db_name,
+                            host="database",
+                            port=5432
+                        )
+
+                        await connection.execute(
+                            'DELETE FROM "Order" WHERE id = $1',
+                            int(order_id)
+                        )
+
+                        await connection.close()
+
     except Exception as e:
         logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {message.get('id')}: {e}") # noqa
 
