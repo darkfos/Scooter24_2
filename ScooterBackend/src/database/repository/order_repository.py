@@ -167,9 +167,6 @@ class OrderRepository(GeneralSQLRepository):
         stmt = select(Order).where(Order.id == id_order)
         order_data = (await self.async_session.execute(stmt)).one_or_none()
 
-        print(order_data, id_order)
-        print(await self.async_session.execute(select(Order)))
-
         if order_data:
             return order_data[0].type_operation not in [
                 OrderTypeOperationsEnum.NO_BUY,
