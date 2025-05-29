@@ -127,7 +127,6 @@ class OrderRepository(GeneralSQLRepository):
                     Order.type_operation.in_(
                         [
                             OrderTypeOperationsEnum.NO_BUY,
-                            OrderTypeOperationsEnum.IN_PROCESS,
                         ]
                     )
                 )

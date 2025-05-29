@@ -49,30 +49,28 @@ async def email_queue(message: EmailQueueMessage) -> None:
 
 @broker.subscriber("transaction_send")
 async def transaction_queue(message: dict):
-    """
-    Отмены покупок если время прошло
-    :param message:
-    """
-
-    await asyncio.sleep(400)
-
     try:
+        await asyncio.sleep(400)  # или используйте отложенные сообщения
+        order_id = message.get("id")
+        date_buy = message.get("date_buy")
+        if not order_id or not date_buy:
+            logging.error(f"Некорректное сообщение: {message}")
+            return
+
         async with aiohttp.ClientSession() as session:
             async with session.get(
-                f"http://backend_scooter:8000/api/v1/order/check_buy/{message['id']}" # noqa
+                f"http://backend_scooter:8000/api/v1/order/check_buy/{order_id}"
             ) as req:
                 if req.status == 200:
-                    data: OrderIsBuy = await req.json()
-                    if not data["is_buy"]:
+                    data = await req.json()
+                    if not data.get("is_buy"):
                         async with db_work.async_session.begin() as db:
                             await db.execute(
                                 text('DELETE FROM "Order" WHERE id = :id'),
-                                {"id": int(message["id"])},
+                                {"id": int(order_id)},
                             )
-    except Exception:
-        logging.exception(
-            msg="Не удалось удалить неоплаченный заказа id_order = " + str(message["id"]) # noqa
-        )
+    except Exception as e:
+        logging.exception(f"Не удалось удалить неоплаченный заказ id_order = {message.get('id')}: {e}")
 
 
 @faststream_app.after_startup
