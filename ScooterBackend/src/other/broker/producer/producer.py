@@ -25,7 +25,6 @@ async def send_message_update_password_on_email(email_data: EmailData) -> None:
     :param email_data:
     """
 
-    await broker.connect()
     await broker.publish(
         message={
             "email_data": email_data,
@@ -41,8 +40,5 @@ async def send_transaction_operation(order_data: Order):
     :param order_data:
     """
 
-    await broker.connect()
-
-    print(order_data, 43829843)
     schema_order = order_data.read_model_orm()
     await broker.publish(message=schema_order, queue="transaction_send")
