@@ -17,6 +17,8 @@ services:
       - redis
       - backend_brock
       - broker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   backend:
     container_name: backend_scooter
     build:

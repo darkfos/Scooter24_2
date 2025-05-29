@@ -220,7 +220,7 @@ async def update_user_password(
 
 
 @auth_router.post(
-    path="/auth/access/create",
+    path="/access/create",
     response_model=None,
     status_code=status.HTTP_201_CREATED,
     description="""

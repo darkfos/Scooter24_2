@@ -49,27 +49,6 @@ http {
         root /usr/share/nginx/html;
         index index.html;
 
-	location /bot/chat {
-                proxy_pass http://host.docker.internal:3002/api/chat;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-
-                add_header 'Access-Control-Allow-Origin' '*' always;
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
-                add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization' always;
-                add_header 'Access-Control-Allow-Credentials' 'true' always;
-
-                # Preflight-запросы
-                if ($request_method = 'OPTIONS') {
-                    add_header 'Access-Control-Max-Age' 1728000;
-                    add_header 'Content-Type' 'text/plain; charset=UTF-8';
-                    add_header 'Content-Length' 0;
-                    return 204;
-                }
-            }
-
         # Frontend SPA
         location / {
             try_files $uri $uri/ /index.html;
@@ -94,6 +73,28 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
         }
+
+	location /api/chat {
+        	proxy_pass http://localhost:3002/api/chat;
+        proxy_se	t_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Разрешить CORS для любого источника (для разработки)
+        add_header 'Access-Control-Allow-Origin' '*' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin, Content-Type, Accept, Authorization' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+
+        # Preflight-запросы
+        if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Content-Type' 'text/plain; charset=UTF-8';
+            add_header 'Content-Length' 0;
+            return 204;
+        }
+    }
 
         location /admin {
             proxy_pass http://backend_scooter:8000/admin;
