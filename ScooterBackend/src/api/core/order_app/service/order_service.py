@@ -272,7 +272,7 @@ class OrderService:
         engine: IEngineRepository,
         token: str,
         token_data: dict = dict(),
-        not_buy=False,
+        not_buy=True,
     ) -> ListOrderAndUserInformation | None:
         """
         Метод сервиса для получения всей информации об заказах для пользователя
