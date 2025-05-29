@@ -61,6 +61,9 @@ async def transaction_queue(message: dict):
             async with session.get(
                 f"http://backend_scooter:8000/api/v1/order/check_buy/{order_id}"
             ) as req:
+
+                print(req, await req.json())
+
                 if req.status == 200:
                     data = await req.json()
                     if not data.get("is_buy"):
@@ -72,10 +75,12 @@ async def transaction_queue(message: dict):
                             port=5432
                         )
 
-                        await connection.execute(
+                        is_delete = await connection.execute(
                             'DELETE FROM "Order" WHERE id = $1',
                             int(order_id)
                         )
+
+                        print(is_delete)
 
                         await connection.close()
 
