@@ -121,6 +121,7 @@ async def exit_user():
 
     return resp
 
+
 @auth_router.post(
     path="/registration",
     description="""
