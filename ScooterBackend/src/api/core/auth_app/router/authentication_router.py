@@ -106,10 +106,25 @@ async def exit_user():
 
     resp = JSONResponse(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
-    resp.delete_cookie("access_key", path="/", httponly=True, secure=True,
-                       domain="xn--24-olct5adih.xn--p1ai", samesite="none")
-    resp.delete_cookie("refresh_key", path="/", httponly=True, secure=True,
-                       domain="xn--24-olct5adih.xn--p1ai", samesite="none")
+    resp.set_cookie(
+        key="access_key",
+        value="",
+        domain="xn--24-olct5adih.xn--p1ai",
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60 * 15,
+    )
+
+    resp.set_cookie(
+        key="refresh_key",
+        value="",
+        domain="xn--24-olct5adih.xn--p1ai",
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=60 * 60 * 24 * 30,
+    )
 
     return resp
 
