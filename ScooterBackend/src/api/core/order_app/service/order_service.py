@@ -146,9 +146,14 @@ class OrderService:
 
                 if product_data:
                     if product_data[0].quantity_product >= product.quantity:
-                        price_result += (
-                            (product.price * product.quantity) * product_data[0].product_discount # noqa
-                        ) / 100
+
+                        price_result_local = product.price * product.quantity
+
+                        if product_data[0].product_discount:
+                            price_result_local *= product_data[0].product_discount / 100 # noqa
+
+                        price_result += price_result_local
+
                     else:
                         await OrderHttpError().http_order_more_quantity()
 
