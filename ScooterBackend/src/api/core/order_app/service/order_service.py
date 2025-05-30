@@ -149,8 +149,8 @@ class OrderService:
 
                         price_result_local = product.price * product.quantity
 
-                        if product_data[0].product_discount:
-                            price_result_local *= product_data[0].product_discount / 100 # noqa
+                        if product_data[0].product_discount > 0:
+                            price_result_local = price_result_local - (product_data[0].product_discount / 100) # noqa
 
                         price_result += price_result_local
 
